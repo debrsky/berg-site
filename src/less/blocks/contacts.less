@@ -1,0 +1,27 @@
+.contacts {
+  display: grid;
+  grid-template-areas:
+    "address phones"
+    "working-hours email";
+  grid-template-columns: auto auto;
+  grid-gap: 10px;
+
+  align-items: end;
+  justify-items: end;
+}
+
+.contacts__address {
+  grid-area: address;
+}
+
+.contacts__phones {
+  grid-area: phones;
+}
+
+.contacts__working-hours {
+  grid-area: working-hours;
+}
+
+.contacts__email {
+  grid-area: email;
+}

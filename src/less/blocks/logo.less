@@ -1,0 +1,30 @@
+.logo {
+  width: 414px;
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-gap: 10px 20px;
+  grid-template-areas:
+    "icon text"
+    "slogan slogan";
+
+  align-items: center;
+}
+
+.logo__icon {
+  grid-area: icon;
+  width: 150px;
+  height: 61px;
+}
+
+.logo__text {
+  grid-area: text;
+  color: #0c98d9;
+  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+}
+
+.logo__slogan {
+  grid-area: slogan;
+  font-size: 100%;
+  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+}

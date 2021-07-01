@@ -1,0 +1,10 @@
+{
+  "editor.renderWhitespace": "all",
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "svg.preview.background": "transparent"
+}
