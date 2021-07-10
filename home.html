@@ -29,21 +29,24 @@
       }
       
       .swiper-pagination {
-        display: table-cell;
+        position: static;
+        margin-top: 5px;
       }
       
       .swiper-pagination-bullet {
-        vertical-align: middle;
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
         border-radius: 50%;
         border: 1px solid white;
       }
       
+      .swiper-pagination-bullet:not(:last-child) {
+        margin-right: 5px;
+      }
+      
       .swiper-pagination-bullet-active {
-        vertical-align: middle;
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
       }
       
     </style>
@@ -116,8 +119,8 @@
           </div>
           <div class="swiper-button-prev"></div>
           <div class="swiper-button-next"></div>
-          <div class="swiper-pagination"></div>
         </div>
+        <div class="swiper-pagination"></div>
         <script>
           const swiper = new Swiper(".mySwiper", {
             zoom: true,
