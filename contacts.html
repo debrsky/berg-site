@@ -154,8 +154,9 @@
               
               const handleClick = function handleClick (event) {
                 let el = event.target;
-                while (el.tagName !== 'DETAILS') el = el.parentElement;
-                const detailsElementClicked = el;
+              
+                while (el.tagName !== 'SUMMARY') el = el.parentElement;
+                const detailsElementClicked = el.parentElement;
               
                 if (detailsElementClicked.hasAttribute('open')) {
                   event.preventDefault();
@@ -176,7 +177,8 @@
               }
               
               detailsList.forEach((details, idx) => {
-                details.addEventListener('click', handleClick);
+                const summary = details.querySelector('summary');
+                summary.addEventListener('click', handleClick);
               
                 if (idx === 0) {
                   details.setAttribute('open', '');
