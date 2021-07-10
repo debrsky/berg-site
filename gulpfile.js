@@ -18,6 +18,8 @@ const validate = gulp.series(clean, copy, svg, html, pug2html, validateHTML);
 
 const deploy = gulp.series(build, ghPages);
 
+process.rootDir = __dirname;
+
 module.exports = {
   dev,
   build,

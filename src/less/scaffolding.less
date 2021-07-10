@@ -7,7 +7,36 @@
 html {
   box-sizing: border-box;
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.2;
+
+  --brand-color: #0c98d9;
 }
+
+
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: min-content auto min-content;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+}
+
+body > header {
+  grid-area: header;
+}
+
+body > main {
+  grid-area: main;
+}
+
+body > footer {
+  grid-area: footer;
+}
+
 
 .container {
   width: auto;
@@ -20,4 +49,28 @@ html {
 
 .container--wide {
   max-width: 1020px;
+}
+
+a[href^='tel:'] {
+  text-decoration: none;
+  color: var(--brand-color);
+}
+
+a[href^='tel:']::before {
+  content: '📱';
+  font-family: "Segoe UI Emoji", emoji, sans-serif;
+
+  display: inline-block;
+  text-align: center;
+  width: 3ch;
+}
+
+a[href^='tel:+742']::before {
+  content: '📞';
+  content: '☏';
+  content: '☎';
+}
+
+a[href^='tel:'].fax::before {
+  content: '📠';
 }

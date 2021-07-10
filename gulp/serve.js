@@ -2,6 +2,7 @@ const gulp = require(`gulp`);
 const server = require(`browser-sync`).create();
 
 const copy = require(`./copy`);
+const svg = require(`./svg.js`);
 const style = require(`./style`);
 const html = require(`./html`);
 const pug2html = require(`./pug2html`);
@@ -31,8 +32,12 @@ module.exports = function serve() {
   gulp.watch(`src/css/**/*.css`, gulp.series(style, readyStyleReload));
   gulp.watch(`src/less/**/*.less`, gulp.series(style, readyStyleReload));
   gulp.watch(`src/**/*.html`, gulp.series(html, readyFullReload));
-  gulp.watch(`src/markup/**/*.pug`, gulp.series(pug2html, readyFullReload));
+  gulp.watch(`src/**/*.pug`, gulp.series(pug2html, readyFullReload));
 
   gulp.watch(`src/js/**/*.js`, gulp.series(script, readyFullReload));
-  gulp.watch(`src/img/**/*.*`, gulp.series(copy, readyFullReload));
+  gulp.watch(`src/img/**/!(*.svg)`, gulp.series(copy, readyFullReload));
+  gulp.watch(
+    `src/img/**/*.svg`,
+    gulp.series(svg, html, pug2html, readyFullReload)
+  );
 };

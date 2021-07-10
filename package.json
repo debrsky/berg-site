@@ -31,5 +31,7 @@
     "webpack-dev-server": "^3.10.3",
     "webpack-stream": "^5.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "swiper": "^6.7.5"
+  }
 }

@@ -7,19 +7,24 @@ const bemValidator = require("gulp-html-bem-validator");
 const rename = require(`gulp-rename`);
 
 module.exports = function pug2html() {
+  const pugOptions = {
+    pretty: true,
+    basedir: process.rootDir
+  };
+
   return (
     gulp
-      .src("src/markup/*.pug")
+      .src("src/*.pug")
       .pipe(plumber())
       .pipe(pugLinter({reporter: "default"}))
-      .pipe(pug({pretty: true}))
-      .pipe(
-        rename((path) => {
-          path.basename = path.basename + `.pug`;
-        })
-      )
-      // .pipe(htmlValidator())
+      .pipe(pug(pugOptions))
+      // .pipe(
+      //   rename((path) => {
+      //     path.basename = path.basename + `.pug`;
+      //   })
+      // )
+      .pipe(htmlValidator())
       // .pipe(bemValidator())
-      .pipe(gulp.dest("public/markup"))
+      .pipe(gulp.dest("public"))
   );
 };

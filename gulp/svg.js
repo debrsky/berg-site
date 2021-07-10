@@ -6,6 +6,12 @@ module.exports = function svg() {
     .src([`src/img/**/*.svg`], {
       base: `src`
     })
-    .pipe(imagemin([imagemin.svgo()]))
+    .pipe(
+      imagemin([
+        imagemin.svgo({
+          plugins: [{cleanupIDs: false}]
+        })
+      ])
+    )
     .pipe(gulp.dest(`public`));
 };

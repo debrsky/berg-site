@@ -1,0 +1,17 @@
+.accordion {
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion__item-title {
+  margin: 0;
+  cursor: pointer;
+  display: inline;
+  border-bottom: 1px dashed currentColor;
+}
+
+.accordion__item[open] .accordion__item-title {
+  border-bottom-color: transparent;
+  cursor: initial;
+}
+
