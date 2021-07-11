@@ -48,9 +48,16 @@ block content
 
     .swiper-container.mySwiper
       .swiper-wrapper
-        each slide in ["slide01.jpg", "slide02.jpg", "slide03.jpg", "slide04.png"]
+        -
+          const slides = [
+            {file: "slide01.jpg", alt: "Тягач Вольво с контейнерами на телеге и на прицепе, вид спереди."},
+            {file: "slide02.jpg", alt: "Три тягача Вольво."},
+            {file: "slide03.jpg", alt: "Тягач Вольво с контейнерами на телеге и на прицепе, вид сбоку."},
+            {file: "slide04.jpg", alt: "Реклама Трансинтек. Фура на горной дороге."}
+          ]
+        each slide in slides
           .swiper-slide
-            img.swiper-slide-img(src="img/slides/"+slide, alt="")
+            img.swiper-slide-img(src="img/slides/"+slide.file, alt=slide.alt)
 
         .swiper-slide
           div(style="width: 100%; height: 100%; position: relative; padding: 10px; background-color: #365662; color: #c1cac6; font-family: 'Times New Roman', Times, serif; font-size: 24pt; font-weight: bold; font-style: italic;")
