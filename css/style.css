@@ -3,28 +3,25 @@
 *::after {
   box-sizing: inherit;
 }
+noscript {
+  position: fixed;
+  padding: 1ch;
+  text-align: center;
+  color: red;
+  --noscript-text-shadow-color: white;
+  text-shadow: -1px 0 0 var(--noscript-text-shadow-color), 0 -1px 0 var(--noscript-text-shadow-color), 1px 0 0 var(--noscript-text-shadow-color), 0 1px 0 var(--noscript-text-shadow-color);
+  left: 10px;
+  top: 10px;
+  width: 20ch;
+  background-color: rgba(255, 200, 200, 0.8);
+  border: 1px solid red;
+}
 html {
   box-sizing: border-box;
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
   font-size: 18px;
   line-height: 1.2;
   --brand-color: #0c98d9;
-}
-body {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: min-content auto min-content;
-  grid-template-areas: "header" "main" "footer";
-}
-body > header {
-  grid-area: header;
-}
-body > main {
-  grid-area: main;
-}
-body > footer {
-  grid-area: footer;
 }
 .container {
   width: auto;
@@ -55,6 +52,28 @@ a[href^='tel:+742']::before {
 }
 a[href^='tel:'].fax::before {
   content: '📠';
+}
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: min-content min-content auto min-content min-content;
+  grid-template-areas: "header" "nav-header" "main" "nav-footer" "footer";
+}
+.header {
+  grid-area: header;
+}
+.nav-header {
+  grid-area: nav-header;
+}
+.main {
+  grid-area: main;
+}
+.nav-footer {
+  grid-area: nav-footer;
+}
+.footer {
+  grid-area: footer;
 }
 .visually-hidden:not(:focus):not(:active) {
   position: absolute;
@@ -145,6 +164,7 @@ a[href^='tel:'].fax::before {
   color: #0c98d9;
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
   font-size: 24px;
+  font-weight: normal;
 }
 .logo__slogan {
   grid-area: slogan;
@@ -253,6 +273,7 @@ a[href^='tel:'].fax::before {
   padding: 40px 25px 60px;
   font-size: 16px;
   line-height: 24px;
+  width: 100%;
 }
 .footer__col {
   flex-grow: 0;
