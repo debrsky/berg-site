@@ -4,6 +4,24 @@
   box-sizing: inherit;
 }
 
+noscript {
+  position: fixed;
+  padding: 1ch;
+  text-align: center;
+  color: red;
+  --noscript-text-shadow-color: white;
+  text-shadow:
+    -1px 0 0 var(--noscript-text-shadow-color),
+    0 -1px 0 var(--noscript-text-shadow-color),
+    1px 0 0 var(--noscript-text-shadow-color),
+    0 1px 0 var(--noscript-text-shadow-color);
+  left: 10px;
+  top: 10px;
+  width: 20ch;
+  background-color: rgba(255,200,200,0.8);
+  border: 1px solid red;
+}
+
 html {
   box-sizing: border-box;
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
