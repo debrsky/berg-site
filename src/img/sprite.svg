@@ -102,4 +102,11 @@
 </g>
 -->
 
+<g fill="#444">
+  <use xlink:href="#icon-box" x="0"/>
+  <use xlink:href="#icon-calc" x="40"/>
+  <use xlink:href="#icon-rur" x="80"/>
+  <use xlink:href="#icon-docs" x="120"/>
+</g>
+
 </svg>

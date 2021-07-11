@@ -43,28 +43,31 @@ block head
     }
 
 block content
-  .swiper-container.mySwiper
-    .swiper-wrapper
-      each slide in ["slide01.jpg", "slide02.jpg", "slide03.jpg", "slide04.png"]
+  article
+    h2.visually-hidden Главная страница
+
+    .swiper-container.mySwiper
+      .swiper-wrapper
+        each slide in ["slide01.jpg", "slide02.jpg", "slide03.jpg", "slide04.png"]
+          .swiper-slide
+            img.swiper-slide-img(src="img/slides/"+slide, alt="")
+
         .swiper-slide
-          img.swiper-slide-img(src="img/slides/"+slide, alt="")
+          div(style="width: 100%; height: 100%; position: relative; padding: 10px; background-color: #365662; color: #c1cac6; font-family: 'Times New Roman', Times, serif; font-size: 24pt; font-weight: bold; font-style: italic;")
+            video(src="img/slides/slide05/logo-sltk-126.mp4" muted autoplay loop style="display: block; float: left;")
+            p(style="margin: 0; text-align: center;")
+              span(style="border-bottom: 1px solid currentColor;") ООО <q>СИБИРСКАЯ ЛИНИЯ<br>ТРАНСПОРТНАЯ КОМПАНИЯ</q>
+            p(style="margin-bottom: 0; text-align: center; font-size: 28pt;") ПЕРЕВОЗКА ГРУЗА В РЕСПУБЛИКУ<br>САХА (ЯКУТИЯ)
+            p(style="margin-bottom: 0; margin-top: 0.5em; text-align: center;")
+              a(href="https://слтк.рф", target="_blank", style="color: inherit;") https://слтк.рф
+            p(style="margin-top: 0; text-align: center; font-size: 50%;") скидка при оформлении онлайн-заявки
+            p(style="text-align: center;")
+              | ТЕЛ.:
+              a(href="tel:+74212204914", style="color: inherit;") +7(4212)204-914
 
-      .swiper-slide
-        div(style="width: 100%; height: 100%; position: relative; padding: 10px; background-color: #365662; color: #c1cac6; font-family: 'Times New Roman', Times, serif; font-size: 24pt; font-weight: bold; font-style: italic;")
-          video(src="img/slides/slide05/logo-sltk-126.mp4" muted autoplay loop style="display: block; float: left;")
-          p(style="margin: 0; text-align: center;")
-            span(style="border-bottom: 1px solid currentColor;") ООО <q>СИБИРСКАЯ ЛИНИЯ<br>ТРАНСПОРТНАЯ КОМПАНИЯ</q>
-          p(style="margin-bottom: 0; text-align: center; font-size: 28pt;") ПЕРЕВОЗКА ГРУЗА В РЕСПУБЛИКУ<br>САХА (ЯКУТИЯ)
-          p(style="margin-bottom: 0; margin-top: 0.5em; text-align: center;")
-            a(href="https://слтк.рф", target="_blank", style="color: inherit;") https://слтк.рф
-          p(style="margin-top: 0; text-align: center; font-size: 50%;") скидка при оформлении онлайн-заявки
-          p(style="text-align: center;")
-            | ТЕЛ.:
-            a(href="tel:+74212204914", style="color: inherit;") +7(4212)204-914
-
-    .swiper-button-prev
-    .swiper-button-next
-  .swiper-pagination
+      .swiper-button-prev
+      .swiper-button-next
+    .swiper-pagination
 
   script.
     const swiper = new Swiper(".mySwiper", {

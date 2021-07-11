@@ -12,7 +12,7 @@ html(lang="ru")
     block head
 
   body.nogrid
-    div(style="display: none;")
+    #sprite(style="display: none;")
       include /public/img/sprite.svg
 
     header
@@ -50,7 +50,7 @@ html(lang="ru")
             each item in items
               li.nav-header__item
                 a.nav-header__link(href=item.href)
-                  svg.nav-header__icon(width=item.width, height=item.height, aria-hidden="true")
+                  svg.nav-header__icon(width=item.width, height=item.height, aria-hidden="true", role="img")
                     use(xlink:href="#"+item.id)
                   span.nav-header__caption !{item.caption}
 
