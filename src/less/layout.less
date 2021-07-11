@@ -1,0 +1,38 @@
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows:
+    min-content
+    min-content
+    auto
+    min-content
+    min-content;
+  grid-template-areas:
+    "header"
+    "nav-header"
+    "main"
+    "nav-footer"
+    "footer";
+}
+
+.header {
+  grid-area: header;
+}
+
+.nav-header {
+  grid-area: nav-header;
+}
+
+.main {
+  grid-area: main;
+}
+
+.nav-footer {
+  grid-area: nav-footer;
+}
+
+.footer {
+  grid-area: footer;
+}
+
