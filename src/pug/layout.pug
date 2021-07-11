@@ -15,15 +15,17 @@ html(lang="ru")
     noscript.
       У вас отключен JavaScript, сайт не будет работать нормально
 
-    #sprite(style="display: none;")
+    #sprite.visually-hidden(aria-hidden="true")
       include /public/img/sprite.svg
 
     header
       .header.container
         .logo
-          a.logo__icon(href="home.html")
-            include /public/img/logo.svg
-          .logo__text Транспортная #[br] компания
+          a.logo__icon(href="home.html", aria-label="Главная страница сайта")
+            svg(width="147", height="62" role="presentation")
+              use(xlink:href="#logo")
+
+          h1.logo__text #[span.visually-hidden Берг] Транспортная #[br] компания
           .logo__slogan Автоперевозки грузов по Дальнему Востоку
         .contacts
           address.contacts__address г. Владивосток, пр-кт 100-летия Владивостока, 161А
