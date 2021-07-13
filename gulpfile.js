@@ -28,6 +28,7 @@ module.exports = {
   copy,
   html,
   pug2html,
+  validateHTML,
   style,
   script,
   serve,
