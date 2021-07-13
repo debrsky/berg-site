@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html class="page" lang="ru">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,50 +8,11 @@
     <link rel="stylesheet" href="css/grid.css">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <style>
-      .swiper-container {
-        width: 960px;
-        height: 400px;
-      }
-      
-      .swiper-slide {
-        background-position: center;
-        background-size: cover;
-      }
-      
-      .swiper-slide-img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      
-      .swiper-pagination {
-        position: static;
-        margin-top: 5px;
-      }
-      
-      .swiper-pagination-bullet {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        border: 1px solid white;
-      }
-      
-      .swiper-pagination-bullet:not(:last-child) {
-        margin-right: 5px;
-      }
-      
-      .swiper-pagination-bullet-active {
-        width: 16px;
-        height: 16px;
-      }
-      
-    </style>
+    <link rel="stylesheet" href="vendor/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="css/swiper.css">
+    <script src="vendor/swiper/swiper-bundle.min.js"></script>
   </head>
-  <body class="nogrid">
+  <body class="page__body nogrid">
     <noscript>
       У вас отключен JavaScript, сайт не будет работать нормально
       
@@ -89,13 +50,13 @@
                 <use xlink:href="#icon-box"></use>
               </svg><span class="nav-header__caption">Заявка на&nbsp;перевозку</span></a></li>
           <li class="nav-header__item"><a class="nav-header__link" href="">
-              <svg class="nav-header__icon" width="28" height="37" aria-hidden="true" role="presentation">
-                <use xlink:href="#icon-rur"></use>
-              </svg><span class="nav-header__caption">Прайс-лист по&nbsp;направлениям</span></a></li>
-          <li class="nav-header__item"><a class="nav-header__link" href="">
               <svg class="nav-header__icon" width="37" height="39" aria-hidden="true" role="presentation">
                 <use xlink:href="#icon-calc"></use>
               </svg><span class="nav-header__caption">On-line<br>калькулятор</span></a></li>
+          <li class="nav-header__item"><a class="nav-header__link" href="">
+              <svg class="nav-header__icon" width="28" height="37" aria-hidden="true" role="presentation">
+                <use xlink:href="#icon-rur"></use>
+              </svg><span class="nav-header__caption">Прайс-лист по&nbsp;направлениям</span></a></li>
           <li class="nav-header__item"><a class="nav-header__link" href="docs.html">
               <svg class="nav-header__icon" width="31" height="39" aria-hidden="true" role="presentation">
                 <use xlink:href="#icon-docs"></use>
@@ -109,11 +70,11 @@
           <h2 class="visually-hidden">Главная страница</h2>
           <div class="swiper-container mySwiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide"><img class="swiper-slide-img" src="img/slides/slide01.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид спереди."></div>
-              <div class="swiper-slide"><img class="swiper-slide-img" src="img/slides/slide02.jpg" alt="Три тягача Вольво."></div>
-              <div class="swiper-slide"><img class="swiper-slide-img" src="img/slides/slide03.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид сбоку."></div>
-              <div class="swiper-slide"><img class="swiper-slide-img" src="img/slides/slide04.png" alt="Реклама Трансинтек. Фура на горной дороге."></div>
-              <div class="swiper-slide">
+              <div class="swiper-slide" data-hash="slide1"><img class="swiper-slide-img swiper-lazy" data-src="img/slides/slide01.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид спереди."></div>
+              <div class="swiper-slide" data-hash="slide2"><img class="swiper-slide-img swiper-lazy" data-src="img/slides/slide02.jpg" alt="Три тягача Вольво."></div>
+              <div class="swiper-slide" data-hash="slide3"><img class="swiper-slide-img swiper-lazy" data-src="img/slides/slide03.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид сбоку."></div>
+              <div class="swiper-slide" data-hash="slide4"><img class="swiper-slide-img swiper-lazy" data-src="img/slides/slide04.png" alt="Реклама Трансинтек. Фура на горной дороге."></div>
+              <div class="swiper-slide" data-hash="slide5">
                 <div style="width: 100%; height: 100%; position: relative; padding: 10px; background-color: #365662; color: #c1cac6; font-family: 'Times New Roman', Times, serif; font-size: 24pt; font-weight: bold; font-style: italic;">
                   <video src="img/slides/slide05/logo-sltk-126.mp4" muted autoplay loop style="display: block; float: left;"></video>
                   <p style="margin: 0; text-align: center;"><span style="border-bottom: 1px solid currentColor;">ООО <q>СИБИРСКАЯ ЛИНИЯ<br>ТРАНСПОРТНАЯ КОМПАНИЯ</q></span></p>
@@ -131,13 +92,15 @@
         </article>
         <script>
           const swiper = new Swiper(".mySwiper", {
+            lazy: true,
             zoom: true,
             spaceBetween: 30,
-            effect: "fade",
+            effect: ["cube", "flip", "coverflow","fade"][2],
             // autoplay: {
             //   delay: 12500,
             //   disableOnInteraction: true,
             // },
+            hashNavigation: true,
             navigation: {
               nextEl: ".swiper-button-next",
               prevEl: ".swiper-button-prev",
@@ -146,13 +109,29 @@
               el: ".swiper-pagination",
               clickable: true,
             },
+            a11y: {
+              firstSlideMessage: 'Это первый слайд',
+              prevSlideMessage: 'Предыдущий слайд',
+              nextSlideMessage: 'Следующий слайд',
+              lastSlideMessage: 'Это последний слайд',
+              paginationBulletMessage: 'Перейти к слайду {{index}}'
+            },
           });
         </script>
       </div>
     </main>
     <nav class="nav-footer">
-      <div class="container container--wide">
-        <ul class="nav-footer__items">
+      <div class="container container--wide"><svg class="visually-hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<symbol id="icon-menu" viewBox="0 0 32 32"><path d="M5 8h22M5 16h22M27 24H5" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="icon-cross" viewBox="0 0 32 32"><path d="M7 24L25 8M25 24L7 8" stroke-width="3" stroke-linecap="round"/></symbol>
+</svg>
+        <button class="nav-footer__menu-switch nav-footer__menu-switch--open" id="nav-footer__menu-switch" type="button" aria-expanded="false" aria-controls="nav-footer__items">
+          <svg class="nav-footer__icon" aria-hidden="true" width="32" height="32">
+            <use class="nav-footer__icon-menu" href="#icon-menu"></use>
+            <use class="nav-footer__icon-cross" href="#icon-cross"></use>
+          </svg>
+        </button>
+        <ul class="nav-footer__items" id="nav-footer__items">
           <li class="nav-footer__item"><a class="nav-footer__link" href="about.html">О компании</a></li>
           <li class="nav-footer__item"><a class="nav-footer__link" href="contacts.html">Контакты</a></li>
           <li class="nav-footer__item"><a class="nav-footer__link" href="containers.html">Перевозка контейнеров</a></li>
@@ -161,6 +140,32 @@
           <li class="nav-footer__item"><a class="nav-footer__link" href="truck-service.html">Автосервис</a></li>
         </ul>
       </div>
+      <script>
+        (()=>{
+          const button = document.getElementById('nav-footer__menu-switch');
+          const menu = document.getElementById(button.getAttribute('aria-controls'));
+          const setClasses = () => {
+            if (button.getAttribute('aria-expanded') === 'true') {
+              button.classList.add('nav-footer__menu-switch--open');
+              menu.classList.add('nav-footer__items--open');
+              return;
+            };
+        
+            button.classList.remove('nav-footer__menu-switch--open');
+            menu.classList.remove('nav-footer__items--open');
+          }
+        
+          setClasses();
+        
+          button.addEventListener('click', (event) => {
+            const expanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !expanded);
+            setClasses();
+          })
+        })();
+        
+        
+      </script>
     </nav>
     <footer class="footer container container--wide">
       <div class="footer__col">© Транспортная компания «Берг», 2015<br>Автоперевозки грузов по Дальнему Востоку</div>

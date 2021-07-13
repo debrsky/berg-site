@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html class="page" lang="ru">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
-  <body class="nogrid">
+  <body class="page__body nogrid">
     <noscript>
       У вас отключен JavaScript, сайт не будет работать нормально
       
@@ -47,13 +47,13 @@
                 <use xlink:href="#icon-box"></use>
               </svg><span class="nav-header__caption">Заявка на&nbsp;перевозку</span></a></li>
           <li class="nav-header__item"><a class="nav-header__link" href="">
-              <svg class="nav-header__icon" width="28" height="37" aria-hidden="true" role="presentation">
-                <use xlink:href="#icon-rur"></use>
-              </svg><span class="nav-header__caption">Прайс-лист по&nbsp;направлениям</span></a></li>
-          <li class="nav-header__item"><a class="nav-header__link" href="">
               <svg class="nav-header__icon" width="37" height="39" aria-hidden="true" role="presentation">
                 <use xlink:href="#icon-calc"></use>
               </svg><span class="nav-header__caption">On-line<br>калькулятор</span></a></li>
+          <li class="nav-header__item"><a class="nav-header__link" href="">
+              <svg class="nav-header__icon" width="28" height="37" aria-hidden="true" role="presentation">
+                <use xlink:href="#icon-rur"></use>
+              </svg><span class="nav-header__caption">Прайс-лист по&nbsp;направлениям</span></a></li>
           <li class="nav-header__item"><a class="nav-header__link" href="docs.html">
               <svg class="nav-header__icon" width="31" height="39" aria-hidden="true" role="presentation">
                 <use xlink:href="#icon-docs"></use>
@@ -70,8 +70,17 @@
       </div>
     </main>
     <nav class="nav-footer">
-      <div class="container container--wide">
-        <ul class="nav-footer__items">
+      <div class="container container--wide"><svg class="visually-hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<symbol id="icon-menu" viewBox="0 0 32 32"><path d="M5 8h22M5 16h22M27 24H5" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="icon-cross" viewBox="0 0 32 32"><path d="M7 24L25 8M25 24L7 8" stroke-width="3" stroke-linecap="round"/></symbol>
+</svg>
+        <button class="nav-footer__menu-switch nav-footer__menu-switch--open" id="nav-footer__menu-switch" type="button" aria-expanded="false" aria-controls="nav-footer__items">
+          <svg class="nav-footer__icon" aria-hidden="true" width="32" height="32">
+            <use class="nav-footer__icon-menu" href="#icon-menu"></use>
+            <use class="nav-footer__icon-cross" href="#icon-cross"></use>
+          </svg>
+        </button>
+        <ul class="nav-footer__items" id="nav-footer__items">
           <li class="nav-footer__item"><a class="nav-footer__link" href="about.html">О компании</a></li>
           <li class="nav-footer__item"><a class="nav-footer__link" href="contacts.html">Контакты</a></li>
           <li class="nav-footer__item"><a class="nav-footer__link" href="containers.html">Перевозка контейнеров</a></li>
@@ -80,6 +89,32 @@
           <li class="nav-footer__item"><a class="nav-footer__link" href="truck-service.html">Автосервис</a></li>
         </ul>
       </div>
+      <script>
+        (()=>{
+          const button = document.getElementById('nav-footer__menu-switch');
+          const menu = document.getElementById(button.getAttribute('aria-controls'));
+          const setClasses = () => {
+            if (button.getAttribute('aria-expanded') === 'true') {
+              button.classList.add('nav-footer__menu-switch--open');
+              menu.classList.add('nav-footer__items--open');
+              return;
+            };
+        
+            button.classList.remove('nav-footer__menu-switch--open');
+            menu.classList.remove('nav-footer__items--open');
+          }
+        
+          setClasses();
+        
+          button.addEventListener('click', (event) => {
+            const expanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !expanded);
+            setClasses();
+          })
+        })();
+        
+        
+      </script>
     </nav>
     <footer class="footer container container--wide">
       <div class="footer__col">© Транспортная компания «Берг», 2015<br>Автоперевозки грузов по Дальнему Востоку</div>

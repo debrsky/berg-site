@@ -1,0 +1,43 @@
+:root {
+  --swiper-theme-color: var(--brand-color);
+}
+
+.swiper-container {
+  width: 100%;
+  height: 400px;
+  max-height: 400px;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  background-color: white;
+}
+
+.swiper-slide-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.swiper-pagination {
+  position: static;
+  margin-top: 5px;
+}
+
+.swiper-pagination-bullet {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid white;
+}
+
+.swiper-pagination-bullet:not(:last-child) {
+  margin-right: 5px;
+}
+
+.swiper-pagination-bullet-active {
+  width: 16px;
+  height: 16px;
+}
