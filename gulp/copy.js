@@ -9,7 +9,8 @@ module.exports = function copy() {
         `src/img/**/*.{jpg,webp,png}`,
         `src/img/**/*.gif`,
         `src/img/**/*.mp4`,
-        `src/*.ico`
+        `src/*.ico`,
+        `src/vendor/**/*.*`
       ],
       {
         base: `src`

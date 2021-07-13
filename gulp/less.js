@@ -10,7 +10,7 @@ module.exports = function less() {
       .src(`src/less/style.less`)
       .pipe(plumber())
       .pipe(sourcemap.init())
-      .pipe(lessG())
+      .pipe(lessG({math: "parens-division"}))
       // .pipe(postcss([
       //   autoprefixer()
       // ]))

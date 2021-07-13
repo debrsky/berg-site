@@ -1,0 +1,24 @@
+a[href^='tel:'] {
+  text-decoration: none;
+  color: var(--brand-color);
+  white-space: nowrap;
+}
+
+a[href^='tel:']::before {
+  content: '📱';
+  font-family: "Segoe UI Emoji", emoji, sans-serif;
+
+  display: inline-block;
+  text-align: center;
+  width: 3ch;
+}
+
+a[href^='tel:+742']::before {
+  content: '📞';
+  content: '☏';
+  content: '☎';
+}
+
+a[href^='tel:'].fax::before {
+  content: '📠';
+}

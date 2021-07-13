@@ -1,5 +1,5 @@
 doctype html
-html(lang="ru")
+html.page(lang="ru")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
@@ -11,7 +11,7 @@ html(lang="ru")
 
     block head
 
-  body.nogrid
+  body.page__body.nogrid
     noscript.
       У вас отключен JavaScript, сайт не будет работать нормально
 
@@ -21,7 +21,7 @@ html(lang="ru")
     header.header.container
       .logo
         a.logo__icon(href="home.html", aria-label="Главная страница сайта")
-          svg(width="147", height="62" role="presentation")
+          svg(width="147", height="62", role="presentation")
             use(xlink:href="#logo")
 
         h1.logo__text #[span.visually-hidden Берг] Транспортная #[br] компания
@@ -47,8 +47,8 @@ html(lang="ru")
           -
             const items = [
               {id: "icon-box", href: "", caption: "Заявка на&nbsp;перевозку", width: "39", height: "39"},
-              {id: "icon-rur", href: "", caption: "Прайс-лист по&nbsp;направлениям", width: "28", height: "37"},
               {id: "icon-calc", href: "", caption: "On-line<br>калькулятор", width: "37", height: "39"},
+              {id: "icon-rur", href: "", caption: "Прайс-лист по&nbsp;направлениям", width: "28", height: "37"},
               {id: "icon-docs", href: "docs.html", caption: "Документы", width: "31", height: "39"},
             ]
           each item in items
@@ -64,7 +64,16 @@ html(lang="ru")
 
     nav.nav-footer
       .container.container--wide
-        ul.nav-footer__items
+        <svg class="visually-hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <symbol id="icon-menu" viewBox="0 0 32 32"><path d="M5 8h22M5 16h22M27 24H5" stroke-width="3" stroke-linecap="round"/></symbol>
+            <symbol id="icon-cross" viewBox="0 0 32 32"><path d="M7 24L25 8M25 24L7 8" stroke-width="3" stroke-linecap="round"/></symbol>
+        </svg>
+        button#nav-footer__menu-switch.nav-footer__menu-switch.nav-footer__menu-switch--open(type="button", aria-expanded="false", aria-controls="nav-footer__items")
+          svg.nav-footer__icon(aria-hidden="true", width="32", height="32")
+            use.nav-footer__icon-menu(href="#icon-menu")
+            use.nav-footer__icon-cross(href="#icon-cross")
+
+        ul#nav-footer__items.nav-footer__items
           -
             const navFooterItems = [
               {href: "about.html", body: "О компании"},
@@ -78,6 +87,31 @@ html(lang="ru")
           each item in navFooterItems
             li.nav-footer__item
               a.nav-footer__link(href=item.href)=item.body
+
+      script.
+        (()=>{
+          const button = document.getElementById('nav-footer__menu-switch');
+          const menu = document.getElementById(button.getAttribute('aria-controls'));
+          const setClasses = () => {
+            if (button.getAttribute('aria-expanded') === 'true') {
+              button.classList.add('nav-footer__menu-switch--open');
+              menu.classList.add('nav-footer__items--open');
+              return;
+            };
+
+            button.classList.remove('nav-footer__menu-switch--open');
+            menu.classList.remove('nav-footer__items--open');
+          }
+
+          setClasses();
+
+          button.addEventListener('click', (event) => {
+            const expanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !expanded);
+            setClasses();
+          })
+        })();
+
 
     footer.footer.container.container--wide
       .footer__col © Транспортная компания «Берг», 2015<br>Автоперевозки грузов по Дальнему Востоку

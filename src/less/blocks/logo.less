@@ -16,6 +16,11 @@
   grid-area: icon;
 }
 
+.logo__icon svg {
+  width: 147px;
+  height: 62px;
+}
+
 .logo__icon:hover {
   opacity: 0.8;
 }
@@ -24,12 +29,24 @@
   grid-area: text;
   color: #0c98d9;
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
-  font-size: 24px;
+  font-size: 1.33rem;
   font-weight: normal;
+  margin: 0;
 }
 
 .logo__slogan {
   grid-area: slogan;
-  font-size: 100%;
+  font-size: 1rem;
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
+}
+
+@media (max-width: @width-tablet) {
+  .logo {
+    width: auto;
+  }
+
+  .logo__icon svg {
+    width: calc(147px / 2);
+    height: calc(62px / 2);
+  }
 }

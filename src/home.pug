@@ -1,46 +1,9 @@
 extends pug/layout
 
 block head
-  link(rel="stylesheet", href="https://unpkg.com/swiper/swiper-bundle.min.css")
-  script(src="https://unpkg.com/swiper/swiper-bundle.min.js")
-  style.
-    .swiper-container {
-      width: 960px;
-      height: 400px;
-    }
-
-    .swiper-slide {
-      background-position: center;
-      background-size: cover;
-    }
-
-    .swiper-slide-img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .swiper-pagination {
-      position: static;
-      margin-top: 5px;
-    }
-
-    .swiper-pagination-bullet {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      border: 1px solid white;
-    }
-
-    .swiper-pagination-bullet:not(:last-child) {
-      margin-right: 5px;
-    }
-
-    .swiper-pagination-bullet-active {
-      width: 16px;
-      height: 16px;
-    }
+  link(rel="stylesheet", href="vendor/swiper/swiper-bundle.min.css")
+  link(rel="stylesheet", href="css/swiper.css")
+  script(src="vendor/swiper/swiper-bundle.min.js")
 
 block content
   article
@@ -55,11 +18,11 @@ block content
             {file: "slide03.jpg", alt: "Тягач Вольво с контейнерами на телеге и на прицепе, вид сбоку."},
             {file: "slide04.png", alt: "Реклама Трансинтек. Фура на горной дороге."}
           ]
-        each slide in slides
-          .swiper-slide
-            img.swiper-slide-img(src="img/slides/"+slide.file, alt=slide.alt)
+        each slide, idx in slides
+          .swiper-slide(data-hash="slide" + (idx+1))
+            img.swiper-slide-img.swiper-lazy(data-src="img/slides/"+slide.file, alt=slide.alt)
 
-        .swiper-slide
+        .swiper-slide(data-hash="slide5")
           div(style="width: 100%; height: 100%; position: relative; padding: 10px; background-color: #365662; color: #c1cac6; font-family: 'Times New Roman', Times, serif; font-size: 24pt; font-weight: bold; font-style: italic;")
             video(src="img/slides/slide05/logo-sltk-126.mp4" muted autoplay loop style="display: block; float: left;")
             p(style="margin: 0; text-align: center;")
@@ -78,13 +41,15 @@ block content
 
   script.
     const swiper = new Swiper(".mySwiper", {
+      lazy: true,
       zoom: true,
       spaceBetween: 30,
-      effect: "fade",
+      effect: ["cube", "flip", "coverflow","fade"][2],
       // autoplay: {
       //   delay: 12500,
       //   disableOnInteraction: true,
       // },
+      hashNavigation: true,
       navigation: {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
@@ -92,5 +57,12 @@ block content
       pagination: {
         el: ".swiper-pagination",
         clickable: true,
+      },
+      a11y: {
+        firstSlideMessage: 'Это первый слайд',
+        prevSlideMessage: 'Предыдущий слайд',
+        nextSlideMessage: 'Следующий слайд',
+        lastSlideMessage: 'Это последний слайд',
+        paginationBulletMessage: 'Перейти к слайду {{index}}'
       },
     });
