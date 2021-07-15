@@ -53,17 +53,13 @@
   text-align: center;
 }
 
-.nav-footer__item:hover,
-.nav-footer__item:focus-within {
+.nav-footer__item:hover .nav-footer__link,
+.nav-footer__item:focus-within .nav-footer__link:focus-visible {
+  text-decoration: none;
   color: white;
   background-color: #0c98d9;
   background-size: 100%;
   background-image: linear-gradient(to right bottom,#0095de 0%,#00a5e5 100%);
-}
-
-.nav-footer__item:hover .nav-footer__link,
-.nav-footer__item:focus-within .nav-footer__link:focus-visible {
-  text-decoration: none;
 }
 
 .nav-footer__link {
