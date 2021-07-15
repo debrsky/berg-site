@@ -91,32 +91,34 @@
           <div class="swiper-pagination"></div>
         </article>
         <script>
-          const swiper = new Swiper(".mySwiper", {
-            lazy: true,
-            zoom: true,
-            spaceBetween: 30,
-            effect: ["cube", "flip", "coverflow","fade"][2],
-            // autoplay: {
-            //   delay: 12500,
-            //   disableOnInteraction: true,
-            // },
-            hashNavigation: true,
-            navigation: {
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            },
-            pagination: {
-              el: ".swiper-pagination",
-              clickable: true,
-            },
-            a11y: {
-              firstSlideMessage: 'Это первый слайд',
-              prevSlideMessage: 'Предыдущий слайд',
-              nextSlideMessage: 'Следующий слайд',
-              lastSlideMessage: 'Это последний слайд',
-              paginationBulletMessage: 'Перейти к слайду {{index}}'
-            },
-          });
+          (()=>{
+            const swiper = new Swiper(".mySwiper", {
+              lazy: true,
+              zoom: true,
+              spaceBetween: 30,
+              effect: ["cube", "flip", "coverflow","fade"][2],
+              // autoplay: {
+              //   delay: 12500,
+              //   disableOnInteraction: true,
+              // },
+              hashNavigation: true,
+              navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+              },
+              pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+              },
+              a11y: {
+                firstSlideMessage: 'Это первый слайд',
+                prevSlideMessage: 'Предыдущий слайд',
+                nextSlideMessage: 'Следующий слайд',
+                lastSlideMessage: 'Это последний слайд',
+                paginationBulletMessage: 'Перейти к слайду {{index}}'
+              },
+            });
+          })();
         </script>
       </div>
     </main>
@@ -164,14 +166,15 @@
           })
         })();
         
-        
       </script>
     </nav>
     <footer class="footer container container--wide">
-      <div class="footer__col">© Транспортная компания «Берг», 2015<br>Автоперевозки грузов по Дальнему Востоку</div>
-      <div class="footer__col">
-        <address>г. Владивосток, пр-кт 100-летия Владивостока, 161А</address><a href="tel:+74232318052">+7 (423) 231-80-52</a>,
-        <a class="fax" href="tel:+74232340015">+7 (423) 234-00-15</a>
+      <div class="footer__columns">
+        <div class="footer__col">© Транспортная компания «Берг», 2015<br>Автоперевозки грузов по Дальнему Востоку</div>
+        <div class="footer__col">
+          <address>г. Владивосток, пр-кт 100-летия Владивостока, 161А</address><a href="tel:+74232318052">+7 (423) 231-80-52</a>,
+          <a class="fax" href="tel:+74232340015">+7 (423) 234-00-15</a>
+        </div>
       </div>
     </footer>
     <script src="bundle.js"></script>
