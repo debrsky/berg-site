@@ -40,29 +40,31 @@ block content
     .swiper-pagination
 
   script.
-    const swiper = new Swiper(".mySwiper", {
-      lazy: true,
-      zoom: true,
-      spaceBetween: 30,
-      effect: ["cube", "flip", "coverflow","fade"][2],
-      // autoplay: {
-      //   delay: 12500,
-      //   disableOnInteraction: true,
-      // },
-      hashNavigation: true,
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      a11y: {
-        firstSlideMessage: 'Это первый слайд',
-        prevSlideMessage: 'Предыдущий слайд',
-        nextSlideMessage: 'Следующий слайд',
-        lastSlideMessage: 'Это последний слайд',
-        paginationBulletMessage: 'Перейти к слайду {{index}}'
-      },
-    });
+    (()=>{
+      const swiper = new Swiper(".mySwiper", {
+        lazy: true,
+        zoom: true,
+        spaceBetween: 30,
+        effect: ["cube", "flip", "coverflow","fade"][2],
+        // autoplay: {
+        //   delay: 12500,
+        //   disableOnInteraction: true,
+        // },
+        hashNavigation: true,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        a11y: {
+          firstSlideMessage: 'Это первый слайд',
+          prevSlideMessage: 'Предыдущий слайд',
+          nextSlideMessage: 'Следующий слайд',
+          lastSlideMessage: 'Это последний слайд',
+          paginationBulletMessage: 'Перейти к слайду {{index}}'
+        },
+      });
+    })();
