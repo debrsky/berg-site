@@ -387,7 +387,7 @@ img {
 }
 .nav-footer__item {
   margin: 0;
-  padding: 0;
+  padding: 3px;
   flex-grow: 1;
   text-align: center;
 }

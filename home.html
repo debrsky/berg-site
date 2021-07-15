@@ -70,10 +70,10 @@
           <h2 class="visually-hidden">Главная страница</h2>
           <div class="swiper-container mySwiper">
             <div class="swiper-wrapper">
-              <div class="swiper-slide" data-hash="slide1"><img class="swiper-slide-img swiper-lazy" data-src="img/slides/slide01.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид спереди."></div>
-              <div class="swiper-slide" data-hash="slide2"><img class="swiper-slide-img swiper-lazy" data-src="img/slides/slide02.jpg" alt="Три тягача Вольво."></div>
-              <div class="swiper-slide" data-hash="slide3"><img class="swiper-slide-img swiper-lazy" data-src="img/slides/slide03.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид сбоку."></div>
-              <div class="swiper-slide" data-hash="slide4"><img class="swiper-slide-img swiper-lazy" data-src="img/slides/slide04.png" alt="Реклама Трансинтек. Фура на горной дороге."></div>
+              <div class="swiper-slide" data-hash="slide1"><img class="swiper-slide-img" src="img/slides/slide01.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид спереди."></div>
+              <div class="swiper-slide" data-hash="slide2"><img class="swiper-slide-img" src="img/slides/slide02.jpg" alt="Три тягача Вольво."></div>
+              <div class="swiper-slide" data-hash="slide3"><img class="swiper-slide-img" src="img/slides/slide03.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид сбоку."></div>
+              <div class="swiper-slide" data-hash="slide4"><img class="swiper-slide-img" src="img/slides/slide04.png" alt="Реклама Трансинтек. Фура на горной дороге."></div>
               <div class="swiper-slide" data-hash="slide5">
                 <div style="width: 100%; height: 100%; position: relative; padding: 10px; background-color: #365662; color: #c1cac6; font-family: 'Times New Roman', Times, serif; font-size: 24pt; font-weight: bold; font-style: italic;">
                   <video src="img/slides/slide05/logo-sltk-126.mp4" muted autoplay loop style="display: block; float: left;"></video>
@@ -93,10 +93,9 @@
         <script>
           (()=>{
             const swiper = new Swiper(".mySwiper", {
-              lazy: true,
               zoom: true,
               spaceBetween: 30,
-              effect: ["cube", "flip", "coverflow","fade"][2],
+              effect: ["cube", "flip", "coverflow","fade"][3],
               // autoplay: {
               //   delay: 12500,
               //   disableOnInteraction: true,
