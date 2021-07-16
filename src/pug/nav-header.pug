@@ -1,0 +1,16 @@
+nav.nav-header
+  .container.container--wide
+    ul.nav-header__items
+      -
+        const items = [
+          {id: "icon-box", href: "application.html", caption: "Заявка на&nbsp;перевозку", width: "39", height: "39"},
+          {id: "icon-calc", href: "calculator.html", caption: "Тарифный калькулятор", width: "37", height: "39"},
+          {id: "icon-rur", href: "pricing.html", caption: "Прайс-лист по&nbsp;направлениям", width: "28", height: "37"},
+          {id: "icon-docs", href: "docs.html", caption: "Документы", width: "31", height: "39"},
+        ]
+      each item in items
+        li.nav-header__item
+          a.nav-header__link(href=item.href)
+            svg.nav-header__icon(width=item.width, height=item.height, aria-hidden="true", role="presentation")
+              use(xlink:href="#"+item.id)
+            span.nav-header__caption !{item.caption}

@@ -14,7 +14,7 @@ module.exports = function pug2html() {
 
   return (
     gulp
-      .src("src/*.pug")
+      .src("src/pages/*.pug")
       .pipe(plumber())
       .pipe(pugLinter({reporter: "default"}))
       .pipe(pug(pugOptions))

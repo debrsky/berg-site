@@ -18,45 +18,9 @@ html(lang="ru")
     #sprite.visually-hidden(aria-hidden="true")
       include /public/img/sprite.svg
 
-    header.header.container
-      .logo
-        a.logo__icon(href="home.html", aria-label="Главная страница сайта")
-          svg(width="147", height="62", role="presentation")
-            use(xlink:href="#logo")
+    include header.pug
 
-        h1.logo__text #[span.visually-hidden Берг] Транспортная #[br] компания
-        .logo__slogan Автоперевозки грузов по Дальнему Востоку
-      .contacts
-        address.contacts__address г. Владивосток, пр-кт 100-летия Владивостока, 161А
-        .contacts__working-hours Пн-Пт с #[time(datetime="09:00") 09:00] до #[time(datetime="18:00") 18:00]
-        .contacts__phones
-          a(href="tel:+74232318052") +7(423)231-80-52
-          |
-          | (офис)#[br]
-          a(href="tel:+74232340015").fax +7(423)234-00-15
-          |
-          | (факс)
-        .contacts__email
-          | email:
-          |
-          a(href="mailto:berg2004@list.ru") berg2004@list.ru
-
-    nav.nav-header
-      .container.container--wide
-        ul.nav-header__items
-          -
-            const items = [
-              {id: "icon-box", href: "application.html", caption: "Заявка на&nbsp;перевозку", width: "39", height: "39"},
-              {id: "icon-calc", href: "calculator.html", caption: "Тарифный калькулятор", width: "37", height: "39"},
-              {id: "icon-rur", href: "pricing.html", caption: "Прайс-лист по&nbsp;направлениям", width: "28", height: "37"},
-              {id: "icon-docs", href: "docs.html", caption: "Документы", width: "31", height: "39"},
-            ]
-          each item in items
-            li.nav-header__item
-              a.nav-header__link(href=item.href)
-                svg.nav-header__icon(width=item.width, height=item.height, aria-hidden="true", role="presentation")
-                  use(xlink:href="#"+item.id)
-                span.nav-header__caption !{item.caption}
+    include nav-header.pug
 
     main.main
       .container
