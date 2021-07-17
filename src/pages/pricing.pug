@@ -139,4 +139,8 @@ block content
         загружены и размещены в транспортном средстве без затруднений.
 
     section
-      p(style="font-size: xx-small; text-align: end;") Настоящий прайс действует с #{startdate.toLocaleDateString()}.
+      p(style="font-size: xx-small; text-align: end;")
+        | Настоящий прайс действует с
+        |
+        time(datetime=startdate.toISOString()) #{startdate.toLocaleDateString()}
+        | .
