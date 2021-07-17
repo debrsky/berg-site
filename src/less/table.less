@@ -1,0 +1,24 @@
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  page-break-inside: auto;
+}
+
+.table tr {
+  page-break-inside: avoid;
+  page-break-after:auto;
+}
+
+.table th,
+.table td {
+  padding: 0.5ch;
+}
+
+.table thead:first-of-type tr th {
+  border-bottom: 1px solid grey;
+}
+
+.table tbody tr th,
+.table tbody tr td {
+  border-bottom: 1px solid lightgray;
+}

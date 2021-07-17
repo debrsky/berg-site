@@ -37,6 +37,17 @@ img {
   height: auto;
 }
 
+details summary {
+  cursor: pointer;
+}
+
+.v-text {
+  writing-mode: vertical-lr;
+  @media print {
+    writing-mode: horizontal-tb;
+  }
+}
+
 @media (max-width: @width-tablet) {
   html {
     font-size: 14px;
