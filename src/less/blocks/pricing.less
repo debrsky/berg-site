@@ -1,0 +1,37 @@
+.pricing__table {
+  border-collapse: collapse;
+  border-top: 1px solid grey;
+}
+
+.pricing__directions {
+  display: grid;
+  gap: 10px;
+}
+
+.pricing__table-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: stretch;
+  gap: 2ch;
+}
+
+.pricing__table caption {
+  font-weight: bold;
+  position: relative;
+}
+
+.pricing__table-measure-unit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-weight: normal;
+}
+
+.pricing__table td {
+  text-align: center;
+}
+
+.pricing__table-wrapper {
+  page-break-inside: avoid;
+}
