@@ -176,8 +176,8 @@ block content
           const form = event.currentTarget;
           const data = new FormData(form);
           // console.log([...data.entries()]);
-          const weight = parseFloat(data.get('weight'));
-          const volume = parseFloat(data.get('volume'));
+          const weight = parseFloat((data.get('weight') ?? '').replace(',', '.'));
+          const volume = parseFloat((data.get('volume') ?? '').replace(',', '.'));
 
           const cargoCategory = detectCargoCategory(weight, volume);
           const cargoCategoryElement = form.querySelector('.cargo-category');
@@ -188,7 +188,7 @@ block content
 
           const amount = processCalc({weight, volume, params: data.getAll('params[]'), origin, destination});
 
-          form.querySelector('.result').innerHTML = amount === null ? '<не рассчитано>' : `${amount} рублей`;
+          form.querySelector('.result').innerHTML = amount === null ? '<не рассчитано>' : `${Math.round(amount * 1e2) * 1e-2} рублей`;
         };
 
         form.addEventListener('change', handleFormChange);

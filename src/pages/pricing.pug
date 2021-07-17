@@ -7,6 +7,7 @@ block content
   include ../pug/tariffs
 
   -
+    const startdate = new Date(tariffs.startdate);
     const places = tariffs.places;
 
     const getDestinationPlaces = (origin, prices) => {
@@ -19,10 +20,17 @@ block content
       return [...destinationPlaces];
     };
 
+    const truckDeliveryPrices = tariffs.truckDeliveryPrices;
     const oversizedRaisingFactor = tariffs.oversizedRaisingFactor;
     const heavyCargoPrices = tariffs.heavyCargoPrices;
     const lightCargoPrices = tariffs.lightCargoPrices;
     const minPrices = tariffs.minPrices;
+
+    const fridgeTariff =
+      Object.values(tariffs.fridgePrices.price)
+      .map((el) => Object.values(el))
+      .flat()
+      .reduce((acc, cur) => cur < acc ? cur : acc);
 
   article.pricing
     h2.h2 Прайс-лист по направлениям
@@ -30,15 +38,11 @@ block content
       h3.h3 Подача а/м на погрузку/выгрузку
       table.table
         tbody
-          tr
-            td Подача а/м грузоподъемностью до 5 т / 25 м³
-            td 1000 руб./час
-          tr
-            td Подача а/м грузоподъемностью до 10 т / 45 м³
-            td 1700 руб./час
-          tr
-            td Подача а/м с прицепом грузоподъемностью более 10 т (от 45&nbsp;м³ до 90 м³)
-            td 2100 руб./час
+          each priceLine in truckDeliveryPrices
+            tr
+              td !{priceLine.title}
+              td !{priceLine.price}
+
       p При массе груза более 5 тонн или объеме груза более 25 кубометров а/м подается бесплатно.
 
     section
@@ -127,9 +131,12 @@ block content
 
     section
       h3.h3 Примечания
-      p При использовании рефрижераторной установки взимается дополнительная плата 4000 руб./сутки.
+      p При использовании рефрижераторной установки взимается дополнительная плата #[em #{fridgeTariff} руб./сутки].
       p.
         При перевозке негабаритного груза стоимость за услуги увеличивается на #[em #{Math.round(oversizedRaisingFactor * 100 - 100)}%].
         Негабаритным груз считается, если объем одного места превышает 1 кубометр или одна из линейных величин
         (длина, ширина, высота) превышает 1 метр; а также места, которые по своим размерам и свойства не могут быть
         загружены и размещены в транспортном средстве без затруднений.
+
+    section
+      p(style="font-size: xx-small; text-align: end;") Настоящий прайс действует с #{startdate.toLocaleDateString()}.
