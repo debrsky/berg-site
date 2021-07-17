@@ -1,7 +1,7 @@
 extends ../pug/layout
 
 block head
-  script(src="js/calculator.js")
+  script(src="vendor/imask/imask.min.js")
 
 block content
   include ../pug/tariffs
@@ -63,6 +63,35 @@ block content
     script.
       (()=>{
         // TODO Валидация данных пока не сделана
+        const isNumber = (value) => typeof value === 'number' && isFinite(value);
+        const form = document.forms.calculator;
+
+        const weightElement = form.querySelector('[name="weight"]');
+        new IMask(weightElement, {
+          mask: Number,  // enable number mask
+
+          scale: 1,  // digits after point, 0 for integers
+          signed: false,  // disallow negative
+          thousandsSeparator: '',  // any single char
+          padFractionalZeros: false,  // if true, then pads zeros at end to the length of scale
+          normalizeZeros: true,  // appends or removes zeros at ends
+          radix: ',',  // fractional delimiter
+          mapToRadix: ['.']  // symbols to process as radix
+        });
+
+        const volumeElement = form.querySelector('[name="volume"]');
+        new IMask(volumeElement, {
+          mask: Number,  // enable number mask
+
+          scale: 2,  // digits after point, 0 for integers
+          signed: false,  // disallow negative
+          thousandsSeparator: '',  // any single char
+          padFractionalZeros: false,  // if true, then pads zeros at end to the length of scale
+          normalizeZeros: true,  // appends or removes zeros at ends
+          radix: ',',  // fractional delimiter
+          mapToRadix: ['.']  // symbols to process as radix
+        });
+
         const tariffs=!{JSON.stringify(tariffs, (key, value) => (value === Infinity ? 'Infinity' : value)).replace(/"Infinity"/g, 'Infinity')};
 
         const places = tariffs.places;
@@ -73,8 +102,6 @@ block content
         const fridgePrices = tariffs.fridgePrices;
         const icenginePrices = tariffs.icenginePrices;
 
-        const isNumber = (value) => typeof value === 'number' && isFinite(value);
-        const form = document.forms.calculator;
         const cargoCategories = {
           LIGHT: 'легкий',
           HEAVY: 'тяжелый'
