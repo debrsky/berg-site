@@ -260,7 +260,7 @@
             
                 const amount = processCalc({weight, volume, params: data.getAll('params[]'), origin, destination});
             
-                form.querySelector('.result').innerHTML = amount === null ? '<не рассчитано>' : `${Math.round(amount * 1e2) * 1e-2} рублей`;
+                form.querySelector('.result').innerHTML = amount === null ? '<не рассчитано>' : `${parseFloat(amount.toFixed(2))} рублей`;
               };
             
               form.addEventListener('change', handleFormChange);
