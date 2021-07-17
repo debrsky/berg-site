@@ -4,55 +4,171 @@ block head
   script(src="js/calculator.js")
 
 block content
+  include ../pug/tariffs
   -
-    const places = {
-      vvo: "Владивосток",
-      uss: "Уссурийск",
-      khb: "Хабаровск",
-      blg: "Благовещенск",
-      kms: "Комсомольск-на-Амуре"
-    };
+    const places = tariffs.places;
+    const heavyCargoPrices = tariffs.heavyCargoPrices;
+    const lightCargoPrices = tariffs.lightCargoPrices;
+    const minPrices = tariffs.minPrices;
+    const fridgePrices = tariffs.fridgePrices;
 
+  //TODO оформить покрасивее
   article
     h2.h2 Тарифный калькулятор
 
-    form
-      fieldset
-        legend
-          h3.h3 Характеристики груза
-        .control
-          label(for="volume") Масса груза, килограммы
-          input#volume(type="text", name="volume")
-        .control
-          label(for="weight") Объем груза, кубометры
-          input#weight(type="text", name="weight")
-        .control
-          p Легкий груз | Тяжелый груз
-        .control
-          input#icengine(type="checkbox", name="icengine")
-          label(for="icengine") Это двигатель внутреннего сгорания?
-        .control
-          input#fridge(type="checkbox", name="fridge")
-          label(for="fridge") Необходимо соблюдение температурного режима для груза (+ или - °С)?
-        .control
-          input#oversized(type="checkbox", name="oversized")
-          label(for="oversized") Негабаритный груз?
-
+    form(name="calculator")
       fieldset
         legend
           h3.h3 Направление
         .control
-          label(for="direction-from") Место отправления
-          select#direction-from
+          label(for="origin") Место отправления
+          select#origin(name="origin")
             option(selected, value) &lt;не выбрано&gt;
             each placeName, place in places
               option(value=place)=placeName
         .control
-          label(for="direction-to") Место получения
-          select#direction-to
+          label(for="destination") Место получения
+          select#destination(name="destination")
             option(selected, value) &lt;не выбрано&gt;
             each placeName, place in places
               option(value=place)=placeName
+
+      fieldset
+        legend
+          h3.h3 Характеристики груза
+        .control
+          label(for="weight") Масса груза, килограммы
+          input#weight(type="text", name="weight", inputmode="decimal")
+        .control
+          label(for="volume") Объем груза, кубометры
+          input#volume(type="text", name="volume", inputmode="decimal")
+        .control
+          p.cargo-category &nbsp;
+        .control
+          input#ic-engine(type="checkbox", name="params[]", value="ic-engine")
+          label(for="ic-engine") Это двигатель внутреннего сгорания
+        .control
+          input#fridge(type="checkbox", name="params[]", value="fridge")
+          label(for="fridge") Необходимо соблюдение температурного режима для груза (+ или - °С)
+        .control
+          input#oversized(type="checkbox", name="params[]", value="oversized")
+          label(for="oversized") Негабаритный груз
+
+      fieldset
+        legend
+          h3.h3 Результат расчета
+        .control
+          p.result.h1(style="font-size: xx-large;") &nbsp;
+
+    script.
+      (()=>{
+        // TODO Валидация данных пока не сделана
+        const tariffs=!{JSON.stringify(tariffs, (key, value) => (value === Infinity ? 'Infinity' : value)).replace(/"Infinity"/g, 'Infinity')};
+
+        const places = tariffs.places;
+        const oversizedRaisingFactor = tariffs.oversizedRaisingFactor;
+        const heavyCargoPrices = tariffs.heavyCargoPrices;
+        const lightCargoPrices = tariffs.lightCargoPrices;
+        const minPrices = tariffs.minPrices;
+        const fridgePrices = tariffs.fridgePrices;
+        const icenginePrices = tariffs.icenginePrices;
+
+        const isNumber = (value) => typeof value === 'number' && isFinite(value);
+        const form = document.forms.calculator;
+        const cargoCategories = {
+          LIGHT: 'легкий',
+          HEAVY: 'тяжелый'
+        }
+
+        const detectCargoCategory = (weight, volume) => {
+          if (!isNumber(weight) && !isNumber(volume)) return null;
+          if (isNumber(weight) && !isNumber(volume)) return cargoCategories.HEAVY;
+          if (!isNumber(weight) && isNumber(volume)) return cargoCategories.LIGHT;
+
+          const detectLight = (volume / (weight * 0.001)) >= 5;
+          return detectLight ? cargoCategories.LIGHT : cargoCategories.HEAVY;
+        }
+
+        const processCalc = ({weight, volume, params, origin, destination}) => {
+          const cargoCategory = detectCargoCategory(weight, volume);
+          if (!cargoCategory) return null;
+
+          const isICEngine = params.includes('ic-engine');
+          const isFridge = params.includes('fridge');
+          const isOversized = isICEngine || params.includes('oversized');
+
+          let cargoPrices, cargoIndicator, limit;
+          switch (cargoCategory) {
+            case cargoCategories.LIGHT:
+              cargoPrices = lightCargoPrices;
+              cargoIndicator = volume;
+              limitKey = 'limitLight';
+              break;
+            case cargoCategories.HEAVY:
+              cargoPrices = heavyCargoPrices;
+              cargoIndicator = weight;
+              limitKey = 'limitHeavy';
+              break;
+            default: throw Error();
+          };
+
+          let idx = 0;;
+          while (cargoIndicator >= cargoPrices[idx].limit) {
+            idx++;
+            if (!cargoPrices[idx]) throw Error();
+          };
+          console.log('price', cargoPrices[idx]);
+
+          const tariff = cargoPrices[idx].price?.[origin]?.[destination] ?? null;
+          if (!isNumber(tariff)) return null;
+
+          let amount = tariff * cargoIndicator * (isOversized ? oversizedRaisingFactor : 1);
+
+          idx = 0;
+          // console.log(cargoIndicator, minPrices[idx]?.[limitKey]);
+          while((minPrices[idx][limitKey] === null) || (cargoIndicator > minPrices[idx][limitKey])) {
+            idx++;
+            // console.log(cargoIndicator, minPrices[idx]?.[limitKey]);
+            if (!minPrices[idx]) break;
+          };
+          console.log('minPrice', minPrices[idx]);
+
+          const minAmount = minPrices[idx]?.price?.[origin]?.[destination] ?? 0;
+
+          const fridgeAmount = isFridge ? (fridgePrices.price?.[origin]?.[destination] ?? 0) : 0;
+          const ICEngineAmount = isICEngine ? (icenginePrices.price?.[origin]?.[destination] ?? 0) : 0;
+
+          const finalAmount = Math.max(amount, minAmount, ICEngineAmount) + fridgeAmount;
+
+          console.log({origin, destination, finalAmount});
+          console.log({amount, minAmount, ICEngineAmount, fridgeAmount});
+          return finalAmount;
+        }
+
+        const handleFormChange = (event) => {
+          const form = event.currentTarget;
+          const data = new FormData(form);
+          // console.log([...data.entries()]);
+          const weight = parseFloat(data.get('weight'));
+          const volume = parseFloat(data.get('volume'));
+
+          const cargoCategory = detectCargoCategory(weight, volume);
+          const cargoCategoryElement = form.querySelector('.cargo-category');
+          cargoCategoryElement.innerHTML = `${cargoCategory ? cargoCategory + ' груз': '&nbsp;'}`;
+
+          const origin = data.get('origin');
+          const destination = data.get('destination');
+
+          const amount = processCalc({weight, volume, params: data.getAll('params[]'), origin, destination});
+
+          form.querySelector('.result').innerHTML = amount === null ? '<не рассчитано>' : `${amount} рублей`;
+        };
+
+        form.addEventListener('change', handleFormChange);
+        form.addEventListener('submit', (event) => {
+          console.log('submit', event);
+        })
+      })();
 
   div(style="display: none;")
     |        // ДВС
