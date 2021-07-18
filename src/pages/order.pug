@@ -3,5 +3,162 @@ extends ../pug/layout
 block head
 
 block content
-  article
+  include ../pug/tariffs
+  -
+    const places = tariffs.places;
+
+  form.form(onsubmit="return false;")
     h2.h2 Заявка на грузоперевозку
+    section
+      h3.h3 Отправитель
+      .control
+        label(for="loading-date") Дата отправления
+        input#loading-date(type="date", name="loading-date")
+        p Заявка на следующие сутки принимается до #[time 16:00]
+      .control
+        label(for="consigner") Грузоотправитель
+        input#consigner(type="text", name="consigner")
+      .control
+        label(for="consigner-address") Адрес склада
+        input#consigner-address(type="text", name="consigner-address")
+      fieldset
+        legend Контактное лицо
+        .control
+          label(for="consigner-contact-fio") ФИО
+          input#consigner-contact-fio(type="text", name="consigner-contact-fio")
+        .control
+          label(for="consigner-contact-post") Должность
+          input#consigner-contact-post(type="text", name="consigner-contact-post")
+        .control
+          label(for="consigner-contact-tel") Телефон
+          input#consigner-contact-tel(type="text", name="consigner-contact-tel")
+
+    section
+      h3.h3 Получатель
+      .control
+        label(for="consignee") Грузополучатель
+        input#consignee(type="text", name="consignee")
+      .control
+        label(for="consignee-address") Адрес склада
+        input#consignee-address(type="text", name="consignee-address")
+      fieldset
+        legend Контактное лицо
+        .control
+          label(for="consignee-contact-fio") ФИО
+          input#consignee-contact-fio(type="text", name="consignee-contact-fio")
+        .control
+          label(for="consignee-contact-post") Должность
+          input#consignee-contact-post(type="text", name="consignee-contact-post")
+        .control
+          label(for="consignee-contact-tel") Телефон
+          input#consignee-contact-tel(type="text", name="consignee-contact-tel")
+
+    section
+      h3.h3 Заказчик перевозки
+      .control
+        label(for="client-type") Заказчиком перевозки является
+        select#client-type
+          option(value="") &lt;не выбрано&gt;
+          option(value="consigner") Грузоотправитель
+          option(value="consignee") Грузополучатель
+          option(value="payer") Третье лицо
+      .control
+        label(for="payer") Плательщик
+        input#payer(type="text", name="payer")
+      .control
+        label(for="payer-address") Адрес
+        input#payer-address(type="text", name="payer-address")
+      fieldset
+        legend Контактное лицо
+        .control
+          label(for="payer-contact-fio") ФИО
+          input#payer-contact-fio(type="text", name="payer-contact-fio")
+        .control
+          label(for="payer-contact-post") Должность
+          input#payer-contact-post(type="text", name="payer-contact-post")
+        .control
+          label(for="payer-contact-tel") Телефон
+          input#payer-contact-tel(type="text", name="payer-contact-tel")
+
+    section
+      h3.h3 Заявку составил
+      .control
+        label(for="order-author-fio") ФИО
+        input#order-author-fio(type="text", name="order-author-fio")
+      .control
+        label(for="order-author-email") Е-майл
+        input#order-author-email(type="text", name="order-author-email")
+      .control
+        label(for="order-author-tel") Телефон
+        input#order-author-tel(type="text", name="order-author-tel")
+
+    section
+      h3.h3 Груз
+      .control
+        label(for="cargo") Наименование
+        input#cargo(type="text", name="cargo")
+      .control
+        label(for="cargo-weight") Вес, кг
+        input#cargo-weight(type="text", name="cargo-weight")
+      .control
+        label(for="cargo-volume") Объем, м³
+        input#cargo-volume(type="text", name="cargo-volume")
+      .control
+        label(for="cargo-qty") Количество мест
+        input#cargo-qty(type="text", name="cargo-qty")
+      .control
+        label(for="cargo-condition") Температурный режим
+        input#cargo-condition(type="text", name="cargo-condition", placeholder="не требуется")
+
+    section
+      h3.h3 Место приема/выдачи груза
+      .control
+        label(for="loading-place") Место приема груза
+        select#loading-place(name="loading-place")
+          option(selected, value) &lt;не выбрано&gt;
+          each placeName, place in places
+            option(value=place)=placeName
+      .control
+        label(for="unloading-place") Место выдачи груза
+        select#unloading-place(name="unloading-place")
+          option(selected, value) &lt;не выбрано&gt;
+          each placeName, place in places
+            option(value=place)=placeName
+
+      .control
+        label(for="loading-memo") Комментарий
+        textarea#loading-memo(name="loading-memo", placeholder="например, сделать остановку в Хабаровске")
+
+    section
+      h3.h3 Оплата
+      .control
+        label(for="cargo-value") Ценность груза, руб.
+        input#cargo-value(type="text", name="cargo-value")
+      .control
+        label(for="payment-form") Форма оплаты
+        select#payment-form
+          option(selected, value) &lt;не выбрано&gt;
+          option(value="Безналичный") Безналичный
+          option(value="Наличный") Наличный
+          option(value="Наличный без чека") Наличный без чека
+        p Безналичный расчет возможен только при наличии договора.
+      .control
+        input#insurance(type="checkbox", name="insurance", value="insurance")
+        label(for="insurance") Страховать
+
+    section
+      h3.h3 Отправка заявки
+
+      ul
+        li
+          a(href="terms.html") Условия перевозки грузов
+        li
+          a(href="pricing.html") Тарифы на грузоперевозку
+        li
+          a(href="personal-data-policy.html") Политика обработки персональных данных
+
+      .control
+        input#accept(type="checkbox", name="accept", value="accept")
+        label(for="accept") Я ознакомился с условиями перевозки грузов и тарифами, с обработкой персональных данных согласен.
+
+      button(type="submit") Отправить заявку
