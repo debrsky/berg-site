@@ -35,17 +35,6 @@ block content
   article.pricing
     h2.h2 Прайс-лист по направлениям
     section
-      h3.h3 Подача а/м на погрузку/выгрузку
-      table.table
-        tbody
-          each priceLine in truckDeliveryPrices
-            tr
-              td !{priceLine.title}
-              td !{priceLine.price}
-
-      p При массе груза более 5 тонн или объеме груза более 25 кубометров а/м подается бесплатно.
-
-    section
       h3.h3 Тарифы на междугороднюю перевозку
       p Если объем 1 тонны груза более 5 кубометров, груз считается легким. В противном случае груз считается тяжелым.
       -let destinationPlaces;
@@ -128,6 +117,16 @@ block content
                         th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³').replace(/\sкг/g, '&nbsp;кг')}
                         each destination in destinationPlaces
                           td=priceRow.price[origin][destination].toString().replace('.', ',')
+
+    section
+      h3.h3 Подача а/м на погрузку/выгрузку
+      table.table
+        tbody
+          each priceLine in truckDeliveryPrices
+            tr
+              td !{priceLine.title}
+              td !{priceLine.price}
+      p При массе груза более 5 тонн или объеме груза более 25 кубометров а/м подается бесплатно.
 
     section
       h3.h3 Примечания
