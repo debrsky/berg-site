@@ -138,9 +138,8 @@ block content
         (длина, ширина, высота) превышает 1 метр; а также места, которые по своим размерам и свойства не могут быть
         загружены и размещены в транспортном средстве без затруднений.
 
-    section
-      p(style="font-size: xx-small; text-align: end;")
-        | Настоящий прайс действует с
-        |
-        time(datetime=startdate.toISOString()) #{startdate.toLocaleDateString()}
-        | .
+    p(style="font-size: xx-small; text-align: end;")
+      | Настоящий прайс действует с
+      |
+      time(datetime=startdate.toISOString().substring(0, 10)) #{startdate.toLocaleDateString()}
+      | .
