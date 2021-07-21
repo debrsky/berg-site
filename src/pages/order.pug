@@ -11,7 +11,7 @@ block content
   -
     const places = tariffs.places;
 
-  form.form(name="order", onsubmit="return false;")
+  form.form(name="order", onsubmit="alert('Заявка отправлена.'); return false;")
     h2.h2 Заявка на грузоперевозку
     .control
       label(for="loading-date") Дата отправления
@@ -382,7 +382,8 @@ block content
             input#unloading-point-consigner-delivery-time(type="time", name="unloading-point-consigner-delivery-time")
 
       section
-        label.h4(for="loading-memo") Комментарий
+        h4.h4
+          label(for="loading-memo") Комментарий
         .control
           textarea#loading-memo(name="loading-memo", placeholder="например, сделать остановку в Хабаровске")
 
