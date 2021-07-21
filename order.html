@@ -67,7 +67,7 @@
     </nav>
     <main class="main">
       <div class="container">
-        <form class="form" name="order" onsubmit="return false;">
+        <form class="form" name="order" onsubmit="alert('Заявка отправлена.'); return false;">
           <h2 class="h2">Заявка на грузоперевозку</h2>
           <div class="control">
             <label for="loading-date">Дата отправления</label>
@@ -506,7 +506,9 @@
               </div>
             </section>
             <section>
-              <label class="h4" for="loading-memo">Комментарий</label>
+              <h4 class="h4">
+                <label for="loading-memo">Комментарий</label>
+              </h4>
               <div class="control">
                 <textarea id="loading-memo" name="loading-memo" placeholder="например, сделать остановку в Хабаровске"></textarea>
               </div>
