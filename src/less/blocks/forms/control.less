@@ -1,3 +1,11 @@
-.control {
+.control:not([hidden]) {
   padding: 1ch;
+  display: block;
 }
+
+.control textarea,
+.control input:not([type=radio]):not([type=checkbox]) {
+  width: 100%;
+}
+
+
