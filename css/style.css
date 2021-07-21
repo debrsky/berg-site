@@ -163,20 +163,13 @@ details summary {
   font-weight: bold;
   src: local("PT Sans Narrow Bold"), url("/fonts/PTN77F_W.woff") format("woff");
 }
-.h1 {
-  color: var(--brand-color);
-}
-.h2 {
-  color: var(--brand-color);
-}
-.h3 {
-  color: var(--brand-color);
-}
-.h4 {
-  color: var(--brand-color);
-}
+.h1,
+.h2,
+.h3,
+.h4,
 .h5 {
   color: var(--brand-color);
+  font-weight: bold;
 }
 .table {
   border-collapse: collapse;
@@ -198,8 +191,13 @@ details summary {
 .table tbody tr td {
   border-bottom: 1px solid lightgray;
 }
-.control {
+.control:not([hidden]) {
   padding: 1ch;
+  display: block;
+}
+.control textarea,
+.control input:not([type=radio]):not([type=checkbox]) {
+  width: 100%;
 }
 .header {
   font-size: 16px;
