@@ -34,6 +34,13 @@ mixin counterpartyRole(role)
       label
         span Юридический адрес
         textarea(id=`${role}-address`, name=`${role}-address`, data-suggestion-type="address")
+    if role==='payer'
+      .control
+        label(for=`${role}-contact-fio`) Контактное лицо
+        input(id=`${role}-contact-fio`, type="text", name=`${role}-contact-fio`, data-suggestion-type="name")
+      .control
+        label(for=`${role}-contact-tel`) Телефон
+        input(id=`${role}-contact-tel`, type="tel", name=`${role}-contact-tel`)
 
   .control-group(class=`group-${role}-private-person`, hidden)
     .control
