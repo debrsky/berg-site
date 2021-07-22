@@ -8,10 +8,14 @@
     <link rel="stylesheet" href="css/grid.css">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="vendor/imask/imask.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
+    <script src="vendor/imask/imask.min.js"></script>
+    <script>const terminals = {"vvo":"пр-кт 100-летия Владивостока, 161А","uss":"ул Чичерина, 152","khb":"ул Восточное шоссе, 8Б","blg":"ул Чехова, 3","kms":"ул Лесозаводская, 6А"};
+      const places = {"vvo":"Владивосток","uss":"Уссурийск","khb":"Хабаровск","blg":"Благовещенск","kms":"Комсомольск-на-Амуре"};
+    </script>
+    <script src="js/order.js" defer></script>
   </head>
   <body class="page nogrid">
     <noscript>
@@ -70,323 +74,163 @@
         <form class="form" name="order" onsubmit="alert('Заявка отправлена.'); return false;">
           <h2 class="h2">Заявка на грузоперевозку</h2>
           <div class="control">
-            <label for="loading-date">Дата отправления</label>
-            <input id="loading-date" type="date" name="loading-date">
+            <label for="order-loading-date">Дата отправления</label>
+            <input id="order-loading-date" type="date" name="order-loading-date">
             <p>Заявка на следующие сутки принимается до 
               <time>16:00</time>
             </p>
           </div>
           <section>
             <h3 class="h3">Грузоотправитель</h3>
-            <div class="control-group">
+            <div class="control-group" style="display: flex;">
               <div class="control">
-                <input id="consigner-type-legal-entity" type="radio" name="consigner-type" value="legal-entity">
+                <input id="consigner-type-legal-entity" type="radio" name="consigner-type" value="legal-entity"/>
                 <label for="consigner-type-legal-entity">Организация или ИП</label>
               </div>
               <div class="control">
-                <input id="consigner-type-private-person" type="radio" name="consigner-type" value="private-person">
+                <input id="consigner-type-private-person" type="radio" name="consigner-type" value="private-person"/>
                 <label for="consigner-type-private-person">Частное лицо</label>
               </div>
             </div>
-            <div class="control-group consigner-legal-entity" hidden>
+            <div class="control-group group-consigner-legal-entity" hidden="hidden">
               <div class="control">
                 <label for="consigner">Организация или ИП</label>
-                <input id="consigner" type="text" name="consigner" placeholder="название, адрес, ИНН или ОГРН">
-                <script>
-                  $("#consigner").suggestions({
-                      token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                      type: "PARTY",
-                      onSelect: function(suggestion) {
-                          console.log(suggestion);
-                  
-                          const consigner = document.getElementById('consigner');
-                          const consignerOGRN = document.getElementById('consigner-OGRN');
-                          const consignerINN = document.getElementById('consigner-INN');
-                          const consignerKPP = document.getElementById('consigner-KPP');
-                          const consignerAddress = document.getElementById('consigner-address');
-                  
-                          if (suggestion.data.type === 'INDIVIDUAL') {
-                            consignerOGRN.value = suggestion.data.ogrn;
-                            consignerINN.value = suggestion.data.inn;
-                            consignerKPP.value = '';
-                            consignerAddress.value = suggestion.data.address.value;
-                          };
-                  
-                          if (suggestion.data.type === 'LEGAL') {
-                            consignerOGRN.value = suggestion.data.ogrn;
-                            consignerINN.value = suggestion.data.inn;
-                            consignerKPP.value = suggestion.data.kpp;
-                            consignerAddress.value = suggestion.data.address.value;
-                          };
-                  
-                      }
-                  });
-                </script>
+                <input id="consigner" type="text" name="consigner" placeholder="название, адрес, ИНН или ОГРН"/>
               </div>
               <div class="control">
                 <label for="consigner-OGRN">ОГРН</label>
-                <input id="consigner-OGRN" type="text" name="consigner-OGRN">
+                <input id="consigner-OGRN" type="text" name="consigner-OGRN"/>
               </div>
               <div class="control">
                 <label for="consigner-INN">ИНН</label>
-                <input id="consigner-INN" type="text" name="consigner-INN">
+                <input id="consigner-INN" type="text" name="consigner-INN"/>
               </div>
               <div class="control">
                 <label for="consigner-KPP">КПП</label>
-                <input id="consigner-KPP" type="text" name="consigner-KPP">
+                <input id="consigner-KPP" type="text" name="consigner-KPP"/>
               </div>
               <div class="control">
-                <label><span>Адрес</span>
-                  <textarea id="consigner-address" name="consigner-address"></textarea>
-                  <script>
-                    $("#consigner-address").suggestions({
-                        token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                        type: "ADDRESS"
-                    });
-                    
-                  </script>
+                <label><span>Юридический адрес</span>
+                  <textarea id="consigner-address" name="consigner-address" data-suggestion-type="address"></textarea>
                 </label>
               </div>
             </div>
-            <div class="control-group consigner-private-person" hidden>
+            <div class="control-group group-consigner-private-person" hidden="hidden">
               <div class="control">
-                <label for="consigner-contact-fio">ФИО</label>
-                <input id="consigner-contact-fio" type="text" name="consigner-contact-fio">
-                <script>
-                  $("#consigner-contact-fio").suggestions({
-                      token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                      type: "NAME",
-                      onSelect: function(suggestion) {
-                          console.log(suggestion);
-                      }
-                  });
-                  
-                </script>
+                <label for="consigner-fio">ФИО</label>
+                <input id="consigner-fio" type="text" name="consigner-fio" data-suggestion-type="name"/>
               </div>
               <div class="control">
-                <label for="consigner-contact-tel">Телефон</label>
-                <input id="consigner-contact-tel" type="tel" name="consigner-contact-tel">
-                <script>
-                  const consignerContactTel = document.getElementById('consigner-contact-tel');
-                  new IMask(consignerContactTel, {
-                    mask: '+{7}0000000000',
-                    lazy: false,
-                    placeholderChar: '_'
-                  });
-                  
-                </script>
+                <label for="consigner-tel">Телефон</label>
+                <input id="consigner-tel" type="tel" name="consigner-tel"/>
               </div>
             </div>
             <div class="control">
-              <input id="consigner-is-payer" type="checkbox" name="consigner-is-payer" value="consigner-is-payer">
+              <input id="consigner-is-payer" type="checkbox" name="consigner-is-payer" value="consigner-is-payer"/>
               <label for="consigner-is-payer">Грузоотправитель является плательщиком</label>
             </div>
           </section>
           <section>
             <h3 class="h3">Грузополучатель</h3>
-            <div class="control-group">
+            <div class="control-group" style="display: flex;">
               <div class="control">
-                <input id="consignee-type-legal-entity" type="radio" name="consignee-type" value="legal-entity">
+                <input id="consignee-type-legal-entity" type="radio" name="consignee-type" value="legal-entity"/>
                 <label for="consignee-type-legal-entity">Организация или ИП</label>
               </div>
               <div class="control">
-                <input id="consignee-type-private-person" type="radio" name="consignee-type" value="private-person">
+                <input id="consignee-type-private-person" type="radio" name="consignee-type" value="private-person"/>
                 <label for="consignee-type-private-person">Частное лицо</label>
               </div>
             </div>
-            <div class="control-group consignee-legal-entity" hidden>
+            <div class="control-group group-consignee-legal-entity" hidden="hidden">
               <div class="control">
                 <label for="consignee">Организация или ИП</label>
-                <input id="consignee" type="text" name="consignee" placeholder="название, адрес, ИНН или ОГРН">
-                <script>
-                  $("#consignee").suggestions({
-                      token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                      type: "PARTY",
-                      onSelect: function(suggestion) {
-                          console.log(suggestion);
-                  
-                          const consignee = document.getElementById('consignee');
-                          const consigneeOGRN = document.getElementById('consignee-OGRN');
-                          const consigneeINN = document.getElementById('consignee-INN');
-                          const consigneeKPP = document.getElementById('consignee-KPP');
-                          const consigneeAddress = document.getElementById('consignee-address');
-                  
-                          if (suggestion.data.type === 'INDIVIDUAL') {
-                            consigneeOGRN.value = suggestion.data.ogrn;
-                            consigneeINN.value = suggestion.data.inn;
-                            consigneeKPP.value = '';
-                            consigneeAddress.value = suggestion.data.address.value;
-                          };
-                  
-                          if (suggestion.data.type === 'LEGAL') {
-                            consigneeOGRN.value = suggestion.data.ogrn;
-                            consigneeINN.value = suggestion.data.inn;
-                            consigneeKPP.value = suggestion.data.kpp;
-                            consigneeAddress.value = suggestion.data.address.value;
-                          };
-                  
-                      }
-                  });
-                </script>
+                <input id="consignee" type="text" name="consignee" placeholder="название, адрес, ИНН или ОГРН"/>
               </div>
               <div class="control">
                 <label for="consignee-OGRN">ОГРН</label>
-                <input id="consignee-OGRN" type="text" name="consignee-OGRN">
+                <input id="consignee-OGRN" type="text" name="consignee-OGRN"/>
               </div>
               <div class="control">
                 <label for="consignee-INN">ИНН</label>
-                <input id="consignee-INN" type="text" name="consignee-INN">
+                <input id="consignee-INN" type="text" name="consignee-INN"/>
               </div>
               <div class="control">
                 <label for="consignee-KPP">КПП</label>
-                <input id="consignee-KPP" type="text" name="consignee-KPP">
+                <input id="consignee-KPP" type="text" name="consignee-KPP"/>
               </div>
               <div class="control">
-                <label><span>Адрес</span>
-                  <textarea id="consignee-address" name="consignee-address"></textarea>
-                  <script>
-                    $("#consignee-address").suggestions({
-                        token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                        type: "ADDRESS"
-                    });
-                    
-                  </script>
+                <label><span>Юридический адрес</span>
+                  <textarea id="consignee-address" name="consignee-address" data-suggestion-type="address"></textarea>
                 </label>
               </div>
             </div>
-            <div class="control-group consignee-private-person" hidden>
+            <div class="control-group group-consignee-private-person" hidden="hidden">
               <div class="control">
-                <label for="consignee-contact-fio">ФИО</label>
-                <input id="consignee-contact-fio" type="text" name="consignee-contact-fio">
-                <script>
-                  $("#consignee-contact-fio").suggestions({
-                      token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                      type: "NAME",
-                      onSelect: function(suggestion) {
-                          console.log(suggestion);
-                      }
-                  });
-                  
-                </script>
+                <label for="consignee-fio">ФИО</label>
+                <input id="consignee-fio" type="text" name="consignee-fio" data-suggestion-type="name"/>
               </div>
               <div class="control">
-                <label for="consignee-contact-tel">Телефон</label>
-                <input id="consignee-contact-tel" type="tel" name="consignee-contact-tel">
-                <script>
-                  const consigneeContactTel = document.getElementById('consignee-contact-tel');
-                  new IMask(consigneeContactTel, {
-                    mask: '+{7}0000000000',
-                    lazy: false,
-                    placeholderChar: '_'
-                  });
-                  
-                </script>
+                <label for="consignee-tel">Телефон</label>
+                <input id="consignee-tel" type="tel" name="consignee-tel"/>
               </div>
             </div>
             <div class="control">
-              <input id="consignee-is-payer" type="checkbox" name="consignee-is-payer" value="consignee-is-payer">
+              <input id="consignee-is-payer" type="checkbox" name="consignee-is-payer" value="consignee-is-payer"/>
               <label for="consignee-is-payer">Грузополучатель является плательщиком</label>
             </div>
           </section>
-          <section class="payer">
+          <section class="section-payer">
             <h3 class="h3">Плательщик</h3>
-            <div class="control-group">
+            <div class="control-group" style="display: flex;">
               <div class="control">
-                <input id="payer-type-legal-entity" type="radio" name="payer-type" value="legal-entity">
+                <input id="payer-type-legal-entity" type="radio" name="payer-type" value="legal-entity"/>
                 <label for="payer-type-legal-entity">Организация или ИП</label>
               </div>
               <div class="control">
-                <input id="payer-type-private-person" type="radio" name="payer-type" value="private-person">
+                <input id="payer-type-private-person" type="radio" name="payer-type" value="private-person"/>
                 <label for="payer-type-private-person">Частное лицо</label>
               </div>
             </div>
-            <div class="control-group payer-legal-entity" hidden>
+            <div class="control-group group-payer-legal-entity" hidden="hidden">
               <div class="control">
                 <label for="payer">Организация или ИП</label>
-                <input id="payer" type="text" name="payer" placeholder="название, адрес, ИНН или ОГРН">
-                <script>
-                  $("#payer").suggestions({
-                      token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                      type: "PARTY",
-                      onSelect: function(suggestion) {
-                          console.log(suggestion);
-                  
-                          const payer = document.getElementById('payer');
-                          const payerOGRN = document.getElementById('payer-OGRN');
-                          const payerINN = document.getElementById('payer-INN');
-                          const payerKPP = document.getElementById('payer-KPP');
-                          const payerAddress = document.getElementById('payer-address');
-                  
-                          if (suggestion.data.type === 'INDIVIDUAL') {
-                            payerOGRN.value = suggestion.data.ogrn;
-                            payerINN.value = suggestion.data.inn;
-                            payerKPP.value = '';
-                            payerAddress.value = suggestion.data.address.value;
-                          };
-                  
-                          if (suggestion.data.type === 'LEGAL') {
-                            payerOGRN.value = suggestion.data.ogrn;
-                            payerINN.value = suggestion.data.inn;
-                            payerKPP.value = suggestion.data.kpp;
-                            payerAddress.value = suggestion.data.address.value;
-                          };
-                  
-                      }
-                  });
-                </script>
+                <input id="payer" type="text" name="payer" placeholder="название, адрес, ИНН или ОГРН"/>
               </div>
               <div class="control">
                 <label for="payer-OGRN">ОГРН</label>
-                <input id="payer-OGRN" type="text" name="payer-OGRN">
+                <input id="payer-OGRN" type="text" name="payer-OGRN"/>
               </div>
               <div class="control">
                 <label for="payer-INN">ИНН</label>
-                <input id="payer-INN" type="text" name="payer-INN">
+                <input id="payer-INN" type="text" name="payer-INN"/>
               </div>
               <div class="control">
                 <label for="payer-KPP">КПП</label>
-                <input id="payer-KPP" type="text" name="payer-KPP">
+                <input id="payer-KPP" type="text" name="payer-KPP"/>
               </div>
               <div class="control">
-                <label><span>Адрес</span>
-                  <textarea id="payer-address" name="payer-address"></textarea>
-                  <script>
-                    $("#payer-address").suggestions({
-                        token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                        type: "ADDRESS"
-                    });
-                    
-                  </script>
+                <label><span>Юридический адрес</span>
+                  <textarea id="payer-address" name="payer-address" data-suggestion-type="address"></textarea>
                 </label>
               </div>
-            </div>
-            <div class="control-group payer-private-person" hidden>
               <div class="control">
-                <label for="payer-contact-fio">ФИО</label>
-                <input id="payer-contact-fio" type="text" name="payer-contact-fio">
-                <script>
-                  $("#payer-contact-fio").suggestions({
-                      token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                      type: "NAME",
-                      onSelect: function(suggestion) {
-                          console.log(suggestion);
-                      }
-                  });
-                  
-                </script>
+                <label for="payer-contact-fio">Контактное лицо</label>
+                <input id="payer-contact-fio" type="text" name="payer-contact-fio" data-suggestion-type="name"/>
               </div>
               <div class="control">
                 <label for="payer-contact-tel">Телефон</label>
-                <input id="payer-contact-tel" type="tel" name="payer-contact-tel">
-                <script>
-                  const payerContactTel = document.getElementById('payer-contact-tel');
-                  new IMask(payerContactTel, {
-                    mask: '+{7}0000000000',
-                    lazy: false,
-                    placeholderChar: '_'
-                  });
-                  
-                </script>
+                <input id="payer-contact-tel" type="tel" name="payer-contact-tel"/>
+              </div>
+            </div>
+            <div class="control-group group-payer-private-person" hidden="hidden">
+              <div class="control">
+                <label for="payer-fio">ФИО</label>
+                <input id="payer-fio" type="text" name="payer-fio" data-suggestion-type="name"/>
+              </div>
+              <div class="control">
+                <label for="payer-tel">Телефон</label>
+                <input id="payer-tel" type="tel" name="payer-tel"/>
               </div>
             </div>
           </section>
@@ -398,15 +242,15 @@
             </div>
             <div class="control">
               <label for="cargo-weight">Вес, кг</label>
-              <input id="cargo-weight" type="text" name="cargo-weight">
+              <input id="cargo-weight" type="text" name="cargo-weight" inputmode="numeric">
             </div>
             <div class="control">
               <label for="cargo-volume">Объем, м³</label>
-              <input id="cargo-volume" type="text" name="cargo-volume">
+              <input id="cargo-volume" type="text" name="cargo-volume" inputmode="numeric">
             </div>
             <div class="control">
               <label for="cargo-qty">Количество мест</label>
-              <input id="cargo-qty" type="text" name="cargo-qty">
+              <input id="cargo-qty" type="text" name="cargo-qty" inputmode="numeric">
             </div>
             <div class="control">
               <label for="cargo-condition">Температурный режим</label>
@@ -414,17 +258,33 @@
             </div>
             <div class="control">
               <label for="cargo-value">Ценность груза, руб.</label>
-              <input id="cargo-value" type="text" name="cargo-value">
+              <input id="cargo-value" type="text" name="cargo-value" inputmode="numeric">
             </div>
           </section>
           <section>
-            <h3 class="h3">Место приема/выдачи груза</h3>
+            <h3 class="h3">Прием и выдача груза</h3>
             <section>
-              <h4 class="h4">Прием груза</h4>
+              <h4 class="h4">Прием груза
+              </h4>
               <div class="control">
-                <label for="loading-place">Место приема груза</label>
+                <label for="loading-contact-fio">ФИО контактного лица</label>
+                <input id="loading-contact-fio" type="text" name="loading-contact-fio" data-suggestion-type="name" required="required"/>
+              </div>
+              <div class="control">
+                <label for="loading-contact-tel">Телефон контактного лица</label>
+                <input id="loading-contact-tel" type="tel" name="loading-contact-tel" required="required"/>
+              </div>
+              <label class="control"><span>Дата</span>
+                <input id="loading-date" type="date" name="loading-date"/>
+              </label>
+              <label class="control"><span>Время</span>
+                <input id="loading-time" type="time" name="loading-time"/>
+              </label>
+              <div class="control">
+                <label for="loading-place">Место приема груза
+                </label>
                 <select id="loading-place" name="loading-place">
-                  <option selected disabled value>&lt;не выбрано&gt;</option>
+                  <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
                   <option value="vvo">Владивосток</option>
                   <option value="uss">Уссурийск</option>
                   <option value="khb">Хабаровск</option>
@@ -434,40 +294,43 @@
                 </select>
               </div>
               <div class="control-group">
-                <div class="control loading-point-terminal-control">
-                  <input id="loading-point-terminal" type="radio" name="loading-point" value="loading-point-terminal">
+                <div class="control loading-terminal-control">
+                  <input id="loading-point-terminal" type="radio" name="loading-point" value="loading-point-terminal"/>
                   <label class="loading-point-terminal-title" for="loading-point-terminal">Терминал перевозчика</label>
                 </div>
                 <div class="control">
-                  <input id="loading-point-consigner" type="radio" name="loading-point" value="loading-point-consigner">
-                  <label for="loading-point-consigner">Подача машины</label>
+                  <input id="loading-point-client" type="radio" name="loading-point" value="loading-point-client"/>
+                  <label for="loading-point-client">Подача машины</label>
                 </div>
               </div>
-              <div class="control-group loading-point-consigner-address" hidden>
-                <label class="control"><span>Адрес подачи машины:</span>
-                  <textarea id="loading-point-consigner-address" name="loading-point-consigner-address"></textarea>
-                  <script>
-                    $("#loading-point-consigner-address").suggestions({
-                        token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                        type: "ADDRESS"
-                    });
-                    
-                  </script>
-                </label>
-                <label><span>Дата</span>
-                  <input id="loading-point-consigner-delivery-date" type="date" name="loading-point-consigner-delivery-date">
-                </label>
-                <label><span>Время</span>
-                  <input id="loading-point-consigner-delivery-time" type="time" name="loading-point-consigner-delivery-time">
+              <div class="control-group group-loading-point-client-address" hidden="hidden">
+                <label class="control"><span>Адрес погрузки</span>
+                  <textarea id="loading-point-client-address" name="loading-point-client-address" data-suggestion-type="address"></textarea>
                 </label>
               </div>
             </section>
             <section>
-              <h4 class="h4">Выдача груза</h4>
+              <h4 class="h4">Выдача груза
+              </h4>
               <div class="control">
-                <label for="unloading-place">Место приема груза</label>
+                <label for="unloading-contact-fio">ФИО контактного лица</label>
+                <input id="unloading-contact-fio" type="text" name="unloading-contact-fio" data-suggestion-type="name" required="required"/>
+              </div>
+              <div class="control">
+                <label for="unloading-contact-tel">Телефон контактного лица</label>
+                <input id="unloading-contact-tel" type="tel" name="unloading-contact-tel" required="required"/>
+              </div>
+              <label class="control"><span>Дата</span>
+                <input id="unloading-date" type="date" name="unloading-date"/>
+              </label>
+              <label class="control"><span>Время</span>
+                <input id="unloading-time" type="time" name="unloading-time"/>
+              </label>
+              <div class="control">
+                <label for="unloading-place">Место выдачи груза
+                </label>
                 <select id="unloading-place" name="unloading-place">
-                  <option selected disabled value>&lt;не выбрано&gt;</option>
+                  <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
                   <option value="vvo">Владивосток</option>
                   <option value="uss">Уссурийск</option>
                   <option value="khb">Хабаровск</option>
@@ -477,31 +340,18 @@
                 </select>
               </div>
               <div class="control-group">
-                <div class="control unloading-point-terminal-control">
-                  <input id="unloading-point-terminal" type="radio" name="unloading-point" value="unloading-point-terminal">
+                <div class="control unloading-terminal-control">
+                  <input id="unloading-point-terminal" type="radio" name="unloading-point" value="unloading-point-terminal"/>
                   <label class="unloading-point-terminal-title" for="unloading-point-terminal">Терминал перевозчика</label>
                 </div>
                 <div class="control">
-                  <input id="unloading-point-consigner" type="radio" name="unloading-point" value="unloading-point-consigner">
-                  <label for="unloading-point-consigner">Подача машины</label>
+                  <input id="unloading-point-client" type="radio" name="unloading-point" value="unloading-point-client"/>
+                  <label for="unloading-point-client">Подача машины</label>
                 </div>
               </div>
-              <div class="control-group unloading-point-consigner-address" hidden>
-                <label class="control"><span>Адрес подачи машины:</span>
-                  <textarea id="unloading-point-consigner-address" name="unloading-point-consigner-address"></textarea>
-                  <script>
-                    $("#unloading-point-consigner-address").suggestions({
-                        token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                        type: "ADDRESS"
-                    });
-                    
-                  </script>
-                </label>
-                <label><span>Дата</span>
-                  <input id="unloading-point-consigner-delivery-date" type="date" name="unloading-point-consigner-delivery-date">
-                </label>
-                <label><span>Время</span>
-                  <input id="unloading-point-consigner-delivery-time" type="time" name="unloading-point-consigner-delivery-time">
+              <div class="control-group group-unloading-point-client-address" hidden="hidden">
+                <label class="control"><span>Адрес выгрузки</span>
+                  <textarea id="unloading-point-client-address" name="unloading-point-client-address" data-suggestion-type="address"></textarea>
                 </label>
               </div>
             </section>
@@ -538,7 +388,7 @@
             <h3 class="h3">Заявку составил</h3>
             <div class="control">
               <label for="order-author-fio">ФИО</label>
-              <input id="order-author-fio" type="text" name="order-author-fio">
+              <input id="order-author-fio" type="text" name="order-author-fio" required>
               <script>
                 $("#order-author-fio").suggestions({
                     token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
@@ -556,16 +406,7 @@
             </div>
             <div class="control">
               <label for="order-author-tel">Телефон</label>
-              <input id="order-author-tel" type="tel" name="order-author-tel">
-              <script>
-                const orderAuthorTel = document.getElementById('order-author-tel');
-                new IMask(orderAuthorTel, {
-                  mask: '+{7}0000000000',
-                  lazy: false,
-                  placeholderChar: '_'
-                });
-                
-              </script>
+              <input id="order-author-tel" type="tel" name="order-author-tel" required>
             </div>
           </section>
           <section>
@@ -639,191 +480,6 @@
         </div>
       </div>
     </footer>
-    <script>
-      const form = document.forms.order;
-      
-      // Грузоотправитель
-      const consignerTypeLegalEntity = form.querySelector('[name=consigner-type][value=legal-entity]');
-      const consignerTypePrivatePerson = form.querySelector('[name=consigner-type][value=private-person]');
-      
-      const handleConsignerTypeChange = (event) => {
-        const legalEntityElement = form.querySelector('.consigner-legal-entity');
-        const privatePersonElement = form.querySelector('.consigner-private-person');
-      
-        const formData = new FormData(form);
-        const consignerType = formData.get('consigner-type');
-      
-        legalEntityElement.setAttribute('hidden', '');
-        privatePersonElement.setAttribute('hidden', '');
-      
-        if (consignerType === 'legal-entity') legalEntityElement.removeAttribute('hidden');
-        if (consignerType === 'private-person') privatePersonElement.removeAttribute('hidden');
-      };
-      
-      consignerTypeLegalEntity.addEventListener('change', handleConsignerTypeChange);
-      consignerTypePrivatePerson.addEventListener('change', handleConsignerTypeChange);
-      // -- Грузоотправитель
-      
-      // Грузополучатель
-      const consigneeTypeLegalEntity = form.querySelector('[name=consignee-type][value=legal-entity]');
-      const consigneeTypePrivatePerson = form.querySelector('[name=consignee-type][value=private-person]');
-      
-      const handleConsigneeTypeChange = (event) => {
-        const legalEntityElement = form.querySelector('.consignee-legal-entity');
-        const privatePersonElement = form.querySelector('.consignee-private-person');
-      
-        const formData = new FormData(form);
-        const consigneeType = formData.get('consignee-type');
-      
-        legalEntityElement.setAttribute('hidden', '');
-        privatePersonElement.setAttribute('hidden', '');
-      
-        if (consigneeType === 'legal-entity') legalEntityElement.removeAttribute('hidden');
-        if (consigneeType === 'private-person') privatePersonElement.removeAttribute('hidden');
-      };
-      
-      consigneeTypeLegalEntity.addEventListener('change', handleConsigneeTypeChange);
-      consigneeTypePrivatePerson.addEventListener('change', handleConsigneeTypeChange);
-      // -- Грузополучатель
-      
-      // Плательщик
-      const payerTypeLegalEntity = form.querySelector('[name=payer-type][value=legal-entity]');
-      const payerTypePrivatePerson = form.querySelector('[name=payer-type][value=private-person]');
-      
-      const handlePayerTypeChange = (event) => {
-        const legalEntityElement = form.querySelector('.payer-legal-entity');
-        const privatePersonElement = form.querySelector('.payer-private-person');
-      
-        const formData = new FormData(form);
-        const payerType = formData.get('payer-type');
-      
-        legalEntityElement.setAttribute('hidden', '');
-        privatePersonElement.setAttribute('hidden', '');
-      
-        if (payerType === 'legal-entity') legalEntityElement.removeAttribute('hidden');
-        if (payerType === 'private-person') privatePersonElement.removeAttribute('hidden');
-      };
-      
-      payerTypeLegalEntity.addEventListener('change', handlePayerTypeChange);
-      payerTypePrivatePerson.addEventListener('change', handlePayerTypeChange);
-      // -- Плательщик
-      
-      // Спрятать/показать плательщика
-      const consignerIsPayer = form.querySelector('[name="consigner-is-payer"]');
-      const consigneeIsPayer = form.querySelector('[name="consignee-is-payer"]');
-      const payer = form.querySelector('section.payer');
-      
-      const handlePayerSelector = (event) => {
-        if (event.target.checked) {
-          if (event.target === consignerIsPayer) consigneeIsPayer.checked = false;
-          if (event.target === consigneeIsPayer) consignerIsPayer.checked = false;
-        }
-      
-        if (consignerIsPayer.checked || consigneeIsPayer.checked) {
-          payer.setAttribute('hidden', '');
-          return;
-        }
-      
-        payer.removeAttribute('hidden');
-      }
-      
-      consignerIsPayer.addEventListener('change', handlePayerSelector);
-      consigneeIsPayer.addEventListener('change', handlePayerSelector);
-      // -- Спрятать/показать плательщика
-      
-      const terminals = {"vvo":"пр-кт 100-летия Владивостока, 161А","uss":"ул Чичерина, 152","khb":"ул Восточное шоссе, 8Б","blg":"ул Чехова, 3","kms":"ул Лесозаводская, 6А"};
-      const places = {"vvo":"Владивосток","uss":"Уссурийск","khb":"Хабаровск","blg":"Благовещенск","kms":"Комсомольск-на-Амуре"};
-      
-      // Прием груза
-      const loadingPlace = form.querySelector('[name=loading-place]');
-      
-      const loadingPointTerminal = form.querySelector('[name=loading-point][value=loading-point-terminal]');
-      const loadingPointTerminalTitle = form.querySelector('.loading-point-terminal-title');
-      const loadingPointTerminalControl = form.querySelector('.loading-point-terminal-control');
-      
-      const loadingPointConsigner = form.querySelector('[name=loading-point][value=loading-point-consigner]');
-      const loadingPointConsignerAddress = form.querySelector('.loading-point-consigner-address');
-      const loadingPointConsignerAddressElement = form.querySelector('[name=loading-point-consigner-address]');
-      
-      const handleLoadingPointChange = (event) => {
-        const loadingPointConsignerEnabled = loadingPointConsigner.checked;
-        if (loadingPointConsignerEnabled) {
-          loadingPointConsignerAddress.hidden = false;
-        } else {
-          loadingPointConsignerAddress.hidden = true;
-        }
-      }
-      
-      loadingPlace.addEventListener('change', (event)=>{
-        const place = event.target.value;
-      
-        if (Object.keys(terminals).includes(place)) {
-          loadingPointTerminalTitle.textContent = `Терминал перевозчика: ${terminals[place]}`;
-          loadingPointTerminalControl.hidden = false;
-      
-          loadingPointConsignerAddressElement.value = places[place];
-        } else {
-          loadingPointTerminalTitle.textContent = `Терминал перевозчика`;
-          loadingPointTerminalControl.hidden = true;
-      
-          loadingPointTerminal.checked = false;
-          loadingPointConsigner.checked = true;
-          if (Object.values(places).includes(loadingPointConsignerAddressElement.value.trim())) {
-            loadingPointConsignerAddressElement.value = '';
-          };
-          handleLoadingPointChange();
-        }
-      });
-      
-      loadingPointConsigner.addEventListener('change', handleLoadingPointChange);
-      loadingPointTerminal.addEventListener('change', handleLoadingPointChange);
-      // -- Прием груза
-      
-      // Выдача груза
-      const unloadingPlace = form.querySelector('[name=unloading-place]');
-      
-      const unloadingPointTerminal = form.querySelector('[name=unloading-point][value=unloading-point-terminal]');
-      const unloadingPointTerminalTitle = form.querySelector('.unloading-point-terminal-title');
-      const unloadingPointTerminalControl = form.querySelector('.unloading-point-terminal-control');
-      
-      const unloadingPointConsigner = form.querySelector('[name=unloading-point][value=unloading-point-consigner]');
-      const unloadingPointConsignerAddress = form.querySelector('.unloading-point-consigner-address');
-      const unloadingPointConsignerAddressElement = form.querySelector('[name=unloading-point-consigner-address]');
-      
-      const handleunloadingPointChange = (event) => {
-        const unloadingPointConsignerEnabled = unloadingPointConsigner.checked;
-        if (unloadingPointConsignerEnabled) {
-          unloadingPointConsignerAddress.hidden = false;
-        } else {
-          unloadingPointConsignerAddress.hidden = true;
-        }
-      }
-      
-      unloadingPlace.addEventListener('change', (event)=>{
-        const place = event.target.value;
-      
-        if (Object.keys(terminals).includes(place)) {
-          unloadingPointTerminalTitle.textContent = `Терминал перевозчика: ${terminals[place]}`;
-          unloadingPointTerminalControl.hidden = false;
-      
-          unloadingPointConsignerAddressElement.value = places[place];
-        } else {
-          unloadingPointTerminalTitle.textContent = `Терминал перевозчика`;
-          unloadingPointTerminalControl.hidden = true;
-      
-          unloadingPointTerminal.checked = false;
-          unloadingPointConsigner.checked = true;
-          if (Object.values(places).includes(unloadingPointConsignerAddressElement.value.trim())) {
-            unloadingPointConsignerAddressElement.value = '';
-          };
-          handleunloadingPointChange();
-        }
-      });
-      
-      unloadingPointConsigner.addEventListener('change', handleunloadingPointChange);
-      unloadingPointTerminal.addEventListener('change', handleunloadingPointChange);
-      // -- Выдача груза
-    </script>
     <script src="bundle.js"></script>
   </body>
 </html>

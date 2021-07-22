@@ -94,6 +94,7 @@
                   <option value="kms">Комсомольск-на-Амуре</option>
                 </select>
               </div>
+              <p class="direction-error-message" hidden>По данному направлению автоматический расчет тарифа не предусмотрен.</p>
             </fieldset>
             <fieldset>
               <legend>
@@ -101,11 +102,11 @@
               </legend>
               <div class="control">
                 <label for="weight">Масса груза, килограммы</label>
-                <input id="weight" type="text" name="weight" inputmode="decimal">
+                <input id="weight" type="text" name="weight" inputmode="numeric">
               </div>
               <div class="control">
                 <label for="volume">Объем груза, кубометры</label>
-                <input id="volume" type="text" name="volume" inputmode="decimal">
+                <input id="volume" type="text" name="volume" inputmode="numeric">
               </div>
               <div class="control">
                 <p class="cargo-category">&nbsp;</p>
@@ -134,7 +135,6 @@
           </form>
           <script>
             (()=>{
-              // TODO Валидация данных пока не сделана
               const isNumber = (value) => typeof value === 'number' && isFinite(value);
               const form = document.forms.calculator;
             
@@ -192,9 +192,9 @@
                 const cargoCategory = detectCargoCategory(weight, volume);
                 if (!cargoCategory) return null;
             
-                const isICEngine = params.includes('ic-engine');
-                const isFridge = params.includes('fridge');
-                const isOversized = isICEngine || params.includes('oversized');
+                const isICEngine = (params?.includes('ic-engine')) ?? false;
+                const isFridge = (params?.includes('fridge')) ?? false;
+                const isOversized = (isICEngine || params?.includes('oversized')) ?? false;
             
                 let cargoPrices, cargoIndicator, limit;
                 switch (cargoCategory) {
@@ -247,7 +247,7 @@
               const handleFormChange = (event) => {
                 const form = event.currentTarget;
                 const data = new FormData(form);
-                // console.log([...data.entries()]);
+            
                 const weight = parseFloat((data.get('weight') ?? '').replace(',', '.'));
                 const volume = parseFloat((data.get('volume') ?? '').replace(',', '.'));
             
@@ -258,6 +258,12 @@
                 const origin = data.get('origin');
                 const destination = data.get('destination');
             
+                const directionIsSelected = Boolean(origin && destination);
+                const directionIsValid = Boolean(processCalc({weight: 1, volume: 1, origin, destination}));
+            
+                const directionErrorMessageElement = form.querySelector('.direction-error-message');
+                directionErrorMessageElement.hidden = !directionIsSelected || directionIsValid;
+            
                 const amount = processCalc({weight, volume, params: data.getAll('params[]'), origin, destination});
             
                 form.querySelector('.result').innerHTML = amount === null ? '<не рассчитано>' : `${parseFloat(amount.toFixed(2))} рублей`;
@@ -266,7 +272,8 @@
               form.addEventListener('change', handleFormChange);
               form.addEventListener('submit', (event) => {
                 console.log('submit', event);
-              })
+              });
+            
             })();
           </script>
         </article>
