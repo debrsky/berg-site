@@ -95,13 +95,6 @@ block content
         .control
           label(for="consigner-contact-tel") Телефон
           input#consigner-contact-tel(type="tel", name="consigner-contact-tel")
-          script.
-            const consignerContactTel = document.getElementById('consigner-contact-tel');
-            new IMask(consignerContactTel, {
-              mask: '+{7}0000000000',
-              lazy: false,
-              placeholderChar: '_'
-            });
 
       .control
         input#consigner-is-payer(type="checkbox", name="consigner-is-payer", value="consigner-is-payer")
@@ -185,13 +178,6 @@ block content
         .control
           label(for="consignee-contact-tel") Телефон
           input#consignee-contact-tel(type="tel", name="consignee-contact-tel")
-          script.
-            const consigneeContactTel = document.getElementById('consignee-contact-tel');
-            new IMask(consigneeContactTel, {
-              mask: '+{7}0000000000',
-              lazy: false,
-              placeholderChar: '_'
-            });
 
       .control
         input#consignee-is-payer(type="checkbox", name="consignee-is-payer", value="consignee-is-payer")
@@ -275,13 +261,6 @@ block content
         .control
           label(for="payer-contact-tel") Телефон
           input#payer-contact-tel(type="tel", name="payer-contact-tel")
-          script.
-            const payerContactTel = document.getElementById('payer-contact-tel');
-            new IMask(payerContactTel, {
-              mask: '+{7}0000000000',
-              lazy: false,
-              placeholderChar: '_'
-            });
 
     section
       h3.h3 Груз
