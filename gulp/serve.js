@@ -34,7 +34,11 @@ module.exports = function serve() {
   gulp.watch(`src/**/*.html`, gulp.series(html, readyFullReload));
   gulp.watch(`src/**/*.pug`, gulp.series(pug2html, readyFullReload));
 
-  gulp.watch(`src/js/**/*.js`, gulp.series(script, readyFullReload));
+  gulp.watch(`src/js/index.js`, gulp.series(script, readyFullReload));
+  gulp.watch(
+    [`src/**/*.js`, `!src/js/index.js`],
+    gulp.series(copy, readyFullReload)
+  );
   gulp.watch(`src/img/**/!(*.svg)`, gulp.series(copy, readyFullReload));
   gulp.watch(
     `src/img/**/*.svg`,

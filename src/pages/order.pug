@@ -1,266 +1,138 @@
 extends ../pug/layout
 
+mixin counterpartyRole(role)
+  -
+    const roles = {
+      consigner: 'Грузоотправитель',
+      consignee: 'Грузополучатель',
+      payer: 'Плательщик'
+    };
+
+  h3.h3=roles[role]
+  .control-group(style="display: flex;")
+    .control
+      input(id=`${role}-type-legal-entity`, type="radio", name=`${role}-type`, value="legal-entity")
+      label(for=`${role}-type-legal-entity`) Организация или ИП
+    .control
+      input(id=`${role}-type-private-person`, type="radio", name=`${role}-type`, value="private-person")
+      label(for=`${role}-type-private-person`) Частное лицо
+
+  .control-group(class=`group-${role}-legal-entity`, hidden)
+    .control
+      label(for=`${role}`) Организация или ИП
+      input(id=`${role}`, type="text", name=`${role}`, placeholder="название, адрес, ИНН или ОГРН")
+    .control
+      label(for=`${role}-OGRN`) ОГРН
+      input(id=`${role}-OGRN`, type="text", name=`${role}-OGRN`)
+    .control
+      label(for=`${role}-INN`) ИНН
+      input(id=`${role}-INN`, type="text", name=`${role}-INN`)
+    .control
+      label(for=`${role}-KPP`) КПП
+      input(id=`${role}-KPP`, type="text", name=`${role}-KPP`)
+    .control
+      label
+        span Юридический адрес
+        textarea(id=`${role}-address`, name=`${role}-address`, data-suggestion-type="address")
+
+  .control-group(class=`group-${role}-private-person`, hidden)
+    .control
+      label(for=`${role}-fio`) ФИО
+      input(id=`${role}-fio`, type="text", name=`${role}-fio`, data-suggestion-type="name")
+
+    .control
+      label(for=`${role}-tel`) Телефон
+      input(id=`${role}-tel`, type="tel", name=`${role}-tel`)
+
+  case role
+    when 'consigner'
+    when 'consignee'
+      .control
+        input(id=`${role}-is-payer`, type="checkbox", name=`${role}-is-payer`, value=`${role}-is-payer`)
+        label(for=`${role}-is-payer`) #{roles[role]} является плательщиком
+
+mixin cargoOperation(operation)
+  h4.h4
+    case operation
+      when 'loading'
+        | Прием груза
+      when 'unloading'
+        | Выдача груза
+
+  .control
+    label(for=`${operation}-contact-fio`) ФИО контактного лица
+    input(id=`${operation}-contact-fio`, type="text", name=`${operation}-contact-fio`, data-suggestion-type="name", required)
+  .control
+    label(for=`${operation}-contact-tel`) Телефон контактного лица
+    input(id=`${operation}-contact-tel`, type="tel", name=`${operation}-contact-tel`, required)
+  label.control
+    span Дата
+    |
+    input(id=`${operation}-date`, type="date", name=`${operation}-date`)
+  label.control
+    span Время
+    |
+    input(id=`${operation}-time`, type="time", name=`${operation}-time`)
+  .control
+    label(for=`${operation}-place`)
+      case operation
+        when 'loading'
+          | Место приема груза
+        when 'unloading'
+          | Место выдачи груза
+
+    select(id=`${operation}-place`, name=`${operation}-place`)
+      option(selected, disabled, value) &lt;не выбрано&gt;
+      each placeName, place in places
+        option(value=place)=placeName
+      option(value="other") Другой город
+
+  .control-group
+    .control(class=`${operation}-terminal-control`)
+      input(id=`${operation}-point-terminal`, type="radio", name=`${operation}-point`, value=`${operation}-point-terminal`)
+      label(class=`${operation}-point-terminal-title`, for=`${operation}-point-terminal`) Терминал перевозчика
+    .control
+      input(id=`${operation}-point-client`, type="radio", name=`${operation}-point`, value=`${operation}-point-client`)
+      label(for=`${operation}-point-client`) Подача машины
+
+  .control-group(class=`group-${operation}-point-client-address`, hidden)
+    label.control
+      span
+        case operation
+          when 'loading'
+            | Адрес погрузки
+          when 'unloading'
+            | Адрес выгрузки
+      textarea(id=`${operation}-point-client-address`, name=`${operation}-point-client-address`, data-suggestion-type="address")
+
 block head
-  script(src="vendor/imask/imask.min.js")
   script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   link(href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css", rel="stylesheet")
   script(src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js")
+  script(src="vendor/imask/imask.min.js")
+
+  include ../pug/tariffs
+  script.
+    const terminals = !{JSON.stringify(tariffs.terminals)};
+    const places = !{JSON.stringify(tariffs.places)};
+  script(src="js/order.js" defer)
 
 block content
-  include ../pug/tariffs
   -
     const places = tariffs.places;
 
   form.form(name="order", onsubmit="alert('Заявка отправлена.'); return false;")
     h2.h2 Заявка на грузоперевозку
     .control
-      label(for="loading-date") Дата отправления
-      input#loading-date(type="date", name="loading-date")
+      label(for="order-loading-date") Дата отправления
+      input#order-loading-date(type="date", name="order-loading-date")
       p Заявка на следующие сутки принимается до #[time 16:00]
     section
-      h3.h3 Грузоотправитель
-      .control-group
-        .control
-          input#consigner-type-legal-entity(type="radio", name="consigner-type", value="legal-entity")
-          label(for="consigner-type-legal-entity") Организация или ИП
-        .control
-          input#consigner-type-private-person(type="radio", name="consigner-type", value="private-person")
-          label(for="consigner-type-private-person") Частное лицо
-
-      .control-group.consigner-legal-entity(hidden)
-        .control
-          label(for="consigner") Организация или ИП
-          input#consigner(type="text", name="consigner", placeholder="название, адрес, ИНН или ОГРН")
-          script.
-            $("#consigner").suggestions({
-                token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                type: "PARTY",
-                onSelect: function(suggestion) {
-                    console.log(suggestion);
-
-                    const consigner = document.getElementById('consigner');
-                    const consignerOGRN = document.getElementById('consigner-OGRN');
-                    const consignerINN = document.getElementById('consigner-INN');
-                    const consignerKPP = document.getElementById('consigner-KPP');
-                    const consignerAddress = document.getElementById('consigner-address');
-
-                    if (suggestion.data.type === 'INDIVIDUAL') {
-                      consignerOGRN.value = suggestion.data.ogrn;
-                      consignerINN.value = suggestion.data.inn;
-                      consignerKPP.value = '';
-                      consignerAddress.value = suggestion.data.address.value;
-                    };
-
-                    if (suggestion.data.type === 'LEGAL') {
-                      consignerOGRN.value = suggestion.data.ogrn;
-                      consignerINN.value = suggestion.data.inn;
-                      consignerKPP.value = suggestion.data.kpp;
-                      consignerAddress.value = suggestion.data.address.value;
-                    };
-
-                }
-            });
-        .control
-          label(for="consigner-OGRN") ОГРН
-          input#consigner-OGRN(type="text", name="consigner-OGRN")
-        .control
-          label(for="consigner-INN") ИНН
-          input#consigner-INN(type="text", name="consigner-INN")
-        .control
-          label(for="consigner-KPP") КПП
-          input#consigner-KPP(type="text", name="consigner-KPP")
-        .control
-          label
-            span Адрес
-            textarea#consigner-address(name="consigner-address")
-            script.
-              $("#consigner-address").suggestions({
-                  token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                  type: "ADDRESS"
-              });
-
-      .control-group.consigner-private-person(hidden)
-        .control
-          label(for="consigner-contact-fio") ФИО
-          input#consigner-contact-fio(type="text", name="consigner-contact-fio")
-          script.
-            $("#consigner-contact-fio").suggestions({
-                token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                type: "NAME",
-                onSelect: function(suggestion) {
-                    console.log(suggestion);
-                }
-            });
-
-        .control
-          label(for="consigner-contact-tel") Телефон
-          input#consigner-contact-tel(type="tel", name="consigner-contact-tel")
-
-      .control
-        input#consigner-is-payer(type="checkbox", name="consigner-is-payer", value="consigner-is-payer")
-        label(for="consigner-is-payer") Грузоотправитель является плательщиком
-
+      +counterpartyRole('consigner')
     section
-      h3.h3 Грузополучатель
-      .control-group
-        .control
-          input#consignee-type-legal-entity(type="radio", name="consignee-type", value="legal-entity")
-          label(for="consignee-type-legal-entity") Организация или ИП
-        .control
-          input#consignee-type-private-person(type="radio", name="consignee-type", value="private-person")
-          label(for="consignee-type-private-person") Частное лицо
-
-      .control-group.consignee-legal-entity(hidden)
-        .control
-          label(for="consignee") Организация или ИП
-          input#consignee(type="text", name="consignee", placeholder="название, адрес, ИНН или ОГРН")
-          script.
-            $("#consignee").suggestions({
-                token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                type: "PARTY",
-                onSelect: function(suggestion) {
-                    console.log(suggestion);
-
-                    const consignee = document.getElementById('consignee');
-                    const consigneeOGRN = document.getElementById('consignee-OGRN');
-                    const consigneeINN = document.getElementById('consignee-INN');
-                    const consigneeKPP = document.getElementById('consignee-KPP');
-                    const consigneeAddress = document.getElementById('consignee-address');
-
-                    if (suggestion.data.type === 'INDIVIDUAL') {
-                      consigneeOGRN.value = suggestion.data.ogrn;
-                      consigneeINN.value = suggestion.data.inn;
-                      consigneeKPP.value = '';
-                      consigneeAddress.value = suggestion.data.address.value;
-                    };
-
-                    if (suggestion.data.type === 'LEGAL') {
-                      consigneeOGRN.value = suggestion.data.ogrn;
-                      consigneeINN.value = suggestion.data.inn;
-                      consigneeKPP.value = suggestion.data.kpp;
-                      consigneeAddress.value = suggestion.data.address.value;
-                    };
-
-                }
-            });
-        .control
-          label(for="consignee-OGRN") ОГРН
-          input#consignee-OGRN(type="text", name="consignee-OGRN")
-        .control
-          label(for="consignee-INN") ИНН
-          input#consignee-INN(type="text", name="consignee-INN")
-        .control
-          label(for="consignee-KPP") КПП
-          input#consignee-KPP(type="text", name="consignee-KPP")
-        .control
-          label
-            span Адрес
-            textarea#consignee-address(name="consignee-address")
-            script.
-              $("#consignee-address").suggestions({
-                  token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                  type: "ADDRESS"
-              });
-
-      .control-group.consignee-private-person(hidden)
-        .control
-          label(for="consignee-contact-fio") ФИО
-          input#consignee-contact-fio(type="text", name="consignee-contact-fio")
-          script.
-            $("#consignee-contact-fio").suggestions({
-                token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                type: "NAME",
-                onSelect: function(suggestion) {
-                    console.log(suggestion);
-                }
-            });
-
-        .control
-          label(for="consignee-contact-tel") Телефон
-          input#consignee-contact-tel(type="tel", name="consignee-contact-tel")
-
-      .control
-        input#consignee-is-payer(type="checkbox", name="consignee-is-payer", value="consignee-is-payer")
-        label(for="consignee-is-payer") Грузополучатель является плательщиком
-
-    section.payer
-      h3.h3 Плательщик
-      .control-group
-        .control
-          input#payer-type-legal-entity(type="radio", name="payer-type", value="legal-entity")
-          label(for="payer-type-legal-entity") Организация или ИП
-        .control
-          input#payer-type-private-person(type="radio", name="payer-type", value="private-person")
-          label(for="payer-type-private-person") Частное лицо
-
-      .control-group.payer-legal-entity(hidden)
-        .control
-          label(for="payer") Организация или ИП
-          input#payer(type="text", name="payer", placeholder="название, адрес, ИНН или ОГРН")
-          script.
-            $("#payer").suggestions({
-                token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                type: "PARTY",
-                onSelect: function(suggestion) {
-                    console.log(suggestion);
-
-                    const payer = document.getElementById('payer');
-                    const payerOGRN = document.getElementById('payer-OGRN');
-                    const payerINN = document.getElementById('payer-INN');
-                    const payerKPP = document.getElementById('payer-KPP');
-                    const payerAddress = document.getElementById('payer-address');
-
-                    if (suggestion.data.type === 'INDIVIDUAL') {
-                      payerOGRN.value = suggestion.data.ogrn;
-                      payerINN.value = suggestion.data.inn;
-                      payerKPP.value = '';
-                      payerAddress.value = suggestion.data.address.value;
-                    };
-
-                    if (suggestion.data.type === 'LEGAL') {
-                      payerOGRN.value = suggestion.data.ogrn;
-                      payerINN.value = suggestion.data.inn;
-                      payerKPP.value = suggestion.data.kpp;
-                      payerAddress.value = suggestion.data.address.value;
-                    };
-
-                }
-            });
-        .control
-          label(for="payer-OGRN") ОГРН
-          input#payer-OGRN(type="text", name="payer-OGRN")
-        .control
-          label(for="payer-INN") ИНН
-          input#payer-INN(type="text", name="payer-INN")
-        .control
-          label(for="payer-KPP") КПП
-          input#payer-KPP(type="text", name="payer-KPP")
-        .control
-          label
-            span Адрес
-            textarea#payer-address(name="payer-address")
-            script.
-              $("#payer-address").suggestions({
-                  token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                  type: "ADDRESS"
-              });
-
-      .control-group.payer-private-person(hidden)
-        .control
-          label(for="payer-contact-fio") ФИО
-          input#payer-contact-fio(type="text", name="payer-contact-fio")
-          script.
-            $("#payer-contact-fio").suggestions({
-                token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                type: "NAME",
-                onSelect: function(suggestion) {
-                    console.log(suggestion);
-                }
-            });
-
-        .control
-          label(for="payer-contact-tel") Телефон
-          input#payer-contact-tel(type="tel", name="payer-contact-tel")
+      +counterpartyRole('consignee')
+    section.section-payer
+      +counterpartyRole('payer')
 
     section
       h3.h3 Груз
@@ -284,81 +156,12 @@ block content
         input#cargo-value(type="text", name="cargo-value")
 
     section
-      h3.h3 Место приема/выдачи груза
-      section
-        h4.h4 Прием груза
-        .control
-          label(for="loading-place") Место приема груза
-          select#loading-place(name="loading-place")
-            option(selected, disabled, value) &lt;не выбрано&gt;
-            each placeName, place in places
-              option(value=place)=placeName
-            option(value="other") Другой город
-
-        .control-group
-          .control.loading-point-terminal-control
-            input#loading-point-terminal(type="radio", name="loading-point", value="loading-point-terminal")
-            label.loading-point-terminal-title(for="loading-point-terminal") Терминал перевозчика
-          .control
-            input#loading-point-consigner(type="radio", name="loading-point", value="loading-point-consigner")
-            label(for="loading-point-consigner") Подача машины
-
-        .control-group.loading-point-consigner-address(hidden)
-          label.control
-            span Адрес подачи машины:
-            textarea#loading-point-consigner-address(name="loading-point-consigner-address")
-            script.
-              $("#loading-point-consigner-address").suggestions({
-                  token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                  type: "ADDRESS"
-              });
-
-          label
-            span Дата
-            |
-            input#loading-point-consigner-delivery-date(type="date", name="loading-point-consigner-delivery-date")
-          label
-            span Время
-            |
-            input#loading-point-consigner-delivery-time(type="time", name="loading-point-consigner-delivery-time")
+      h3.h3 Прием и выдача груза
 
       section
-        h4.h4 Выдача груза
-
-        .control
-          label(for="unloading-place") Место приема груза
-          select#unloading-place(name="unloading-place")
-            option(selected, disabled, value) &lt;не выбрано&gt;
-            each placeName, place in places
-              option(value=place)=placeName
-            option(value="other") Другой город
-
-        .control-group
-          .control.unloading-point-terminal-control
-            input#unloading-point-terminal(type="radio", name="unloading-point", value="unloading-point-terminal")
-            label.unloading-point-terminal-title(for="unloading-point-terminal") Терминал перевозчика
-          .control
-            input#unloading-point-consigner(type="radio", name="unloading-point", value="unloading-point-consigner")
-            label(for="unloading-point-consigner") Подача машины
-
-        .control-group.unloading-point-consigner-address(hidden)
-          label.control
-            span Адрес подачи машины:
-            textarea#unloading-point-consigner-address(name="unloading-point-consigner-address")
-            script.
-              $("#unloading-point-consigner-address").suggestions({
-                  token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                  type: "ADDRESS"
-              });
-
-          label
-            span Дата
-            |
-            input#unloading-point-consigner-delivery-date(type="date", name="unloading-point-consigner-delivery-date")
-          label
-            span Время
-            |
-            input#unloading-point-consigner-delivery-time(type="time", name="unloading-point-consigner-delivery-time")
+        +cargoOperation('loading')
+      section
+        +cargoOperation('unloading')
 
       section
         h4.h4
@@ -387,7 +190,7 @@ block content
       h3.h3 Заявку составил
       .control
         label(for="order-author-fio") ФИО
-        input#order-author-fio(type="text", name="order-author-fio")
+        input#order-author-fio(type="text", name="order-author-fio", required)
         script.
           $("#order-author-fio").suggestions({
               token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
@@ -402,14 +205,7 @@ block content
         input#order-author-email(type="email", name="order-author-email")
       .control
         label(for="order-author-tel") Телефон
-        input#order-author-tel(type="tel", name="order-author-tel")
-        script.
-          const orderAuthorTel = document.getElementById('order-author-tel');
-          new IMask(orderAuthorTel, {
-            mask: '+{7}0000000000',
-            lazy: false,
-            placeholderChar: '_'
-          });
+        input#order-author-tel(type="tel", name="order-author-tel", required)
 
     section
       h3.h3 Отправка заявки
@@ -427,189 +223,3 @@ block content
         label(for="accept") Я ознакомился с условиями перевозки грузов и тарифами, с обработкой персональных данных согласен.
 
       button(type="submit") Отправить заявку
-
-block scripts
-  script.
-    const form = document.forms.order;
-
-    // Грузоотправитель
-    const consignerTypeLegalEntity = form.querySelector('[name=consigner-type][value=legal-entity]');
-    const consignerTypePrivatePerson = form.querySelector('[name=consigner-type][value=private-person]');
-
-    const handleConsignerTypeChange = (event) => {
-      const legalEntityElement = form.querySelector('.consigner-legal-entity');
-      const privatePersonElement = form.querySelector('.consigner-private-person');
-
-      const formData = new FormData(form);
-      const consignerType = formData.get('consigner-type');
-
-      legalEntityElement.setAttribute('hidden', '');
-      privatePersonElement.setAttribute('hidden', '');
-
-      if (consignerType === 'legal-entity') legalEntityElement.removeAttribute('hidden');
-      if (consignerType === 'private-person') privatePersonElement.removeAttribute('hidden');
-    };
-
-    consignerTypeLegalEntity.addEventListener('change', handleConsignerTypeChange);
-    consignerTypePrivatePerson.addEventListener('change', handleConsignerTypeChange);
-    // -- Грузоотправитель
-
-    // Грузополучатель
-    const consigneeTypeLegalEntity = form.querySelector('[name=consignee-type][value=legal-entity]');
-    const consigneeTypePrivatePerson = form.querySelector('[name=consignee-type][value=private-person]');
-
-    const handleConsigneeTypeChange = (event) => {
-      const legalEntityElement = form.querySelector('.consignee-legal-entity');
-      const privatePersonElement = form.querySelector('.consignee-private-person');
-
-      const formData = new FormData(form);
-      const consigneeType = formData.get('consignee-type');
-
-      legalEntityElement.setAttribute('hidden', '');
-      privatePersonElement.setAttribute('hidden', '');
-
-      if (consigneeType === 'legal-entity') legalEntityElement.removeAttribute('hidden');
-      if (consigneeType === 'private-person') privatePersonElement.removeAttribute('hidden');
-    };
-
-    consigneeTypeLegalEntity.addEventListener('change', handleConsigneeTypeChange);
-    consigneeTypePrivatePerson.addEventListener('change', handleConsigneeTypeChange);
-    // -- Грузополучатель
-
-    // Плательщик
-    const payerTypeLegalEntity = form.querySelector('[name=payer-type][value=legal-entity]');
-    const payerTypePrivatePerson = form.querySelector('[name=payer-type][value=private-person]');
-
-    const handlePayerTypeChange = (event) => {
-      const legalEntityElement = form.querySelector('.payer-legal-entity');
-      const privatePersonElement = form.querySelector('.payer-private-person');
-
-      const formData = new FormData(form);
-      const payerType = formData.get('payer-type');
-
-      legalEntityElement.setAttribute('hidden', '');
-      privatePersonElement.setAttribute('hidden', '');
-
-      if (payerType === 'legal-entity') legalEntityElement.removeAttribute('hidden');
-      if (payerType === 'private-person') privatePersonElement.removeAttribute('hidden');
-    };
-
-    payerTypeLegalEntity.addEventListener('change', handlePayerTypeChange);
-    payerTypePrivatePerson.addEventListener('change', handlePayerTypeChange);
-    // -- Плательщик
-
-    // Спрятать/показать плательщика
-    const consignerIsPayer = form.querySelector('[name="consigner-is-payer"]');
-    const consigneeIsPayer = form.querySelector('[name="consignee-is-payer"]');
-    const payer = form.querySelector('section.payer');
-
-    const handlePayerSelector = (event) => {
-      if (event.target.checked) {
-        if (event.target === consignerIsPayer) consigneeIsPayer.checked = false;
-        if (event.target === consigneeIsPayer) consignerIsPayer.checked = false;
-      }
-
-      if (consignerIsPayer.checked || consigneeIsPayer.checked) {
-        payer.setAttribute('hidden', '');
-        return;
-      }
-
-      payer.removeAttribute('hidden');
-    }
-
-    consignerIsPayer.addEventListener('change', handlePayerSelector);
-    consigneeIsPayer.addEventListener('change', handlePayerSelector);
-    // -- Спрятать/показать плательщика
-
-    const terminals = !{JSON.stringify(tariffs.terminals)};
-    const places = !{JSON.stringify(tariffs.places)};
-
-    // Прием груза
-    const loadingPlace = form.querySelector('[name=loading-place]');
-
-    const loadingPointTerminal = form.querySelector('[name=loading-point][value=loading-point-terminal]');
-    const loadingPointTerminalTitle = form.querySelector('.loading-point-terminal-title');
-    const loadingPointTerminalControl = form.querySelector('.loading-point-terminal-control');
-
-    const loadingPointConsigner = form.querySelector('[name=loading-point][value=loading-point-consigner]');
-    const loadingPointConsignerAddress = form.querySelector('.loading-point-consigner-address');
-    const loadingPointConsignerAddressElement = form.querySelector('[name=loading-point-consigner-address]');
-
-    const handleLoadingPointChange = (event) => {
-      const loadingPointConsignerEnabled = loadingPointConsigner.checked;
-      if (loadingPointConsignerEnabled) {
-        loadingPointConsignerAddress.hidden = false;
-      } else {
-        loadingPointConsignerAddress.hidden = true;
-      }
-    }
-
-    loadingPlace.addEventListener('change', (event)=>{
-      const place = event.target.value;
-
-      if (Object.keys(terminals).includes(place)) {
-        loadingPointTerminalTitle.textContent = `Терминал перевозчика: ${terminals[place]}`;
-        loadingPointTerminalControl.hidden = false;
-
-        loadingPointConsignerAddressElement.value = places[place];
-      } else {
-        loadingPointTerminalTitle.textContent = `Терминал перевозчика`;
-        loadingPointTerminalControl.hidden = true;
-
-        loadingPointTerminal.checked = false;
-        loadingPointConsigner.checked = true;
-        if (Object.values(places).includes(loadingPointConsignerAddressElement.value.trim())) {
-          loadingPointConsignerAddressElement.value = '';
-        };
-        handleLoadingPointChange();
-      }
-    });
-
-    loadingPointConsigner.addEventListener('change', handleLoadingPointChange);
-    loadingPointTerminal.addEventListener('change', handleLoadingPointChange);
-    // -- Прием груза
-
-    // Выдача груза
-    const unloadingPlace = form.querySelector('[name=unloading-place]');
-
-    const unloadingPointTerminal = form.querySelector('[name=unloading-point][value=unloading-point-terminal]');
-    const unloadingPointTerminalTitle = form.querySelector('.unloading-point-terminal-title');
-    const unloadingPointTerminalControl = form.querySelector('.unloading-point-terminal-control');
-
-    const unloadingPointConsigner = form.querySelector('[name=unloading-point][value=unloading-point-consigner]');
-    const unloadingPointConsignerAddress = form.querySelector('.unloading-point-consigner-address');
-    const unloadingPointConsignerAddressElement = form.querySelector('[name=unloading-point-consigner-address]');
-
-    const handleunloadingPointChange = (event) => {
-      const unloadingPointConsignerEnabled = unloadingPointConsigner.checked;
-      if (unloadingPointConsignerEnabled) {
-        unloadingPointConsignerAddress.hidden = false;
-      } else {
-        unloadingPointConsignerAddress.hidden = true;
-      }
-    }
-
-    unloadingPlace.addEventListener('change', (event)=>{
-      const place = event.target.value;
-
-      if (Object.keys(terminals).includes(place)) {
-        unloadingPointTerminalTitle.textContent = `Терминал перевозчика: ${terminals[place]}`;
-        unloadingPointTerminalControl.hidden = false;
-
-        unloadingPointConsignerAddressElement.value = places[place];
-      } else {
-        unloadingPointTerminalTitle.textContent = `Терминал перевозчика`;
-        unloadingPointTerminalControl.hidden = true;
-
-        unloadingPointTerminal.checked = false;
-        unloadingPointConsigner.checked = true;
-        if (Object.values(places).includes(unloadingPointConsignerAddressElement.value.trim())) {
-          unloadingPointConsignerAddressElement.value = '';
-        };
-        handleunloadingPointChange();
-      }
-    });
-
-    unloadingPointConsigner.addEventListener('change', handleunloadingPointChange);
-    unloadingPointTerminal.addEventListener('change', handleunloadingPointChange);
-    // -- Выдача груза
