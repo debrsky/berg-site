@@ -60,7 +60,8 @@ block content
         legend
           h3.h3 Результат расчета
         .control
-          p.result.h1(style="font-size: xx-large;", aria-live="assertive") &nbsp;
+          p.h1(style="font-size: xx-large;")
+            output(name="result", aria-live="assertive")
 
     script.
       (()=>{
@@ -195,7 +196,8 @@ block content
 
           const amount = processCalc({weight, volume, params: data.getAll('params[]'), origin, destination});
 
-          form.querySelector('.result').innerHTML = amount === null ? '<не рассчитано>' : `${parseFloat(amount.toFixed(2))} рублей`;
+          const resultElement = form.elements.result;
+          resultElement.value = amount === null ? '<не рассчитано>' : `${parseFloat(amount.toFixed(2))} рублей`;
         };
 
         form.addEventListener('change', handleFormChange);
