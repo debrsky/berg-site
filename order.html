@@ -214,14 +214,18 @@
                   <textarea id="payer-address" name="payer-address" data-suggestion-type="address"></textarea>
                 </label>
               </div>
-              <div class="control">
-                <label for="payer-contact-fio">Контактное лицо</label>
-                <input id="payer-contact-fio" type="text" name="payer-contact-fio" data-suggestion-type="name"/>
-              </div>
-              <div class="control">
-                <label for="payer-contact-tel">Телефон</label>
-                <input id="payer-contact-tel" type="tel" name="payer-contact-tel"/>
-              </div>
+              <fieldset>
+                <legend>Контактное лицо по вопросам оплаты перевозки груза
+                </legend>
+                <div class="control">
+                  <label for="payer-contact-fio">ФИО</label>
+                  <input id="payer-contact-fio" type="text" name="payer-contact-fio" data-suggestion-type="name"/>
+                </div>
+                <div class="control">
+                  <label for="payer-contact-tel">Телефон</label>
+                  <input id="payer-contact-tel" type="tel" name="payer-contact-tel"/>
+                </div>
+              </fieldset>
             </div>
             <div class="control-group group-payer-private-person" hidden="hidden">
               <div class="control">
@@ -262,26 +266,30 @@
             </div>
           </section>
           <section>
-            <h3 class="h3">Прием и выдача груза</h3>
+            <h3 class="h3">Отправление и получение груза</h3>
             <section>
-              <h4 class="h4">Прием груза
+              <h4 class="h4">Отправление груза
               </h4>
-              <div class="control">
-                <label for="loading-contact-fio">ФИО контактного лица</label>
-                <input id="loading-contact-fio" type="text" name="loading-contact-fio" data-suggestion-type="name" required="required"/>
-              </div>
-              <div class="control">
-                <label for="loading-contact-tel">Телефон контактного лица</label>
-                <input id="loading-contact-tel" type="tel" name="loading-contact-tel" required="required"/>
-              </div>
+              <fieldset>
+                <legend>Контактное лицо по вопросам отправления груза грузоотправителем
+                </legend>
+                <div class="control">
+                  <label for="consigner-contact-fio">ФИО</label>
+                  <input id="consigner-contact-fio" type="text" name="consigner-contact-fio" data-suggestion-type="name"/>
+                </div>
+                <div class="control">
+                  <label for="consigner-contact-tel">Телефон</label>
+                  <input id="consigner-contact-tel" type="tel" name="consigner-contact-tel"/>
+                </div>
+              </fieldset>
               <label class="control"><span>Дата</span>
                 <input id="loading-date" type="date" name="loading-date"/>
               </label>
               <label class="control"><span>Время</span>
-                <input id="loading-time" type="time" name="loading-time"/>
+                <input id="loading-time" type="text" name="loading-time"/>
               </label>
               <div class="control">
-                <label for="loading-place">Место приема груза
+                <label for="loading-place">Место отправления груза
                 </label>
                 <select id="loading-place" name="loading-place">
                   <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
@@ -292,6 +300,9 @@
                   <option value="kms">Комсомольск-на-Амуре</option>
                   <option value="other">Другой город</option>
                 </select>
+                <p class="place-point-client-message">Для подачи машины в город Артем выберите 
+                  <q>Владивосток</q>.
+                </p>
               </div>
               <div class="control-group">
                 <div class="control loading-terminal-control">
@@ -302,32 +313,34 @@
                   <input id="loading-point-client" type="radio" name="loading-point" value="loading-point-client"/>
                   <label for="loading-point-client">Подача машины</label>
                 </div>
+                <div class="control">
+                  <input id="loading-point-pickup" type="radio" name="loading-point" value="loading-point-pickup"/>
+                  <label for="loading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
+                </div>
               </div>
               <div class="control-group group-loading-point-client-address" hidden="hidden">
-                <label class="control"><span>Адрес погрузки</span>
+                <label class="control"><span>Адрес передачи груза</span>
                   <textarea id="loading-point-client-address" name="loading-point-client-address" data-suggestion-type="address"></textarea>
                 </label>
               </div>
             </section>
             <section>
-              <h4 class="h4">Выдача груза
+              <h4 class="h4">Получение груза
               </h4>
+              <fieldset>
+                <legend>Контактное лицо по вопросам получения груза грузополучателем
+                </legend>
+                <div class="control">
+                  <label for="consignee-contact-fio">ФИО</label>
+                  <input id="consignee-contact-fio" type="text" name="consignee-contact-fio" data-suggestion-type="name"/>
+                </div>
+                <div class="control">
+                  <label for="consignee-contact-tel">Телефон</label>
+                  <input id="consignee-contact-tel" type="tel" name="consignee-contact-tel"/>
+                </div>
+              </fieldset>
               <div class="control">
-                <label for="unloading-contact-fio">ФИО контактного лица</label>
-                <input id="unloading-contact-fio" type="text" name="unloading-contact-fio" data-suggestion-type="name" required="required"/>
-              </div>
-              <div class="control">
-                <label for="unloading-contact-tel">Телефон контактного лица</label>
-                <input id="unloading-contact-tel" type="tel" name="unloading-contact-tel" required="required"/>
-              </div>
-              <label class="control"><span>Дата</span>
-                <input id="unloading-date" type="date" name="unloading-date"/>
-              </label>
-              <label class="control"><span>Время</span>
-                <input id="unloading-time" type="time" name="unloading-time"/>
-              </label>
-              <div class="control">
-                <label for="unloading-place">Место выдачи груза
+                <label for="unloading-place">Место получения груза
                 </label>
                 <select id="unloading-place" name="unloading-place">
                   <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
@@ -338,6 +351,9 @@
                   <option value="kms">Комсомольск-на-Амуре</option>
                   <option value="other">Другой город</option>
                 </select>
+                <p class="place-point-client-message">Для подачи машины в город Артем выберите 
+                  <q>Владивосток</q>.
+                </p>
               </div>
               <div class="control-group">
                 <div class="control unloading-terminal-control">
@@ -348,9 +364,13 @@
                   <input id="unloading-point-client" type="radio" name="unloading-point" value="unloading-point-client"/>
                   <label for="unloading-point-client">Подача машины</label>
                 </div>
+                <div class="control">
+                  <input id="unloading-point-pickup" type="radio" name="unloading-point" value="unloading-point-pickup"/>
+                  <label for="unloading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
+                </div>
               </div>
               <div class="control-group group-unloading-point-client-address" hidden="hidden">
-                <label class="control"><span>Адрес выгрузки</span>
+                <label class="control"><span>Адрес передачи груза</span>
                   <textarea id="unloading-point-client-address" name="unloading-point-client-address" data-suggestion-type="address"></textarea>
                 </label>
               </div>
