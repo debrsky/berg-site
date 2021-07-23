@@ -1,5 +1,23 @@
 extends ../pug/layout
 
+mixin contact(role)
+  fieldset
+    legend
+      case role
+        when 'consigner'
+          | Контактное лицо по вопросам отправления груза грузоотправителем
+        when 'consignee'
+          | Контактное лицо по вопросам получения груза грузополучателем
+        when 'payer'
+          | Контактное лицо по вопросам оплаты перевозки груза
+
+    .control
+      label(for=`${role}-contact-fio`) ФИО
+      input(id=`${role}-contact-fio`, type="text", name=`${role}-contact-fio`, data-suggestion-type="name")
+    .control
+      label(for=`${role}-contact-tel`) Телефон
+      input(id=`${role}-contact-tel`, type="tel", name=`${role}-contact-tel`)
+
 mixin counterpartyRole(role)
   -
     const roles = {
@@ -35,12 +53,7 @@ mixin counterpartyRole(role)
         span Юридический адрес
         textarea(id=`${role}-address`, name=`${role}-address`, data-suggestion-type="address")
     if role==='payer'
-      .control
-        label(for=`${role}-contact-fio`) Контактное лицо
-        input(id=`${role}-contact-fio`, type="text", name=`${role}-contact-fio`, data-suggestion-type="name")
-      .control
-        label(for=`${role}-contact-tel`) Телефон
-        input(id=`${role}-contact-tel`, type="tel", name=`${role}-contact-tel`)
+      +contact('payer')
 
   .control-group(class=`group-${role}-private-person`, hidden)
     .control
@@ -62,37 +75,40 @@ mixin cargoOperation(operation)
   h4.h4
     case operation
       when 'loading'
-        | Прием груза
+        | Отправление груза
       when 'unloading'
-        | Выдача груза
+        | Получение груза
 
-  .control
-    label(for=`${operation}-contact-fio`) ФИО контактного лица
-    input(id=`${operation}-contact-fio`, type="text", name=`${operation}-contact-fio`, data-suggestion-type="name", required)
-  .control
-    label(for=`${operation}-contact-tel`) Телефон контактного лица
-    input(id=`${operation}-contact-tel`, type="tel", name=`${operation}-contact-tel`, required)
-  label.control
-    span Дата
-    |
-    input(id=`${operation}-date`, type="date", name=`${operation}-date`)
-  label.control
-    span Время
-    |
-    input(id=`${operation}-time`, type="time", name=`${operation}-time`)
+  case operation
+    when 'loading'
+      +contact('consigner')
+    when 'unloading'
+      +contact('consignee')
+
+  if operation === 'loading'
+    label.control
+      span Дата
+      |
+      input(id=`${operation}-date`, type="date", name=`${operation}-date`)
+    label.control
+      span Время
+      |
+      input(id=`${operation}-time`, type="text", name=`${operation}-time`)
+
   .control
     label(for=`${operation}-place`)
       case operation
         when 'loading'
-          | Место приема груза
+          | Место отправления груза
         when 'unloading'
-          | Место выдачи груза
+          | Место получения груза
 
     select(id=`${operation}-place`, name=`${operation}-place`)
       option(selected, disabled, value) &lt;не выбрано&gt;
       each placeName, place in places
         option(value=place)=placeName
       option(value="other") Другой город
+    p.place-point-client-message Для подачи машины в город Артем выберите #[q Владивосток].
 
   .control-group
     .control(class=`${operation}-terminal-control`)
@@ -101,15 +117,13 @@ mixin cargoOperation(operation)
     .control
       input(id=`${operation}-point-client`, type="radio", name=`${operation}-point`, value=`${operation}-point-client`)
       label(for=`${operation}-point-client`) Подача машины
+    .control
+      input(id=`${operation}-point-pickup`, type="radio", name=`${operation}-point`, value=`${operation}-point-pickup`)
+      label(for=`${operation}-point-pickup`) Передача груза на трассе в согласованное с водителем время
 
   .control-group(class=`group-${operation}-point-client-address`, hidden)
     label.control
-      span
-        case operation
-          when 'loading'
-            | Адрес погрузки
-          when 'unloading'
-            | Адрес выгрузки
+      span Адрес передачи груза
       textarea(id=`${operation}-point-client-address`, name=`${operation}-point-client-address`, data-suggestion-type="address")
 
 block head
@@ -163,7 +177,7 @@ block content
         input#cargo-value(type="text", name="cargo-value", inputmode="numeric")
 
     section
-      h3.h3 Прием и выдача груза
+      h3.h3 Отправление и получение груза
 
       section
         +cargoOperation('loading')
