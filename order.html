@@ -16,6 +16,12 @@
       const places = {"vvo":"Владивосток","uss":"Уссурийск","khb":"Хабаровск","blg":"Благовещенск","kms":"Комсомольск-на-Амуре"};
     </script>
     <script src="js/order.js" defer></script>
+    <style>
+      .suggestions-promo {
+        display: none !important;
+      }
+      
+    </style>
   </head>
   <body class="page nogrid">
     <noscript>
@@ -73,173 +79,8 @@
       <div class="container">
         <form class="form" name="order" onsubmit="alert('Заявка отправлена.'); return false;">
           <h2 class="h2">Заявка на грузоперевозку</h2>
-          <div class="control">
-            <label for="order-loading-date">Дата отправления</label>
-            <input id="order-loading-date" type="date" name="order-loading-date">
-            <p>Заявка на следующие сутки принимается до 
-              <time>16:00</time>
-            </p>
-          </div>
           <section>
-            <h3 class="h3">Грузоотправитель</h3>
-            <div class="control-group" style="display: flex;">
-              <div class="control">
-                <input id="consigner-type-legal-entity" type="radio" name="consigner-type" value="legal-entity"/>
-                <label for="consigner-type-legal-entity">Организация или ИП</label>
-              </div>
-              <div class="control">
-                <input id="consigner-type-private-person" type="radio" name="consigner-type" value="private-person"/>
-                <label for="consigner-type-private-person">Частное лицо</label>
-              </div>
-            </div>
-            <div class="control-group group-consigner-legal-entity" hidden="hidden">
-              <div class="control">
-                <label for="consigner">Организация или ИП</label>
-                <input id="consigner" type="text" name="consigner" placeholder="название, адрес, ИНН или ОГРН"/>
-              </div>
-              <div class="control">
-                <label for="consigner-OGRN">ОГРН</label>
-                <input id="consigner-OGRN" type="text" name="consigner-OGRN"/>
-              </div>
-              <div class="control">
-                <label for="consigner-INN">ИНН</label>
-                <input id="consigner-INN" type="text" name="consigner-INN"/>
-              </div>
-              <div class="control">
-                <label for="consigner-KPP">КПП</label>
-                <input id="consigner-KPP" type="text" name="consigner-KPP"/>
-              </div>
-              <div class="control">
-                <label><span>Юридический адрес</span>
-                  <textarea id="consigner-address" name="consigner-address" data-suggestion-type="address"></textarea>
-                </label>
-              </div>
-            </div>
-            <div class="control-group group-consigner-private-person" hidden="hidden">
-              <div class="control">
-                <label for="consigner-fio">ФИО</label>
-                <input id="consigner-fio" type="text" name="consigner-fio" data-suggestion-type="name"/>
-              </div>
-              <div class="control">
-                <label for="consigner-tel">Телефон</label>
-                <input id="consigner-tel" type="tel" name="consigner-tel"/>
-              </div>
-            </div>
-            <div class="control">
-              <input id="consigner-is-payer" type="checkbox" name="consigner-is-payer" value="consigner-is-payer"/>
-              <label for="consigner-is-payer">Грузоотправитель является плательщиком</label>
-            </div>
-          </section>
-          <section>
-            <h3 class="h3">Грузополучатель</h3>
-            <div class="control-group" style="display: flex;">
-              <div class="control">
-                <input id="consignee-type-legal-entity" type="radio" name="consignee-type" value="legal-entity"/>
-                <label for="consignee-type-legal-entity">Организация или ИП</label>
-              </div>
-              <div class="control">
-                <input id="consignee-type-private-person" type="radio" name="consignee-type" value="private-person"/>
-                <label for="consignee-type-private-person">Частное лицо</label>
-              </div>
-            </div>
-            <div class="control-group group-consignee-legal-entity" hidden="hidden">
-              <div class="control">
-                <label for="consignee">Организация или ИП</label>
-                <input id="consignee" type="text" name="consignee" placeholder="название, адрес, ИНН или ОГРН"/>
-              </div>
-              <div class="control">
-                <label for="consignee-OGRN">ОГРН</label>
-                <input id="consignee-OGRN" type="text" name="consignee-OGRN"/>
-              </div>
-              <div class="control">
-                <label for="consignee-INN">ИНН</label>
-                <input id="consignee-INN" type="text" name="consignee-INN"/>
-              </div>
-              <div class="control">
-                <label for="consignee-KPP">КПП</label>
-                <input id="consignee-KPP" type="text" name="consignee-KPP"/>
-              </div>
-              <div class="control">
-                <label><span>Юридический адрес</span>
-                  <textarea id="consignee-address" name="consignee-address" data-suggestion-type="address"></textarea>
-                </label>
-              </div>
-            </div>
-            <div class="control-group group-consignee-private-person" hidden="hidden">
-              <div class="control">
-                <label for="consignee-fio">ФИО</label>
-                <input id="consignee-fio" type="text" name="consignee-fio" data-suggestion-type="name"/>
-              </div>
-              <div class="control">
-                <label for="consignee-tel">Телефон</label>
-                <input id="consignee-tel" type="tel" name="consignee-tel"/>
-              </div>
-            </div>
-            <div class="control">
-              <input id="consignee-is-payer" type="checkbox" name="consignee-is-payer" value="consignee-is-payer"/>
-              <label for="consignee-is-payer">Грузополучатель является плательщиком</label>
-            </div>
-          </section>
-          <section class="section-payer">
-            <h3 class="h3">Плательщик</h3>
-            <div class="control-group" style="display: flex;">
-              <div class="control">
-                <input id="payer-type-legal-entity" type="radio" name="payer-type" value="legal-entity"/>
-                <label for="payer-type-legal-entity">Организация или ИП</label>
-              </div>
-              <div class="control">
-                <input id="payer-type-private-person" type="radio" name="payer-type" value="private-person"/>
-                <label for="payer-type-private-person">Частное лицо</label>
-              </div>
-            </div>
-            <div class="control-group group-payer-legal-entity" hidden="hidden">
-              <div class="control">
-                <label for="payer">Организация или ИП</label>
-                <input id="payer" type="text" name="payer" placeholder="название, адрес, ИНН или ОГРН"/>
-              </div>
-              <div class="control">
-                <label for="payer-OGRN">ОГРН</label>
-                <input id="payer-OGRN" type="text" name="payer-OGRN"/>
-              </div>
-              <div class="control">
-                <label for="payer-INN">ИНН</label>
-                <input id="payer-INN" type="text" name="payer-INN"/>
-              </div>
-              <div class="control">
-                <label for="payer-KPP">КПП</label>
-                <input id="payer-KPP" type="text" name="payer-KPP"/>
-              </div>
-              <div class="control">
-                <label><span>Юридический адрес</span>
-                  <textarea id="payer-address" name="payer-address" data-suggestion-type="address"></textarea>
-                </label>
-              </div>
-              <fieldset>
-                <legend>Контактное лицо по вопросам оплаты перевозки груза
-                </legend>
-                <div class="control">
-                  <label for="payer-contact-fio">ФИО</label>
-                  <input id="payer-contact-fio" type="text" name="payer-contact-fio" data-suggestion-type="name"/>
-                </div>
-                <div class="control">
-                  <label for="payer-contact-tel">Телефон</label>
-                  <input id="payer-contact-tel" type="tel" name="payer-contact-tel"/>
-                </div>
-              </fieldset>
-            </div>
-            <div class="control-group group-payer-private-person" hidden="hidden">
-              <div class="control">
-                <label for="payer-fio">ФИО</label>
-                <input id="payer-fio" type="text" name="payer-fio" data-suggestion-type="name"/>
-              </div>
-              <div class="control">
-                <label for="payer-tel">Телефон</label>
-                <input id="payer-tel" type="tel" name="payer-tel"/>
-              </div>
-            </div>
-          </section>
-          <section>
-            <h3 class="h3">Груз</h3>
+            <h3 class="h3">1. Груз</h3>
             <div class="control">
               <label for="cargo">Наименование</label>
               <input id="cargo" type="text" name="cargo">
@@ -266,171 +107,347 @@
             </div>
           </section>
           <section>
-            <h3 class="h3">Отправление и получение груза</h3>
+            <h3 class="h3">2. Отправление груза</h3>
             <section>
-              <h4 class="h4">Отправление груза
-              </h4>
-              <fieldset>
-                <legend>Контактное лицо по вопросам отправления груза грузоотправителем
-                </legend>
+              <h4 class="h4">Грузоотправитель</h4>
+              <div class="control-group" style="display: flex;">
                 <div class="control">
-                  <label for="consigner-contact-fio">ФИО</label>
-                  <input id="consigner-contact-fio" type="text" name="consigner-contact-fio" data-suggestion-type="name"/>
+                  <input id="consigner-type-legal-entity" type="radio" name="consigner-type" value="legal-entity"/>
+                  <label for="consigner-type-legal-entity">Организация или ИП</label>
                 </div>
                 <div class="control">
-                  <label for="consigner-contact-tel">Телефон</label>
-                  <input id="consigner-contact-tel" type="tel" name="consigner-contact-tel"/>
+                  <input id="consigner-type-private-person" type="radio" name="consigner-type" value="private-person"/>
+                  <label for="consigner-type-private-person">Частное лицо</label>
                 </div>
-              </fieldset>
-              <label class="control"><span>Дата</span>
-                <input id="loading-date" type="date" name="loading-date"/>
-              </label>
-              <label class="control"><span>Время</span>
-                <input id="loading-time" type="text" name="loading-time"/>
-              </label>
+              </div>
+              <div class="control-group group-consigner-legal-entity" hidden="hidden">
+                <div class="control">
+                  <label for="consigner">Организация или ИП</label>
+                  <input id="consigner" type="text" name="consigner" placeholder="название, адрес, ИНН или ОГРН"/>
+                </div>
+                <div class="control">
+                  <label for="consigner-OGRN">ОГРН</label>
+                  <input id="consigner-OGRN" type="text" name="consigner-OGRN"/>
+                </div>
+                <div class="control">
+                  <label for="consigner-INN">ИНН</label>
+                  <input id="consigner-INN" type="text" name="consigner-INN"/>
+                </div>
+                <div class="control">
+                  <label for="consigner-KPP">КПП</label>
+                  <input id="consigner-KPP" type="text" name="consigner-KPP"/>
+                </div>
+                <div class="control">
+                  <label><span>Юридический адрес</span>
+                    <textarea id="consigner-address" name="consigner-address" data-suggestion-type="address"></textarea>
+                  </label>
+                </div>
+                <div class="control-group consigner-cargo-contact">
+                  <div class="control">
+                    <label for="consigner-cargo-contact-fio">Контактное лицо по вопросам передачи груза
+                    </label>
+                    <input id="consigner-cargo-contact-fio" type="text" name="consigner-cargo-contact-fio" data-suggestion-type="name"/>
+                  </div>
+                  <div class="control">
+                    <label for="consigner-cargo-contact-tel">Телефон</label>
+                    <input id="consigner-cargo-contact-tel" type="tel" name="consigner-cargo-contact-tel"/>
+                  </div>
+                </div>
+              </div>
+              <div class="control-group group-consigner-private-person" hidden="hidden">
+                <div class="control">
+                  <label for="consigner-fio">ФИО</label>
+                  <input id="consigner-fio" type="text" name="consigner-fio" data-suggestion-type="name"/>
+                </div>
+                <div class="control">
+                  <label for="consigner-tel">Телефон</label>
+                  <input id="consigner-tel" type="tel" name="consigner-tel"/>
+                </div>
+              </div>
               <div class="control">
-                <label for="loading-place">Место отправления груза
-                </label>
-                <select id="loading-place" name="loading-place">
-                  <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
-                  <option value="vvo">Владивосток</option>
-                  <option value="uss">Уссурийск</option>
-                  <option value="khb">Хабаровск</option>
-                  <option value="blg">Благовещенск</option>
-                  <option value="kms">Комсомольск-на-Амуре</option>
-                  <option value="other">Другой город</option>
-                </select>
-                <p class="place-point-client-message">Для подачи машины в город Артем выберите 
-                  <q>Владивосток</q>.
-                </p>
+                <input id="consigner-is-payer" type="checkbox" name="consigner-is-payer" value="consigner-is-payer"/>
+                <label for="consigner-is-payer">Грузоотправитель является плательщиком</label>
               </div>
-              <div class="control-group">
-                <div class="control loading-terminal-control">
-                  <input id="loading-point-terminal" type="radio" name="loading-point" value="loading-point-terminal"/>
-                  <label class="loading-point-terminal-title" for="loading-point-terminal">Терминал перевозчика</label>
+              <div class="control-group consigner-paying-contact" hidden="hidden">
+                <div class="control">
+                  <label for="consigner-paying-contact-fio">Контактное лицо по вопросам оплаты перевозки
+                  </label>
+                  <input id="consigner-paying-contact-fio" type="text" name="consigner-paying-contact-fio" data-suggestion-type="name"/>
                 </div>
                 <div class="control">
-                  <input id="loading-point-client" type="radio" name="loading-point" value="loading-point-client"/>
-                  <label for="loading-point-client">Подача машины</label>
+                  <label for="consigner-paying-contact-tel">Телефон</label>
+                  <input id="consigner-paying-contact-tel" type="tel" name="consigner-paying-contact-tel"/>
                 </div>
-                <div class="control">
-                  <input id="loading-point-pickup" type="radio" name="loading-point" value="loading-point-pickup"/>
-                  <label for="loading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
-                </div>
-              </div>
-              <div class="control-group group-loading-point-client-address" hidden="hidden">
-                <label class="control"><span>Адрес передачи груза</span>
-                  <textarea id="loading-point-client-address" name="loading-point-client-address" data-suggestion-type="address"></textarea>
-                </label>
               </div>
             </section>
-            <section>
-              <h4 class="h4">Получение груза
-              </h4>
-              <fieldset>
-                <legend>Контактное лицо по вопросам получения груза грузополучателем
-                </legend>
-                <div class="control">
-                  <label for="consignee-contact-fio">ФИО</label>
-                  <input id="consignee-contact-fio" type="text" name="consignee-contact-fio" data-suggestion-type="name"/>
-                </div>
-                <div class="control">
-                  <label for="consignee-contact-tel">Телефон</label>
-                  <input id="consignee-contact-tel" type="tel" name="consignee-contact-tel"/>
-                </div>
-              </fieldset>
-              <div class="control">
-                <label for="unloading-place">Место получения груза
-                </label>
-                <select id="unloading-place" name="unloading-place">
-                  <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
-                  <option value="vvo">Владивосток</option>
-                  <option value="uss">Уссурийск</option>
-                  <option value="khb">Хабаровск</option>
-                  <option value="blg">Благовещенск</option>
-                  <option value="kms">Комсомольск-на-Амуре</option>
-                  <option value="other">Другой город</option>
-                </select>
-                <p class="place-point-client-message">Для подачи машины в город Артем выберите 
-                  <q>Владивосток</q>.
-                </p>
-              </div>
-              <div class="control-group">
-                <div class="control unloading-terminal-control">
-                  <input id="unloading-point-terminal" type="radio" name="unloading-point" value="unloading-point-terminal"/>
-                  <label class="unloading-point-terminal-title" for="unloading-point-terminal">Терминал перевозчика</label>
-                </div>
-                <div class="control">
-                  <input id="unloading-point-client" type="radio" name="unloading-point" value="unloading-point-client"/>
-                  <label for="unloading-point-client">Подача машины</label>
-                </div>
-                <div class="control">
-                  <input id="unloading-point-pickup" type="radio" name="unloading-point" value="unloading-point-pickup"/>
-                  <label for="unloading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
-                </div>
-              </div>
-              <div class="control-group group-unloading-point-client-address" hidden="hidden">
-                <label class="control"><span>Адрес передачи груза</span>
-                  <textarea id="unloading-point-client-address" name="unloading-point-client-address" data-suggestion-type="address"></textarea>
-                </label>
-              </div>
-            </section>
-            <section>
-              <h4 class="h4">
-                <label for="loading-memo">Комментарий</label>
-              </h4>
-              <div class="control">
-                <textarea id="loading-memo" name="loading-memo" placeholder="например, сделать остановку в Хабаровске"></textarea>
-              </div>
-            </section>
-          </section>
-          <section>
-            <h3 class="h3">Оплата</h3>
-            <div class="control">
-              <label for="payment-form">Форма оплаты</label>
-              <select id="payment-form">
-                <option selected value>&lt;не выбрано&gt;</option>
-                <option value="Безналичный">Безналичный</option>
-                <option value="Наличный">Наличный</option>
-                <option value="Наличный без чека">Наличный без чека</option>
-              </select>
-              <p>Безналичный расчет возможен только при наличии договора.</p>
-            </div>
-            <label class="control"><span>Страховка</span>
-              <select id="insurance" name="insurance">
-                <option selected disabled value>&lt;не выбрано&gt;</option>
-                <option value="страховать">страховать</option>
-                <option value="не страховать">не страховать</option>
-              </select>
+            <h4 class="h4">Дата и время отправления</h4>
+            <p>Заявка на следующие сутки принимается до 
+              <time>16:00</time>
+            </p>
+            <label class="control"><span>Дата</span>
+              <input id="loading-date" type="date" name="loading-date"/>
             </label>
+            <label class="control"><span>Время</span>
+              <input id="loading-time" type="text" name="loading-time"/>
+            </label>
+            <h4 class="h4">Место передачи груза</h4>
+            <div class="control">
+              <label for="loading-place">Место отправления груза
+              </label>
+              <select id="loading-place" name="loading-place">
+                <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
+                <option value="vvo">Владивосток</option>
+                <option value="uss">Уссурийск</option>
+                <option value="khb">Хабаровск</option>
+                <option value="blg">Благовещенск</option>
+                <option value="kms">Комсомольск-на-Амуре</option>
+                <option value="other">Другой город</option>
+              </select>
+              <p class="place-point-client-message">Для подачи машины в город Артем выберите 
+                <q>Владивосток</q>.
+              </p>
+            </div>
+            <div class="control-group">
+              <div class="control loading-terminal-control">
+                <input id="loading-point-terminal" type="radio" name="loading-point" value="loading-point-terminal"/>
+                <label class="loading-point-terminal-title" for="loading-point-terminal">Терминал перевозчика</label>
+              </div>
+              <div class="control loading-client-control">
+                <input id="loading-point-client" type="radio" name="loading-point" value="loading-point-client"/>
+                <label for="loading-point-client">Подача машины по адресу склада грузоотправителя</label>
+              </div>
+              <div class="control loading-pickup-control">
+                <input id="loading-point-pickup" type="radio" name="loading-point" value="loading-point-pickup"/>
+                <label for="loading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
+              </div>
+            </div>
+            <div class="control-group group-loading-point-client-address" hidden="hidden">
+              <label class="control"><span>Адрес передачи груза</span>
+                <textarea id="loading-point-client-address" name="loading-point-client-address" data-suggestion-type="address"></textarea>
+              </label>
+            </div>
           </section>
           <section>
-            <h3 class="h3">Заявку составил</h3>
+            <h3 class="h3">3. Получение груза</h3>
+            <section>
+              <h4 class="h4">Грузополучатель</h4>
+              <div class="control-group" style="display: flex;">
+                <div class="control">
+                  <input id="consignee-type-legal-entity" type="radio" name="consignee-type" value="legal-entity"/>
+                  <label for="consignee-type-legal-entity">Организация или ИП</label>
+                </div>
+                <div class="control">
+                  <input id="consignee-type-private-person" type="radio" name="consignee-type" value="private-person"/>
+                  <label for="consignee-type-private-person">Частное лицо</label>
+                </div>
+              </div>
+              <div class="control-group group-consignee-legal-entity" hidden="hidden">
+                <div class="control">
+                  <label for="consignee">Организация или ИП</label>
+                  <input id="consignee" type="text" name="consignee" placeholder="название, адрес, ИНН или ОГРН"/>
+                </div>
+                <div class="control">
+                  <label for="consignee-OGRN">ОГРН</label>
+                  <input id="consignee-OGRN" type="text" name="consignee-OGRN"/>
+                </div>
+                <div class="control">
+                  <label for="consignee-INN">ИНН</label>
+                  <input id="consignee-INN" type="text" name="consignee-INN"/>
+                </div>
+                <div class="control">
+                  <label for="consignee-KPP">КПП</label>
+                  <input id="consignee-KPP" type="text" name="consignee-KPP"/>
+                </div>
+                <div class="control">
+                  <label><span>Юридический адрес</span>
+                    <textarea id="consignee-address" name="consignee-address" data-suggestion-type="address"></textarea>
+                  </label>
+                </div>
+                <div class="control-group consignee-cargo-contact">
+                  <div class="control">
+                    <label for="consignee-cargo-contact-fio">Контактное лицо по вопросам передачи груза
+                    </label>
+                    <input id="consignee-cargo-contact-fio" type="text" name="consignee-cargo-contact-fio" data-suggestion-type="name"/>
+                  </div>
+                  <div class="control">
+                    <label for="consignee-cargo-contact-tel">Телефон</label>
+                    <input id="consignee-cargo-contact-tel" type="tel" name="consignee-cargo-contact-tel"/>
+                  </div>
+                </div>
+              </div>
+              <div class="control-group group-consignee-private-person" hidden="hidden">
+                <div class="control">
+                  <label for="consignee-fio">ФИО</label>
+                  <input id="consignee-fio" type="text" name="consignee-fio" data-suggestion-type="name"/>
+                </div>
+                <div class="control">
+                  <label for="consignee-tel">Телефон</label>
+                  <input id="consignee-tel" type="tel" name="consignee-tel"/>
+                </div>
+              </div>
+              <div class="control">
+                <input id="consignee-is-payer" type="checkbox" name="consignee-is-payer" value="consignee-is-payer"/>
+                <label for="consignee-is-payer">Грузополучатель является плательщиком</label>
+              </div>
+              <div class="control-group consignee-paying-contact" hidden="hidden">
+                <div class="control">
+                  <label for="consignee-paying-contact-fio">Контактное лицо по вопросам оплаты перевозки
+                  </label>
+                  <input id="consignee-paying-contact-fio" type="text" name="consignee-paying-contact-fio" data-suggestion-type="name"/>
+                </div>
+                <div class="control">
+                  <label for="consignee-paying-contact-tel">Телефон</label>
+                  <input id="consignee-paying-contact-tel" type="tel" name="consignee-paying-contact-tel"/>
+                </div>
+              </div>
+            </section>
+            <h4 class="h4">Место передачи груза</h4>
+            <div class="control">
+              <label for="unloading-place">Место получения груза
+              </label>
+              <select id="unloading-place" name="unloading-place">
+                <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
+                <option value="vvo">Владивосток</option>
+                <option value="uss">Уссурийск</option>
+                <option value="khb">Хабаровск</option>
+                <option value="blg">Благовещенск</option>
+                <option value="kms">Комсомольск-на-Амуре</option>
+                <option value="other">Другой город</option>
+              </select>
+              <p class="place-point-client-message">Для подачи машины в город Артем выберите 
+                <q>Владивосток</q>.
+              </p>
+            </div>
+            <div class="control-group">
+              <div class="control unloading-terminal-control">
+                <input id="unloading-point-terminal" type="radio" name="unloading-point" value="unloading-point-terminal"/>
+                <label class="unloading-point-terminal-title" for="unloading-point-terminal">Терминал перевозчика</label>
+              </div>
+              <div class="control unloading-client-control">
+                <input id="unloading-point-client" type="radio" name="unloading-point" value="unloading-point-client"/>
+                <label for="unloading-point-client">Подача машины по адресу склада грузоотправителя</label>
+              </div>
+              <div class="control unloading-pickup-control">
+                <input id="unloading-point-pickup" type="radio" name="unloading-point" value="unloading-point-pickup"/>
+                <label for="unloading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
+              </div>
+            </div>
+            <div class="control-group group-unloading-point-client-address" hidden="hidden">
+              <label class="control"><span>Адрес передачи груза</span>
+                <textarea id="unloading-point-client-address" name="unloading-point-client-address" data-suggestion-type="address"></textarea>
+              </label>
+            </div>
+          </section>
+          <section>
+            <h3 class="h3">4. Оплата</h3>
+            <section class="section-payer">
+              <h4 class="h4">Плательщик</h4>
+              <div class="control-group" style="display: flex;">
+                <div class="control">
+                  <input id="payer-type-legal-entity" type="radio" name="payer-type" value="legal-entity"/>
+                  <label for="payer-type-legal-entity">Организация или ИП</label>
+                </div>
+                <div class="control">
+                  <input id="payer-type-private-person" type="radio" name="payer-type" value="private-person"/>
+                  <label for="payer-type-private-person">Частное лицо</label>
+                </div>
+              </div>
+              <div class="control-group group-payer-legal-entity" hidden="hidden">
+                <div class="control">
+                  <label for="payer">Организация или ИП</label>
+                  <input id="payer" type="text" name="payer" placeholder="название, адрес, ИНН или ОГРН"/>
+                </div>
+                <div class="control">
+                  <label for="payer-OGRN">ОГРН</label>
+                  <input id="payer-OGRN" type="text" name="payer-OGRN"/>
+                </div>
+                <div class="control">
+                  <label for="payer-INN">ИНН</label>
+                  <input id="payer-INN" type="text" name="payer-INN"/>
+                </div>
+                <div class="control">
+                  <label for="payer-KPP">КПП</label>
+                  <input id="payer-KPP" type="text" name="payer-KPP"/>
+                </div>
+                <div class="control">
+                  <label><span>Юридический адрес</span>
+                    <textarea id="payer-address" name="payer-address" data-suggestion-type="address"></textarea>
+                  </label>
+                </div>
+                <div class="control-group payer-paying-contact">
+                  <div class="control">
+                    <label for="payer-paying-contact-fio">Контактное лицо по вопросам оплаты перевозки
+                    </label>
+                    <input id="payer-paying-contact-fio" type="text" name="payer-paying-contact-fio" data-suggestion-type="name"/>
+                  </div>
+                  <div class="control">
+                    <label for="payer-paying-contact-tel">Телефон</label>
+                    <input id="payer-paying-contact-tel" type="tel" name="payer-paying-contact-tel"/>
+                  </div>
+                </div>
+              </div>
+              <div class="control-group group-payer-private-person" hidden="hidden">
+                <div class="control">
+                  <label for="payer-fio">ФИО</label>
+                  <input id="payer-fio" type="text" name="payer-fio" data-suggestion-type="name"/>
+                </div>
+                <div class="control">
+                  <label for="payer-tel">Телефон</label>
+                  <input id="payer-tel" type="tel" name="payer-tel"/>
+                </div>
+              </div>
+            </section>
+            <section>
+              <h4 class="h4">Форма оплаты и страховка</h4>
+              <div class="control">
+                <label for="payment-form">Форма оплаты</label>
+                <select id="payment-form">
+                  <option selected disabled value>&lt;не выбрано&gt;</option>
+                  <option value="Безналичный">Безналичный</option>
+                  <option value="Наличный">Наличный</option>
+                  <option value="Наличный без чека">Наличный без чека</option>
+                </select>
+                <p>Безналичный расчет возможен только при наличии договора.</p>
+              </div>
+              <label class="control"><span>Страховка</span>
+                <select id="insurance" name="insurance">
+                  <option selected disabled value>&lt;не выбрано&gt;</option>
+                  <option value="страховать">страховать</option>
+                  <option value="не страховать">не страховать</option>
+                </select>
+              </label>
+            </section>
+          </section>
+          <section>
+            <h3 class="h3">
+              <label for="memo">5. Комментарий</label>
+            </h3>
+            <div class="control">
+              <textarea id="memo" name="memo" placeholder="например, сделать остановку в Хабаровске"></textarea>
+            </div>
+          </section>
+          <section>
+            <h3 class="h3">6. Заявку составил</h3>
+            <div class="control">
+              <button class="order-author-consigner" type="button">Грузоотправитель</button>
+              <button class="order-author-consignee" type="button">Грузополучатель</button>
+              <button class="order-author-payer" type="button">Плательщик</button>
+            </div>
             <div class="control">
               <label for="order-author-fio">ФИО</label>
-              <input id="order-author-fio" type="text" name="order-author-fio" required>
-              <script>
-                $("#order-author-fio").suggestions({
-                    token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-                    type: "NAME",
-                    onSelect: function(suggestion) {
-                        console.log(suggestion);
-                    }
-                });
-                
-              </script>
-            </div>
-            <div class="control">
-              <label for="order-author-email">Е-майл</label>
-              <input id="order-author-email" type="email" name="order-author-email">
+              <input id="order-author-fio" type="text" name="order-author-fio" data-suggestion-type="name" required>
             </div>
             <div class="control">
               <label for="order-author-tel">Телефон</label>
               <input id="order-author-tel" type="tel" name="order-author-tel" required>
             </div>
+            <div class="control">
+              <label for="order-author-email">Е-майл</label>
+              <input id="order-author-email" type="email" name="order-author-email" data-suggestion-type="email">
+            </div>
           </section>
           <section>
-            <h3 class="h3">Отправка заявки</h3>
+            <h3 class="h3">7. Отправка заявки</h3>
             <ul>
               <li><a href="terms.html">Условия перевозки грузов</a></li>
               <li><a href="pricing.html">Тарифы на грузоперевозку</a></li>
