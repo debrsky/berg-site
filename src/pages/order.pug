@@ -1,32 +1,33 @@
 extends ../pug/layout
 
-mixin contact(role)
-  fieldset
-    legend
-      case role
-        when 'consigner'
-          | Контактное лицо по вопросам отправления груза грузоотправителем
-        when 'consignee'
-          | Контактное лицо по вопросам получения груза грузополучателем
-        when 'payer'
-          | Контактное лицо по вопросам оплаты перевозки груза
+mixin contact(role, responsibility)
+  -
+    if (!responsibility) {
+      responsibility = role === 'payer' ? 'paying' : 'cargo'
+    };
+    const prefix = `${role}-${responsibility}`;
+  .control-group(class=`${prefix}-contact`)&attributes(attributes)
+    .control
+      label(for=`${prefix}-contact-fio`)
+        case responsibility
+          when 'cargo'
+            | Контактное лицо по вопросам передачи груза
+          when 'paying'
+            | Контактное лицо по вопросам оплаты перевозки
 
+      input(id=`${prefix}-contact-fio`, type="text", name=`${prefix}-contact-fio`, data-suggestion-type="name")
     .control
-      label(for=`${role}-contact-fio`) ФИО
-      input(id=`${role}-contact-fio`, type="text", name=`${role}-contact-fio`, data-suggestion-type="name")
-    .control
-      label(for=`${role}-contact-tel`) Телефон
-      input(id=`${role}-contact-tel`, type="tel", name=`${role}-contact-tel`)
+      label(for=`${prefix}-contact-tel`) Телефон
+      input(id=`${prefix}-contact-tel`, type="tel", name=`${prefix}-contact-tel`)
 
 mixin counterpartyRole(role)
   -
     const roles = {
-      consigner: 'Грузоотправитель',
-      consignee: 'Грузополучатель',
-      payer: 'Плательщик'
-    };
+      consigner: "Грузоотправитель",
+      consignee: "Грузополучатель",
+      payer: "Плательщик"
+    }
 
-  h3.h3=roles[role]
   .control-group(style="display: flex;")
     .control
       input(id=`${role}-type-legal-entity`, type="radio", name=`${role}-type`, value="legal-entity")
@@ -52,8 +53,7 @@ mixin counterpartyRole(role)
       label
         span Юридический адрес
         textarea(id=`${role}-address`, name=`${role}-address`, data-suggestion-type="address")
-    if role==='payer'
-      +contact('payer')
+    +contact(role)
 
   .control-group(class=`group-${role}-private-person`, hidden)
     .control
@@ -71,30 +71,34 @@ mixin counterpartyRole(role)
         input(id=`${role}-is-payer`, type="checkbox", name=`${role}-is-payer`, value=`${role}-is-payer`)
         label(for=`${role}-is-payer`) #{roles[role]} является плательщиком
 
-mixin cargoOperation(operation)
-  h4.h4
-    case operation
-      when 'loading'
-        | Отправление груза
-      when 'unloading'
-        | Получение груза
+  if role !== 'payer'
+    +contact(role, 'paying')(hidden)
 
+mixin cargoOperation(operation)
   case operation
     when 'loading'
-      +contact('consigner')
+      section
+        h4.h4 Грузоотправитель
+        +counterpartyRole('consigner')
     when 'unloading'
-      +contact('consignee')
+      section
+        h4.h4 Грузополучатель
+        +counterpartyRole('consignee')
 
   if operation === 'loading'
+    h4.h4 Дата и время отправления
+    p Заявка на следующие сутки принимается до #[time 16:00]
     label.control
       span Дата
       |
       input(id=`${operation}-date`, type="date", name=`${operation}-date`)
+
     label.control
       span Время
       |
       input(id=`${operation}-time`, type="text", name=`${operation}-time`)
 
+  h4.h4 Место передачи груза
   .control
     label(for=`${operation}-place`)
       case operation
@@ -114,10 +118,10 @@ mixin cargoOperation(operation)
     .control(class=`${operation}-terminal-control`)
       input(id=`${operation}-point-terminal`, type="radio", name=`${operation}-point`, value=`${operation}-point-terminal`)
       label(class=`${operation}-point-terminal-title`, for=`${operation}-point-terminal`) Терминал перевозчика
-    .control
+    .control(class=`${operation}-client-control`)
       input(id=`${operation}-point-client`, type="radio", name=`${operation}-point`, value=`${operation}-point-client`)
-      label(for=`${operation}-point-client`) Подача машины
-    .control
+      label(for=`${operation}-point-client`) Подача машины по адресу склада грузоотправителя
+    .control(class=`${operation}-pickup-control`)
       input(id=`${operation}-point-pickup`, type="radio", name=`${operation}-point`, value=`${operation}-point-pickup`)
       label(for=`${operation}-point-pickup`) Передача груза на трассе в согласованное с водителем время
 
@@ -149,19 +153,9 @@ block content
 
   form.form(name="order", onsubmit="alert('Заявка отправлена.'); return false;")
     h2.h2 Заявка на грузоперевозку
-    .control
-      label(for="order-loading-date") Дата отправления
-      input#order-loading-date(type="date", name="order-loading-date")
-      p Заявка на следующие сутки принимается до #[time 16:00]
-    section
-      +counterpartyRole('consigner')
-    section
-      +counterpartyRole('consignee')
-    section.section-payer
-      +counterpartyRole('payer')
 
     section
-      h3.h3 Груз
+      h3.h3 1. Груз
       .control
         label(for="cargo") Наименование
         input#cargo(type="text", name="cargo")
@@ -182,59 +176,58 @@ block content
         input#cargo-value(type="text", name="cargo-value", inputmode="numeric")
 
     section
-      h3.h3 Отправление и получение груза
+      h3.h3 2. Отправление груза
+      +cargoOperation('loading')
+    section
+      h3.h3 3. Получение груза
+      +cargoOperation('unloading')
 
+    section
+      h3.h3 4. Оплата
+      section.section-payer
+        h4.h4 Плательщик
+        +counterpartyRole('payer')
       section
-        +cargoOperation('loading')
-      section
-        +cargoOperation('unloading')
-
-      section
-        h4.h4
-          label(for="loading-memo") Комментарий
+        h4.h4 Форма оплаты и страховка
         .control
-          textarea#loading-memo(name="loading-memo", placeholder="например, сделать остановку в Хабаровске")
+          label(for="payment-form") Форма оплаты
+          select#payment-form
+            option(selected, disabled, value) &lt;не выбрано&gt;
+            option(value="Безналичный") Безналичный
+            option(value="Наличный") Наличный
+            option(value="Наличный без чека") Наличный без чека
+          p Безналичный расчет возможен только при наличии договора.
+        label.control
+          span Страховка
+          select#insurance(name="insurance")
+            option(selected, disabled, value) &lt;не выбрано&gt;
+            option(value="страховать") страховать
+            option(value="не страховать") не страховать
 
     section
-      h3.h3 Оплата
+      h3.h3
+        label(for="memo") 5. Комментарий
       .control
-        label(for="payment-form") Форма оплаты
-        select#payment-form
-          option(selected, value) &lt;не выбрано&gt;
-          option(value="Безналичный") Безналичный
-          option(value="Наличный") Наличный
-          option(value="Наличный без чека") Наличный без чека
-        p Безналичный расчет возможен только при наличии договора.
-      label.control
-        span Страховка
-        select#insurance(name="insurance")
-          option(selected, disabled, value) &lt;не выбрано&gt;
-          option(value="страховать") страховать
-          option(value="не страховать") не страховать
+        textarea#memo(name="memo", placeholder="например, сделать остановку в Хабаровске")
 
     section
-      h3.h3 Заявку составил
+      h3.h3 6. Заявку составил
+      .control
+        button.order-author-consigner(type="button") Грузоотправитель
+        button.order-author-consignee(type="button") Грузополучатель
+        button.order-author-payer(type="button") Плательщик
       .control
         label(for="order-author-fio") ФИО
-        input#order-author-fio(type="text", name="order-author-fio", required)
-        script.
-          $("#order-author-fio").suggestions({
-              token: "1aef0cdf8ae200e131d3e69cb08ee4983f20e311",
-              type: "NAME",
-              onSelect: function(suggestion) {
-                  console.log(suggestion);
-              }
-          });
-
-      .control
-        label(for="order-author-email") Е-майл
-        input#order-author-email(type="email", name="order-author-email")
+        input#order-author-fio(type="text", name="order-author-fio", data-suggestion-type="name", required)
       .control
         label(for="order-author-tel") Телефон
         input#order-author-tel(type="tel", name="order-author-tel", required)
+      .control
+        label(for="order-author-email") Е-майл
+        input#order-author-email(type="email", name="order-author-email", data-suggestion-type="email")
 
     section
-      h3.h3 Отправка заявки
+      h3.h3 7. Отправка заявки
 
       ul
         li
