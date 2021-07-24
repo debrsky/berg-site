@@ -50,18 +50,24 @@ const setHandlers = (counterpartyRole) => {
       const KPPElement = form.elements[`${counterpartyRole}-KPP`];
       const addressElement = form.elements[`${counterpartyRole}-address`];
 
+      console.log(suggestion);
+
+      const address = suggestion.data.address.data.postal_code
+        ? `${suggestion.data.address.data.postal_code}, ${suggestion.data.address.value}`
+        : suggestion.data.address.value;
+
       if (suggestion.data.type === "INDIVIDUAL") {
         OGRNElement.value = suggestion.data.ogrn;
         INNElement.value = suggestion.data.inn;
         KPPElement.value = "";
-        addressElement.value = suggestion.data.address.value;
+        addressElement.value = address;
       }
 
       if (suggestion.data.type === "LEGAL") {
         OGRNElement.value = suggestion.data.ogrn;
         INNElement.value = suggestion.data.inn;
         KPPElement.value = suggestion.data.kpp;
-        addressElement.value = suggestion.data.address.value;
+        addressElement.value = address;
       }
     }
   });
