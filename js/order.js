@@ -1,3 +1,7 @@
+//TODO Сохранять данные формы при перезагрузке страницы
+// https://blog.lisogorsky.ru/session-storage-save-data
+// https://github.com/FThompson/FormPersistence.js
+
 const form = document.forms.order;
 
 const suggestionToken = "1aef0cdf8ae200e131d3e69cb08ee4983f20e311";
@@ -213,53 +217,3 @@ const setCargoOperationHandlers = (operation) => {
 setCargoOperationHandlers("loading");
 setCargoOperationHandlers("unloading");
 // -- Прием и выдача груза
-
-{
-  // Составитель заявки
-  const btnConsigner = form.querySelector(".order-author-consigner");
-  const btnConsignee = form.querySelector(".order-author-consignee");
-  const btnPayer = form.querySelector(".order-author-payer");
-
-  const fioElement = form.elements["order-author-fio"];
-  const telElement = form.elements["order-author-tel"];
-
-  const handleAuthorHelperFactory = (role) => {
-    const handleAuthorHelper = (event) => {
-      const data = new FormData(form);
-
-      let fio, tel;
-      if (data.get(`${role}-type`) === `legal-entity`) {
-        if (
-          role === `payer` ||
-          data.get(`${role}-is-payer`) === `consigner-is-payer`
-        ) {
-          fio = data.get(`${role}-paying-contact-fio`);
-          tel = data.get(`${role}-paying-contact-tel`);
-        } else {
-          fio = data.get(`${role}-cargo-contact-fio`);
-          tel = data.get(`${role}-cargo-contact-tel`);
-        }
-      } else if (data.get(`${role}-type`) === `private-person`) {
-        fio = data.get(`${role}-fio`);
-        tel = data.get(`${role}-tel`);
-      }
-
-      if (fio) {
-        fioElement.value = fio;
-        telElement.value = tel;
-      }
-    };
-
-    return handleAuthorHelper;
-  };
-
-  btnConsigner.addEventListener(
-    "click",
-    handleAuthorHelperFactory(`consigner`)
-  );
-  btnConsignee.addEventListener(
-    "click",
-    handleAuthorHelperFactory(`consignee`)
-  );
-  btnPayer.addEventListener("click", handleAuthorHelperFactory(`payer`));
-}
