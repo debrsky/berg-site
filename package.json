@@ -13,6 +13,7 @@
   "devDependencies": {
     "browser-sync": "^2.26.7",
     "delete": "^1.1.0",
+    "dotenv": "^10.0.0",
     "gh-pages": "^2.2.0",
     "gulp": "^4.0.2",
     "gulp-html-bem-validator": "^1.0.5",
@@ -27,6 +28,7 @@
     "gulp-w3c-html-validator": "^2.0.1",
     "posthtml-include": "^1.4.3",
     "prettier": "2.0.4",
+    "vinyl-ftp": "^0.6.1",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",

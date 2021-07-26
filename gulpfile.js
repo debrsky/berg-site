@@ -1,5 +1,6 @@
-const gulp = require("gulp");
+require("dotenv").config();
 
+const gulp = require("gulp");
 const serve = require(`./gulp/serve`);
 const clean = require(`./gulp/clean`);
 const copy = require(`./gulp/copy`);
@@ -11,12 +12,14 @@ const script = require(`./gulp/script`);
 const validateHTML = require(`./gulp/validate-html`);
 
 const ghPages = require(`./gulp/deploy-to-gh-pages`);
+const ftp = require(`./gulp/deploy-to-ftp`);
 
 const build = gulp.series(clean, copy, svg, html, pug2html, style, script);
 const dev = gulp.series(build, validateHTML, serve);
 const validate = gulp.series(clean, copy, svg, html, pug2html, validateHTML);
 
-const deploy = gulp.series(build, ghPages);
+const deployToGh = gulp.series(build, ghPages);
+const deployToFtp = gulp.series(build, ftp);
 
 process.rootDir = __dirname;
 
@@ -32,5 +35,6 @@ module.exports = {
   style,
   script,
   serve,
-  deploy
+  deployToGh,
+  deployToFtp
 };
