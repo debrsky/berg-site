@@ -1,0 +1,48 @@
+.button {
+  color: var(--brand-color);
+  background: none;
+  padding: 1em 2em;
+  border: 1px solid currentColor;
+  transition: transform 0.1s ease-out;
+}
+
+.button:disabled,
+.button--disabled {
+  color: var(--brand-color-light);
+  background-color: var(--brand-color-grey);
+}
+
+.button:active,
+.button--active {
+  transform: scale(0.95);
+}
+
+.button:hover:not(:disabled),
+.button--hover,
+.button:focus,
+.button--focus {
+  background-color: var(--brand-color-light);
+  color: var(--brand-color-white);
+}
+
+.button--primary {
+  background-color: var(--brand-color);
+  color: var(--brand-color-white);
+}
+
+.button--primary:disabled {
+  color: var(--brand-color);
+  background-color: var(--brand-color-dark);
+}
+
+.button--primary:hover:not(:disabled),
+.button--primary.button--hover,
+.button--primary:focus,
+.button--primary.button--focus {
+  background-color: var(--brand-color-lighter);
+  color: var(--brand-color-white);
+}
+
+
+
+
