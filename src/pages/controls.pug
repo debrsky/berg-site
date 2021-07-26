@@ -1,0 +1,27 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Элементы управления
+    link(rel="stylesheet", href="css/normalize.css")
+    link(rel="stylesheet", href="css/style.css")
+
+  body
+    form.form(style="margin: 1em;")
+      section
+        h2 Кнопки
+        div
+          h3 Common
+          button.button(type="button") Кнопка
+          button.button.button--hover(type="button") Кнопка
+          button.button.button--focus(type="button") Кнопка
+          button.button.button--active(type="button") Кнопка
+          button.button(type="button", disabled) Кнопка
+        div
+          h3 Primary
+          button.button.button--primary(type="button") Primary
+          button.button.button--primary.button--hover(type="button") Кнопка
+          button.button.button--primary.button--focus(type="button") Кнопка
+          button.button.button--primary.button--active(type="button") Кнопка
+          button.button.button--primary(type="button", disabled) Кнопка
