@@ -103,20 +103,21 @@ mixin cargoOperation(operation)
 
   h4.h4 Место передачи груза
   .grid12
-    .control.grid12__col
-      label.control__label(for=`${operation}-place`)
-        case operation
-          when 'loading'
-            | Место отправления груза
-          when 'unloading'
-            | Место получения груза
+    .control-group.grid12__col
+      .control
+        label.control__label(for=`${operation}-place`)
+          case operation
+            when 'loading'
+              | Место отправления груза
+            when 'unloading'
+              | Место получения груза
 
-      select(id=`${operation}-place`, name=`${operation}-place`)
-        option(selected, disabled, value) &lt;не выбрано&gt;
-        each placeName, place in places
-          option(value=place)=placeName
-        option(value="other") Другой город
-      p.control__hint Для подачи машины в город Артем выберите #[q Владивосток].
+        select(id=`${operation}-place`, name=`${operation}-place`)
+          option(selected, disabled, value) &lt;не выбрано&gt;
+          each placeName, place in places
+            option(value=place)=placeName
+          option(value="other") Другой город
+        p.control__hint Для подачи машины в город Артем выберите #[q Владивосток].
 
     .control-group.grid12__col
       .control(class=`${operation}-terminal-control`)
