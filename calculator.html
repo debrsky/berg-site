@@ -67,61 +67,67 @@
         <!--TODO оформить покрасивее-->
         <article>
           <h2 class="h2">Тарифный калькулятор</h2>
-          <form name="calculator">
+          <form class="form" name="calculator">
             <fieldset>
               <legend>
                 <h3 class="h3">Направление</h3>
               </legend>
-              <div class="control">
-                <label for="origin">Место отправления</label>
-                <select id="origin" name="origin">
-                  <option selected value>&lt;не выбрано&gt;</option>
-                  <option value="vvo">Владивосток</option>
-                  <option value="uss">Уссурийск</option>
-                  <option value="khb">Хабаровск</option>
-                  <option value="blg">Благовещенск</option>
-                  <option value="kms">Комсомольск-на-Амуре</option>
-                </select>
+              <div class="control-group" style="display: flex; flex-wrap: wrap;">
+                <div class="control" style="width: min-content;">
+                  <label for="origin">Место отправления</label>
+                  <select id="origin" name="origin">
+                    <option selected value>&lt;не выбрано&gt;</option>
+                    <option value="vvo">Владивосток</option>
+                    <option value="uss">Уссурийск</option>
+                    <option value="khb">Хабаровск</option>
+                    <option value="blg">Благовещенск</option>
+                    <option value="kms">Комсомольск-на-Амуре</option>
+                  </select>
+                </div>
+                <div class="control" style="width: min-content;">
+                  <label for="destination">Место получения</label>
+                  <select id="destination" name="destination">
+                    <option selected value>&lt;не выбрано&gt;</option>
+                    <option value="vvo">Владивосток</option>
+                    <option value="uss">Уссурийск</option>
+                    <option value="khb">Хабаровск</option>
+                    <option value="blg">Благовещенск</option>
+                    <option value="kms">Комсомольск-на-Амуре</option>
+                  </select>
+                </div>
               </div>
-              <div class="control">
-                <label for="destination">Место получения</label>
-                <select id="destination" name="destination">
-                  <option selected value>&lt;не выбрано&gt;</option>
-                  <option value="vvo">Владивосток</option>
-                  <option value="uss">Уссурийск</option>
-                  <option value="khb">Хабаровск</option>
-                  <option value="blg">Благовещенск</option>
-                  <option value="kms">Комсомольск-на-Амуре</option>
-                </select>
-              </div>
-              <p class="direction-error-message" hidden>По данному направлению автоматический расчет тарифа не предусмотрен.</p>
+              <p class="direction-error-message" aria-live="assertive" hidden>По данному направлению автоматический расчет тарифа не предусмотрен.</p>
             </fieldset>
             <fieldset>
               <legend>
                 <h3 class="h3">Характеристики груза</h3>
               </legend>
-              <div class="control">
-                <label for="weight">Масса груза, килограммы</label>
-                <input id="weight" type="text" name="weight" inputmode="numeric">
+              <div class="control-group flex flex--wrap">
+                <div class="control min-content">
+                  <label for="weight">Масса груза, кг</label>
+                  <input id="weight" type="text" name="weight" inputmode="numeric" style="width: 15ch;">
+                </div>
+                <div class="control min-content">
+                  <label for="volume">Объем груза, м³</label>
+                  <input id="volume" type="text" name="volume" inputmode="numeric" style="width: 15ch;">
+                </div>
               </div>
               <div class="control">
-                <label for="volume">Объем груза, кубометры</label>
-                <input id="volume" type="text" name="volume" inputmode="numeric">
+                <p class="cargo-category" aria-live="assertive">&nbsp;</p>
               </div>
-              <div class="control">
-                <p class="cargo-category">&nbsp;</p>
-              </div>
-              <div class="control">
-                <input id="ic-engine" type="checkbox" name="params[]" value="ic-engine">
-                <label for="ic-engine">Это двигатель внутреннего сгорания</label>
-              </div>
-              <div class="control">
-                <input id="fridge" type="checkbox" name="params[]" value="fridge">
-                <label for="fridge">Необходимо соблюдение температурного режима для груза (+ или - °С)</label>
-              </div>
-              <div class="control">
-                <input id="oversized" type="checkbox" name="params[]" value="oversized">
-                <label for="oversized">Негабаритный груз</label>
+              <div class="control-group">
+                <div class="control">
+                  <input id="ic-engine" type="checkbox" name="params[]" value="ic-engine">
+                  <label for="ic-engine">Это двигатель внутреннего сгорания</label>
+                </div>
+                <div class="control">
+                  <input id="fridge" type="checkbox" name="params[]" value="fridge">
+                  <label for="fridge">Необходимо соблюдение температурного режима для груза (+ или - °С)</label>
+                </div>
+                <div class="control">
+                  <input id="oversized" type="checkbox" name="params[]" value="oversized">
+                  <label for="oversized">Негабаритный груз</label>
+                </div>
               </div>
             </fieldset>
             <fieldset>

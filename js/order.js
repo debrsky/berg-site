@@ -56,9 +56,7 @@ const setHandlers = (counterpartyRole) => {
 
       console.log(suggestion);
 
-      const address = suggestion.data.address.data.postal_code
-        ? `${suggestion.data.address.data.postal_code}, ${suggestion.data.address.value}`
-        : suggestion.data.address.value;
+      const address = suggestion.data.address.value;
 
       if (suggestion.data.type === "INDIVIDUAL") {
         OGRNElement.value = suggestion.data.ogrn;

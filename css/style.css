@@ -23,6 +23,9 @@ a[href^='tel:'].fax::before {
 *::after {
   box-sizing: inherit;
 }
+[hidden] {
+  display: none !important;
+}
 noscript {
   position: fixed;
   padding: 1ch;
@@ -42,6 +45,21 @@ html {
   font-size: 18px;
   line-height: 1.2;
   --brand-color: #0c98d9;
+  --brand-color-lighter: #45B5EC;
+  --brand-color-light: #71C4EC;
+  --barnd-color-lightest: #e1f4ff;
+  --brand-color-darker: #2F7DA3;
+  --brand-color-dark: #04608D;
+  --brand-color-secondary: #FF8902;
+  --brand-color-secondary-lighter: #FFA741;
+  --brand-color-secondary-light: #FFBE74;
+  --brand-color-secondary-darker: #BF7D31;
+  --brand-color-secondary-dark: #A65901;
+  --brand-color-white: white;
+  --brand-color-grey: lightgrey;
+  --brand-color-black: #444;
+  color: var(--brand-color-black);
+  background-color: var(--brand-color-white);
 }
 img {
   display: block;
@@ -61,6 +79,21 @@ details summary {
 }
 .nobr {
   white-space: nowrap;
+}
+.flex {
+  display: flex;
+}
+.flex--wrap {
+  flex-wrap: wrap;
+}
+.min-content {
+  width: min-content;
+}
+.max-content {
+  width: max-content;
+}
+.fit-content {
+  width: fit-content;
 }
 @media (max-width: 767.98px) {
   html {
@@ -191,13 +224,169 @@ details summary {
 .table tbody tr td {
   border-bottom: 1px solid lightgray;
 }
-.control:not([hidden]) {
-  padding: 1ch;
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+}
+.grid12__col {
+  grid-column: span 12;
+}
+.grid12__col--12 {
+  grid-column: span 12;
+}
+.grid12__col--11 {
+  grid-column: span 11;
+}
+.grid12__col--10 {
+  grid-column: span 10;
+}
+.grid12__col--9 {
+  grid-column: span 9;
+}
+.grid12__col--8 {
+  grid-column: span 8;
+}
+.grid12__col--7 {
+  grid-column: span 7;
+}
+.grid12__col--6 {
+  grid-column: span 6;
+}
+.grid12__col--5 {
+  grid-column: span 5;
+}
+.grid12__col--4 {
+  grid-column: span 4;
+}
+.grid12__col--3 {
+  grid-column: span 3;
+}
+.grid12__col--2 {
+  grid-column: span 2;
+}
+.grid12__col--1 {
+  grid-column: span 1;
+}
+@media (min-width: 767.98px) {
+  .grid12__desktop-col--12 {
+    grid-column: span 12;
+  }
+  .grid12__desktop-col--11 {
+    grid-column: span 11;
+  }
+  .grid12__desktop-col--10 {
+    grid-column: span 10;
+  }
+  .grid12__desktop-col--9 {
+    grid-column: span 9;
+  }
+  .grid12__desktop-col--8 {
+    grid-column: span 8;
+  }
+  .grid12__desktop-col--7 {
+    grid-column: span 7;
+  }
+  .grid12__desktop-col--6 {
+    grid-column: span 6;
+  }
+  .grid12__desktop-col--5 {
+    grid-column: span 5;
+  }
+  .grid12__desktop-col--4 {
+    grid-column: span 4;
+  }
+  .grid12__desktop-col--3 {
+    grid-column: span 3;
+  }
+  .grid12__desktop-col--2 {
+    grid-column: span 2;
+  }
+  .grid12__desktop-col--1 {
+    grid-column: span 1;
+  }
+}
+.form {
+  margin: 0 auto;
+}
+.form--order {
+  max-width: 767.98px;
+}
+.control-group {
+  margin: 0.5em 0;
+  padding: 0.5em 0;
+  background-color: var(--barnd-color-lightest);
+}
+.control-group__hint {
+  margin: 0;
+  padding: 0;
+  font-size: small;
+}
+.control {
+  padding: 0.5ch;
   display: block;
+  align-self: end;
+  background-color: var(--barnd-color-lightest);
 }
 .control textarea,
 .control input:not([type=radio]):not([type=checkbox]) {
   width: 100%;
+}
+.control__hint {
+  margin: 0;
+  padding: 0;
+  font-size: x-small;
+}
+.button {
+  color: var(--brand-color);
+  background: none;
+  padding: 1em 2em;
+  margin: 1em 1ch;
+  border: 1px solid currentColor;
+  transition: transform 0.1s ease-out;
+}
+.button:disabled,
+.button--disabled {
+  color: var(--brand-color-light);
+  background-color: var(--brand-color-grey);
+}
+.button:active,
+.button--active {
+  transform: scale(0.95);
+}
+.button:hover:not(:disabled),
+.button--hover {
+  background-color: var(--brand-color-light);
+  color: var(--brand-color-white);
+}
+.button--primary {
+  background-color: var(--brand-color);
+  color: var(--brand-color-white);
+}
+.button--primary:disabled {
+  color: var(--brand-color);
+  background-color: var(--brand-color-dark);
+}
+.button--primary:hover:not(:disabled),
+.button--primary.button--hover,
+.button--primary:focus,
+.button--primary.button--focus {
+  background-color: var(--brand-color-lighter);
+  color: var(--brand-color-white);
+}
+.button--secondary {
+  background-color: var(--brand-color-secondary);
+  color: var(--brand-color-white);
+}
+.button--secondary:disabled {
+  color: var(--brand-color-secondary);
+  background-color: var(--brand-color-secondary-dark);
+}
+.button--secondary:hover:not(:disabled),
+.button--secondary.button--hover,
+.button--secondary:focus,
+.button--secondary.button--focus {
+  background-color: var(--brand-color-secondary-lighter);
+  color: var(--brand-color-white);
 }
 .header {
   font-size: 16px;
