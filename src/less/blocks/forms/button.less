@@ -2,6 +2,7 @@
   color: var(--brand-color);
   background: none;
   padding: 1em 2em;
+  margin: 1em 1ch;
   border: 1px solid currentColor;
   transition: transform 0.1s ease-out;
 }
@@ -18,9 +19,7 @@
 }
 
 .button:hover:not(:disabled),
-.button--hover,
-.button:focus,
-.button--focus {
+.button--hover {
   background-color: var(--brand-color-light);
   color: var(--brand-color-white);
 }
@@ -43,6 +42,23 @@
   color: var(--brand-color-white);
 }
 
+.button--secondary {
+  background-color: var(--brand-color-secondary);
+  color: var(--brand-color-white);
+}
+
+.button--secondary:disabled {
+  color: var(--brand-color-secondary);
+  background-color: var(--brand-color-secondary-dark);
+}
+
+.button--secondary:hover:not(:disabled),
+.button--secondary.button--hover,
+.button--secondary:focus,
+.button--secondary.button--focus {
+  background-color: var(--brand-color-secondary-lighter);
+  color: var(--brand-color-white);
+}
 
 
 
