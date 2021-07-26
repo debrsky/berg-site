@@ -6,6 +6,7 @@ const svg = require(`./svg.js`);
 const style = require(`./style`);
 const html = require(`./html`);
 const pug2html = require(`./pug2html`);
+const pages = require(`./pages`);
 const script = require(`./script`);
 
 function readyFullReload(cb) {
@@ -32,7 +33,8 @@ module.exports = function serve() {
   gulp.watch(`src/css/**/*.css`, gulp.series(style, readyStyleReload));
   gulp.watch(`src/less/**/*.less`, gulp.series(style, readyStyleReload));
   gulp.watch(`src/**/*.html`, gulp.series(html, readyFullReload));
-  gulp.watch(`src/**/*.pug`, gulp.series(pug2html, readyFullReload));
+  gulp.watch(`src/pug/**/*.pug`, gulp.series(pug2html, readyFullReload));
+  gulp.watch(`src/pages/**/*.pug`, gulp.series(pages, readyFullReload));
 
   gulp.watch(`src/js/index.js`, gulp.series(script, readyFullReload));
   gulp.watch(
