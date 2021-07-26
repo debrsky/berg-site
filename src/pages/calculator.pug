@@ -39,13 +39,13 @@ block content
       fieldset
         legend
           h3.h3 Характеристики груза
-        .control-group.grid12
-          .control.grid12.grid12__col.grid12__col--6
-            label(for="weight") Масса груза, килограммы
-            input#weight(type="text", name="weight", inputmode="numeric")
-          .control.grid12.grid12__col.grid12__col--6
-            label(for="volume") Объем груза, кубометры
-            input#volume(type="text", name="volume", inputmode="numeric")
+        .control-group.flex.flex--wrap
+          .control.min-content
+            label(for="weight") Масса груза, кг
+            input#weight(type="text", name="weight", inputmode="numeric", style="width: 15ch;")
+          .control.min-content
+            label(for="volume") Объем груза, м³
+            input#volume(type="text", name="volume", inputmode="numeric", style="width: 15ch;")
 
         .control
           p.cargo-category(aria-live="assertive") &nbsp;

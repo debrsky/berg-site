@@ -88,18 +88,17 @@ mixin cargoOperation(operation)
 
   if operation === 'loading'
     h4.h4 Дата и время отправления
-    .control-group
-      .grid12
-        label.control.grid12__col.grid12__col--6
-          span Дата
-          |
-          input(id=`${operation}-date`, type="date", name=`${operation}-date`)
+    .control-group.flex.flex--wrap
+      label.control.min-content
+        span Дата
+        |
+        input(id=`${operation}-date`, type="date", name=`${operation}-date`)
 
-        label.control.grid12__col.grid12__col--6
-          span Время
-          |
-          input(id=`${operation}-time`, type="text", name=`${operation}-time`)
-      p.control-group__hint Заявка на следующие сутки принимается до #[time 16:00]
+      label.control.min-content
+        span Время
+        |
+        input(id=`${operation}-time`, type="text", name=`${operation}-time`, style="width: 20ch;")
+      p.control-group__hint Заявка на подачу машины на следующие сутки принимается до #[time 16:00]
 
   h4.h4 Место передачи груза
   .grid12
