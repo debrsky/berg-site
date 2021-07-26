@@ -16,45 +16,50 @@ block content
   article
     h2.h2 Тарифный калькулятор
 
-    form(name="calculator")
+    form.form(name="calculator")
       fieldset
         legend
           h3.h3 Направление
-        .control
-          label(for="origin") Место отправления
-          select#origin(name="origin")
-            option(selected, value) &lt;не выбрано&gt;
-            each placeName, place in places
-              option(value=place)=placeName
-        .control
-          label(for="destination") Место получения
-          select#destination(name="destination")
-            option(selected, value) &lt;не выбрано&gt;
-            each placeName, place in places
-              option(value=place)=placeName
+        .control-group(style="display: flex; flex-wrap: wrap;")
+          .control(style="width: min-content;")
+            label(for="origin") Место отправления
+            select#origin(name="origin")
+              option(selected, value) &lt;не выбрано&gt;
+              each placeName, place in places
+                option(value=place)=placeName
+          .control(style="width: min-content;")
+            label(for="destination") Место получения
+            select#destination(name="destination")
+              option(selected, value) &lt;не выбрано&gt;
+              each placeName, place in places
+                option(value=place)=placeName
 
-        p.direction-error-message(hidden) По данному направлению автоматический расчет тарифа не предусмотрен.
+        p.direction-error-message(aria-live="assertive", hidden) По данному направлению автоматический расчет тарифа не предусмотрен.
 
       fieldset
         legend
           h3.h3 Характеристики груза
+        .control-group.grid12
+          .control.grid12.grid12__col.grid12__col--6
+            label(for="weight") Масса груза, килограммы
+            input#weight(type="text", name="weight", inputmode="numeric")
+          .control.grid12.grid12__col.grid12__col--6
+            label(for="volume") Объем груза, кубометры
+            input#volume(type="text", name="volume", inputmode="numeric")
+
         .control
-          label(for="weight") Масса груза, килограммы
-          input#weight(type="text", name="weight", inputmode="numeric")
-        .control
-          label(for="volume") Объем груза, кубометры
-          input#volume(type="text", name="volume", inputmode="numeric")
-        .control
-          p.cargo-category &nbsp;
-        .control
-          input#ic-engine(type="checkbox", name="params[]", value="ic-engine")
-          label(for="ic-engine") Это двигатель внутреннего сгорания
-        .control
-          input#fridge(type="checkbox", name="params[]", value="fridge")
-          label(for="fridge") Необходимо соблюдение температурного режима для груза (+ или - °С)
-        .control
-          input#oversized(type="checkbox", name="params[]", value="oversized")
-          label(for="oversized") Негабаритный груз
+          p.cargo-category(aria-live="assertive") &nbsp;
+
+        .control-group
+          .control
+            input#ic-engine(type="checkbox", name="params[]", value="ic-engine")
+            label(for="ic-engine") Это двигатель внутреннего сгорания
+          .control
+            input#fridge(type="checkbox", name="params[]", value="fridge")
+            label(for="fridge") Необходимо соблюдение температурного режима для груза (+ или - °С)
+          .control
+            input#oversized(type="checkbox", name="params[]", value="oversized")
+            label(for="oversized") Негабаритный груз
 
       fieldset
         legend
