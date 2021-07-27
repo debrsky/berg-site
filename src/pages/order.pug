@@ -160,7 +160,7 @@ block content
   form.form.form--order(name="order", onsubmit="alert('Заявка отправлена.'); return false;")
     h2.h2 Заявка на грузоперевозку
 
-    section
+    section.form__section
       h3.h3 1. Груз
       .control-group.grid12
         .control.grid12__col.grid12__col--12
@@ -188,14 +188,14 @@ block content
             option(value="страховать") страховать
             option(value="не страховать") не страховать
 
-    section
+    section.form__section
       h3.h3 2. Отправление груза
       +cargoOperation('loading')
-    section
+    section.form__section
       h3.h3 3. Получение груза
       +cargoOperation('unloading')
 
-    section
+    section.form__section
       h3.h3 4. Оплата
       section.section-payer
         h4.h4 Плательщик
@@ -211,13 +211,13 @@ block content
             option Наличными без чека
           p.control__hint Безналичный расчет возможен только при наличии договора.
 
-    section
+    section.form__section
       h3.h3
         label(for="memo") 5. Комментарий
       .control
         textarea#memo(name="memo", placeholder="например, сделать остановку в Хабаровске")
 
-    section
+    section.form__section
       h3.h3 6. Заявку составил
       .control-group.grid12
         .control.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
@@ -230,7 +230,7 @@ block content
           label(for="order-author-email") Е-майл
           input#order-author-email(type="email", name="order-author-email", data-suggestion-type="email")
 
-    section
+    section.form__section
       h3.h3 7. Отправка заявки
 
       ul
@@ -238,12 +238,16 @@ block content
           a(href="terms.html") Условия перевозки грузов
         li
           a(href="pricing.html") Тарифы на грузоперевозку
-        li
-          a(href="personal-data-policy.html") Политика обработки персональных данных
 
       .control
         input#accept(type="checkbox", name="accept", value="accept")
         label(for="accept") Я ознакомился с условиями перевозки грузов и тарифами, с обработкой персональных данных согласен.
 
-      .control-group
-        button.button.button--primary(type="submit") Отправить заявку
+      .control-group.flex.flex-wrap(style="gap: 1ch; justify-content: center; align-items: start;")
+        div
+          button.max-content.button.button--primary.form__button(type="submit") Отправить заявку
+        div
+          span
+            | Отправляя заявку, вы соглашаетесь с обработкой ваших персональных данных в соответствии с
+            |
+            a(href="personal-data-policy.html") Политикой обработки персональных данных
