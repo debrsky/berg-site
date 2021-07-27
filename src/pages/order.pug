@@ -29,17 +29,17 @@ mixin counterpartyRole(role)
     }
 
   .control-group(style="display: flex;")
-    .control
-      input(id=`${role}-type-legal-entity`, type="radio", name=`${role}-type`, value="legal-entity")
-      label(for=`${role}-type-legal-entity`) Организация или ИП
-    .control
-      input(id=`${role}-type-private-person`, type="radio", name=`${role}-type`, value="private-person")
-      label(for=`${role}-type-private-person`) Частное лицо
+    .control.control--required
+      input(id=`${role}-type-legal-entity`, type="radio", name=`${role}-type`, value="legal-entity", required)
+      label.control__label(for=`${role}-type-legal-entity`) Организация или ИП
+    .control.control--required
+      input(id=`${role}-type-private-person`, type="radio", name=`${role}-type`, value="private-person", required)
+      label.control__label(for=`${role}-type-private-person`) Частное лицо
 
   div(class=`group-${role}-legal-entity`, hidden)
     .control-group.grid12
-      .control.grid12__col
-        label(for=`${role}`) Организация или ИП
+      .control.control--required.grid12__col
+        label.control__label(for=`${role}`) Организация или ИП
         input(id=`${role}`, type="text", name=`${role}`, placeholder="название, адрес, ИНН или ОГРН")
       .control.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--4
         label(for=`${role}-INN`) ИНН
@@ -57,12 +57,12 @@ mixin counterpartyRole(role)
     +contact(role)
 
   .control-group.grid12(class=`group-${role}-private-person`, hidden)
-    .control.grid12__col.grid12__desktop-col.grid12__desktop-col--6
-      label(for=`${role}-fio`) ФИО
+    .control.control--required.grid12__col.grid12__desktop-col.grid12__desktop-col--6
+      label.control__label(for=`${role}-fio`) ФИО
       input(id=`${role}-fio`, type="text", name=`${role}-fio`, data-suggestion-type="name")
 
-    .control.grid12__col.grid12__desktop-col.grid12__desktop-col--6
-      label(for=`${role}-tel`) Телефон
+    .control.control--required.grid12__col.grid12__desktop-col.grid12__desktop-col--6
+      label.control__label(for=`${role}-tel`) Телефон
       input(id=`${role}-tel`, type="tel", name=`${role}-tel`)
 
   case role
@@ -90,13 +90,13 @@ mixin cargoOperation(operation)
   if operation === 'loading'
     h4.h4 Дата и время отправления
     .control-group.flex.flex--wrap
-      label.control.min-content
-        span Дата
+      label.control.control--required.min-content
+        span.control__label Дата
         |
         input(id=`${operation}-date`, type="date", name=`${operation}-date`)
 
       label.control.min-content
-        span Время
+        span.control__label Время
         |
         input(id=`${operation}-time`, type="text", name=`${operation}-time`, style="width: 20ch;")
       p.control-group__hint Заявка на подачу машины на следующие сутки принимается до #[time 16:00]
@@ -110,7 +110,7 @@ mixin cargoOperation(operation)
 
   .grid12
     .control-group.grid12__col
-      .control
+      .control.control--required
         label.control__label(for=`${operation}-place`)
           case operation
             when 'loading'
@@ -119,26 +119,26 @@ mixin cargoOperation(operation)
               | Город получения груза
 
         select(id=`${operation}-place`, name=`${operation}-place`)
-          option(selected, disabled, value) &lt;не выбрано&gt;
+          option(selected, disabled, value="") &lt;не выбрано&gt;
           each placeName, place in places
             option(value=place)=placeName
           option(value="other") Другой город
         p.control__hint Для подачи машины в город Артем выберите #[q Владивосток].
 
     .control-group.grid12__col
-      .control(class=`${operation}-terminal-control`)
+      .control.control--required(class=`${operation}-terminal-control`)
         input(id=`${operation}-point-terminal`, type="radio", name=`${operation}-point`, value=`${operation}-point-terminal`)
-        label(class=`${operation}-point-terminal-title`, for=`${operation}-point-terminal`) Терминал перевозчика
-      .control(class=`${operation}-client-control`)
+        label.control__label(class=`${operation}-point-terminal-title`, for=`${operation}-point-terminal`) Терминал перевозчика
+      .control.control--required(class=`${operation}-client-control`)
         input(id=`${operation}-point-client`, type="radio", name=`${operation}-point`, value=`${operation}-point-client`)
-        label(for=`${operation}-point-client`) Подача машины по адресу склада грузоотправителя
-      .control(class=`${operation}-pickup-control`)
+        label.control__label(for=`${operation}-point-client`) Подача машины по адресу склада грузоотправителя
+      .control.control--required(class=`${operation}-pickup-control`)
         input(id=`${operation}-point-pickup`, type="radio", name=`${operation}-point`, value=`${operation}-point-pickup`)
-        label(for=`${operation}-point-pickup`) Передача груза на трассе в согласованное с водителем время
+        label.control__label(for=`${operation}-point-pickup`) Передача груза на трассе в согласованное с водителем время
 
     .control-group.grid12__col(class=`group-${operation}-point-client-address`, hidden)
-      label.control
-        span Адрес передачи груза
+      label.control.control--required
+        span.control__label Адрес передачи груза
         textarea(id=`${operation}-point-client-address`, name=`${operation}-point-client-address`, data-suggestion-type="address")
 
 block head
@@ -170,30 +170,30 @@ block content
     section.form__section
       h3.h3 1. Груз
       .control-group.grid12.form__section-content
-        .control.grid12__col.grid12__col--12
-          label(for="cargo") Наименование
+        .control.control--required.grid12__col.grid12__col--12
+          label.control__label(for="cargo") Наименование
           input#cargo(type="text", name="cargo")
-        .control.grid12__col.grid12__col--4.grid12__desktop-col.grid12__desktop-col--2
-          label(for="cargo-weight") Вес, кг
+        .control.control--required.grid12__col.grid12__col--4.grid12__desktop-col.grid12__desktop-col--2
+          label.control__label(for="cargo-weight") Вес, кг
           input#cargo-weight(type="text", name="cargo-weight", inputmode="numeric")
-        .control.grid12__col.grid12__col--4.grid12__desktop-col.grid12__desktop-col--2
-          label(for="cargo-volume") Объем, м³
+        .control.control--required.grid12__col.grid12__col--4.grid12__desktop-col.grid12__desktop-col--2
+          label.control__label(for="cargo-volume") Объем, м³
           input#cargo-volume(type="text", name="cargo-volume", inputmode="numeric")
-        .control.grid12__col.grid12__col--4.grid12__desktop-col.grid12__desktop-col--2
-          label(for="cargo-qty") Количество мест
+        .control.control--required.grid12__col.grid12__col--4.grid12__desktop-col.grid12__desktop-col--2
+          label.control__label(for="cargo-qty") Количество мест
           input#cargo-qty(type="text", name="cargo-qty", inputmode="numeric")
         .control.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--3
-          label(for="cargo-condition") Температурный режим
+          label.control__label(for="cargo-condition") Температурный режим
           input#cargo-condition(type="text", name="cargo-condition", placeholder="не требуется")
         .control.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--3
-          label(for="cargo-value") Ценность груза, руб.
+          label.control__label(for="cargo-value") Ценность груза, руб.
           input#cargo-value(type="text", name="cargo-value", inputmode="numeric")
         label.control.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--3
-          span Страховка
+          span.control__label Страховка
           select#insurance(name="insurance")
-            option(selected, disabled, value) &lt;не выбрано&gt;
-            option(value="страховать") страховать
+            option(selected, disabled, value="") &lt;не выбрано&gt;
             option(value="не страховать") не страховать
+            option(value="страховать") страховать
 
     section.form__section
       h3.h3 2. Отправление груза
@@ -211,12 +211,12 @@ block content
           h4.h4 Плательщик
           +counterpartyRole('payer')
         section
-          h4.h4 Форма оплаты и страховка
+          h4.h4 Форма оплаты
           .control-group
             .control
               label(for="payment-form") Форма оплаты
               select#payment-form
-                option(selected, disabled, value) &lt;не выбрано&gt;
+                option(selected, disabled, value="") &lt;не выбрано&gt;
                 option Безналичная
                 option Наличными с чеком
                 option Наличными без чека
@@ -232,14 +232,14 @@ block content
     section.form__section
       h3.h3 6. Заявку составил
       .form__section-content.control-group.grid12
-        .control.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
-          label(for="order-author-fio") ФИО
+        .control.control--required.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
+          label.control__label(for="order-author-fio") ФИО
           input#order-author-fio(type="text", name="order-author-fio", data-suggestion-type="name", required)
-        .control.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
-          label(for="order-author-tel") Телефон
+        .control.control--required.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
+          label.control__label(for="order-author-tel") Телефон
           input#order-author-tel(type="tel", name="order-author-tel", required)
-        .control.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
-          label(for="order-author-email") Е-майл
+        .control.control--required.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
+          label.control__label(for="order-author-email") Е-майл
           input#order-author-email(type="email", name="order-author-email", data-suggestion-type="email")
 
     section.form__section
@@ -252,15 +252,13 @@ block content
             a(href="pricing.html") Тарифы на грузоперевозку
 
         .control-group
-          .control
-            input#accept(type="checkbox", name="accept", value="accept")
-            label(for="accept") Я ознакомился с условиями перевозки грузов и тарифами, с обработкой персональных данных согласен.
+          .control.control--required
+            input#accept(type="checkbox", name="accept", value="accept", required)
+            label.control__label(for="accept") Я ознакомился с условиями перевозки грузов и тарифами.
 
         .control-group.flex.flex-wrap(style="gap: 1ch; justify-content: center; align-items: start;")
           div
             button.max-content.button.button--primary.form__button(type="submit") Отправить заявку
           div
             span
-              | Отправляя заявку, вы соглашаетесь с обработкой ваших персональных данных в соответствии с
-              |
-              a(href="personal-data-policy.html") Политикой обработки персональных данных
+              | Отправляя заявку, вы соглашаетесь с обработкой ваших персональных данных.

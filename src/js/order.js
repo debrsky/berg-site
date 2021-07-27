@@ -125,7 +125,23 @@ const handlePayerSelectorClick = (event) => {
   }
 };
 
+const setRequiredAttributes = (event) => {
+  const controlsToSetAttr = form.querySelectorAll(".control--required");
+  const elementsToRemoveAttr = form.querySelectorAll("[hidden] [required]");
+
+  controlsToSetAttr.forEach((el) => {
+    const uiElement = el.querySelector("input, textarea, select");
+    uiElement.setAttribute("required", "");
+  });
+
+  elementsToRemoveAttr.forEach((el) => {
+    el.removeAttribute("required");
+  });
+};
+
 form.addEventListener("change", handlePayerChange);
+form.addEventListener("change", setRequiredAttributes);
+
 consignerIsPayerElement.addEventListener("change", handlePayerSelectorClick);
 consigneeIsPayerElement.addEventListener("change", handlePayerSelectorClick);
 
@@ -175,8 +191,8 @@ const setCargoOperationHandlers = (operation) => {
     operationPointClientAddressGroupElement.hidden = !operationPointClientAddressGroupEnebled;
   };
 
-  operationPlaceElement.addEventListener("change", (event) => {
-    const place = event.target.value;
+  const handleOperationPlaceElementChange = () => {
+    const place = operationPlaceElement.value;
 
     if (Object.keys(terminals).includes(place)) {
       // Выбран город из списка
@@ -205,7 +221,12 @@ const setCargoOperationHandlers = (operation) => {
       }
       handleOperationPointChange();
     }
-  });
+  };
+
+  operationPlaceElement.addEventListener(
+    "change",
+    handleOperationPlaceElementChange
+  );
 
   operationPointElements.forEach((el) =>
     el.addEventListener("change", handleOperationPointChange)
