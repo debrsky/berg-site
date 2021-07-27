@@ -2,10 +2,17 @@
   margin: 0 auto;
 }
 
-.form--order {
-  max-width: @width-tablet;
-}
-
 .form__button {
   margin: 0 1ch;
 }
+
+.form__section {
+  border-top: 1px solid var(--brand-color-dark);
+
+  @media (min-width: 512px) {
+    display: grid;
+    grid-template-columns: 21ch 1fr;
+    margin: 1em 0;
+  }
+}
+
