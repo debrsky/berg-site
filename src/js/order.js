@@ -217,9 +217,9 @@ const formSerialize = (form) => {
 const formDeserialize = (form, data) => {
   //CAVEAT it doesn't work with elements with multiple values
 
-  const namedElemens = [...form.querySelectorAll("[name]")];
+  const namedElements = [...form.querySelectorAll("[name]")];
 
-  const elementsMap = namedElemens
+  const elementsMap = namedElements
     .map((el) => [el.getAttribute("name"), el])
     .reduce((acc, [key, value]) => {
       if (key in acc) {
@@ -240,7 +240,7 @@ const formDeserialize = (form, data) => {
   // console.log(elementsMap);
 
   // Clean form
-  namedElemens.forEach((element) => {
+  namedElements.forEach((element) => {
     if (element.matches("input[type=radio], input[type=checkbox]")) {
       element.checked = false;
       return;
