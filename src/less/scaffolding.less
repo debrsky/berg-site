@@ -67,9 +67,13 @@ details summary {
 }
 
 .v-text {
-  writing-mode: vertical-lr;
+  writing-mode: vertical-rl;
+  height: min-content;
+  transform: rotate(180deg);
   @media print {
     writing-mode: horizontal-tb;
+    height: auto;
+    transform: none;
   }
 }
 
