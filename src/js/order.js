@@ -1,4 +1,4 @@
-//TODO Сохранять данные формы при перезагрузке страницы
+// Сохранение данных формы при перезагрузке страницы
 // https://blog.lisogorsky.ru/session-storage-save-data
 // https://github.com/FThompson/FormPersistence.js
 
@@ -20,29 +20,6 @@ suggestionElements.forEach((el) => {
 });
 
 const setHandlers = (counterpartyRole) => {
-  const handleTypeChange = (event) => {
-    const legalEntityGroupElement = form.querySelector(
-      `.group-${counterpartyRole}-legal-entity`
-    );
-    const privatePersonGroupElement = form.querySelector(
-      `.group-${counterpartyRole}-private-person`
-    );
-
-    const formData = new FormData(form);
-    const type = formData.get(`${counterpartyRole}-type`);
-
-    legalEntityGroupElement.hidden = true;
-    privatePersonGroupElement.hidden = true;
-
-    if (type === "legal-entity") legalEntityGroupElement.hidden = false;
-    if (type === "private-person") privatePersonGroupElement.hidden = false;
-  };
-
-  const counterPartyTypeElements = form.elements[`${counterpartyRole}-type`];
-  [...counterPartyTypeElements].forEach((el) =>
-    el.addEventListener("change", handleTypeChange)
-  );
-
   const counterpartyElement = form.elements[`${counterpartyRole}`];
 
   $(counterpartyElement).suggestions({
@@ -79,38 +56,33 @@ setHandlers("consigner");
 setHandlers("consignee");
 setHandlers("payer");
 
-// Спрятать/показать плательщика
-const consignerIsPayerElement = form.elements["consigner-is-payer"];
-const consigneeIsPayerElement = form.elements["consignee-is-payer"];
-const payerElement = form.querySelector(".section-payer");
-const consignerPayingContactElement = form.querySelector(
-  ".consigner-paying-contact"
-);
-const consigneePayingContactElement = form.querySelector(
-  ".consignee-paying-contact"
-);
-
-const handlePayerChange = (event) => {
+const setPayerVisibility = () => {
   const data = new FormData(form);
 
-  const consignerType = data.get("consigner-type");
-  const consignerIsPayer =
-    data.get("consigner-is-payer") === "consigner-is-payer";
-  const consignerPayingContactEnabled =
-    consignerIsPayer && consignerType == "legal-entity";
-  consignerPayingContactElement.hidden = !consignerPayingContactEnabled;
+  ["consigner", "consignee"].forEach((role) => {
+    const rolePayingContactElement = form.querySelector(
+      `.${role}-paying-contact`
+    );
 
-  const consigneeType = data.get("consignee-type");
-  const consigneeIsPayer =
-    data.get("consignee-is-payer") === "consignee-is-payer";
-  const consigneePayingContactEnabled =
-    consigneeIsPayer && consigneeType == "legal-entity";
-  consigneePayingContactElement.hidden = !consigneePayingContactEnabled;
+    const roleType = data.get(`${role}-type`);
+    const roleIsPayer = data.get(`${role}-is-payer`) === `${role}-is-payer`;
+    const rolePayingContactEnabled = roleIsPayer && roleType == "legal-entity";
+    rolePayingContactElement.hidden = !rolePayingContactEnabled;
+  });
 
+  consignerIsPayer = data.get("consigner-is-payer") === "consigner-is-payer";
+  consigneeIsPayer = data.get("consignee-is-payer") === "consignee-is-payer";
+
+  const payerElement = form.querySelector(".section-payer");
   payerElement.hidden = consignerIsPayer || consigneeIsPayer;
 };
 
 const handlePayerSelectorClick = (event) => {
+  if (!event) return;
+
+  const consignerIsPayerElement = form.elements["consigner-is-payer"];
+  const consigneeIsPayerElement = form.elements["consignee-is-payer"];
+
   if (
     event.target === consignerIsPayerElement &&
     consignerIsPayerElement.checked
@@ -139,32 +111,12 @@ const setRequiredAttributes = (event) => {
   });
 };
 
-form.addEventListener("change", handlePayerChange);
-//FIXME form.addEventListener("change", setRequiredAttributes);
+// Управление видимостью полей в разделах погрузки/выгрузки
+const setCargoOperationStructure = (operation) => {
+  const data = new FormData(form);
 
-consignerIsPayerElement.addEventListener("change", handlePayerSelectorClick);
-consigneeIsPayerElement.addEventListener("change", handlePayerSelectorClick);
-
-// -- Спрятать/показать плательщика
-
-// Прием и выдача груза
-const setCargoOperationHandlers = (operation) => {
-  const operationPlaceElement = form.elements[`${operation}-place`];
-
-  const operationPointElements = form.elements[`${operation}-point`];
-  const operationPointTerminalElement = [...operationPointElements].find(
-    (el) => el.getAttribute("value") === `${operation}-point-terminal`
-  );
-  const operationPointClientElement = [...operationPointElements].find(
-    (el) => el.getAttribute("value") === `${operation}-point-client`
-  );
-  const operationPointPickupElement = [...operationPointElements].find(
-    (el) => el.getAttribute("value") === `${operation}-point-pickup`
-  );
-
-  const operationPointTerminalTitleElement = form.querySelector(
-    `.${operation}-point-terminal-title`
-  );
+  const operationPlace = data.get(`${operation}-place`);
+  const operationPoint = data.get(`${operation}-point`);
 
   const operationPointTerminalControlElement = form.querySelector(
     `.${operation}-terminal-control`
@@ -176,66 +128,79 @@ const setCargoOperationHandlers = (operation) => {
     `.${operation}-pickup-control`
   );
 
+  const operationPointTerminalTitleElement = form.querySelector(
+    `.${operation}-point-terminal-title`
+  );
+
   const operationPointClientAddressGroupElement = form.querySelector(
     `.group-${operation}-point-client-address`
   );
 
-  const operationPointClientAddressElement =
-    form.elements[`${operation}-point-client-address`];
+  operationPointClientAddressGroupElement.hidden =
+    !operationPoint || operationPoint === `${operation}-point-terminal`;
 
-  const handleOperationPointChange = (event) => {
-    const operationPointClientAddressGroupEnebled =
-      operationPointClientElement.checked ||
-      operationPointPickupElement.checked;
+  if (!operationPlace) {
+    // Не выбран город
+    return;
+  }
 
-    operationPointClientAddressGroupElement.hidden = !operationPointClientAddressGroupEnebled;
-  };
+  if (Object.keys(terminals).includes(operationPlace)) {
+    // Выбран город из списка
+    operationPointTerminalControlElement.hidden = false;
+    operationPointClientControlElement.hidden = false;
+    operationPointPickupControlElement.hidden = true;
 
-  const handleOperationPlaceElementChange = () => {
-    const place = operationPlaceElement.value;
-
-    if (Object.keys(terminals).includes(place)) {
-      // Выбран город из списка
-      operationPointTerminalTitleElement.textContent = `Терминал перевозчика: ${terminals[place]}`;
-      operationPointTerminalControlElement.hidden = false;
-      operationPointClientControlElement.hidden = false;
-      operationPointPickupControlElement.hidden = true;
-
-      operationPointClientAddressElement.value = `${places[place]} `;
-    } else {
-      // Выбран другой город
-      operationPointTerminalTitleElement.textContent = `Терминал перевозчика`;
-      operationPointTerminalControlElement.hidden = true;
-      operationPointClientControlElement.hidden = true;
-      operationPointPickupControlElement.hidden = false;
-
-      operationPointTerminalElement.checked = false;
-      operationPointClientElement.checked = false;
-      operationPointPickupElement.checked = true;
-      if (
-        Object.values(places).includes(
-          operationPointClientAddressElement.value.trim()
-        )
-      ) {
-        operationPointClientAddressElement.value = "";
-      }
-      handleOperationPointChange();
-    }
-  };
-
-  operationPlaceElement.addEventListener(
-    "change",
-    handleOperationPlaceElementChange
-  );
-
-  operationPointElements.forEach((el) =>
-    el.addEventListener("change", handleOperationPointChange)
-  );
+    operationPointTerminalTitleElement.textContent = `Терминал перевозчика: ${terminals[operationPlace]}`;
+  } else {
+    // Выбран другой город
+    operationPointTerminalControlElement.hidden = true;
+    operationPointClientControlElement.hidden = true;
+    operationPointPickupControlElement.hidden = false;
+  }
 };
 
-setCargoOperationHandlers("loading");
-setCargoOperationHandlers("unloading");
-// -- Прием и выдача груза
+const setCounterpartyRoleStructure = (role) => {
+  const data = new FormData(form);
+
+  const legalEntityGroupElement = form.querySelector(
+    `.group-${role}-legal-entity`
+  );
+  const privatePersonGroupElement = form.querySelector(
+    `.group-${role}-private-person`
+  );
+
+  const type = data.get(`${role}-type`);
+
+  legalEntityGroupElement.hidden = type !== "legal-entity";
+  privatePersonGroupElement.hidden = type !== "private-person";
+};
+
+const handleFormChange = (event) => {
+  setCounterpartyRoleStructure("consigner");
+  setCounterpartyRoleStructure("consignee");
+  setCounterpartyRoleStructure("payer");
+
+  handlePayerSelectorClick(event);
+  setPayerVisibility(event);
+
+  setCargoOperationStructure("loading");
+  setCargoOperationStructure("unloading");
+
+  //FIXME form.addEventListener("change", setRequiredAttributes);
+};
+
+form.addEventListener("change", handleFormChange);
+
+const setOperationPlaceChangeHandlers = (operation) => {
+  const placeElement = form.elements[`${operation}-place`];
+  const addressElement = form.elements[`${operation}-point-client-address`];
+
+  placeElement.addEventListener("change", () => {
+    addressElement.value = places[placeElement.value] ?? "";
+  });
+};
+setOperationPlaceChangeHandlers("loading");
+setOperationPlaceChangeHandlers("unloading");
 
 // Сериализация
 const formSerialize = (form) => {
@@ -329,6 +294,6 @@ form.addEventListener("submit", (event) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const data = JSON.parse(sessionStorage.getItem("order"));
-  console.log(data);
   formDeserialize(form, data);
+  handleFormChange();
 });
