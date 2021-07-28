@@ -30,10 +30,10 @@ mixin counterpartyRole(role)
 
   .control-group(style="display: flex;")
     .control.control--required
-      input(id=`${role}-type-legal-entity`, type="radio", name=`${role}-type`, value="legal-entity", required)
+      input(id=`${role}-type-legal-entity`, type="radio", name=`${role}-type`, value="legal-entity")
       label.control__label(for=`${role}-type-legal-entity`) Организация или ИП
     .control.control--required
-      input(id=`${role}-type-private-person`, type="radio", name=`${role}-type`, value="private-person", required)
+      input(id=`${role}-type-private-person`, type="radio", name=`${role}-type`, value="private-person")
       label.control__label(for=`${role}-type-private-person`) Частное лицо
 
   div(class=`group-${role}-legal-entity`, hidden)
@@ -234,10 +234,10 @@ block content
       .form__section-content.control-group.grid12
         .control.control--required.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
           label.control__label(for="order-author-fio") ФИО
-          input#order-author-fio(type="text", name="order-author-fio", data-suggestion-type="name", required)
+          input#order-author-fio(type="text", name="order-author-fio", data-suggestion-type="name")
         .control.control--required.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
           label.control__label(for="order-author-tel") Телефон
-          input#order-author-tel(type="tel", name="order-author-tel", required)
+          input#order-author-tel(type="tel", name="order-author-tel")
         .control.control--required.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
           label.control__label(for="order-author-email") Е-майл
           input#order-author-email(type="email", name="order-author-email", data-suggestion-type="email")
@@ -253,7 +253,7 @@ block content
 
         .control-group
           .control.control--required
-            input#accept(type="checkbox", name="accept", value="accept", required)
+            input#accept(type="checkbox", name="accept", value="accept")
             label.control__label(for="accept") Я ознакомился с условиями перевозки грузов и тарифами.
 
         .control-group.flex.flex-wrap(style="gap: 1ch; justify-content: center; align-items: start;")
