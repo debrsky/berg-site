@@ -214,6 +214,18 @@ const formSerialize = (form) => {
   return data;
 };
 
+const cleanForm = (form) => {
+  const namedElements = form.querySelectorAll("[name]");
+  namedElements.forEach((element) => {
+    if (element.matches("input[type=radio], input[type=checkbox]")) {
+      element.checked = false;
+      return;
+    }
+
+    element.value = "";
+  });
+};
+
 const formDeserialize = (form, data) => {
   //CAVEAT it doesn't work with elements with multiple values
 
@@ -239,15 +251,7 @@ const formDeserialize = (form, data) => {
 
   // console.log(elementsMap);
 
-  // Clean form
-  namedElements.forEach((element) => {
-    if (element.matches("input[type=radio], input[type=checkbox]")) {
-      element.checked = false;
-      return;
-    }
-
-    element.value = "";
-  });
+  cleanForm(form);
 
   if (!data) return;
 
@@ -285,8 +289,7 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const data = formSerialize(form);
-
-  sessionStorage.setItem("order", JSON.stringify(data));
+  localStorage.setItem("order", JSON.stringify(data));
 
   // formDeserialize(form, data);
   // alert("Заявка отправлена.");
@@ -296,4 +299,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const data = JSON.parse(sessionStorage.getItem("order"));
   formDeserialize(form, data);
   handleFormChange();
+});
+
+const cleanFormElement = form.querySelector(".suggest-helper--clean-form");
+cleanFormElement.addEventListener("click", () => cleanForm(form));
+
+const fillForm = (form) => {
+  const savedForm = localStorage.getItem("order");
+  if (!savedForm) return;
+
+  const data = JSON.parse(savedForm);
+  formDeserialize(form, data);
+  handleFormChange();
+};
+
+const fillFormElement = form.querySelector(".suggest-helper--fill-form");
+fillFormElement.addEventListener("click", () => fillForm(form));
+
+form.addEventListener("change", () => {
+  // form persistance
+  const data = formSerialize(form);
+  sessionStorage.setItem("order", JSON.stringify(data));
 });

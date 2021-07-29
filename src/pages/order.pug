@@ -165,8 +165,12 @@ block content
     const places = tariffs.places;
 
   form.form.form--order(name="order")
-    h2.h2 Заявка на грузоперевозку
-
+    div(style="display: flex; gap: 1ch; justify-content: space-between; align-items: baseline;")
+      h2.h2 Заявка на грузоперевозку
+      button.suggest-helper.suggest-helper--clean-form(type="button", style="margin-left: auto;")
+        span.suggest-helper__label Очистить заявку
+      button.suggest-helper.suggest-helper--fill-form(type="button")
+        span.suggest-helper__label Заполнить по последней заявке
     section.form__section
       h3.h3 1. Груз
       .control-group.grid12.form__section-content
