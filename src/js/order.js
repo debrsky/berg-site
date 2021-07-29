@@ -186,6 +186,10 @@ const handleFormChange = (event) => {
   setCargoOperationStructure("unloading");
 
   setRequiredAttributes(event);
+
+  // form persistance
+  const data = formSerialize(form);
+  sessionStorage.setItem("order", JSON.stringify(data));
 };
 
 form.addEventListener("change", handleFormChange);
@@ -315,9 +319,3 @@ const fillForm = (form) => {
 
 const fillFormElement = form.querySelector(".suggest-helper--fill-form");
 fillFormElement.addEventListener("click", () => fillForm(form));
-
-form.addEventListener("change", () => {
-  // form persistance
-  const data = formSerialize(form);
-  sessionStorage.setItem("order", JSON.stringify(data));
-});
