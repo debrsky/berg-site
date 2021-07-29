@@ -98,16 +98,15 @@ const handlePayerSelectorClick = (event) => {
 };
 
 const setRequiredAttributes = (event) => {
-  const controlsToSetAttr = form.querySelectorAll(".control--required");
-  const elementsToRemoveAttr = form.querySelectorAll("[hidden] [required]");
+  const controlsRequired = form.querySelectorAll(".control--required");
 
-  controlsToSetAttr.forEach((el) => {
+  controlsRequired.forEach((el) => {
     const uiElement = el.querySelector("input, textarea, select");
+    if (uiElement.matches("[hidden] *")) {
+      uiElement.removeAttribute("required");
+      return;
+    }
     uiElement.setAttribute("required", "");
-  });
-
-  elementsToRemoveAttr.forEach((el) => {
-    el.removeAttribute("required");
   });
 };
 
