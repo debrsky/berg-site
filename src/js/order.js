@@ -140,10 +140,10 @@ const setCargoOperationStructure = (operation) => {
 
   if (!operationPlace) {
     // Не выбран город
-    return;
-  }
-
-  if (Object.keys(terminals).includes(operationPlace)) {
+    operationPointTerminalControlElement.hidden = false;
+    operationPointClientControlElement.hidden = false;
+    operationPointPickupControlElement.hidden = false;
+  } else if (Object.keys(terminals).includes(operationPlace)) {
     // Выбран город из списка
     operationPointTerminalControlElement.hidden = false;
     operationPointClientControlElement.hidden = false;
