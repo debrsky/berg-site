@@ -302,7 +302,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const cleanFormElement = form.querySelector(".suggest-helper--clean-form");
-cleanFormElement.addEventListener("click", () => cleanForm(form));
+cleanFormElement.addEventListener("click", () => {
+  cleanForm(form);
+  handleFormChange();
+});
 
 const fillForm = (form) => {
   const savedForm = localStorage.getItem("order");
