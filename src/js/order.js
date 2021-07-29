@@ -292,6 +292,7 @@ form.addEventListener("submit", (event) => {
   const data = formSerialize(form);
   localStorage.setItem("order", JSON.stringify(data));
 
+  //TODO вывести сообщение через HTML, чтобы нельзя было выключить. alert пользователь может выключить.
   alert("Заявка оформлена, но НЕ ОТПРАВЛЕНА!");
 });
 
