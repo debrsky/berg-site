@@ -186,7 +186,7 @@ const handleFormChange = (event) => {
   setCargoOperationStructure("loading");
   setCargoOperationStructure("unloading");
 
-  //FIXME form.addEventListener("change", setRequiredAttributes);
+  setRequiredAttributes(event);
 };
 
 form.addEventListener("change", handleFormChange);
@@ -249,8 +249,6 @@ const formDeserialize = (form, data) => {
       return acc;
     }, Object.create(null));
 
-  // console.log(elementsMap);
-
   cleanForm(form);
 
   if (!data) return;
@@ -291,8 +289,7 @@ form.addEventListener("submit", (event) => {
   const data = formSerialize(form);
   localStorage.setItem("order", JSON.stringify(data));
 
-  // formDeserialize(form, data);
-  // alert("Заявка отправлена.");
+  alert("Заявка отправлена.");
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -309,10 +306,11 @@ cleanFormElement.addEventListener("click", () => {
 
 const fillForm = (form) => {
   const savedForm = localStorage.getItem("order");
-  if (!savedForm) return;
+  if (savedForm) {
+    const data = JSON.parse(savedForm);
+    formDeserialize(form, data);
+  }
 
-  const data = JSON.parse(savedForm);
-  formDeserialize(form, data);
   handleFormChange();
 };
 
