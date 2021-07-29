@@ -292,7 +292,7 @@ form.addEventListener("submit", (event) => {
   const data = formSerialize(form);
   localStorage.setItem("order", JSON.stringify(data));
 
-  alert("Заявка отправлена.");
+  alert("Заявка оформлена, но НЕ ОТПРАВЛЕНА!");
 });
 
 document.addEventListener("DOMContentLoaded", () => {
