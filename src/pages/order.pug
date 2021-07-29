@@ -144,9 +144,9 @@ mixin cargoOperation(operation)
 block head
   //- zepto не заработало
   //- script(src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js", integrity="sha512-BrvVYNhKh6yST24E5DY/LopLO5d+8KYmIXyrpBIJ2PK+CyyJw/cLSG/BfJomWLC1IblNrmiJWGlrGueKLd/Ekw==", crossorigin="anonymous", referrerpolicy="no-referrer")
-  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js")
-  link(href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css", rel="stylesheet")
-  script(src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js")
+  script(src="vendor/jquery/jquery.min.js")
+  link(href="vendor/suggestions/suggestions.min.css", rel="stylesheet")
+  script(src="vendor/suggestions/jquery.suggestions.min.js")
   script(src="vendor/imask/imask.min.js")
 
   include ../pug/tariffs
