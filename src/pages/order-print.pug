@@ -15,7 +15,7 @@ html(lang="ru")
       const makeOrderHTML = (data) => {
         const cargo = `
         <table>
-          <caption>${data.cargo.name ? data.cargo.name : "Груз"}</caption>
+          <caption><span style="font-weight: bold; font-size: large;">${data.cargo.name ? data.cargo.name : "Груз"}</span></caption>
           <thead>
             <tr>
               <th>Вес, кг</th>
@@ -53,7 +53,7 @@ html(lang="ru")
                 consignee: "Грузополучатель",
                 payer: "Плательщик"
               }[role]
-            } ${data[role].name}</caption>
+            } <span style="font-weight: bold; font-size: large;">${data[role].name}</span></caption>
             <tbody>
               <tr>
                 <th>ИНН</th>
@@ -97,7 +97,7 @@ html(lang="ru")
                 consignee: "Грузополучатель",
                 payer: "Плательщик"
               }[role]
-            } ${data[role].name} (${data[role].tel})</caption>
+            } <span style="font-weight: bold; font-size: large;">${data[role].name} (${data[role].tel}</span>)</caption>
             </table>`;
           }
         });
@@ -156,11 +156,6 @@ html(lang="ru")
           .email table td {
             padding: 2px;
             border: 1px solid lightgrey;
-          }
-
-          .email table>caption {
-            font-weight: bold;
-            font-size: large;
           }
         </style>
         <article class="email">
