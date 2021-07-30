@@ -394,7 +394,8 @@ form.addEventListener("submit", (event) => {
 
   dialog.show();
 
-  const url = new URL("order-print.html", location.origin);
+  // const href = location.href;
+  const url = new URL("./order-print.html", location.href);
   url.searchParams.append("data", JSON.stringify(json));
   window.open(url);
 });
