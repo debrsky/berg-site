@@ -70,8 +70,10 @@ const setPayerVisibility = () => {
     rolePayingContactElement.hidden = !rolePayingContactEnabled;
   });
 
-  consignerIsPayer = data.get("consigner-is-payer") === "consigner-is-payer";
-  consigneeIsPayer = data.get("consignee-is-payer") === "consignee-is-payer";
+  const consignerIsPayer =
+    data.get("consigner-is-payer") === "consigner-is-payer";
+  const consigneeIsPayer =
+    data.get("consignee-is-payer") === "consignee-is-payer";
 
   const payerElement = form.querySelector(".section-payer");
   payerElement.hidden = consignerIsPayer || consigneeIsPayer;
@@ -352,7 +354,7 @@ const makeOrderJSON = (form) => {
   });
 
   ["loading", "unloading"].forEach((operation) => {
-    operationObject = Object.create(null);
+    const operationObject = Object.create(null);
     Object.entries({
       date: `${operation}-date`,
       time: `${operation}-time`,
