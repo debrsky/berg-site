@@ -4,8 +4,6 @@ module.exports = function copy() {
   return gulp
     .src(
       [
-        `src/js/**/*.js`,
-        `!src/js/**/index.js`,
         `src/css/**/*.css`,
         `src/fonts/**/*.{woff,woff2}`,
         `src/img/**/*.{jpg,webp,png}`,

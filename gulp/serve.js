@@ -26,7 +26,7 @@ module.exports = function serve() {
     cors: true,
     // ui: false
     ui: {
-      port: 8080
+      port: 3080
     }
   });
 
@@ -36,11 +36,7 @@ module.exports = function serve() {
   gulp.watch(`src/pug/**/*.pug`, gulp.series(pug2html, readyFullReload));
   gulp.watch(`src/pages/**/*.pug`, gulp.series(pages, readyFullReload));
 
-  gulp.watch(`src/js/index.js`, gulp.series(script, readyFullReload));
-  gulp.watch(
-    [`src/**/*.js`, `!src/js/index.js`],
-    gulp.series(copy, readyFullReload)
-  );
+  gulp.watch(`src/js/**/*.js`, gulp.series(script, readyFullReload));
   gulp.watch(`src/img/**/!(*.svg)`, gulp.series(copy, readyFullReload));
   gulp.watch(
     `src/img/**/*.svg`,
