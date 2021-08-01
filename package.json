@@ -32,6 +32,7 @@
     "posthtml-include": "^1.4.3",
     "prettier": "2.0.4",
     "rollup": "^2.55.1",
+    "rollup-plugin-terser": "^7.0.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-ftp": "^0.6.1",
     "vinyl-named": "^1.1.0",

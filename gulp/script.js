@@ -1,5 +1,6 @@
 const gulp = require(`gulp`);
 const rollup = require("@rollup/stream");
+const terser = require("rollup-plugin-terser").terser;
 const sourcemaps = require("gulp-sourcemaps");
 const source = require("vinyl-source-stream");
 const buffer = require("vinyl-buffer");
@@ -8,8 +9,6 @@ const path = require("path");
 
 //TODO add cache
 // https://github.com/rollup/stream#caching
-//TODO add production mode
-// https://github.com/TrySound/rollup-plugin-terser
 
 module.exports = function script(cb) {
   glob("src/js/*.js", {}, (err, files) => {
@@ -21,7 +20,7 @@ module.exports = function script(cb) {
         new Promise((resolve, reject) => {
           rollup({
             input: file,
-            output: {sourcemap: true, format: "iife"}
+            output: {sourcemap: true, format: "iife", plugins: [terser()]}
           })
             // point to the entry file.
             .pipe(source(base))
