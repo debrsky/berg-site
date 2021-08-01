@@ -2,9 +2,9 @@ module.exports = {
   env: {
     commonjs: true,
     es2021: true,
-    node: true
+    browser: true
   },
-  plugins: ["svelte3", "sonarjs", "prettier", "json"],
+  plugins: ["sonarjs", "prettier", "json"],
   extends: [
     // 'eslint:recommended',
     "semistandard",
@@ -12,19 +12,10 @@ module.exports = {
     "plugin:json/recommended",
     "plugin:prettier/recommended"
   ],
-  // пока не работает
-  // https://github.com/sveltejs/eslint-plugin-svelte3/issues/41
-  //
-  // overrides: [
-  //   {
-  //     files: ['**/*.svelte'],
-  //     processor: 'svelte3/svelte3'
-  //   }
-  // ],
   parserOptions: {
     ecmaVersion: 2021
   },
-  ignorePatterns: ["public", "**/vendor/*.js"],
+  ignorePatterns: ["public", "src/vendor"],
   rules: {}
 };
 

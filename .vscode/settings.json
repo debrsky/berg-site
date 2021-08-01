@@ -6,5 +6,24 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
-  "svg.preview.background": "transparent"
+  "svg.preview.background": "transparent",
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "puglint.enable": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "vue",
+    "markdown",
+    "svelte"
+  ],
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  }
 }
