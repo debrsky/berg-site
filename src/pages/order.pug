@@ -282,7 +282,7 @@ block scripts
     // Get the dialog container HTML element (with the accessor method you want)
     const element = document.getElementById('sent-dialog');
     // Instantiate a new A11yDialog module
-    const dialog = new A11yDialog(element);
+    window.dialog = new A11yDialog(element);
 
   script.
     window.terminals = !{JSON.stringify(tariffs.terminals)};

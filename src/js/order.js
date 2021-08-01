@@ -51,8 +51,7 @@ form.addEventListener("submit", (event) => {
   const json = makeOrderJSON(form);
 
   // const content = dialog.$el.querySelector(".dialog-content__data");
-  const dialog = document.getElementById("sent-dialog");
-  dialog.show();
+  window.dialog.show();
 
   // const href = location.href;
   const url = new URL("./order-print.html", location.href);
