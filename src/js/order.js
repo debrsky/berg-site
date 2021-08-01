@@ -51,7 +51,7 @@ form.addEventListener("submit", (event) => {
   const json = makeOrderJSON(form);
 
   // const content = dialog.$el.querySelector(".dialog-content__data");
-  const dialog = document.getlElementById("sent-dialog");
+  const dialog = document.getElementById("sent-dialog");
   dialog.show();
 
   // const href = location.href;
