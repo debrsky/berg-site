@@ -5,6 +5,7 @@ import {
 } from "./form/serialization.js";
 import setSuggestions from "./order/suggestion";
 import makeOrderJSON from "./order/make-json";
+import setRequiredAttributes from "./order/required";
 
 const form = document.forms.order;
 
@@ -51,19 +52,6 @@ const handlePayerSelectorClick = (event) => {
   ) {
     consignerIsPayerElement.checked = false;
   }
-};
-
-const setRequiredAttributes = (event) => {
-  const controlsRequired = form.querySelectorAll(".control--required");
-
-  controlsRequired.forEach((el) => {
-    const uiElement = el.querySelector("input, textarea, select");
-    if (uiElement.matches("[hidden] *")) {
-      uiElement.removeAttribute("required");
-      return;
-    }
-    uiElement.setAttribute("required", "");
-  });
 };
 
 // Управление видимостью полей в разделах погрузки/выгрузки
@@ -141,7 +129,7 @@ const handleFormChange = (event) => {
   setCargoOperationStructure("loading");
   setCargoOperationStructure("unloading");
 
-  setRequiredAttributes(event);
+  setRequiredAttributes(form);
 
   // form persistance
   const data = formSerialize(form);
