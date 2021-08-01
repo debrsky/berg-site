@@ -11,18 +11,18 @@
 
 .span-loop (@i) when (@i > 0) {
   .grid12__col--@{i} {
-        grid-column: span ~"@{i}";
-    }
-    .span-loop(@i - 1);
+    grid-column: span ~"@{i}";
+  }
+  .span-loop(@i - 1);
 }
 .span-loop (@column-count);
 
 @media (min-width: @width-tablet) {
   .span-loop (@i) when (@i > 0) {
     .grid12__desktop-col--@{i} {
-          grid-column: span ~"@{i}";
-      }
-      .span-loop(@i - 1);
+      grid-column: span ~"@{i}";
+    }
+    .span-loop(@i - 1);
   }
   .span-loop (@column-count);
 }

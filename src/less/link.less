@@ -1,12 +1,12 @@
-a[href^='tel:'],
-a[href^='mailto:'] {
+a[href^="tel:"],
+a[href^="mailto:"] {
   text-decoration: none;
   color: var(--brand-color);
   white-space: nowrap;
 }
 
-a[href^='tel:']::before,
-a[href^='mailto:']::before {
+a[href^="tel:"]::before,
+a[href^="mailto:"]::before {
   font-family: "Segoe UI Emoji", emoji, sans-serif;
 
   display: inline-block;
@@ -14,20 +14,20 @@ a[href^='mailto:']::before {
   width: 3ch;
 }
 
-a[href^='tel:']::before {
-  content: '📱';
+a[href^="tel:"]::before {
+  content: "📱";
 }
 
-a[href^='mailto:']::before {
-  content: '📧';
+a[href^="mailto:"]::before {
+  content: "📧";
 }
 
-a[href^='tel:+742']::before {
-  content: '📞';
-  content: '☏';
-  content: '☎';
+a[href^="tel:+742"]::before {
+  content: "📞";
+  content: "☏";
+  content: "☎";
 }
 
-a[href^='tel:'].fax::before {
-  content: '📠';
+a[href^="tel:"].fax::before {
+  content: "📠";
 }
