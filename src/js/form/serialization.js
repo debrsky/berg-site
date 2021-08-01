@@ -1,16 +1,5 @@
-export const cleanForm = (form) => {
-  const namedElements = form.querySelectorAll("[name]");
-  namedElements.forEach((element) => {
-    if (element.matches("input[type=radio], input[type=checkbox]")) {
-      element.checked = false;
-      return;
-    }
+import {cleanForm} from "./utils";
 
-    element.value = "";
-  });
-};
-
-// Сериализация
 export const formSerialize = (form) => {
   const formData = new FormData(form);
 
