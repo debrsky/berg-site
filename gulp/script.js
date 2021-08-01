@@ -1,6 +1,7 @@
-const gulp = require(`gulp`);
+const gulp = require("gulp");
 const rollup = require("@rollup/stream");
 const terser = require("rollup-plugin-terser").terser;
+const nodeResolve = require("@rollup/plugin-node-resolve").nodeResolve;
 const sourcemaps = require("gulp-sourcemaps");
 const source = require("vinyl-source-stream");
 const buffer = require("vinyl-buffer");
@@ -20,7 +21,14 @@ module.exports = function script(cb) {
         new Promise((resolve, reject) => {
           rollup({
             input: file,
-            output: {sourcemap: true, format: "iife", plugins: [terser()]}
+            external: ["jquery"],
+            output: {
+              sourcemap: true,
+              format: "iife",
+              globals: {jquery: "$"},
+              plugins: [terser()]
+            },
+            plugins: [nodeResolve()]
           })
             // point to the entry file.
             .pipe(source(base))

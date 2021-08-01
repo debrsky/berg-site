@@ -11,6 +11,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-inject": "^4.0.2",
+    "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/stream": "^2.0.0",
     "browser-sync": "^2.27.5",
     "del": "^6.0.0",
@@ -37,5 +40,8 @@
     "vinyl-ftp": "^0.6.1",
     "vinyl-named": "^1.1.0",
     "vinyl-source-stream": "^2.0.0"
+  },
+  "dependencies": {
+    "jquery": "^3.6.0"
   }
 }
