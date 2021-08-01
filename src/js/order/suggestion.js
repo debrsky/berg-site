@@ -11,13 +11,15 @@ export default function setSuggestions(form) {
 
     if (!type) throw Error();
 
+    // eslint-disable-next-line no-undef
     $(el).suggestions({token: suggestionToken, type});
-    //TODO адрес без области и района https://codepen.io/dadata/pen/qdwPdZ
+    // TODO адрес без области и района https://codepen.io/dadata/pen/qdwPdZ
   });
 
   const setHandlers = (counterpartyRole) => {
     const counterpartyElement = form.elements[`${counterpartyRole}`];
 
+    // eslint-disable-next-line no-undef
     $(counterpartyElement).suggestions({
       token: suggestionToken,
       type: "PARTY",

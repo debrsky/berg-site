@@ -8,7 +8,7 @@ export const setPayerVisibility = (form) => {
 
     const roleType = data.get(`${role}-type`);
     const roleIsPayer = data.get(`${role}-is-payer`) === `${role}-is-payer`;
-    const rolePayingContactEnabled = roleIsPayer && roleType == "legal-entity";
+    const rolePayingContactEnabled = roleIsPayer && roleType === "legal-entity";
     rolePayingContactElement.hidden = !rolePayingContactEnabled;
   });
 
@@ -45,6 +45,7 @@ export const setCounterpartyStructure = (form) => {
 
 // Управление видимостью полей в разделах погрузки/выгрузки
 const setCargoOperationStructure = (form, operation) => {
+  const terminals = window.terminals;
   const data = new FormData(form);
 
   const operationPlace = data.get(`${operation}-place`);

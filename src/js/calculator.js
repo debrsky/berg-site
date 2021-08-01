@@ -1,5 +1,6 @@
 console.log("calculator.js");
 
+// eslint-disable-next-line no-unused-vars
 const places = {
   vvo: "Владивосток",
   uss: "Уссурийск",
@@ -8,6 +9,7 @@ const places = {
   kms: "Комсомольск-на-Амуре"
 };
 
+// eslint-disable-next-line no-unused-vars
 const heavyCargoPrices = [
   {
     title: "до 1000 кг",
@@ -66,6 +68,7 @@ const heavyCargoPrices = [
   }
 ];
 
+// eslint-disable-next-line no-unused-vars
 const lightCargoPrices = {
   5: {},
   25: {},

@@ -285,6 +285,6 @@ block scripts
     const dialog = new A11yDialog(element);
 
   script.
-    const terminals = !{JSON.stringify(tariffs.terminals)};
-    const places = !{JSON.stringify(tariffs.places)};
+    window.terminals = !{JSON.stringify(tariffs.terminals)};
+    window.places = !{JSON.stringify(tariffs.places)};
   script(src="js/order.js")

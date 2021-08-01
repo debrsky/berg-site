@@ -8,7 +8,7 @@ const buffer = require("vinyl-buffer");
 const glob = require("glob");
 const path = require("path");
 
-//TODO add cache
+// TODO add cache
 // https://github.com/rollup/stream#caching
 
 module.exports = function script(cb) {
@@ -18,7 +18,7 @@ module.exports = function script(cb) {
     Promise.all(
       files.map((file) => {
         const {base} = path.parse(file);
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
           rollup({
             input: file,
             external: ["jquery"],
@@ -42,7 +42,7 @@ module.exports = function script(cb) {
             // transform the code further here.
 
             // if you want to output with a different name from the input file, use gulp-rename here.
-            //.pipe(rename('index.js'))
+            // .pipe(rename('index.js'))
 
             // write the sourcemap alongside the output file.
             .pipe(sourcemaps.write("."))

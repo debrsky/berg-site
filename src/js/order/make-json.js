@@ -1,6 +1,7 @@
 export default (form) => {
   const data = new FormData(form);
   const order = Object.create(null);
+  const places = window.places;
 
   const cargo = Object.create(null);
   Object.entries({
@@ -20,7 +21,7 @@ export default (form) => {
     if (
       role === "payer" &&
       (Boolean(data.get("consigner-is-payer")) ||
-        Boolean(data.get("consigner-is-payer")))
+        Boolean(data.get("consignee-is-payer")))
     )
       return;
 

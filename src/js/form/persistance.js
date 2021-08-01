@@ -1,4 +1,4 @@
-import {formSerialize, formDeserialize} from "./serialization.js";
+import {formSerialize, formDeserialize} from "./utils";
 const eventListeners = [];
 
 export const enablePersistance = (form) => {
@@ -29,5 +29,8 @@ export const disablePersistance = (form) => {
     throw Error(`Persistance already disabled for form`);
 
   form.removeEventListener("change", eventListenersObject.handleFormChange);
-  document.removeEventListener("DOMContentLoaded", handleDOMContentLoaded);
+  document.removeEventListener(
+    "DOMContentLoaded",
+    eventListenersObject.handleDOMContentLoaded
+  );
 };

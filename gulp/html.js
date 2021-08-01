@@ -1,6 +1,6 @@
 const gulp = require(`gulp`);
-const htmlValidator = require("gulp-w3c-html-validator");
-const bemValidator = require("gulp-html-bem-validator");
+// const htmlValidator = require("gulp-w3c-html-validator");
+// const bemValidator = require("gulp-html-bem-validator");
 const posthtml = require("gulp-posthtml");
 const include = require("posthtml-include");
 

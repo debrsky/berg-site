@@ -1,5 +1,3 @@
-import {formSerialize, formDeserialize} from "./serialization";
-
 export const cleanForm = (form) => {
   const namedElements = form.querySelectorAll("[name]");
   namedElements.forEach((element) => {
@@ -29,3 +27,74 @@ export const restoreSavedForm = (form) => {
 
   form.dispatchEvent(new Event("change"));
 };
+
+export const formSerialize = (form) => {
+  const formData = new FormData(form);
+
+  // CAVEAT it doesn't work with elements with multiple values
+  return Object.fromEntries(
+    [...formData.entries()].filter(([key, value]) => value !== "")
+  );
+};
+
+const makeElementsMap = (form) => {
+  const namedElements = [...form.querySelectorAll("[name]")];
+  return namedElements
+    .map((el) => [el.getAttribute("name"), el])
+    .reduce((acc, [key, value]) => {
+      if (key in acc) {
+        const prevValue = acc[key];
+        if (Array.isArray(prevValue)) {
+          prevValue.push(value);
+          return acc;
+        }
+
+        acc[key] = [prevValue, value];
+        return acc;
+      }
+
+      acc[key] = value;
+      return acc;
+    }, Object.create(null));
+};
+
+const deserializeElement = (element, key, value) => {
+  if (element.getAttribute("name") !== key) throw Error();
+
+  if (element.matches("input[type=radio], input[type=checkbox]")) {
+    if (element.getAttribute("value") === value) {
+      element.checked = true;
+    }
+    return;
+  }
+
+  element.value = value;
+};
+
+export const formDeserialize = (form, data) => {
+  // CAVEAT it doesn't work with elements with multiple values
+
+  const elementsMap = makeElementsMap(form);
+  cleanForm(form);
+
+  if (!data) return;
+
+  Object.entries(data).forEach(([key, value]) => {
+    // FIXME implement processing elements with multiple values
+    if (Array.isArray(value)) throw Error();
+
+    const element = elementsMap[key];
+    if (!element) return;
+
+    if (Array.isArray(element)) {
+      element.forEach((el) => deserializeElement(el, key, value));
+      return;
+    }
+
+    deserializeElement(element, key, value);
+  });
+};
+
+// Сохранение данных формы при перезагрузке страницы
+// https://blog.lisogorsky.ru/session-storage-save-data
+// https://github.com/FThompson/FormPersistence.js

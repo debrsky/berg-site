@@ -7,7 +7,7 @@ import {
   setCounterpartyStructure,
   setCargoOperationsStructure
 } from "./order/form-structure";
-import {enablePersistance, disablePersistance} from "./form/persistance.js";
+import {enablePersistance} from "./form/persistance.js";
 
 const form = document.forms.order;
 enablePersistance(form);
@@ -48,9 +48,10 @@ form.addEventListener("submit", (event) => {
 
   saveForm(form);
 
-  const content = dialog.$el.querySelector(".dialog-content__data");
   const json = makeOrderJSON(form);
 
+  // const content = dialog.$el.querySelector(".dialog-content__data");
+  const dialog = document.getlElementById("sent-dialog");
   dialog.show();
 
   // const href = location.href;
