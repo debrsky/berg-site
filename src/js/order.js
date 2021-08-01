@@ -150,17 +150,6 @@ const handleFormChange = (event) => {
 
 form.addEventListener("change", handleFormChange);
 
-const setOperationPlaceChangeHandlers = (operation) => {
-  const placeElement = form.elements[`${operation}-place`];
-  const addressElement = form.elements[`${operation}-point-client-address`];
-
-  placeElement.addEventListener("change", () => {
-    addressElement.value = places[placeElement.value] ?? "";
-  });
-};
-setOperationPlaceChangeHandlers("loading");
-setOperationPlaceChangeHandlers("unloading");
-
 form.addEventListener("submit", (event) => {
   const form = event.currentTarget;
   event.preventDefault();
