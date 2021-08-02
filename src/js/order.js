@@ -16,7 +16,7 @@ setSuggestions(form);
 const consignerIsPayerElement = form.elements["consigner-is-payer"];
 const consigneeIsPayerElement = form.elements["consignee-is-payer"];
 
-const handlePayerSelectorChange = (event) => {
+const handleIsPayerCheckboxChange = (event) => {
   if (!event) return;
 
   if (
@@ -34,7 +34,8 @@ const handlePayerSelectorChange = (event) => {
 };
 
 const handleFormChange = (event) => {
-  handlePayerSelectorChange(event);
+  handleIsPayerCheckboxChange(event);
+
   setCounterpartyStructure(form);
   setPayerVisibility(form);
   setCargoOperationsStructure(form);
