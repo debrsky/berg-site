@@ -208,8 +208,8 @@ block content
         section
           h4.h4 Форма оплаты
           .control-group
-            .control
-              label(for="payment-form") Форма оплаты
+            .control.control--required
+              label.control__label(for="payment-form") Форма оплаты
               select#payment-form(name="payment-form")
                 option(selected, disabled, value="") &lt;не выбрано&gt;
                 option Безналичная
