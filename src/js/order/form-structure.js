@@ -46,10 +46,16 @@ export const setCounterpartyStructure = (form) => {
 // Управление видимостью полей в разделах погрузки/выгрузки
 const setCargoOperationStructure = (form, operation) => {
   const terminals = window.terminals;
-  const data = new FormData(form);
+  const places = window.places;
 
-  const operationPlace = data.get(`${operation}-place`);
-  const operationPoint = data.get(`${operation}-point`);
+  const formData = new FormData(form);
+
+  const operationPlace = formData.get(`${operation}-place`);
+  const operationPoint = formData.get(`${operation}-point`);
+  const address = formData.get(`${operation}-point-client-address`).trim();
+  const addressElement = form.elements[`${operation}-point-client-address`];
+
+  let terminalTitle = `Терминал перевозчика`;
 
   const operationPointTerminalControlElement = form.querySelector(
     `.${operation}-terminal-control`
@@ -77,19 +83,25 @@ const setCargoOperationStructure = (form, operation) => {
     operationPointTerminalControlElement.hidden = false;
     operationPointClientControlElement.hidden = false;
     operationPointPickupControlElement.hidden = false;
-  } else if (Object.keys(terminals).includes(operationPlace)) {
+  } else if (operationPlace in terminals) {
     // Выбран город из списка
     operationPointTerminalControlElement.hidden = false;
     operationPointClientControlElement.hidden = false;
     operationPointPickupControlElement.hidden = true;
 
-    operationPointTerminalTitleElement.textContent = `Терминал перевозчика: ${terminals[operationPlace]}`;
+    terminalTitle = `Терминал перевозчика: ${window.terminals[operationPlace]}`;
+
+    if (address === "" || Object.values(places).includes(address)) {
+      addressElement.value = places[operationPlace] + " ";
+    }
   } else {
     // Выбран другой город
     operationPointTerminalControlElement.hidden = true;
     operationPointClientControlElement.hidden = true;
     operationPointPickupControlElement.hidden = false;
   }
+
+  operationPointTerminalTitleElement.textContent = terminalTitle;
 };
 
 export const setCargoOperationsStructure = (form) => {
