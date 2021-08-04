@@ -41,6 +41,29 @@
   color: var(--brand-color-white);
 }
 
+.button--submiting,
+.button--submiting:hover:not(:disabled),
+.button--submiting.button--hover,
+.button--submiting:focus,
+.button--submiting.button--focus {
+  animation: blinds 2s linear infinite;
+  background-position: 0 0;
+  background-size: 5ch 1em;
+  background-repeat: repeat-x repeat-y;
+  background-image: linear-gradient(
+    to right,
+    var(--brand-color) 0%,
+    var(--brand-color-secondary) 50%,
+    var(--brand-color) 100%);
+  color: white;
+}
+@keyframes blinds {
+  100% {
+    background-position: 5ch 0;
+  }
+}
+
+
 .button--secondary {
   background-color: var(--brand-color-secondary);
   color: var(--brand-color-white);

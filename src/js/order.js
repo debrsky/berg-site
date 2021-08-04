@@ -45,19 +45,45 @@ const handleFormChange = (event) => {
 form.addEventListener("change", handleFormChange);
 
 form.addEventListener("submit", (event) => {
+  const buttonSubmit = form.querySelector("button[type=submit]");
+  buttonSubmit.classList.add("button--submiting");
+
   event.preventDefault();
 
   saveForm(form);
 
   const json = makeOrderJSON(form);
 
-  // const content = dialog.$el.querySelector(".dialog-content__data");
-  window.dialog.show();
+  const dataToSend = new FormData();
+  dataToSend.append("data", JSON.stringify(json));
 
-  // const href = location.href;
-  const url = new URL("./order-print.html", location.href);
-  url.searchParams.append("data", JSON.stringify(json));
-  window.open(url);
+  // TODO timeout for fetch
+  fetch("php/mailer/send.php", {
+    method: "POST",
+    body: dataToSend
+  })
+    .then(function (res) {
+      if (!res.ok)
+        throw Error(
+          "При отправке заявке возникла ошибка, заявка не отправлена."
+        );
+      return res.text();
+    })
+    .then(function (data) {
+      console.log(data);
+      cleanForm(form);
+      window.location.assign("order-ok.html");
+    })
+    .catch((err) => {
+      // TODO show error to user
+      console.error(err.message);
+    })
+    .finally(() => {
+      buttonSubmit.classList.remove("button--submiting");
+    });
+
+  // const content = dialog.$el.querySelector(".dialog-content__data");
+  // window.dialog.show();
 });
 
 const cleanFormElement = form.querySelector(".suggest-helper--clean-form");
