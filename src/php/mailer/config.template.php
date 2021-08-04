@@ -8,6 +8,8 @@ $config = array(
   'Port' => 465,
   'FromEmail' => 'mail@yandex.ru',
   'FromName' => 'Имя отправителя',
+  'ReplyToEmail' => 'replyto@yandex.ru',
+  'ReplyToName' => 'Имя для ответа',
 
   'Reciever' => 'reciever@yandex.ru' // Получатель письма
 );

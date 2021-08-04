@@ -53,6 +53,7 @@ try {
   $mail->SMTPSecure = $config['SMTPSecure'];
   $mail->Port       = $config['Port'];
   $mail->setFrom($config['FromEmail'], $config['FromName']); // Адрес самой почты и имя отправителя
+  $mail->AddReplyTo($config['ReplyToEmail'], $config['ReplyToName']); // Адрес для ответа и имя получателя ответа
 
   // Получатель письма
   $mail->addAddress($config['Reciever']);
