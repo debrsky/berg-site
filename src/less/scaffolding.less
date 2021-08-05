@@ -49,6 +49,8 @@ html {
   --brand-color-grey: lightgrey;
   --brand-color-black: #444;
 
+  --brand-color-danger: red;
+
   // https://colorscheme.ru/#3s11TvNO0w0w0
 
   color: var(--brand-color-black);
@@ -63,41 +65,6 @@ img {
 
 details summary {
   cursor: pointer;
-}
-
-.v-text {
-  writing-mode: vertical-rl;
-  height: min-content;
-  transform: rotate(180deg);
-  @media print {
-    writing-mode: horizontal-tb;
-    height: auto;
-    transform: none;
-  }
-}
-
-.nobr {
-  white-space: nowrap;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex--wrap {
-  flex-wrap: wrap;
-}
-
-.min-content {
-  width: min-content;
-}
-
-.max-content {
-  width: max-content;
-}
-
-.fit-content {
-  width: fit-content;
 }
 
 @media (max-width: @width-tablet) {

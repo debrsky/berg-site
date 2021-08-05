@@ -1,0 +1,34 @@
+.v-text {
+  writing-mode: vertical-rl;
+  height: min-content;
+  transform: rotate(180deg);
+  @media print {
+    writing-mode: horizontal-tb;
+    height: auto;
+    transform: none;
+  }
+}
+
+.nobr {
+  white-space: nowrap;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex--wrap {
+  flex-wrap: wrap;
+}
+
+.min-content {
+  width: min-content;
+}
+
+.max-content {
+  width: max-content;
+}
+
+.fit-content {
+  width: fit-content;
+}

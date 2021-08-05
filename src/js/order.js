@@ -57,6 +57,11 @@ form.addEventListener("submit", (event) => {
   const dataToSend = new FormData();
   dataToSend.append("data", JSON.stringify(json));
 
+  const errorGroupElement = form
+    .querySelector("button[type=submit]")
+    .closest(".control-group");
+  errorGroupElement.classList.remove("control-group--error");
+
   // TODO timeout for fetch
   fetch("php/mailer/send.php", {
     method: "POST",
@@ -65,18 +70,23 @@ form.addEventListener("submit", (event) => {
     .then(function (res) {
       if (!res.ok)
         throw Error(
-          "При отправке заявке возникла ошибка, заявка не отправлена."
+          "При отправке заявки возникла ошибка, заявка не отправлена."
         );
-      return res.text();
+      return res.json();
     })
     .then(function (data) {
       console.log(data);
+      if (data.result !== "success")
+        throw Error(
+          "При отправке заявки возникла ошибка почтового сервера, заявка не отправлена."
+        );
+
       cleanForm(form);
       window.location.assign("order-ok.html");
     })
     .catch((err) => {
-      // TODO show error to user
       console.error(err.message);
+      errorGroupElement.classList.add("control-group--error");
     })
     .finally(() => {
       buttonSubmit.classList.remove("button--submiting");

@@ -251,12 +251,12 @@ block content
             input#accept(type="checkbox", name="accept", value="accept")
             label.control__label(for="accept") Я ознакомился с условиями перевозки грузов и тарифами.
 
-        .control-group.flex.flex-wrap(style="gap: 1ch; justify-content: center; align-items: start;")
-          div
-            button.max-content.button.button--primary.form__button(type="submit") Отправить заявку
-          div
-            span
-              | Отправляя заявку, вы соглашаетесь с обработкой ваших персональных данных.
+        .control-group
+          .control.flex.flex-wrap(style="gap: 1ch; justify-content: center; align-items: center;")
+            button.max-content.button.button--primary.form__button(type="submit", style="flex-shrink: 0;") Отправить заявку
+            div
+              span Отправляя заявку, вы соглашаетесь с обработкой ваших персональных данных.
+          .control-group__error-message При отправке заявки произошла ошибка, заявка не отправлена.
 
   // 1. The dialog container
   #sent-dialog.dialog-container(aria-labelledby="sent-dialog__title", data-a11y-dialog="sent-dialog", aria-hidden="true")
