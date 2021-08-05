@@ -1,4 +1,6 @@
 <?php
+// https://shpaginkirill.medium.com/the-sane-phpmailer-instruction-sending-message-and-files-to-the-mail-4dbbeb395aed
+
 // Файлы phpmailer
 require 'phpmailer/PHPMailer.php';
 require 'phpmailer/SMTP.php';
@@ -66,15 +68,18 @@ try {
   $mail->Body = $body;
 
   // Проверяем отравленность сообщения
-  if ($mail->send()) {$result = "success";}
-  else {$result = "error";}
+  if ($mail->send()) {
+    $result = "success";
+  } else {
+    $result = "error";
+  };
 
 } catch (Exception $e) {
   $result = "error";
   $status = "Сообщение не было отправлено. Причина ошибки: {$mail->ErrorInfo}";
 };
 
-$message = json_encode($data, JSON_UNESCAPED_UNICODE);
+$order = json_encode($data, JSON_UNESCAPED_UNICODE);
 
 // log
 $myfile = file_put_contents('log.txt', $message.PHP_EOL , FILE_APPEND | LOCK_EX);
@@ -82,4 +87,4 @@ $myfile = file_put_contents('log.txt', $message.PHP_EOL , FILE_APPEND | LOCK_EX)
 // Отображение результата
 header('Content-Type: application/json; charset=utf-8');
 http_response_code(200);
-echo $message;
+echo json_encode(["result" => $result, "status" => $status], JSON_UNESCAPED_UNICODE);
