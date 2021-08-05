@@ -27,7 +27,7 @@ function makehtml($data) {
         <td style="text-align: center;"><span style="font-weight: bold;">{$_($data->cargo->weight)}</span></td>
         <td style="text-align: center;"><span style="font-weight: bold;">{$_($data->cargo->volume)}</span></td>
         <td style="text-align: center;"><span style="font-weight: bold;">{$_($data->cargo->qty)}</span></td>
-        <td style="text-align: center;"><span style="font-weight: bold;">{$_($data->cargo->condition)}</span></td>
+        <td style="text-align: center;"><span style="font-weight: bold;">{$_((trim($data->cargo->condition) == '') ? 'не требуется' : $data->cargo->condition)}</span></td>
         <td style="text-align: center;"><span style="font-weight: bold;">{$_($data->cargo->value)}</span></td>
         <td style="text-align: center;"><span style="font-weight: bold;">{$_($data->cargo->insurance)}</span></td>
       </tr>
