@@ -10,7 +10,7 @@ const connection = ftp.create({
 });
 
 function deployToFtp() {
-  const globs = ["public/**"];
+  const globs = ["public/**", "!public/php/mailer/config.php"];
 
   // using base = '.' will transfer everything to destination correctly
   // turn off buffering in gulp.src for best performance
