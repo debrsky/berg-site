@@ -82,7 +82,7 @@ try {
 $order = json_encode($data, JSON_UNESCAPED_UNICODE);
 
 // log
-$myfile = file_put_contents('log.txt', $message.PHP_EOL , FILE_APPEND | LOCK_EX);
+$myfile = file_put_contents('log.txt', $order.PHP_EOL , FILE_APPEND | LOCK_EX);
 
 // Отображение результата
 header('Content-Type: application/json; charset=utf-8');
