@@ -1,1 +1,1 @@
-export const suggestionToken = "1aef0cdf8ae200e131d3e69cb08ee4983f20e311";
+export const suggestionToken = "e4c13b47d64f3864376e4c6dafb753bf619f08bb";
