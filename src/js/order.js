@@ -44,11 +44,14 @@ const handleFormChange = (event) => {
 
 form.addEventListener("change", handleFormChange);
 
+let isSubmiting = false;
 form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (isSubmiting) return;
+  isSubmiting = true;
+
   const buttonSubmit = form.querySelector("button[type=submit]");
   buttonSubmit.classList.add("button--submiting");
-
-  event.preventDefault();
 
   saveForm(form);
 
@@ -90,6 +93,7 @@ form.addEventListener("submit", (event) => {
     })
     .finally(() => {
       buttonSubmit.classList.remove("button--submiting");
+      isSubmiting = false;
     });
 
   // const content = dialog.$el.querySelector(".dialog-content__data");
