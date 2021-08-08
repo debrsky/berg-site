@@ -5,17 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Берг Транспортная компания</title>
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/grid.css">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/css/suggestions.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.6.0/dist/js/jquery.suggestions.min.js"></script>
-    <script src="vendor/imask/imask.min.js"></script>
-    <script>const terminals = {"vvo":"пр-кт 100-летия Владивостока, 161А","uss":"ул Чичерина, 152","khb":"ул Восточное шоссе, 8Б","blg":"ул Чехова, 3","kms":"ул Лесозаводская, 6А"};
-      const places = {"vvo":"Владивосток","uss":"Уссурийск","khb":"Хабаровск","blg":"Благовещенск","kms":"Комсомольск-на-Амуре"};
-    </script>
-    <script src="js/order.js" defer></script>
+    <link href="vendor/suggestions/suggestions.min.css" rel="stylesheet">
     <style>
       .suggestions-promo {
         display: none !important;
@@ -23,7 +15,7 @@
       
     </style>
   </head>
-  <body class="page nogrid">
+  <body class="page">
     <noscript>
       У вас отключен JavaScript, сайт не будет работать нормально
       
@@ -37,20 +29,23 @@
         <h1 class="logo__text"><span class="visually-hidden">Берг</span> Транспортная <br> компания</h1>
         <div class="logo__slogan">Автоперевозки грузов по Дальнему Востоку</div>
       </div>
-      <div class="contacts">
-        <address class="contacts__address">г. Владивосток, пр-кт 100-летия Владивостока, 161А</address>
-        <div class="contacts__working-hours">Пн-Пт с 
-          <time datetime="09:00">09:00</time> до 
-          <time datetime="18:00">18:00</time>
-        </div>
-        <div class="contacts__phones"><a href="tel:+74232318052">+7(423)231-80-52</a>
-          (офис)<br><a class="fax" href="tel:+74232340015">+7(423)234-00-15</a>
-          (факс)
-        </div>
-        <div class="contacts__email">
-          email:
-          <a href="mailto:berg2004@list.ru">berg2004@list.ru</a>
-        </div>
+      <div class="contacts" id="contacts">
+        <address class="contacts__address">
+          <div class="contacts__place-selector suggest-helper">
+            <select class="suggest-helper__label" id="contacts__place-selector" style="appearance: none; text-align-last: center; width: 11ch;">
+              <option selected>Владивосток</option>
+              <option>Уссурийск</option>
+              <option>Хабаровск</option>
+              <option>Благовещенск</option>
+            </select>
+          </div><span class="contacts__address-text" data-place="Владивосток">пр-кт&nbsp;100-летия Владивостока,&nbsp;161А</span><span class="contacts__address-text" data-place="Уссурийск" hidden>ул&nbsp;Чичерина,&nbsp;152</span><span class="contacts__address-text" data-place="Хабаровск" hidden>Восточное шоссе,&nbsp;8Б</span><span class="contacts__address-text" data-place="Благовещенск" hidden>ул&nbsp;Чехова,&nbsp;3</span>
+        </address>
+        <div class="contacts__phones" data-place="Владивосток"><a href="tel:+74232318052">+7(423)231-80-52</a><br><a href="tel:+79243304405">+7(924)330-44-05</a></div>
+        <div class="contacts__phones" data-place="Уссурийск" hidden><a class="fax" href="tel:+74234355500">+7(4234)355-500</a><br><a href="tel:+79243307799">+7(924)330-77-99</a></div>
+        <div class="contacts__phones" data-place="Хабаровск" hidden><a href="tel:+74212377575">+7(4212)37-75-75</a><br><a href="tel:+79243302076">+7(924)330-20-76</a></div>
+        <div class="contacts__phones" data-place="Благовещенск" hidden><a href="tel:+79248411208">+7(924)841-12-08</a></div>
+        <div class="contacts__email"><a href="mailto:berg2004@list.ru">berg2004@list.ru</a></div>
+        <div class="contacts__instagram"><a class="instagram" href="https://www.instagram.com/tc_berg/" target="_blank" style="position: relative; padding-left: 2.5ch;"><img src="img/instagram.svg" alt="" style="position: absolute; top: 0.2em; left: 0; height: 1em; width: auto;"><span>tc_berg</span></a></div>
       </div>
     </header>
     <nav class="nav-header">
@@ -77,406 +72,447 @@
     </nav>
     <main class="main">
       <div class="container">
-        <form class="form form--order" name="order" onsubmit="alert('Заявка отправлена.'); return false;">
-          <h2 class="h2">Заявка на грузоперевозку</h2>
-          <section>
+        <form class="form form--order" name="order" onsubmit="return false;">
+          <div style="display: flex; gap: 1ch; justify-content: space-between; align-items: baseline;">
+            <h2 class="h2">Заявка на грузоперевозку</h2>
+            <button class="suggest-helper suggest-helper--clean-form" type="button" style="margin-left: auto;"><span class="suggest-helper__label">Очистить заявку</span></button>
+            <button class="suggest-helper suggest-helper--fill-form" type="button"><span class="suggest-helper__label">Заполнить по последней заявке</span></button>
+          </div>
+          <section class="form__section">
             <h3 class="h3">1. Груз</h3>
-            <div class="control-group grid12">
-              <div class="control grid12__col grid12__col--12">
-                <label for="cargo">Наименование</label>
+            <div class="control-group grid12 form__section-content">
+              <div class="control control--required grid12__col grid12__col--12">
+                <label class="control__label" for="cargo">Наименование</label>
                 <input id="cargo" type="text" name="cargo">
               </div>
-              <div class="control grid12__col grid12__col--4 grid12__desktop-col--2">
-                <label for="cargo-weight">Вес, кг</label>
+              <div class="control control--required grid12__col grid12__col--4 grid12__desktop-col grid12__desktop-col--2">
+                <label class="control__label" for="cargo-weight">Вес, кг</label>
                 <input id="cargo-weight" type="text" name="cargo-weight" inputmode="numeric">
               </div>
-              <div class="control grid12__col grid12__col--4 grid12__desktop-col--2">
-                <label for="cargo-volume">Объем, м³</label>
+              <div class="control control--required grid12__col grid12__col--4 grid12__desktop-col grid12__desktop-col--2">
+                <label class="control__label" for="cargo-volume">Объем, м³</label>
                 <input id="cargo-volume" type="text" name="cargo-volume" inputmode="numeric">
               </div>
-              <div class="control grid12__col grid12__col--4 grid12__desktop-col--2">
-                <label for="cargo-qty">Количество мест</label>
+              <div class="control control--required grid12__col grid12__col--4 grid12__desktop-col grid12__desktop-col--2">
+                <label class="control__label" for="cargo-qty">Количество мест</label>
                 <input id="cargo-qty" type="text" name="cargo-qty" inputmode="numeric">
               </div>
-              <div class="control grid12__col grid12__col--6 grid12__desktop-col--3">
-                <label for="cargo-condition">Температурный режим</label>
+              <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--3">
+                <label class="control__label" for="cargo-condition">Температурный режим</label>
                 <input id="cargo-condition" type="text" name="cargo-condition" placeholder="не требуется">
               </div>
-              <div class="control grid12__col grid12__col--6 grid12__desktop-col--3">
-                <label for="cargo-value">Ценность груза, руб.</label>
+              <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--3">
+                <label class="control__label" for="cargo-value">Объявленная стоимость, руб.</label>
                 <input id="cargo-value" type="text" name="cargo-value" inputmode="numeric">
               </div>
-              <label class="control grid12__col grid12__col--6 grid12__desktop-col--3"><span>Страховка</span>
+              <label class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--3"><span class="control__label">Страховка</span>
                 <select id="insurance" name="insurance">
-                  <option selected disabled value>&lt;не выбрано&gt;</option>
+                  <option selected value="">не страховать</option>
                   <option value="страховать">страховать</option>
-                  <option value="не страховать">не страховать</option>
                 </select>
               </label>
             </div>
           </section>
-          <section>
+          <section class="form__section">
             <h3 class="h3">2. Отправление груза</h3>
-            <section>
-              <h4 class="h4">Грузоотправитель</h4>
-              <div class="control-group" style="display: flex;">
-                <div class="control">
-                  <input id="consigner-type-legal-entity" type="radio" name="consigner-type" value="legal-entity"/>
-                  <label for="consigner-type-legal-entity">Организация или ИП</label>
+            <div class="form__section-content">
+              <section>
+                <h4 class="h4">Грузоотправитель</h4>
+                <div class="control-group" style="display: flex;">
+                  <div class="control control--required">
+                    <input id="consigner-type-legal-entity" type="radio" name="consigner-type" value="legal-entity"/>
+                    <label class="control__label" for="consigner-type-legal-entity">Организация или ИП</label>
+                  </div>
+                  <div class="control control--required">
+                    <input id="consigner-type-private-person" type="radio" name="consigner-type" value="private-person"/>
+                    <label class="control__label" for="consigner-type-private-person">Частное лицо</label>
+                  </div>
                 </div>
-                <div class="control">
-                  <input id="consigner-type-private-person" type="radio" name="consigner-type" value="private-person"/>
-                  <label for="consigner-type-private-person">Частное лицо</label>
+                <div class="group-consigner-legal-entity" hidden="hidden">
+                  <div class="control-group grid12">
+                    <div class="control control--required grid12__col">
+                      <label class="control__label" for="consigner">Организация или ИП</label>
+                      <input id="consigner" type="text" name="consigner" placeholder="название, адрес, ИНН или ОГРН"/>
+                    </div>
+                    <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
+                      <label for="consigner-INN">ИНН</label>
+                      <input id="consigner-INN" type="text" name="consigner-INN"/>
+                    </div>
+                    <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
+                      <label for="consigner-KPP">КПП</label>
+                      <input id="consigner-KPP" type="text" name="consigner-KPP"/>
+                    </div>
+                    <div class="control grid12__col grid12__col--12 grid12__desktop-col grid12__desktop-col--4">
+                      <label for="consigner-OGRN">ОГРН</label>
+                      <input id="consigner-OGRN" type="text" name="consigner-OGRN"/>
+                    </div>
+                    <div class="control grid12__col">
+                      <label><span>Юридический адрес</span>
+                        <textarea id="consigner-address" name="consigner-address" data-suggestion-type="address"></textarea>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="control-group grid12 consigner-cargo-contact">
+                    <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                      <label for="consigner-cargo-contact-fio">Контактное лицо по вопросам передачи груза
+                      </label>
+                      <input id="consigner-cargo-contact-fio" type="text" name="consigner-cargo-contact-fio" data-suggestion-type="name"/>
+                    </div>
+                    <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                      <label for="consigner-cargo-contact-tel">Телефон</label>
+                      <input id="consigner-cargo-contact-tel" type="tel" name="consigner-cargo-contact-tel"/>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="group-consigner-legal-entity" hidden="hidden">
-                <div class="control-group grid12">
-                  <div class="control grid12__col">
-                    <label for="consigner">Организация или ИП</label>
-                    <input id="consigner" type="text" name="consigner" placeholder="название, адрес, ИНН или ОГРН"/>
+                <div class="control-group grid12 group-consigner-private-person" hidden="hidden">
+                  <div class="control control--required grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label class="control__label" for="consigner-fio">ФИО</label>
+                    <input id="consigner-fio" type="text" name="consigner-fio" data-suggestion-type="name"/>
                   </div>
-                  <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
-                    <label for="consigner-INN">ИНН</label>
-                    <input id="consigner-INN" type="text" name="consigner-INN"/>
+                  <div class="control control--required grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label class="control__label" for="consigner-tel">Телефон</label>
+                    <input id="consigner-tel" type="tel" name="consigner-tel"/>
                   </div>
-                  <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
-                    <label for="consigner-KPP">КПП</label>
-                    <input id="consigner-KPP" type="text" name="consigner-KPP"/>
+                </div>
+                <div class="control-group">
+                  <div class="control">
+                    <input id="consigner-is-payer" type="checkbox" name="consigner-is-payer" value="consigner-is-payer"/>
+                    <label for="consigner-is-payer">Грузоотправитель является плательщиком</label>
                   </div>
-                  <div class="control grid12__col grid12__col--12 grid12__desktop-col grid12__desktop-col--4">
-                    <label for="consigner-OGRN">ОГРН</label>
-                    <input id="consigner-OGRN" type="text" name="consigner-OGRN"/>
-                  </div>
-                  <div class="control grid12__col">
-                    <label><span>Юридический адрес</span>
-                      <textarea id="consigner-address" name="consigner-address" data-suggestion-type="address"></textarea>
+                </div>
+                <div class="control-group grid12 consigner-paying-contact" hidden="hidden">
+                  <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label for="consigner-paying-contact-fio">Контактное лицо по вопросам оплаты перевозки
                     </label>
+                    <input id="consigner-paying-contact-fio" type="text" name="consigner-paying-contact-fio" data-suggestion-type="name"/>
+                  </div>
+                  <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label for="consigner-paying-contact-tel">Телефон</label>
+                    <input id="consigner-paying-contact-tel" type="tel" name="consigner-paying-contact-tel"/>
                   </div>
                 </div>
-                <div class="control-group grid12 consigner-cargo-contact">
-                  <div class="control grid12__col grid12__desktop-col--6">
-                    <label for="consigner-cargo-contact-fio">Контактное лицо по вопросам передачи груза
-                    </label>
-                    <input id="consigner-cargo-contact-fio" type="text" name="consigner-cargo-contact-fio" data-suggestion-type="name"/>
-                  </div>
-                  <div class="control grid12__col grid12__desktop-col--6">
-                    <label for="consigner-cargo-contact-tel">Телефон</label>
-                    <input id="consigner-cargo-contact-tel" type="tel" name="consigner-cargo-contact-tel"/>
-                  </div>
-                </div>
-              </div>
-              <div class="control-group grid12 group-consigner-private-person" hidden="hidden">
-                <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
-                  <label for="consigner-fio">ФИО</label>
-                  <input id="consigner-fio" type="text" name="consigner-fio" data-suggestion-type="name"/>
-                </div>
-                <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
-                  <label for="consigner-tel">Телефон</label>
-                  <input id="consigner-tel" type="tel" name="consigner-tel"/>
-                </div>
-              </div>
-              <div class="control">
-                <input id="consigner-is-payer" type="checkbox" name="consigner-is-payer" value="consigner-is-payer"/>
-                <label for="consigner-is-payer">Грузоотправитель является плательщиком</label>
-              </div>
-              <div class="control-group grid12 consigner-paying-contact" hidden="hidden">
-                <div class="control grid12__col grid12__desktop-col--6">
-                  <label for="consigner-paying-contact-fio">Контактное лицо по вопросам оплаты перевозки
-                  </label>
-                  <input id="consigner-paying-contact-fio" type="text" name="consigner-paying-contact-fio" data-suggestion-type="name"/>
-                </div>
-                <div class="control grid12__col grid12__desktop-col--6">
-                  <label for="consigner-paying-contact-tel">Телефон</label>
-                  <input id="consigner-paying-contact-tel" type="tel" name="consigner-paying-contact-tel"/>
-                </div>
-              </div>
-            </section>
-            <h4 class="h4">Дата и время отправления</h4>
-            <div class="control-group flex flex--wrap">
-              <label class="control min-content"><span>Дата</span>
-                <input id="loading-date" type="date" name="loading-date"/>
-              </label>
-              <label class="control min-content"><span>Время</span>
-                <input id="loading-time" type="text" name="loading-time" style="width: 20ch;"/>
-              </label>
-              <p class="control-group__hint">Заявка на подачу машины на следующие сутки принимается до 
-                <time>16:00</time>
-              </p>
-            </div>
-            <h4 class="h4">Место передачи груза</h4>
-            <div class="grid12">
-              <div class="control-group grid12__col">
-                <div class="control">
-                  <label class="control__label" for="loading-place">Место отправления груза
-                  </label>
-                  <select id="loading-place" name="loading-place">
-                    <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
-                    <option value="vvo">Владивосток</option>
-                    <option value="uss">Уссурийск</option>
-                    <option value="khb">Хабаровск</option>
-                    <option value="blg">Благовещенск</option>
-                    <option value="kms">Комсомольск-на-Амуре</option>
-                    <option value="other">Другой город</option>
-                  </select>
-                  <p class="control__hint">Для подачи машины в город Артем выберите 
-                    <q>Владивосток</q>.
-                  </p>
-                </div>
-              </div>
-              <div class="control-group grid12__col">
-                <div class="control loading-terminal-control">
-                  <input id="loading-point-terminal" type="radio" name="loading-point" value="loading-point-terminal"/>
-                  <label class="loading-point-terminal-title" for="loading-point-terminal">Терминал перевозчика</label>
-                </div>
-                <div class="control loading-client-control">
-                  <input id="loading-point-client" type="radio" name="loading-point" value="loading-point-client"/>
-                  <label for="loading-point-client">Подача машины по адресу склада грузоотправителя</label>
-                </div>
-                <div class="control loading-pickup-control">
-                  <input id="loading-point-pickup" type="radio" name="loading-point" value="loading-point-pickup"/>
-                  <label for="loading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
-                </div>
-              </div>
-              <div class="control-group grid12__col group-loading-point-client-address" hidden="hidden">
-                <label class="control"><span>Адрес передачи груза</span>
-                  <textarea id="loading-point-client-address" name="loading-point-client-address" data-suggestion-type="address"></textarea>
+              </section>
+              <h4 class="h4">Дата и время отправления</h4>
+              <div class="control-group flex flex--wrap">
+                <label class="control control--required min-content"><span class="control__label">Дата</span>
+                  <input id="loading-date" type="date" name="loading-date"/>
                 </label>
+                <label class="control min-content"><span class="control__label">Время</span>
+                  <input id="loading-time" type="text" name="loading-time" style="width: 20ch;"/>
+                </label>
+                <p class="control-group__hint">Заявка на подачу машины на следующие сутки принимается до 
+                  <time>16:00</time>
+                </p>
+              </div>
+              <h4 class="h4">Место отправления груза
+              </h4>
+              <div class="grid12">
+                <div class="control-group grid12__col">
+                  <div class="control control--required">
+                    <label class="control__label" for="loading-place">Город отправления груза
+                    </label>
+                    <select id="loading-place" name="loading-place">
+                      <option selected="selected" disabled="disabled" value="">&lt;не выбрано&gt;</option>
+                      <option value="vvo">Владивосток</option>
+                      <option value="uss">Уссурийск</option>
+                      <option value="khb">Хабаровск</option>
+                      <option value="blg">Благовещенск</option>
+                      <option value="kms">Комсомольск-на-Амуре</option>
+                      <option value="other">Другой город</option>
+                    </select>
+                    <p class="control__hint">Для подачи машины в город Артем выберите 
+                      <q>Владивосток</q>.
+                    </p>
+                  </div>
+                </div>
+                <div class="control-group grid12__col">
+                  <div class="control control--required loading-terminal-control">
+                    <input id="loading-point-terminal" type="radio" name="loading-point" value="loading-point-terminal"/>
+                    <label class="control__label loading-point-terminal-title" for="loading-point-terminal">Терминал перевозчика</label>
+                  </div>
+                  <div class="control control--required loading-client-control">
+                    <input id="loading-point-client" type="radio" name="loading-point" value="loading-point-client"/>
+                    <label class="control__label" for="loading-point-client">Подача машины по адресу склада грузоотправителя</label>
+                  </div>
+                  <div class="control control--required loading-pickup-control">
+                    <input id="loading-point-pickup" type="radio" name="loading-point" value="loading-point-pickup"/>
+                    <label class="control__label" for="loading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
+                  </div>
+                </div>
+                <div class="control-group grid12__col group-loading-point-client-address" hidden="hidden">
+                  <label class="control control--required"><span class="control__label">Адрес передачи груза</span>
+                    <textarea id="loading-point-client-address" name="loading-point-client-address" data-suggestion-type="address"></textarea>
+                  </label>
+                </div>
               </div>
             </div>
           </section>
-          <section>
+          <section class="form__section">
             <h3 class="h3">3. Получение груза</h3>
-            <section>
-              <h4 class="h4">Грузополучатель</h4>
-              <div class="control-group" style="display: flex;">
-                <div class="control">
-                  <input id="consignee-type-legal-entity" type="radio" name="consignee-type" value="legal-entity"/>
-                  <label for="consignee-type-legal-entity">Организация или ИП</label>
+            <div class="form__section-content">
+              <section>
+                <h4 class="h4">Грузополучатель</h4>
+                <div class="control-group" style="display: flex;">
+                  <div class="control control--required">
+                    <input id="consignee-type-legal-entity" type="radio" name="consignee-type" value="legal-entity"/>
+                    <label class="control__label" for="consignee-type-legal-entity">Организация или ИП</label>
+                  </div>
+                  <div class="control control--required">
+                    <input id="consignee-type-private-person" type="radio" name="consignee-type" value="private-person"/>
+                    <label class="control__label" for="consignee-type-private-person">Частное лицо</label>
+                  </div>
                 </div>
-                <div class="control">
-                  <input id="consignee-type-private-person" type="radio" name="consignee-type" value="private-person"/>
-                  <label for="consignee-type-private-person">Частное лицо</label>
+                <div class="group-consignee-legal-entity" hidden="hidden">
+                  <div class="control-group grid12">
+                    <div class="control control--required grid12__col">
+                      <label class="control__label" for="consignee">Организация или ИП</label>
+                      <input id="consignee" type="text" name="consignee" placeholder="название, адрес, ИНН или ОГРН"/>
+                    </div>
+                    <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
+                      <label for="consignee-INN">ИНН</label>
+                      <input id="consignee-INN" type="text" name="consignee-INN"/>
+                    </div>
+                    <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
+                      <label for="consignee-KPP">КПП</label>
+                      <input id="consignee-KPP" type="text" name="consignee-KPP"/>
+                    </div>
+                    <div class="control grid12__col grid12__col--12 grid12__desktop-col grid12__desktop-col--4">
+                      <label for="consignee-OGRN">ОГРН</label>
+                      <input id="consignee-OGRN" type="text" name="consignee-OGRN"/>
+                    </div>
+                    <div class="control grid12__col">
+                      <label><span>Юридический адрес</span>
+                        <textarea id="consignee-address" name="consignee-address" data-suggestion-type="address"></textarea>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="control-group grid12 consignee-cargo-contact">
+                    <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                      <label for="consignee-cargo-contact-fio">Контактное лицо по вопросам передачи груза
+                      </label>
+                      <input id="consignee-cargo-contact-fio" type="text" name="consignee-cargo-contact-fio" data-suggestion-type="name"/>
+                    </div>
+                    <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                      <label for="consignee-cargo-contact-tel">Телефон</label>
+                      <input id="consignee-cargo-contact-tel" type="tel" name="consignee-cargo-contact-tel"/>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="group-consignee-legal-entity" hidden="hidden">
-                <div class="control-group grid12">
-                  <div class="control grid12__col">
-                    <label for="consignee">Организация или ИП</label>
-                    <input id="consignee" type="text" name="consignee" placeholder="название, адрес, ИНН или ОГРН"/>
+                <div class="control-group grid12 group-consignee-private-person" hidden="hidden">
+                  <div class="control control--required grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label class="control__label" for="consignee-fio">ФИО</label>
+                    <input id="consignee-fio" type="text" name="consignee-fio" data-suggestion-type="name"/>
                   </div>
-                  <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
-                    <label for="consignee-INN">ИНН</label>
-                    <input id="consignee-INN" type="text" name="consignee-INN"/>
+                  <div class="control control--required grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label class="control__label" for="consignee-tel">Телефон</label>
+                    <input id="consignee-tel" type="tel" name="consignee-tel"/>
                   </div>
-                  <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
-                    <label for="consignee-KPP">КПП</label>
-                    <input id="consignee-KPP" type="text" name="consignee-KPP"/>
+                </div>
+                <div class="control-group">
+                  <div class="control">
+                    <input id="consignee-is-payer" type="checkbox" name="consignee-is-payer" value="consignee-is-payer"/>
+                    <label for="consignee-is-payer">Грузополучатель является плательщиком</label>
                   </div>
-                  <div class="control grid12__col grid12__col--12 grid12__desktop-col grid12__desktop-col--4">
-                    <label for="consignee-OGRN">ОГРН</label>
-                    <input id="consignee-OGRN" type="text" name="consignee-OGRN"/>
-                  </div>
-                  <div class="control grid12__col">
-                    <label><span>Юридический адрес</span>
-                      <textarea id="consignee-address" name="consignee-address" data-suggestion-type="address"></textarea>
+                </div>
+                <div class="control-group grid12 consignee-paying-contact" hidden="hidden">
+                  <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label for="consignee-paying-contact-fio">Контактное лицо по вопросам оплаты перевозки
                     </label>
+                    <input id="consignee-paying-contact-fio" type="text" name="consignee-paying-contact-fio" data-suggestion-type="name"/>
+                  </div>
+                  <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label for="consignee-paying-contact-tel">Телефон</label>
+                    <input id="consignee-paying-contact-tel" type="tel" name="consignee-paying-contact-tel"/>
                   </div>
                 </div>
-                <div class="control-group grid12 consignee-cargo-contact">
-                  <div class="control grid12__col grid12__desktop-col--6">
-                    <label for="consignee-cargo-contact-fio">Контактное лицо по вопросам передачи груза
+              </section>
+              <h4 class="h4">Место получения груза
+              </h4>
+              <div class="grid12">
+                <div class="control-group grid12__col">
+                  <div class="control control--required">
+                    <label class="control__label" for="unloading-place">Город получения груза
                     </label>
-                    <input id="consignee-cargo-contact-fio" type="text" name="consignee-cargo-contact-fio" data-suggestion-type="name"/>
+                    <select id="unloading-place" name="unloading-place">
+                      <option selected="selected" disabled="disabled" value="">&lt;не выбрано&gt;</option>
+                      <option value="vvo">Владивосток</option>
+                      <option value="uss">Уссурийск</option>
+                      <option value="khb">Хабаровск</option>
+                      <option value="blg">Благовещенск</option>
+                      <option value="kms">Комсомольск-на-Амуре</option>
+                      <option value="other">Другой город</option>
+                    </select>
+                    <p class="control__hint">Для подачи машины в город Артем выберите 
+                      <q>Владивосток</q>.
+                    </p>
                   </div>
-                  <div class="control grid12__col grid12__desktop-col--6">
-                    <label for="consignee-cargo-contact-tel">Телефон</label>
-                    <input id="consignee-cargo-contact-tel" type="tel" name="consignee-cargo-contact-tel"/>
+                </div>
+                <div class="control-group grid12__col">
+                  <div class="control control--required unloading-terminal-control">
+                    <input id="unloading-point-terminal" type="radio" name="unloading-point" value="unloading-point-terminal"/>
+                    <label class="control__label unloading-point-terminal-title" for="unloading-point-terminal">Терминал перевозчика</label>
+                  </div>
+                  <div class="control control--required unloading-client-control">
+                    <input id="unloading-point-client" type="radio" name="unloading-point" value="unloading-point-client"/>
+                    <label class="control__label" for="unloading-point-client">Подача машины по адресу склада грузоотправителя</label>
+                  </div>
+                  <div class="control control--required unloading-pickup-control">
+                    <input id="unloading-point-pickup" type="radio" name="unloading-point" value="unloading-point-pickup"/>
+                    <label class="control__label" for="unloading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
                   </div>
                 </div>
-              </div>
-              <div class="control-group grid12 group-consignee-private-person" hidden="hidden">
-                <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
-                  <label for="consignee-fio">ФИО</label>
-                  <input id="consignee-fio" type="text" name="consignee-fio" data-suggestion-type="name"/>
-                </div>
-                <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
-                  <label for="consignee-tel">Телефон</label>
-                  <input id="consignee-tel" type="tel" name="consignee-tel"/>
-                </div>
-              </div>
-              <div class="control">
-                <input id="consignee-is-payer" type="checkbox" name="consignee-is-payer" value="consignee-is-payer"/>
-                <label for="consignee-is-payer">Грузополучатель является плательщиком</label>
-              </div>
-              <div class="control-group grid12 consignee-paying-contact" hidden="hidden">
-                <div class="control grid12__col grid12__desktop-col--6">
-                  <label for="consignee-paying-contact-fio">Контактное лицо по вопросам оплаты перевозки
+                <div class="control-group grid12__col group-unloading-point-client-address" hidden="hidden">
+                  <label class="control control--required"><span class="control__label">Адрес передачи груза</span>
+                    <textarea id="unloading-point-client-address" name="unloading-point-client-address" data-suggestion-type="address"></textarea>
                   </label>
-                  <input id="consignee-paying-contact-fio" type="text" name="consignee-paying-contact-fio" data-suggestion-type="name"/>
                 </div>
-                <div class="control grid12__col grid12__desktop-col--6">
-                  <label for="consignee-paying-contact-tel">Телефон</label>
-                  <input id="consignee-paying-contact-tel" type="tel" name="consignee-paying-contact-tel"/>
-                </div>
-              </div>
-            </section>
-            <h4 class="h4">Место передачи груза</h4>
-            <div class="grid12">
-              <div class="control-group grid12__col">
-                <div class="control">
-                  <label class="control__label" for="unloading-place">Место получения груза
-                  </label>
-                  <select id="unloading-place" name="unloading-place">
-                    <option selected="selected" disabled="disabled" value="value">&lt;не выбрано&gt;</option>
-                    <option value="vvo">Владивосток</option>
-                    <option value="uss">Уссурийск</option>
-                    <option value="khb">Хабаровск</option>
-                    <option value="blg">Благовещенск</option>
-                    <option value="kms">Комсомольск-на-Амуре</option>
-                    <option value="other">Другой город</option>
-                  </select>
-                  <p class="control__hint">Для подачи машины в город Артем выберите 
-                    <q>Владивосток</q>.
-                  </p>
-                </div>
-              </div>
-              <div class="control-group grid12__col">
-                <div class="control unloading-terminal-control">
-                  <input id="unloading-point-terminal" type="radio" name="unloading-point" value="unloading-point-terminal"/>
-                  <label class="unloading-point-terminal-title" for="unloading-point-terminal">Терминал перевозчика</label>
-                </div>
-                <div class="control unloading-client-control">
-                  <input id="unloading-point-client" type="radio" name="unloading-point" value="unloading-point-client"/>
-                  <label for="unloading-point-client">Подача машины по адресу склада грузоотправителя</label>
-                </div>
-                <div class="control unloading-pickup-control">
-                  <input id="unloading-point-pickup" type="radio" name="unloading-point" value="unloading-point-pickup"/>
-                  <label for="unloading-point-pickup">Передача груза на трассе в согласованное с водителем время</label>
-                </div>
-              </div>
-              <div class="control-group grid12__col group-unloading-point-client-address" hidden="hidden">
-                <label class="control"><span>Адрес передачи груза</span>
-                  <textarea id="unloading-point-client-address" name="unloading-point-client-address" data-suggestion-type="address"></textarea>
-                </label>
               </div>
             </div>
           </section>
-          <section>
+          <section class="form__section">
             <h3 class="h3">4. Оплата</h3>
-            <section class="section-payer">
-              <h4 class="h4">Плательщик</h4>
-              <div class="control-group" style="display: flex;">
-                <div class="control">
-                  <input id="payer-type-legal-entity" type="radio" name="payer-type" value="legal-entity"/>
-                  <label for="payer-type-legal-entity">Организация или ИП</label>
-                </div>
-                <div class="control">
-                  <input id="payer-type-private-person" type="radio" name="payer-type" value="private-person"/>
-                  <label for="payer-type-private-person">Частное лицо</label>
-                </div>
-              </div>
-              <div class="group-payer-legal-entity" hidden="hidden">
-                <div class="control-group grid12">
-                  <div class="control grid12__col">
-                    <label for="payer">Организация или ИП</label>
-                    <input id="payer" type="text" name="payer" placeholder="название, адрес, ИНН или ОГРН"/>
+            <div class="form__section-content">
+              <section class="section-payer">
+                <h4 class="h4">Плательщик</h4>
+                <div class="control-group" style="display: flex;">
+                  <div class="control control--required">
+                    <input id="payer-type-legal-entity" type="radio" name="payer-type" value="legal-entity"/>
+                    <label class="control__label" for="payer-type-legal-entity">Организация или ИП</label>
                   </div>
-                  <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
-                    <label for="payer-INN">ИНН</label>
-                    <input id="payer-INN" type="text" name="payer-INN"/>
-                  </div>
-                  <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
-                    <label for="payer-KPP">КПП</label>
-                    <input id="payer-KPP" type="text" name="payer-KPP"/>
-                  </div>
-                  <div class="control grid12__col grid12__col--12 grid12__desktop-col grid12__desktop-col--4">
-                    <label for="payer-OGRN">ОГРН</label>
-                    <input id="payer-OGRN" type="text" name="payer-OGRN"/>
-                  </div>
-                  <div class="control grid12__col">
-                    <label><span>Юридический адрес</span>
-                      <textarea id="payer-address" name="payer-address" data-suggestion-type="address"></textarea>
-                    </label>
+                  <div class="control control--required">
+                    <input id="payer-type-private-person" type="radio" name="payer-type" value="private-person"/>
+                    <label class="control__label" for="payer-type-private-person">Частное лицо</label>
                   </div>
                 </div>
-                <div class="control-group grid12 payer-paying-contact">
-                  <div class="control grid12__col grid12__desktop-col--6">
-                    <label for="payer-paying-contact-fio">Контактное лицо по вопросам оплаты перевозки
-                    </label>
-                    <input id="payer-paying-contact-fio" type="text" name="payer-paying-contact-fio" data-suggestion-type="name"/>
+                <div class="group-payer-legal-entity" hidden="hidden">
+                  <div class="control-group grid12">
+                    <div class="control control--required grid12__col">
+                      <label class="control__label" for="payer">Организация или ИП</label>
+                      <input id="payer" type="text" name="payer" placeholder="название, адрес, ИНН или ОГРН"/>
+                    </div>
+                    <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
+                      <label for="payer-INN">ИНН</label>
+                      <input id="payer-INN" type="text" name="payer-INN"/>
+                    </div>
+                    <div class="control grid12__col grid12__col--6 grid12__desktop-col grid12__desktop-col--4">
+                      <label for="payer-KPP">КПП</label>
+                      <input id="payer-KPP" type="text" name="payer-KPP"/>
+                    </div>
+                    <div class="control grid12__col grid12__col--12 grid12__desktop-col grid12__desktop-col--4">
+                      <label for="payer-OGRN">ОГРН</label>
+                      <input id="payer-OGRN" type="text" name="payer-OGRN"/>
+                    </div>
+                    <div class="control grid12__col">
+                      <label><span>Юридический адрес</span>
+                        <textarea id="payer-address" name="payer-address" data-suggestion-type="address"></textarea>
+                      </label>
+                    </div>
                   </div>
-                  <div class="control grid12__col grid12__desktop-col--6">
-                    <label for="payer-paying-contact-tel">Телефон</label>
-                    <input id="payer-paying-contact-tel" type="tel" name="payer-paying-contact-tel"/>
+                  <div class="control-group grid12 payer-paying-contact">
+                    <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                      <label for="payer-paying-contact-fio">Контактное лицо по вопросам оплаты перевозки
+                      </label>
+                      <input id="payer-paying-contact-fio" type="text" name="payer-paying-contact-fio" data-suggestion-type="name"/>
+                    </div>
+                    <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
+                      <label for="payer-paying-contact-tel">Телефон</label>
+                      <input id="payer-paying-contact-tel" type="tel" name="payer-paying-contact-tel"/>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="control-group grid12 group-payer-private-person" hidden="hidden">
-                <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
-                  <label for="payer-fio">ФИО</label>
-                  <input id="payer-fio" type="text" name="payer-fio" data-suggestion-type="name"/>
+                <div class="control-group grid12 group-payer-private-person" hidden="hidden">
+                  <div class="control control--required grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label class="control__label" for="payer-fio">ФИО</label>
+                    <input id="payer-fio" type="text" name="payer-fio" data-suggestion-type="name"/>
+                  </div>
+                  <div class="control control--required grid12__col grid12__desktop-col grid12__desktop-col--6">
+                    <label class="control__label" for="payer-tel">Телефон</label>
+                    <input id="payer-tel" type="tel" name="payer-tel"/>
+                  </div>
                 </div>
-                <div class="control grid12__col grid12__desktop-col grid12__desktop-col--6">
-                  <label for="payer-tel">Телефон</label>
-                  <input id="payer-tel" type="tel" name="payer-tel"/>
+              </section>
+              <section>
+                <h4 class="h4">Форма оплаты</h4>
+                <div class="control-group">
+                  <div class="control control--required">
+                    <label class="control__label" for="payment-form">Форма оплаты</label>
+                    <select id="payment-form" name="payment-form">
+                      <option selected disabled value="">&lt;не выбрано&gt;</option>
+                      <option>Безналичная</option>
+                      <option>Наличными с чеком</option>
+                      <option>Наличными без чека</option>
+                    </select>
+                    <p class="control__hint">Безналичный расчет возможен только при наличии договора.</p>
+                  </div>
                 </div>
-              </div>
-            </section>
-            <section>
-              <h4 class="h4">Форма оплаты и страховка</h4>
-              <div class="control">
-                <label for="payment-form">Форма оплаты</label>
-                <select id="payment-form">
-                  <option selected disabled value>&lt;не выбрано&gt;</option>
-                  <option>Безналичная</option>
-                  <option>Наличными с чеком</option>
-                  <option>Наличными без чека</option>
-                </select>
-                <p class="control__hint">Безналичный расчет возможен только при наличии договора.</p>
-              </div>
-            </section>
-          </section>
-          <section>
-            <h3 class="h3">
-              <label for="memo">5. Комментарий</label>
-            </h3>
-            <div class="control">
-              <textarea id="memo" name="memo" placeholder="например, сделать остановку в Хабаровске"></textarea>
+              </section>
             </div>
           </section>
-          <section>
+          <section class="form__section">
+            <h3 class="h3">
+              <label for="memo">5. Дополнительная информация</label>
+            </h3>
+            <div class="control-group">
+              <div class="control">
+                <textarea id="memo" name="memo" placeholder="например, сделать остановку в Хабаровске"></textarea>
+              </div>
+            </div>
+          </section>
+          <section class="form__section">
             <h3 class="h3">6. Заявку составил</h3>
-            <div class="control-group grid12">
-              <div class="control grid12__col grid12__col grid12__desktop-col grid12__desktop-col--6">
-                <label for="order-author-fio">ФИО</label>
-                <input id="order-author-fio" type="text" name="order-author-fio" data-suggestion-type="name" required>
+            <div class="form__section-content control-group grid12">
+              <div class="control control--required grid12__col grid12__col grid12__desktop-col grid12__desktop-col--6">
+                <label class="control__label" for="order-author-fio">ФИО</label>
+                <input id="order-author-fio" type="text" name="order-author-fio" data-suggestion-type="name">
               </div>
-              <div class="control grid12__col grid12__col grid12__desktop-col grid12__desktop-col--6">
-                <label for="order-author-tel">Телефон</label>
-                <input id="order-author-tel" type="tel" name="order-author-tel" required>
+              <div class="control control--required grid12__col grid12__col grid12__desktop-col grid12__desktop-col--6">
+                <label class="control__label" for="order-author-tel">Телефон</label>
+                <input id="order-author-tel" type="tel" name="order-author-tel">
               </div>
-              <div class="control grid12__col grid12__col grid12__desktop-col grid12__desktop-col--6">
-                <label for="order-author-email">Е-майл</label>
+              <div class="control control--required grid12__col grid12__col grid12__desktop-col grid12__desktop-col--6">
+                <label class="control__label" for="order-author-email">Е-майл</label>
                 <input id="order-author-email" type="email" name="order-author-email" data-suggestion-type="email">
               </div>
             </div>
           </section>
-          <section>
+          <section class="form__section">
             <h3 class="h3">7. Отправка заявки</h3>
-            <ul>
-              <li><a href="terms.html">Условия перевозки грузов</a></li>
-              <li><a href="pricing.html">Тарифы на грузоперевозку</a></li>
-              <li><a href="personal-data-policy.html">Политика обработки персональных данных</a></li>
-            </ul>
-            <div class="control">
-              <input id="accept" type="checkbox" name="accept" value="accept">
-              <label for="accept">Я ознакомился с условиями перевозки грузов и тарифами, с обработкой персональных данных согласен.</label>
-            </div>
-            <div class="control-group">
-              <button class="button button--primary" type="submit">Отправить заявку</button>
+            <div class="form__section-content">
+              <ul>
+                <li><a href="terms.html">Условия перевозки грузов</a></li>
+                <li><a href="pricing.html">Тарифы на грузоперевозку</a></li>
+              </ul>
+              <div class="control-group">
+                <div class="control control--required">
+                  <input id="accept" type="checkbox" name="accept" value="accept">
+                  <label class="control__label" for="accept">Я ознакомился с условиями перевозки грузов и тарифами.</label>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="control flex flex-wrap" style="gap: 1ch; justify-content: center; align-items: center;">
+                  <button class="max-content button button--primary form__button" type="submit" style="flex-shrink: 0;">Отправить заявку</button>
+                  <div><span>Отправляя заявку, вы соглашаетесь с обработкой ваших персональных данных.</span></div>
+                </div>
+                <div class="control-group__error-message">При отправке заявки произошла ошибка, заявка не отправлена.</div>
+              </div>
             </div>
           </section>
         </form>
+        <!-- 1. The dialog container-->
+        <div class="dialog-container" id="sent-dialog" aria-labelledby="sent-dialog__title" data-a11y-dialog="sent-dialog" aria-hidden="true">
+          <!-- 2. The dialog overlay-->
+          <div class="dialog-overlay" data-a11y-dialog-hide></div>
+          <!-- 3. The actual dialog-->
+          <div class="dialog-content" role="dialog" style="position: relative;">
+            <!-- 4. The close button-->
+            <button type="button" data-a11y-dialog-hide aria-label="Close dialog" style="position: absolute; top: 0; right: 0;">&times;</button>
+            <!-- 5. The dialog title-->
+            <div class="dialog-content__container" style="padding: 10mm;">
+              <h2 id="sent-dialog__title">Ваша заявка</h2>
+              <div class="dialog-content__data">ОФОРМЛЕНА, НО НЕ ОТПРАВЛЕНА</div>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
     <nav class="nav-footer">
@@ -534,6 +570,22 @@
         </div>
       </div>
     </footer>
-    <script src="bundle.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/suggestions/jquery.suggestions.min.js"></script>
+    <script src="vendor/imask/imask.min.js"></script>
+    <!-- https://github.com/KittyGiraudel/a11y-dialog-->
+    <script src="https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.min.js"></script>
+    <script>
+      // Get the dialog container HTML element (with the accessor method you want)
+      const element = document.getElementById('sent-dialog');
+      // Instantiate a new A11yDialog module
+      window.dialog = new A11yDialog(element);
+      
+    </script>
+    <script>window.terminals = {"vvo":"пр-кт 100-летия Владивостока, 161А","uss":"ул Чичерина, 152","khb":"ул Восточное шоссе, 8Б","blg":"ул Чехова, 3","kms":"ул Лесозаводская, 6А"};
+      window.places = {"vvo":"Владивосток","uss":"Уссурийск","khb":"Хабаровск","blg":"Благовещенск","kms":"Комсомольск-на-Амуре"};
+    </script>
+    <script src="js/order.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>

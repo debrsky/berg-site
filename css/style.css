@@ -1,22 +1,30 @@
-a[href^='tel:'] {
+a.instagram,
+a[href^="tel:"],
+a[href^="mailto:"] {
   text-decoration: none;
   color: var(--brand-color);
   white-space: nowrap;
 }
-a[href^='tel:']::before {
-  content: '📱';
+a[href^="tel:"]::before,
+a[href^="mailto:"]::before {
   font-family: "Segoe UI Emoji", emoji, sans-serif;
   display: inline-block;
   text-align: center;
   width: 3ch;
 }
-a[href^='tel:+742']::before {
-  content: '📞';
-  content: '☏';
-  content: '☎';
+a[href^="tel:"]::before {
+  content: "📱";
 }
-a[href^='tel:'].fax::before {
-  content: '📠';
+a[href^="mailto:"]::before {
+  content: "📧";
+}
+a[href^="tel:+742"]::before {
+  content: "📞";
+  content: "☏";
+  content: "☎";
+}
+a[href^="tel:"].fax::before {
+  content: "📠";
 }
 *,
 *::before,
@@ -45,19 +53,20 @@ html {
   font-size: 18px;
   line-height: 1.2;
   --brand-color: #0c98d9;
-  --brand-color-lighter: #45B5EC;
-  --brand-color-light: #71C4EC;
-  --barnd-color-lightest: #e1f4ff;
-  --brand-color-darker: #2F7DA3;
-  --brand-color-dark: #04608D;
-  --brand-color-secondary: #FF8902;
-  --brand-color-secondary-lighter: #FFA741;
-  --brand-color-secondary-light: #FFBE74;
-  --brand-color-secondary-darker: #BF7D31;
-  --brand-color-secondary-dark: #A65901;
+  --brand-color-lighter: #45b5ec;
+  --brand-color-light: #71c4ec;
+  --brand-color-lightest: #e1f4ff;
+  --brand-color-darker: #2f7da3;
+  --brand-color-dark: #04608d;
+  --brand-color-secondary: #ff8902;
+  --brand-color-secondary-lighter: #ffa741;
+  --brand-color-secondary-light: #ffbe74;
+  --brand-color-secondary-darker: #bf7d31;
+  --brand-color-secondary-dark: #a65901;
   --brand-color-white: white;
   --brand-color-grey: lightgrey;
   --brand-color-black: #444;
+  --brand-color-danger: red;
   color: var(--brand-color-black);
   background-color: var(--brand-color-white);
 }
@@ -68,32 +77,6 @@ img {
 }
 details summary {
   cursor: pointer;
-}
-.v-text {
-  writing-mode: vertical-lr;
-}
-@media print {
-  .v-text {
-    writing-mode: horizontal-tb;
-  }
-}
-.nobr {
-  white-space: nowrap;
-}
-.flex {
-  display: flex;
-}
-.flex--wrap {
-  flex-wrap: wrap;
-}
-.min-content {
-  width: min-content;
-}
-.max-content {
-  width: max-content;
-}
-.fit-content {
-  width: fit-content;
 }
 @media (max-width: 767.98px) {
   html {
@@ -160,41 +143,49 @@ details summary {
 @font-face {
   font-family: "PT Sans";
   src: local("PT Sans"), url("/fonts/PTS55F_W.woff") format("woff");
+  font-display: swap;
 }
 @font-face {
   font-family: "PT Sans";
   font-style: italic;
   src: local("PT Sans Italic"), url("/fonts/PTS56F_W.woff") format("woff");
+  font-display: swap;
 }
 @font-face {
   font-family: "PT Sans";
   font-style: normal;
   font-weight: bold;
   src: local("PT Sans Bold"), url("/fonts/PTS75F_W.woff") format("woff");
+  font-display: swap;
 }
 @font-face {
   font-family: "PT Sans";
   font-style: italic;
   font-weight: bold;
   src: local("PT Sans Bold Italic"), url("/fonts/PTS76F_W.woff") format("woff");
+  font-display: swap;
 }
 @font-face {
   font-family: "PT Sans Caption";
   src: local("PT Sans Caption"), url("/fonts/PTC55F_W.woff") format("woff");
+  font-display: swap;
 }
 @font-face {
   font-family: "PT Sans Caption";
   font-weight: bold;
   src: local("PT Sans Caption Bold"), url("/fonts/PTC75F_W.woff") format("woff");
+  font-display: swap;
 }
 @font-face {
   font-family: "PT Sans Narrow";
   src: local("PT Sans Narrow"), url("/fonts/PTN57F_W.woff") format("woff");
+  font-display: swap;
 }
 @font-face {
   font-family: "PT Sans Narrow";
   font-weight: bold;
   src: local("PT Sans Narrow Bold"), url("/fonts/PTN77F_W.woff") format("woff");
+  font-display: swap;
 }
 .h1,
 .h2,
@@ -223,6 +214,65 @@ details summary {
 .table tbody tr th,
 .table tbody tr td {
   border-bottom: 1px solid lightgray;
+}
+/**
+ * 1. Make the dialog container, and its child overlay spread across
+ *    the entire window.
+ */
+.dialog-container,
+.dialog-overlay {
+  position: fixed;
+  /* 1 */
+  top: 0;
+  /* 1 */
+  right: 0;
+  /* 1 */
+  bottom: 0;
+  /* 1 */
+  left: 0;
+  /* 1 */
+}
+/**
+  * 1. Make sure the dialog container and all its descendants sits on
+  *    top of the rest of the page.
+  * 2. Make the dialog container a flex container to easily center the
+  *    dialog.
+  */
+.dialog-container {
+  z-index: 2;
+  /* 1 */
+  display: flex;
+  /* 2 */
+}
+/**
+  * 1. Make sure the dialog container and all its descendants are not
+  *    visible and not focusable when it is hidden.
+  */
+.dialog-container[aria-hidden="true"] {
+  display: none;
+  /* 1 */
+}
+/**
+  * 1. Make the overlay look like an overlay.
+  */
+.dialog-overlay {
+  background-color: rgba(43, 46, 56, 0.9);
+  /* 1 */
+}
+/**
+  * 1. Vertically and horizontally center the dialog in the page.
+  * 2. Make sure the dialog sits on top of the overlay.
+  * 3. Make sure the dialog has an opaque background.
+  */
+.dialog-content {
+  margin: auto;
+  /* 1 */
+  z-index: 2;
+  /* 2 */
+  position: relative;
+  /* 2 */
+  background-color: white;
+  /* 3 */
 }
 .grid12 {
   display: grid;
@@ -308,39 +358,60 @@ details summary {
 .form {
   margin: 0 auto;
 }
-.form--order {
-  max-width: 767.98px;
+.form__button {
+  margin: 0 1ch;
+}
+.form__section {
+  border-top: 1px solid var(--brand-color-dark);
+}
+@media (min-width: 512px) {
+  .form__section {
+    display: grid;
+    grid-template-columns: 21ch 1fr;
+    margin: 1em 0;
+  }
 }
 .control-group {
   margin: 0.5em 0;
   padding: 0.5em 0;
-  background-color: var(--barnd-color-lightest);
+  border-left: 0.5ch solid var(--brand-color-secondary);
+  background-color: var(--brand-color-lightest);
 }
 .control-group__hint {
   margin: 0;
   padding: 0;
   font-size: small;
 }
+.control-group__error-message {
+  display: none;
+  color: var(--brand-color-danger);
+  font-weight: bold;
+}
+.control-group--error .control-group__error-message {
+  display: block;
+}
 .control {
   padding: 0.5ch;
   display: block;
   align-self: end;
-  background-color: var(--barnd-color-lightest);
+  background-color: transparent;
 }
 .control textarea,
-.control input:not([type=radio]):not([type=checkbox]) {
+.control input:not([type="radio"]):not([type="checkbox"]) {
   width: 100%;
 }
 .control__hint {
   margin: 0;
   padding: 0;
-  font-size: x-small;
+  font-size: small;
+}
+.control--required .control__label {
+  font-weight: bold;
 }
 .button {
   color: var(--brand-color);
   background: none;
   padding: 1em 2em;
-  margin: 1em 1ch;
   border: 1px solid currentColor;
   transition: transform 0.1s ease-out;
 }
@@ -373,6 +444,23 @@ details summary {
   background-color: var(--brand-color-lighter);
   color: var(--brand-color-white);
 }
+.button--submiting,
+.button--submiting:hover:not(:disabled),
+.button--submiting.button--hover,
+.button--submiting:focus,
+.button--submiting.button--focus {
+  animation: blinds 2s linear infinite;
+  background-position: 0 0;
+  background-size: 5ch 1em;
+  background-repeat: repeat-x repeat-y;
+  background-image: linear-gradient(to right, var(--brand-color) 0%, var(--brand-color-secondary) 50%, var(--brand-color) 100%);
+  color: white;
+}
+@keyframes blinds {
+  100% {
+    background-position: 5ch 0;
+  }
+}
 .button--secondary {
   background-color: var(--brand-color-secondary);
   color: var(--brand-color-white);
@@ -388,6 +476,29 @@ details summary {
   background-color: var(--brand-color-secondary-lighter);
   color: var(--brand-color-white);
 }
+.suggest-helper {
+  padding: 0;
+  margin: 0;
+  font-size: 1rem;
+  width: fit-content;
+  background-color: var(--brand-color-white);
+  border: none;
+  color: var(--brand-color-black);
+  transition: 0.1s ease-out;
+}
+.suggest-helper:active {
+  transform: translateY(0.1em);
+}
+.suggest-helper__label {
+  cursor: pointer;
+  display: inline;
+  color: inherit;
+  background-color: inherit;
+  text-align: end;
+  line-height: 1.5;
+  border: none;
+  border-bottom: 1px dashed var(--brand-color-secondary);
+}
 .header {
   font-size: 16px;
   display: grid;
@@ -399,13 +510,16 @@ details summary {
 }
 @media (max-width: 767.98px) {
   .header {
-    grid-template-columns: min-content;
     padding-top: 5px;
-    padding-bottom: 5px;
+  }
+}
+@media (max-width: 610px) {
+  .header {
+    grid-gap: 0;
   }
 }
 .logo {
-  width: 414px;
+  width: 350px;
   display: grid;
   grid-template-columns: min-content auto;
   grid-gap: 10px 20px;
@@ -431,6 +545,7 @@ details summary {
   font-size: 1.33rem;
   font-weight: normal;
   margin: 0;
+  width: min-content;
 }
 .logo__slogan {
   grid-area: slogan;
@@ -441,24 +556,51 @@ details summary {
   .logo {
     width: auto;
   }
+  .logo__slogan {
+    display: none;
+  }
   .logo__icon svg {
     width: calc(147px / 2);
     height: calc(62px / 2);
   }
 }
+@media (max-width: 610px) {
+  .logo {
+    grid-gap: 0 1ch;
+  }
+  .logo__text {
+    display: none;
+  }
+}
+@media (max-width: 365px) {
+  .logo__icon svg {
+    width: calc(147px / 2.8);
+    height: calc(62px / 2.8);
+  }
+}
 .contacts {
+  font-size: 1rem;
   display: grid;
-  grid-template-areas: "address phones" "working-hours email";
-  grid-template-columns: auto auto;
-  grid-gap: 10px;
+  grid-template-areas: "address phones" "instagram email";
+  grid-template-columns: auto 18ch;
+  grid-gap: 1ch;
   align-items: end;
-  justify-items: end;
+  justify-items: start;
 }
 .contacts__address {
+  align-self: start;
+  justify-self: end;
   grid-area: address;
+  text-align: end;
 }
 .contacts__phones {
+  align-self: start;
   grid-area: phones;
+  padding-top: 0.2em;
+}
+.contacts__phones a:not(:first-of-type) {
+  display: inline-block;
+  margin-top: 0.5em;
 }
 .contacts__working-hours {
   grid-area: working-hours;
@@ -466,9 +608,26 @@ details summary {
 .contacts__email {
   grid-area: email;
 }
+.contacts__instagram {
+  justify-self: end;
+  grid-area: instagram;
+}
+.contacts__place-selector {
+  margin-left: auto;
+}
 @media (max-width: 767.98px) {
   .contacts {
+    margin-right: 60px;
+  }
+}
+@media (max-width: 490px) {
+  .contacts__address-text {
     display: none;
+  }
+}
+@media (max-width: 370px) {
+  .contacts__place-selector {
+    font-size: 0.8rem;
   }
 }
 .nav-header {
@@ -585,8 +744,8 @@ details summary {
   position: absolute;
   top: 0;
   right: 0;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   padding: 0;
   margin: 0;
   border: none;
@@ -595,7 +754,7 @@ details summary {
 }
 .nav-footer__icon {
   margin: auto;
-  stroke: black;
+  stroke: var(--brand-color-secondary);
 }
 .nav-footer__icon-cross,
 .nav-footer__icon-menu {
@@ -624,10 +783,10 @@ details summary {
 .nav-footer__item:hover .nav-footer__link,
 .nav-footer__item:focus-within .nav-footer__link:focus-visible {
   text-decoration: none;
-  color: white;
-  background-color: #0c98d9;
+  color: var(--brand-color-white);
+  background-color: var(--brand-color-secondary);
   background-size: 100%;
-  background-image: linear-gradient(to right bottom, #0095de 0%, #00a5e5 100%);
+  background-image: linear-gradient(to right bottom, var(--brand-color-secondary) 0%, var(--brand-color-secondary-lighter) 100%);
 }
 .nav-footer__link {
   display: block;
@@ -651,8 +810,8 @@ details summary {
     right: 0;
     width: auto;
     margin-top: 50px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 2px solid orange;
+    background-color: var(--brand-color-white);
+    border: 2px solid var(--brand-color-secondary);
   }
   .nav-footer__items--open {
     display: flex;
@@ -754,6 +913,36 @@ details summary {
 }
 .pricing__table-wrapper {
   page-break-inside: avoid;
+}
+.v-text {
+  writing-mode: vertical-rl;
+  height: min-content;
+  transform: rotate(180deg);
+}
+@media print {
+  .v-text {
+    writing-mode: horizontal-tb;
+    height: auto;
+    transform: none;
+  }
+}
+.nobr {
+  white-space: nowrap;
+}
+.flex {
+  display: flex;
+}
+.flex--wrap {
+  flex-wrap: wrap;
+}
+.min-content {
+  width: min-content;
+}
+.max-content {
+  width: max-content;
+}
+.fit-content {
+  width: fit-content;
 }
 
 /*# sourceMappingURL=style.css.map */

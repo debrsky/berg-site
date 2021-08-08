@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Берг Транспортная компания</title>
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/grid.css">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
-  <body class="page nogrid">
+  <body class="page">
     <noscript>
       У вас отключен JavaScript, сайт не будет работать нормально
       
@@ -23,20 +22,23 @@
         <h1 class="logo__text"><span class="visually-hidden">Берг</span> Транспортная <br> компания</h1>
         <div class="logo__slogan">Автоперевозки грузов по Дальнему Востоку</div>
       </div>
-      <div class="contacts">
-        <address class="contacts__address">г. Владивосток, пр-кт 100-летия Владивостока, 161А</address>
-        <div class="contacts__working-hours">Пн-Пт с 
-          <time datetime="09:00">09:00</time> до 
-          <time datetime="18:00">18:00</time>
-        </div>
-        <div class="contacts__phones"><a href="tel:+74232318052">+7(423)231-80-52</a>
-          (офис)<br><a class="fax" href="tel:+74232340015">+7(423)234-00-15</a>
-          (факс)
-        </div>
-        <div class="contacts__email">
-          email:
-          <a href="mailto:berg2004@list.ru">berg2004@list.ru</a>
-        </div>
+      <div class="contacts" id="contacts">
+        <address class="contacts__address">
+          <div class="contacts__place-selector suggest-helper">
+            <select class="suggest-helper__label" id="contacts__place-selector" style="appearance: none; text-align-last: center; width: 11ch;">
+              <option selected>Владивосток</option>
+              <option>Уссурийск</option>
+              <option>Хабаровск</option>
+              <option>Благовещенск</option>
+            </select>
+          </div><span class="contacts__address-text" data-place="Владивосток">пр-кт&nbsp;100-летия Владивостока,&nbsp;161А</span><span class="contacts__address-text" data-place="Уссурийск" hidden>ул&nbsp;Чичерина,&nbsp;152</span><span class="contacts__address-text" data-place="Хабаровск" hidden>Восточное шоссе,&nbsp;8Б</span><span class="contacts__address-text" data-place="Благовещенск" hidden>ул&nbsp;Чехова,&nbsp;3</span>
+        </address>
+        <div class="contacts__phones" data-place="Владивосток"><a href="tel:+74232318052">+7(423)231-80-52</a><br><a href="tel:+79243304405">+7(924)330-44-05</a></div>
+        <div class="contacts__phones" data-place="Уссурийск" hidden><a class="fax" href="tel:+74234355500">+7(4234)355-500</a><br><a href="tel:+79243307799">+7(924)330-77-99</a></div>
+        <div class="contacts__phones" data-place="Хабаровск" hidden><a href="tel:+74212377575">+7(4212)37-75-75</a><br><a href="tel:+79243302076">+7(924)330-20-76</a></div>
+        <div class="contacts__phones" data-place="Благовещенск" hidden><a href="tel:+79248411208">+7(924)841-12-08</a></div>
+        <div class="contacts__email"><a href="mailto:berg2004@list.ru">berg2004@list.ru</a></div>
+        <div class="contacts__instagram"><a class="instagram" href="https://www.instagram.com/tc_berg/" target="_blank" style="position: relative; padding-left: 2.5ch;"><img src="img/instagram.svg" alt="" style="position: absolute; top: 0.2em; left: 0; height: 1em; width: auto;"><span>tc_berg</span></a></div>
       </div>
     </header>
     <nav class="nav-header">
@@ -124,6 +126,6 @@
         </div>
       </div>
     </footer>
-    <script src="bundle.js"></script>
+    <script src="js/index.js"></script>
   </body>
 </html>

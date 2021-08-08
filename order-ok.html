@@ -7,9 +7,6 @@
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="vendor/swiper/swiper-bundle.min.css">
-    <link rel="stylesheet" href="css/swiper.css">
-    <script src="vendor/swiper/swiper-bundle.min.js"></script>
   </head>
   <body class="page">
     <noscript>
@@ -68,59 +65,9 @@
     </nav>
     <main class="main">
       <div class="container">
-        <article>
-          <h2 class="visually-hidden">Главная страница</h2>
-          <div class="swiper-container mySwiper">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide" data-hash="slide1"><img class="swiper-slide-img" src="img/slides/slide01.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид спереди."></div>
-              <div class="swiper-slide" data-hash="slide2"><img class="swiper-slide-img" src="img/slides/slide02.jpg" alt="Три тягача Вольво."></div>
-              <div class="swiper-slide" data-hash="slide3"><img class="swiper-slide-img" src="img/slides/slide03.jpg" alt="Тягач Вольво с контейнерами на телеге и на прицепе, вид сбоку."></div>
-              <div class="swiper-slide" data-hash="slide4"><img class="swiper-slide-img" src="img/slides/slide04.png" alt="Реклама Трансинтек. Фура на горной дороге."></div>
-              <div class="swiper-slide" data-hash="slide5">
-                <div style="width: 100%; height: 100%; position: relative; padding: 10px; background-color: #365662; color: #c1cac6; font-family: 'Times New Roman', Times, serif; font-size: 24pt; font-weight: bold; font-style: italic;">
-                  <video src="img/slides/slide05/logo-sltk-126.mp4" muted autoplay loop style="display: block; float: left;"></video>
-                  <p style="margin: 0; text-align: center;"><span style="border-bottom: 1px solid currentColor;">ООО <q>СИБИРСКАЯ ЛИНИЯ<br>ТРАНСПОРТНАЯ КОМПАНИЯ</q></span></p>
-                  <p style="margin-bottom: 0; text-align: center; font-size: 28pt;">ПЕРЕВОЗКА ГРУЗА В РЕСПУБЛИКУ<br>САХА (ЯКУТИЯ)</p>
-                  <p style="margin-bottom: 0; margin-top: 0.5em; text-align: center;"><a href="https://слтк.рф" target="_blank" style="color: inherit;">https://слтк.рф</a></p>
-                  <p style="margin-top: 0; text-align: center; font-size: 50%;">скидка при оформлении онлайн-заявки</p>
-                  <p style="text-align: center;">ТЕЛ.:<a href="tel:+74212204914" style="color: inherit;">+7(4212)204-914</a></p>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-          </div>
-          <div class="swiper-pagination"></div>
+        <article style="display: flex; justify-content: center;">
+          <h2 class="h2">Заявка успешно отправлена</h2>
         </article>
-        <script>
-          (()=>{
-            const swiper = new Swiper(".mySwiper", {
-              zoom: true,
-              spaceBetween: 30,
-              effect: ["cube", "flip", "coverflow","fade"][3],
-              // autoplay: {
-              //   delay: 12500,
-              //   disableOnInteraction: true,
-              // },
-              hashNavigation: true,
-              navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-              },
-              pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-              },
-              a11y: {
-                firstSlideMessage: 'Это первый слайд',
-                prevSlideMessage: 'Предыдущий слайд',
-                nextSlideMessage: 'Следующий слайд',
-                lastSlideMessage: 'Это последний слайд',
-                paginationBulletMessage: 'Перейти к слайду {{index}}'
-              },
-            });
-          })();
-        </script>
       </div>
     </main>
     <nav class="nav-footer">
