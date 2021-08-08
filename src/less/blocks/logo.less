@@ -1,5 +1,5 @@
 .logo {
-  width: 414px;
+  width: 350px;
   display: grid;
   grid-template-columns: min-content auto;
   grid-gap: 10px 20px;
@@ -32,6 +32,7 @@
   font-size: 1.33rem;
   font-weight: normal;
   margin: 0;
+  width: min-content;
 }
 
 .logo__slogan {
@@ -45,8 +46,28 @@
     width: auto;
   }
 
+  .logo__slogan {
+    display: none;
+  }
+
   .logo__icon svg {
     width: calc(147px / 2);
     height: calc(62px / 2);
+  }
+}
+
+@media (max-width: 610px) {
+  .logo {
+    grid-gap: 0 1ch;
+  }
+  .logo__text {
+    display: none;
+  }
+}
+
+@media (max-width: 365px) {
+  .logo__icon svg {
+    width: calc(147px / 2.8);
+    height: calc(62px / 2.8);
   }
 }

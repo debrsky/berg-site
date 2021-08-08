@@ -6,15 +6,39 @@ header.header.container
 
     h1.logo__text #[span.visually-hidden Берг] Транспортная #[br] компания
     .logo__slogan Автоперевозки грузов по Дальнему Востоку
-  .contacts
-    address.contacts__address г. Владивосток, пр-кт 100-летия Владивостока, 161А
-    .contacts__working-hours Пн-Пт с #[time(datetime="09:00") 09:00] до #[time(datetime="18:00") 18:00]
-    .contacts__phones
+  #contacts.contacts
+    address.contacts__address
+      .contacts__place-selector.suggest-helper
+        select#contacts__place-selector.suggest-helper__label(style="appearance: none; text-align-last: center; width: 11ch;")
+          option(selected) Владивосток
+          option Уссурийск
+          option Хабаровск
+          option Благовещенск
+
+      span.contacts__address-text(data-place="Владивосток") пр-кт&nbsp;100-летия Владивостока,&nbsp;161А
+      span.contacts__address-text(data-place="Уссурийск" hidden) ул&nbsp;Чичерина,&nbsp;152
+      span.contacts__address-text(data-place="Хабаровск" hidden) Восточное шоссе,&nbsp;8Б
+      span.contacts__address-text(data-place="Благовещенск" hidden) ул&nbsp;Чехова,&nbsp;3
+    //- .contacts__working-hours Пн-Пт с #[time(datetime="09:00") 09:00] до #[time(datetime="18:00") 18:00]
+    .contacts__phones(data-place="Владивосток")
       a(href="tel:+74232318052") +7(423)231-80-52
-      |
-      | (офис)#[br]
-      a(href="tel:+74232340015").fax +7(423)234-00-15
-      |
-      | (факс)
+      br
+      a(href="tel:+79243304405") +7(924)330-44-05
+    .contacts__phones(data-place="Уссурийск" hidden)
+      a.fax(href="tel:+74234355500") +7(4234)355-500
+      br
+      a(href="tel:+79243307799") +7(924)330-77-99
+    .contacts__phones(data-place="Хабаровск" hidden)
+      a(href="tel:+74212377575") +7(4212)37-75-75
+      br
+      a(href="tel:+79243302076") +7(924)330-20-76
+    .contacts__phones(data-place="Благовещенск" hidden)
+      a(href="tel:+79248411208") +7(924)841-12-08
+
     .contacts__email
       a(href="mailto:berg2004@list.ru") berg2004@list.ru
+
+    .contacts__instagram
+      a.instagram(href="https://www.instagram.com/tc_berg/" target="_blank" style="position: relative; padding-left: 2.5ch;")
+        img(src="img/instagram.svg", alt="", style="position: absolute; top: 0.2em; left: 0; height: 1em; width: auto;")
+        span tc_berg

@@ -10,7 +10,8 @@ block head
       {city: "Благовещенск", address: "ул. Чехова, 3", ll: [50.273424, 127.566212]}
     ]
 
-  script(src="https://api-maps.yandex.ru/2.1/?apikey=aa281979-9e28-442a-9b8f-43fab62b25e4&lang=ru_RU")
+  script(src="https://api-maps.yandex.ru/2.1/?load=Geolink&lang=ru_RU&apikey=aa281979-9e28-442a-9b8f-43fab62b25e4")
+  //-  script(src="https://api-maps.yandex.ru/2.1/?apikey=aa281979-9e28-442a-9b8f-43fab62b25e4&lang=ru_RU")
   script.
     const maps = !{JSON.stringify(maps)}
 
@@ -42,10 +43,13 @@ block content
     div(style="display: flex;")
       #accordion.accordion
         -let mapIdx = 0; // Владивосток
+        -let dataBounds;
         details.accordion__item(open, data-ll=maps[mapIdx].ll)
           summary(style="display: block;")
             h3.h2.accordion__item-title=maps[mapIdx].city
-          address=maps[mapIdx].address
+          address
+            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
+            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
           p Отправка из Владивостока:
           ul.contacts-page__phone-list
             li.contacts-page__phone-list-item
@@ -75,7 +79,9 @@ block content
         details.accordion__item(open, data-ll=maps[mapIdx].ll)
           summary(style="display: block;")
             h3.h2.accordion__item-title=maps[mapIdx].city
-          address=maps[mapIdx].address
+          address
+            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-2},${maps[mapIdx].ll[1]-1e-2}],[${maps[mapIdx].ll[0]+1e-2},${maps[mapIdx].ll[1]+1e-2}]]`
+            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
           ul.contacts-page__phone-list
             li.contacts-page__phone-list-item
               .contacts-page__phone-link
@@ -90,7 +96,9 @@ block content
         details.accordion__item(open, data-ll=maps[mapIdx].ll)
           summary(style="display: block;")
             h3.h2.accordion__item-title=maps[mapIdx].city
-          address=maps[mapIdx].address
+          address
+            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
+            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
           ul.contacts-page__phone-list
             li.contacts-page__phone-list-item
               .contacts-page__phone-link
@@ -113,7 +121,9 @@ block content
         details.accordion__item(open, data-ll=maps[mapIdx].ll)
           summary(style="display: block;")
             h3.h2.accordion__item-title=maps[mapIdx].city
-          address=maps[mapIdx].address
+          address
+            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
+            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
           h4 ТЭС
           ul.contacts-page__phone-list
             li.contacts-page__phone-list-item
@@ -125,7 +135,9 @@ block content
         details.accordion__item(open, data-ll=maps[mapIdx].ll)
           summary(style="display: block;")
             h3.h2.accordion__item-title=maps[mapIdx].city
-          address=maps[mapIdx].address
+          address
+            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
+            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
 
           ul.contacts-page__phone-list
             li.contacts-page__phone-list-item

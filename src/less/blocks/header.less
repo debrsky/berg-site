@@ -11,8 +11,13 @@
 
 @media (max-width: @width-tablet) {
   .header {
-    grid-template-columns: min-content;
+    // grid-template-columns: min-content;
     padding-top: 5px;
-    padding-bottom: 5px;
+  }
+}
+
+@media (max-width: 610px) {
+  .header {
+    grid-gap: 0;
   }
 }

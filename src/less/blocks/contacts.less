@@ -1,21 +1,32 @@
 .contacts {
+  font-size: 1rem;
   display: grid;
   grid-template-areas:
     "address phones"
-    "working-hours email";
-  grid-template-columns: auto auto;
-  grid-gap: 10px;
+    "instagram email";
+  grid-template-columns: auto 18ch;
+  grid-gap: 1ch;
 
   align-items: end;
-  justify-items: end;
+  justify-items: start;
 }
 
 .contacts__address {
+  align-self: start;
+  justify-self: end;
   grid-area: address;
+  text-align: end;
 }
 
 .contacts__phones {
+  align-self: start;
   grid-area: phones;
+  padding-top: 0.2em;
+}
+
+.contacts__phones a:not(:first-of-type) {
+  display: inline-block;
+  margin-top: 0.5em;
 }
 
 .contacts__working-hours {
@@ -26,8 +37,29 @@
   grid-area: email;
 }
 
+.contacts__instagram {
+  justify-self: end;
+  grid-area: instagram;
+}
+
+.contacts__place-selector {
+  margin-left: auto;
+}
+
 @media (max-width: @width-tablet) {
   .contacts {
+    margin-right: 60px;
+  }
+}
+
+@media (max-width: 490px) {
+  .contacts__address-text {
     display: none;
+  }
+}
+
+@media (max-width: 370px) {
+  .contacts__place-selector {
+    font-size: 0.8rem;
   }
 }
