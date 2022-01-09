@@ -1,0 +1,31 @@
+@media (min-width: 512px) {
+  .section {
+    position: relative;
+    // background-color: lightgray;
+    background-clip: content-box;
+  }
+
+  .section:not(:first-of-type) {
+    padding-top: 1rem;
+    border-top: 1px solid var(--brand-color)
+  }
+
+  .section__header {
+    position: absolute;
+    margin-top: 0;
+    left: 0;
+    top: 0;
+    max-width: calc((21ch - 1ch) / 1.17);
+    width: min-content;
+  }
+
+  .section:not(:first-of-type) .section__header {
+    top: 1rem;
+  }
+
+  .section__content {
+    margin-left: calc(21rem * 76.3 / 140); // =21ch;
+    padding-left: 0.5ch;
+    border-left: 0.5ch solid var(--brand-color-secondary);
+  }
+}

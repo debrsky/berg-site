@@ -11,182 +11,116 @@ block head
     ]
 
   script(src="https://api-maps.yandex.ru/2.1/?load=Geolink&lang=ru_RU&apikey=aa281979-9e28-442a-9b8f-43fab62b25e4")
-  //-  script(src="https://api-maps.yandex.ru/2.1/?apikey=aa281979-9e28-442a-9b8f-43fab62b25e4&lang=ru_RU")
-  script.
-    const maps = !{JSON.stringify(maps)}
-
-    const map = maps[0];
-
-    let ymap;
-
-    ymaps.ready(function(){
-        ymap = new ymaps.Map(document.getElementById('map-container'), {
-            center: map.ll,
-            zoom: 17
-        });
-
-        maps.forEach((map) => {
-          marker = new ymaps.Placemark(map.ll, {
-              balloonContentHeader: "Балун метки",
-              balloonContentBody: "Содержимое <em>балуна</em> метки",
-              balloonContentFooter: "Подвал",
-              hintContent: map.address
-          });
-
-          ymap.geoObjects.add(marker);
-        })
-    });
 
 block content
   article.contacts-page
     h2.visually-hidden Контакты
-    div(style="display: flex;")
-      #accordion.accordion
-        -let mapIdx = 0; // Владивосток
-        -let dataBounds;
-        details.accordion__item(open, data-ll=maps[mapIdx].ll)
-          summary(style="display: block;")
-            h3.h2.accordion__item-title=maps[mapIdx].city
-          address
-            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
-            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-          p Отправка из Владивостока:
-          ul.contacts-page__phone-list
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79243304405") +7(924)330-44-05
-              span диспетчер Евгений
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79243304323") +7(924)330-43-23
-              span диспетчер Виталий
-          p Выдача груза:
-          ul.contacts-page__phone-list
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79243304409") +7(924)330-44-09
-              span диспетчер Анна
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79243304407") +7(924)330-44-07
-              span телефон выходного дня
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79243304401") +7(924)330-44-01
-              span договоры, претензии Пётр
+    section.section
+      -let mapIdx = 0; // Владивосток
+      -let dataBounds;
+      h3.h3.section__header=maps[mapIdx].city
+      .section__content
+        address
+          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
+          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
+        p Отправка из Владивостока:
+        ul.contacts-page__phone-list
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79243304405") +7(924)330-44-05
+            span диспетчер Евгений
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79243304323") +7(924)330-43-23
+            span диспетчер Виталий
+        p Выдача груза:
+        ul.contacts-page__phone-list
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79243304409") +7(924)330-44-09
+            span диспетчер Анна
+        p Телефон выходного дня:
+        ul.contacts-page__phone-list
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79243304407") +7(924)330-44-07
+        p Договоры, претензии:
+        ul.contacts-page__phone-list
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79243304401") +7(924)330-44-01
+            span Пётр
 
-        -mapIdx = 1; // Уссурийск
-        details.accordion__item(open, data-ll=maps[mapIdx].ll)
-          summary(style="display: block;")
-            h3.h2.accordion__item-title=maps[mapIdx].city
-          address
-            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-2},${maps[mapIdx].ll[1]-1e-2}],[${maps[mapIdx].ll[0]+1e-2},${maps[mapIdx].ll[1]+1e-2}]]`
-            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-          ul.contacts-page__phone-list
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a.fax(href="tel:+74234355500") +7(4234)355-500
-              span телефон/факс
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79243307799") +7(924)330-77-99
-              span Марина
+    -mapIdx = 1; // Уссурийск
+    section.section
+      h3.h2.section__header=maps[mapIdx].city
+      .section__content
+        address
+          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-2},${maps[mapIdx].ll[1]-1e-2}],[${maps[mapIdx].ll[0]+1e-2},${maps[mapIdx].ll[1]+1e-2}]]`
+          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
+        ul.contacts-page__phone-list
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a.fax(href="tel:+74234355500") +7(4234)355-500
+            span телефон/факс
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79243307799") +7(924)330-77-99
+            span Марина
 
-        -mapIdx = 2; // Хабаровск
-        details.accordion__item(open, data-ll=maps[mapIdx].ll)
-          summary(style="display: block;")
-            h3.h2.accordion__item-title=maps[mapIdx].city
-          address
-            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
-            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-          ul.contacts-page__phone-list
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+74212377575") +7(4212)37-75-75
-              span
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+74212377339") +7(4212)37-73-39
-              span
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79243302076") +7(924)330-20-76
-              span приём грузов, Татьяна
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79842953632") +7(984)295-36-32
-              span выдача грузов, Елена
+    -mapIdx = 2; // Хабаровск
+    section.section
+      h3.h2.section__header=maps[mapIdx].city
+      .section__content
+        address
+          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
+          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
+        ul.contacts-page__phone-list
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+74212377575") +7(4212)37-75-75
+            span
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+74212377339") +7(4212)37-73-39
+            span
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79243302076") +7(924)330-20-76
+            span приём грузов, Татьяна
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79842953632") +7(984)295-36-32
+            span выдача грузов, Елена
 
-        -mapIdx = 3; // Комсомольск
-        details.accordion__item(open, data-ll=maps[mapIdx].ll)
-          summary(style="display: block;")
-            h3.h2.accordion__item-title=maps[mapIdx].city
-          address
-            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
-            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-          h4 ТЭС
-          ul.contacts-page__phone-list
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79241042323") +79241042323
-              span Анна
+    -mapIdx = 4; // Благовещенск
+    section.section
+      h3.h2.section__header=maps[mapIdx].city
+      .section__content
+        address
+          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
+          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
 
-        -mapIdx = 4; // Благовещенск
-        details.accordion__item(open, data-ll=maps[mapIdx].ll)
-          summary(style="display: block;")
-            h3.h2.accordion__item-title=maps[mapIdx].city
-          address
-            -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
-            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
+        ul.contacts-page__phone-list
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79248411208") +7(924)841-12-08
+            span Яна
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79248430022") +7(924)843-00-22
+            span руководитель площадки Шульгин Сергей
 
-          ul.contacts-page__phone-list
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79248411208") +7(924)841-12-08
-              span Яна
-            li.contacts-page__phone-list-item
-              .contacts-page__phone-link
-                a(href="tel:+79248430022") +7(924)843-00-22
-              span руководитель площадки Шульгин Сергей
-
-      script.
-        const accordion = document.getElementById('accordion');
-        const detailsList = accordion.querySelectorAll('details');
-
-        const handleClick = function handleClick (event) {
-          let el = event.target;
-
-          while (el.tagName !== 'SUMMARY') el = el.parentElement;
-          const detailsElementClicked = el.parentElement;
-
-          if (detailsElementClicked.hasAttribute('open')) {
-            event.preventDefault();
-            return;
-          }
-
-          const ll = JSON.parse(detailsElementClicked.dataset.ll);
-          ymap?.setCenter(ll);
-          ymap?.setZoom(17);
-
-          if (!detailsElementClicked.hasAttribute('open')) {
-            detailsList.forEach((details) => {
-              if (details === detailsElementClicked) return;
-
-              details.removeAttribute('open');
-            })
-          }
-        }
-
-        detailsList.forEach((details, idx) => {
-          const summary = details.querySelector('summary');
-          summary.addEventListener('click', handleClick);
-
-          if (idx === 0) {
-            details.setAttribute('open', '');
-            return;
-          }
-
-          details.removeAttribute('open');
-        })
-
-      #map-container(style="width:610px; height:510px; margin-left: auto;")
+    -mapIdx = 3; // Комсомольск
+    section.section
+      h3.h2.section__header=maps[mapIdx].city
+      .section__content
+        address
+          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
+          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
+        h4 ТЭС
+        ul.contacts-page__phone-list
+          li.contacts-page__phone-list-item
+            .contacts-page__phone-link
+              a(href="tel:+79241042323") +79241042323
+            span Анна

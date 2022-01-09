@@ -25,5 +25,6 @@
   ],
   "eslint.codeAction.showDocumentation": {
     "enable": true
-  }
+  },
+  "files.eol": "\n"
 }
