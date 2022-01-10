@@ -1,0 +1,7 @@
+<Files send.php>
+  Require all granted
+</Files>
+
+<Files info.php>
+  Require all granted
+</Files>
