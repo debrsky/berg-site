@@ -12,7 +12,8 @@ module.exports = function copy() {
         `src/*.ico`,
         `src/*.txt`,
         `src/vendor/**/*.*`,
-        `src/php/**/*.php`
+        `src/php/**/*.php`,
+        `src/files/**/*.*`
       ],
       {
         base: `src`
