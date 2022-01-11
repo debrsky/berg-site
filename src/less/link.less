@@ -1,4 +1,6 @@
 a.instagram,
+a.word,
+a.pdf,
 a[href^="tel:"],
 a[href^="mailto:"] {
   text-decoration: none;
@@ -32,3 +34,26 @@ a[href^="tel:+742"]::before {
 a[href^="tel:"].fax::before {
   content: "📠";
 }
+
+a.word::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.7ch;
+  /* background-color: red; */
+  background-image: url("/img/icons/word.svg");
+  background-size: 100% 100%;
+}
+
+a.pdf::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.7ch;
+  /* background-color: red; */
+  background-image: url("/img/icons/pdf.svg");
+  background-size: 100% 100%;
+}
+
