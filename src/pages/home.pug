@@ -4,6 +4,10 @@ block head
   link(rel="stylesheet", href="vendor/swiper/swiper-bundle.min.css")
   link(rel="stylesheet", href="css/swiper.css")
   script(src="vendor/swiper/swiper-bundle.min.js")
+  style.
+    .swiper-slide-img {
+      object-fit: contain;
+    }
 
 block content
   article
@@ -13,27 +17,21 @@ block content
       .swiper-wrapper
         -
           const slides = [
-            {file: "slide01.jpg", alt: "Тягач Вольво с контейнерами на телеге и на прицепе, вид спереди."},
-            {file: "slide02.jpg", alt: "Три тягача Вольво."},
-            {file: "slide03.jpg", alt: "Тягач Вольво с контейнерами на телеге и на прицепе, вид сбоку."},
-            {file: "slide04.png", alt: "Реклама Трансинтек. Фура на горной дороге."}
+            {file: "01@x1200.jpg", alt: "Три тягача Вольво"},
+            {file: "02@x1200.jpg", alt: "Автопоезд"},
+            {file: "04@x1200.jpg", alt: "Вилочный автопогрузчик"},
+            {file: "05@x1200.jpg", alt: "Три прицепа с установленными БДФ"},
+            {file: "06@x1200.jpg", alt: "Ряд из пяти контейнеров на прицепах, двери открыты, виден груз -- картонные коробки"},
+            {file: "08@x1200.jpg", alt: "Пять тягачей Вольво"},
+            {file: "11@x1200.jpg", alt: "Два прицепа с белыми и синим контейнерами"},
+            {file: "12@x1200.jpg", alt: "Вилочный погрузчик устанавливает груз на прицеп"},
+            {file: "13@x1200.jpg", alt: "Вилочный погрузчик заехал внутрь контейнера"},
+            {file: "14@x1200.jpg", alt: "Вилочный погрузчик с грузом заезжает внутрь контейнера"},
+            {file: "15@x1200.jpg", alt: "Вилочный погрузчик с грузом -- бухтой кабеля большого диаметра"},
           ]
         each slide, idx in slides
           .swiper-slide(data-hash="slide" + (idx+1))
-            img.swiper-slide-img(src="img/slides/"+slide.file, alt=slide.alt)
-
-        .swiper-slide(data-hash="slide5")
-          div(style="width: 100%; height: 100%; position: relative; padding: 10px; background-color: #365662; color: #c1cac6; font-family: 'Times New Roman', Times, serif; font-size: 24pt; font-weight: bold; font-style: italic;")
-            video(src="img/slides/slide05/logo-sltk-126.mp4" muted autoplay loop style="display: block; float: left;")
-            p(style="margin: 0; text-align: center;")
-              span(style="border-bottom: 1px solid currentColor;") ООО <q>СИБИРСКАЯ ЛИНИЯ<br>ТРАНСПОРТНАЯ КОМПАНИЯ</q>
-            p(style="margin-bottom: 0; text-align: center; font-size: 28pt;") ПЕРЕВОЗКА ГРУЗА В РЕСПУБЛИКУ<br>САХА (ЯКУТИЯ)
-            p(style="margin-bottom: 0; margin-top: 0.5em; text-align: center;")
-              a(href="https://слтк.рф", target="_blank", style="color: inherit;") https://слтк.рф
-            p(style="margin-top: 0; text-align: center; font-size: 50%;") скидка при оформлении онлайн-заявки
-            p(style="text-align: center;")
-              | ТЕЛ.:
-              a(href="tel:+74212204914", style="color: inherit;") +7(4212)204-914
+            img.swiper-slide-img(src="img/slides/presentation/"+slide.file, alt=slide.alt)
 
       .swiper-button-prev
       .swiper-button-next
