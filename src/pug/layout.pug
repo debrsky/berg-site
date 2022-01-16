@@ -1,10 +1,11 @@
+block variables
 doctype html
 html(lang="ru")
   //- //TODO оптимизировать по скорости https://developers.google.com/speed/pagespeed/insights/
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    title Берг Транспортная компания
+    title=`ТК Берг${title ? `. ${title}` : ""}`
     link(rel="icon", href="favicon.ico")
     link(rel="stylesheet", href="css/normalize.css")
     link(rel="stylesheet", href="css/style.css")
