@@ -5,3 +5,7 @@
 <Files info.php>
   Require all granted
 </Files>
+
+<Files check.php>
+  Require all granted
+</Files>
