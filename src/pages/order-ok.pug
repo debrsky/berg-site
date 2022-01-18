@@ -2,6 +2,9 @@ extends ../pug/layout
 block variables
   -title = "Заявка отправлена"
 
+block head
+  meta(name="robots", content="noindex")
+
 block content
   article(style="display: flex; justify-content: center;")
     h2.h2 Заявка успешно отправлена
