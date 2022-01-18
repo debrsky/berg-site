@@ -42,7 +42,7 @@ $mail = new PHPMailer\PHPMailer\PHPMailer();
 // Настройки PHPMailer
 $mail = new PHPMailer\PHPMailer\PHPMailer();
 try {
-  $mail->isSMTP();
+  // $mail->isSMTP(); отключена отправка через SMTP из-за тормозов, отправка через sendmail на порядки (0.1 секунда против 5-15 секунд) быстрее
   $mail->CharSet = "UTF-8";
   $mail->SMTPAuth   = true;
   //$mail->SMTPDebug = 2;
