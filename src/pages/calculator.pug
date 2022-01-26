@@ -74,6 +74,8 @@ block content
                 output(name="result", aria-live="assertive")
 
     script.
+      //TODO implement instant calculation, not on submit or on change
+
       (()=>{
         const isNumber = (value) => typeof value === 'number' && isFinite(value);
         const form = document.forms.calculator;
