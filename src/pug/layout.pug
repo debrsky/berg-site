@@ -94,6 +94,28 @@ html(lang="ru")
 
     script(src="js/index.js")
 
+    // https://yandex.ru/dev/browser/constructor/doc/
+    script(src="https://yastatic.net/browser-updater/v1/script.js", charset="utf-8")
+    script.
+      var yaBrowserUpdater = new ya.browserUpdater.init({
+        "lang":"ru",
+        "browsers": {
+          "yabrowser": "16.12",
+          "chrome": "62",
+          "ie": "11",
+          "opera": "35",
+          "safari": "11",
+          "fx": "52",
+          "iron": "35",
+          "flock": "Infinity",
+          "palemoon": "25",
+          "camino": "Infinity",
+          "maxthon": "4.5",
+          "seamonkey": "2.3"
+        },
+        "theme": "yellow",
+        "remember": false});
+
     // Yandex.Metrika counter
     script.
       (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
