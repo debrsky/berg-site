@@ -6,7 +6,7 @@ module.exports = function copy() {
       [
         `src/css/**/*.css`,
         `src/fonts/**/*.{woff,woff2}`,
-        `src/img/**/*.{jpg,webp,png}`,
+        `src/img/**/*.{jpg,webp,avif,png}`,
         `src/img/**/*.gif`,
         `src/img/**/*.mp4`,
         `src/*.ico`,

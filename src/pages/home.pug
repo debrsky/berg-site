@@ -21,21 +21,24 @@ block content
       .swiper-wrapper
         -
           const slides = [
-            {file: "01@x1200.jpg", alt: "Три тягача Вольво"},
-            {file: "02@x1200.jpg", alt: "Автопоезд"},
-            {file: "04@x1200.jpg", alt: "Вилочный автопогрузчик"},
-            {file: "05@x1200.jpg", alt: "Три прицепа с установленными БДФ"},
-            {file: "06@x1200.jpg", alt: "Ряд из пяти контейнеров на прицепах, двери открыты, виден груз -- картонные коробки"},
-            {file: "08@x1200.jpg", alt: "Пять тягачей Вольво"},
-            {file: "11@x1200.jpg", alt: "Два прицепа с белыми и синим контейнерами"},
-            {file: "12@x1200.jpg", alt: "Вилочный погрузчик устанавливает груз на прицеп"},
-            {file: "13@x1200.jpg", alt: "Вилочный погрузчик заехал внутрь контейнера"},
-            {file: "14@x1200.jpg", alt: "Вилочный погрузчик с грузом заезжает внутрь контейнера"},
-            {file: "15@x1200.jpg", alt: "Вилочный погрузчик с грузом -- бухтой кабеля большого диаметра"},
+            {file: "01@x400", alt: "Три тягача Вольво"},
+            {file: "02@x400", alt: "Автопоезд"},
+            {file: "04@x400", alt: "Вилочный автопогрузчик"},
+            {file: "05@x400", alt: "Три прицепа с установленными БДФ"},
+            {file: "06@x400", alt: "Ряд из пяти контейнеров на прицепах, двери открыты, виден груз -- картонные коробки"},
+            {file: "08@x400", alt: "Пять тягачей Вольво"},
+            {file: "11@x400", alt: "Два прицепа с белыми и синим контейнерами"},
+            {file: "12@x400", alt: "Вилочный погрузчик устанавливает груз на прицеп"},
+            {file: "13@x400", alt: "Вилочный погрузчик заехал внутрь контейнера"},
+            {file: "14@x400", alt: "Вилочный погрузчик с грузом заезжает внутрь контейнера"},
+            {file: "15@x400", alt: "Вилочный погрузчик с грузом -- бухтой кабеля большого диаметра"},
           ]
         each slide, idx in slides
           .swiper-slide(data-hash="slide" + (idx+1))
-            img.swiper-slide-img(src="img/slides/presentation/"+slide.file, alt=slide.alt)
+            picture
+              source(srcset="img/slides/presentation/"+slide.file+".avif", type="image/avif")
+              source(srcset="img/slides/presentation/"+slide.file+".webp", type="image/webp")
+              img.swiper-slide-img(src="img/slides/presentation/"+slide.file+".jpg", alt=slide.alt)
 
       .swiper-button-prev
       .swiper-button-next

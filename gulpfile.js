@@ -4,6 +4,7 @@ const gulp = require("gulp");
 const serve = require(`./gulp/serve`);
 const clean = require(`./gulp/clean`);
 const copy = require(`./gulp/copy`);
+const images = require(`./gulp/images`);
 const svg = require(`./gulp/svg`);
 const html = require(`./gulp/html`);
 const pug2html = require(`./gulp/pug2html`);
@@ -29,6 +30,7 @@ module.exports = {
   validate,
   clean,
   copy,
+  images,
   html,
   pug2html,
   validateHTML,
