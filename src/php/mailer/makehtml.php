@@ -223,6 +223,10 @@ function makehtml($data) {
       email
       <span style="font-weight: bold; ">{$_($data->{'author'}->{'email'})}</span></p>
   </div>
+  <div>
+    <p style="font-size: 6pt;">ip: {$_($_SERVER['REMOTE_ADDR']??'')}; User-Agent: {$_($_SERVER['HTTP_USER_AGENT']??'')}</p>
+  </div>
+
   END;
 
   // var_dump($html);
