@@ -9,7 +9,7 @@ const connection = ftp.create({
   log: console.log
 });
 
-function deployToFtp() {
+function deployToFtpProd() {
   const globs = ["public/**", "!public/php/mailer/config.php"];
 
   // using base = '.' will transfer everything to destination correctly
@@ -21,4 +21,4 @@ function deployToFtp() {
     .pipe(connection.dest("/"));
 }
 
-module.exports = deployToFtp;
+module.exports = deployToFtpProd;
