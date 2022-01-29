@@ -203,6 +203,11 @@ function makehtml($data) {
             )}
           </td>
         </tr>
+        <tr>
+          <td>Контакт</td>
+          <td style="font-weight: bold; ">{$_($data->{'consigner'}->{'cargoContactFio'})} {$_($data->{'consigner'}->{'cargoContactTel'})}</td>
+          <td style="font-weight: bold; ">{$_($data->{'consignee'}->{'cargoContactFio'})} {$_($data->{'consignee'}->{'cargoContactTel'})}</td>
+        </tr>
       </tbody>
     </table>
 
