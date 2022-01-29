@@ -62,6 +62,10 @@ export default (form) => {
       counterAgent.isPayer = Boolean(data.get(`${role}-is-payer`));
     }
 
+    if (role === "payer") {
+      counterAgent.isPayer = true;
+    }
+
     order[role] = counterAgent;
   });
 
