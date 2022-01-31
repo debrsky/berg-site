@@ -1,6 +1,6 @@
 -
   const tariffs = {
-    startdate: '2021-10-01',
+    startdate: '2022-02-01',
     places: {
       vvo: "Владивосток",
       uss: "Уссурийск",
@@ -22,15 +22,15 @@
     truckDeliveryPrices: [
       {
         title: "Подача а/м грузоподъемностью до 5 т / 25 м³",
-        price: "1000 руб./час"
+        price: "1300 руб./час"
       },
       {
         title: "Подача а/м грузоподъемностью до 10 т / 45 м³",
-        price: "1700 руб./час"
+        price: "2000 руб./час"
       },
       {
         title: "Подача а/м с прицепом грузоподъемностью более 10 т (от 45&nbsp;м³ до 90 м³)",
-        price: "2100 руб./час"
+        price: "3000 руб./час"
       }
     ],
 
@@ -39,10 +39,10 @@
         title: "до 1000 кг",
         limit: 1000,
         price: {
-          vvo: {khb: 5.5, kms: 8.5, blg: 9.5},
-          uss: {khb: 5.0, kms: 7.5, blg: 9.0},
-          khb: {vvo: 4.0, uss: 4.0, blg: 6.0, kms: 5.0},
-          blg: {khb: 6.0, kms: 8.5, vvo: 8.5},
+          vvo: {khb: 6.5, kms: 10.0, blg: 11.0},
+          uss: {khb: 6.0, kms: 9.5, blg: 10.5},
+          khb: {vvo: 4.0, uss: 4.0, blg: 7.0, kms: 5.5},
+          blg: {khb: 7.0, kms: 10.0, vvo: 9.5},
           kms: {vvo: 6.5, khb: 2.5}
         }
       },
@@ -50,10 +50,10 @@
         title: "от 1000 кг до 5000 кг",
         limit: 5000,
         price: {
-          vvo: {khb: 5.0, kms: 7.5, blg: 8.5},
-          uss: {khb: 4.5, kms: 6.5, blg: 8.0},
-          khb: {vvo: 3.5, uss: 3.0, blg: 5.5, kms: 4.5},
-          blg: {khb: 5.5, kms: 7.5, vvo: 7.5},
+          vvo: {khb: 6.0, kms: 9.0, blg: 10.5},
+          uss: {khb: 5.5, kms: 8.5, blg: 10.0},
+          khb: {vvo: 3.5, uss: 3.0, blg: 6.5, kms: 5.0},
+          blg: {khb: 6.5, kms: 9.0, vvo: 8.5},
           kms: {vvo: 5.5, khb: 2.0}
         }
       },
@@ -61,10 +61,10 @@
         title: "от 5000 кг до 10000 кг",
         limit: 10000,
         price: {
-          vvo: {khb: 4.5, kms: 7.0, blg: 8.0},
-          uss: {khb: 4.0, kms: 5.0, blg: 7.5},
-          khb: {vvo: 3.0, uss: 2.5, blg: 5.0, kms: 4.0},
-          blg: {khb: 4.5, kms: 6.5, vvo: 6.5},
+          vvo: {khb: 5.5, kms: 8.0, blg: 10.0},
+          uss: {khb: 5.0, kms: 7.5, blg: 9.5},
+          khb: {vvo: 3.0, uss: 2.5, blg: 6.0, kms: 4.5},
+          blg: {khb: 5.0, kms: 7.5, vvo: 7.0},
           kms: {vvo: 5.0, khb: 1.9}
         }
       },
@@ -72,10 +72,10 @@
         title: "от 10000 кг до 15000 кг",
         limit: 15000,
         price: {
-          vvo: {khb: 4.0, kms: 6.5, blg: 7.5},
-          uss: {khb: 3.5, kms: 4.5, blg: 7.0},
-          khb: {vvo: 2.5, uss: 2.2, blg: 4.5, kms: 3.5},
-          blg: {khb: 3.0, kms: 5.5, vvo: 5.5},
+          vvo: {khb: 5.0, kms: 7.0, blg: 9.5},
+          uss: {khb: 4.5, kms: 6.5, blg: 9.0},
+          khb: {vvo: 2.5, uss: 2.2, blg: 5.5, kms: 4.0},
+          blg: {khb: 3.5, kms: 6.0, vvo: 5.5},
           kms: {vvo: 4.5, khb: 1.7}
         }
       },
@@ -83,10 +83,10 @@
         title: "более 15000 кг",
         limit: Infinity,
         price: {
-          vvo: {khb: 3.5, kms: 5.5, blg: 7.0},
-          uss: {khb: 3.0, kms: 4.0, blg: 6.5},
-          khb: {vvo: 2.2, uss: 2.0, blg: 4.0, kms: 3.0},
-          blg: {khb: 2.0, kms: 4.5, vvo: 4.5},
+          vvo: {khb: 4.5, kms: 6.5, blg: 8.5},
+          uss: {khb: 4.0, kms: 6.0, blg: 8.0},
+          khb: {vvo: 2.2, uss: 2.0, blg: 5.0, kms: 4.0},
+          blg: {khb: 3.0, kms: 5.0, vvo: 4.5},
           kms: {vvo: 3.5, khb: 1.5}
         }
       }
@@ -97,10 +97,10 @@
         title: "до 5 м³",
         limit: 5,
         price: {
-          vvo: {khb: 1100, kms: 1700, blg: 1900},
-          uss: {khb: 1000, kms: 1500, blg: 1800},
-          khb: {vvo:  800, uss:  800, blg: 1200, kms: 1000},
-          blg: {khb: 1200, kms: 1700, vvo: 1700},
+          vvo: {khb: 1300, kms: 2000, blg: 2200},
+          uss: {khb: 1200, kms: 1900, blg: 2100},
+          khb: {vvo:  800, uss:  800, blg: 1400, kms: 1100},
+          blg: {khb: 1400, kms: 2000, vvo: 1900},
           kms: {vvo: 1300, khb:  500}
         }
       },
@@ -108,10 +108,10 @@
         title: "от 5 м³ до 25 м³",
         limit: 25,
         price: {
-          vvo: {khb: 1000, kms: 1500, blg: 1700},
-          uss: {khb:  900, kms: 1300, blg: 1600},
-          khb: {vvo:  700, uss:  600, blg: 1100, kms:  900},
-          blg: {khb: 1100, kms: 1500, vvo: 1500},
+          vvo: {khb: 1200, kms: 1800, blg: 2100},
+          uss: {khb: 1100, kms: 1700, blg: 2000},
+          khb: {vvo:  700, uss:  600, blg: 1300, kms: 1000},
+          blg: {khb: 1300, kms: 1800, vvo: 1700},
           kms: {vvo: 1100, khb:  400}
         }
       },
@@ -119,10 +119,10 @@
         title: "от 25 м³ до 50 м³",
         limit: 50,
         price: {
-          vvo: {khb:  900, kms: 1400, blg: 1600},
-          uss: {khb:  800, kms: 1000, blg: 1500},
-          khb: {vvo:  600, uss:  500, blg: 1000, kms:  800},
-          blg: {khb:  900, kms: 1300, vvo: 1300},
+          vvo: {khb: 1100, kms: 1600, blg: 2000},
+          uss: {khb: 1000, kms: 1500, blg: 1900},
+          khb: {vvo:  600, uss:  500, blg: 1200, kms:  900},
+          blg: {khb: 1000, kms: 1500, vvo: 1400},
           kms: {vvo: 1000, khb:  380}
         }
       },
@@ -130,10 +130,10 @@
         title: "от 50 м³ до 75 м³",
         limit: 75,
         price: {
-          vvo: {khb:  800, kms: 1300, blg: 1500},
-          uss: {khb:  700, kms:  900, blg: 1400},
-          khb: {vvo:  500, uss:  440, blg:  900, kms:  700},
-          blg: {khb:  600, kms: 1100, vvo: 1100},
+          vvo: {khb: 1000, kms: 1400, blg: 1900},
+          uss: {khb:  900, kms: 1300, blg: 1800},
+          khb: {vvo:  500, uss:  440, blg: 1100, kms:  800},
+          blg: {khb:  700, kms: 1200, vvo: 1100},
           kms: {vvo:  900, khb:  340}
         }
       },
@@ -141,10 +141,10 @@
         title: "более 75 м³",
         limit: Infinity,
         price: {
-          vvo: {khb:  700, kms: 1100, blg: 1400},
-          uss: {khb:  600, kms:  800, blg: 1300},
-          khb: {vvo:  440, uss:  400, blg: 800, kms:  600},
-          blg: {khb:  400, kms:  900, vvo:  900},
+          vvo: {khb:  900, kms: 1300, blg: 1700},
+          uss: {khb:  800, kms: 1200, blg: 1600},
+          khb: {vvo:  440, uss:  400, blg: 1000, kms:  800},
+          blg: {khb:  600, kms: 1000, vvo:  900},
           kms: {vvo:  700, khb:  300}
         }
       }
@@ -164,26 +164,26 @@
         }
       },
       {
-        title: "от 1 кг<br>до 70 кг (0,35 м³)",
-        limitHeavy: 70,
-        limitLight: 0.35,
+        title: "от 1 кг<br>до 60 кг (0,3 м³)",
+        limitHeavy: 60,
+        limitLight: 0.3,
         price: {
-          vvo: {khb:  350, kms:  500, blg:  650},
-          uss: {khb:  350, kms:  450, blg:  600},
-          khb: {vvo:  300, uss:  300, blg:  350, kms:  300},
-          blg: {khb:  300, kms:  500, vvo:  450},
+          vvo: {khb:  400, kms:  600, blg:  650},
+          uss: {khb:  350, kms:  500, blg:  600},
+          khb: {vvo:  300, uss:  300, blg:  450, kms:  350},
+          blg: {khb:  400, kms:  600, vvo:  550},
           kms: {vvo:  400, khb:  150}
         }
       },
       {
-        title: "от 70 кг (0,35 м³)<br>до 150 кг (0,75 м³)",
-        limitHeavy: 150,
-        limitLight: 0.75,
+        title: "от 60 кг (0,3 м³)<br>до 120 кг (0,6 м³)",
+        limitHeavy: 120,
+        limitLight: 0.6,
         price: {
-          vvo: {khb:  750, kms: 1200, blg: 1350},
+          vvo: {khb:  800, kms: 1200, blg: 1350},
           uss: {khb:  750, kms: 1050, blg: 1250},
-          khb: {vvo:  600, uss:  550, blg:  750, kms:  650},
-          blg: {khb:  600, kms: 1050, vvo: 1000},
+          khb: {vvo:  600, uss:  550, blg:  850, kms:  700},
+          blg: {khb:  850, kms: 1200, vvo: 1150},
           kms: {vvo:  850, khb:  350}
         }
       }
