@@ -106,4 +106,8 @@ cleanFormElement.addEventListener("click", () => {
 });
 
 const fillFormElement = form.querySelector(".suggest-helper--fill-form");
-fillFormElement.addEventListener("click", () => restoreSavedForm(form));
+fillFormElement.addEventListener("click", () => {
+  restoreSavedForm(form);
+  const acceptElement = form.elements.accept;
+  acceptElement.checked = false;
+});
