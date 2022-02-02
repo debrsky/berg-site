@@ -11,12 +11,22 @@ const pug2html = require(`./gulp/pug2html`);
 const style = require(`./gulp/style`);
 const script = require(`./gulp/script`);
 const validateHTML = require(`./gulp/validate-html`);
+const sitemap = require("./gulp/sitemap");
 
 const ghPages = require(`./gulp/deploy-to-gh-pages`);
 const ftpProd = require(`./gulp/deploy-to-ftp-prod`);
 const ftpTest = require(`./gulp/deploy-to-ftp-test`);
 
-const build = gulp.series(clean, copy, svg, html, pug2html, style, script);
+const build = gulp.series(
+  clean,
+  copy,
+  svg,
+  html,
+  pug2html,
+  sitemap,
+  style,
+  script
+);
 const dev = gulp.series(build, validateHTML, serve);
 const validate = gulp.series(clean, copy, svg, html, pug2html, validateHTML);
 
@@ -36,6 +46,7 @@ module.exports = {
   html,
   pug2html,
   validateHTML,
+  sitemap,
   style,
   script,
   serve,
