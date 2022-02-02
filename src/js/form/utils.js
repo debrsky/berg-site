@@ -11,8 +11,8 @@ export const cleanForm = (form) => {
   form.dispatchEvent(new Event("change"));
 };
 
-export const saveForm = (form) => {
-  const data = formSerialize(form);
+export const saveForm = (form, options = {}) => {
+  const data = formSerialize(form, options);
   const formName = form.getAttribute("name");
   localStorage.setItem(`form[name=${formName}]`, JSON.stringify(data));
 };
@@ -28,12 +28,18 @@ export const restoreSavedForm = (form) => {
   form.dispatchEvent(new Event("change"));
 };
 
-export const formSerialize = (form) => {
+export const formSerialize = (form, options = {}) => {
+  let exclude = [];
+  if (typeof options.exclude === "string") exclude = [options.exclude];
+  if (Array.isArray(options.exclude)) exclude = options.exclude;
+
   const formData = new FormData(form);
 
-  // CAVEAT it doesn't work with elements with multiple values
+  // TODO CAVEAT it doesn't work with elements with multiple values
   return Object.fromEntries(
-    [...formData.entries()].filter(([key, value]) => value !== "")
+    [...formData.entries()].filter(
+      ([key, value]) => value !== "" && !exclude.includes(key)
+    )
   );
 };
 

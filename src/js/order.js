@@ -53,7 +53,7 @@ form.addEventListener("submit", (event) => {
   const buttonSubmit = form.querySelector("button[type=submit]");
   buttonSubmit.classList.add("button--submiting");
 
-  saveForm(form);
+  saveForm(form, {exclude: ["loading-date", "accept"]});
 
   const json = makeOrderJSON(form);
 
@@ -108,12 +108,4 @@ cleanFormElement.addEventListener("click", () => {
 const fillFormElement = form.querySelector(".suggest-helper--fill-form");
 fillFormElement.addEventListener("click", () => {
   restoreSavedForm(form);
-
-  const acceptElement = form.elements.accept;
-  acceptElement.checked = false;
-
-  const loadingDateElement = form.elements["loading-date"];
-  loadingDateElement.value = "";
-
-  form.dispatchEvent(new Event("change"));
 });
