@@ -1,4 +1,6 @@
 export default (form) => {
+  // https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#the-constraint-validation-api
+  // https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#dom-cva-setcustomvalidity
   ["loading", "unloading"].forEach((operation) => {
     const addressElement = form.elements[`${operation}-point-client-address`];
     const placeElement = form.elements[`${operation}-place`];
