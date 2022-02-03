@@ -10,7 +10,7 @@ export default (form) => {
       !addressElement.matches("[hidden] *") &&
       addressElement.value.replace(placeView, "").length <= 4
     ) {
-      addressElement.setCustomValidity("Введите адрес");
+      addressElement.setCustomValidity("Введите адрес.");
       return;
     }
 
