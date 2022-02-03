@@ -37,7 +37,7 @@ block content
                 option(selected, value) &lt;не выбрано&gt;
                 each placeName, place in places
                   option(value=place)=placeName
-          p.direction-error-message(aria-live="assertive", hidden) По данному направлению автоматический расчет тарифа не предусмотрен.
+          p.direction-error-message(aria-live="assertive", hidden) Cтоимость перевозки по данному направлению можно узнать у #[a.link(href="contacts.html") сотрудников компании], автоматический расчет тарифа не предусмотрен.
 
       section.form__section
         h3.h3 Характеристики груза
@@ -49,10 +49,6 @@ block content
             .control.min-content
               label(for="volume") Объем груза, м³
               input#volume(type="text", name="volume", inputmode="numeric", style="width: 15ch;")
-
-          .control-group
-            .control
-              p.cargo-category(aria-live="assertive") &nbsp;
 
           .control-group
             .control
@@ -70,12 +66,13 @@ block content
         .form__section-content
           .control-group
             .control
+              p.cargo-category(aria-live="assertive") &nbsp;
+          .control-group
+            .control
               p.h1(style="font-size: xx-large;")
                 output(name="result", aria-live="assertive")
 
     script.
-      //TODO implement instant calculation, not on submit or on change
-
       (()=>{
         const isNumber = (value) => typeof value === 'number' && isFinite(value);
         const form = document.forms.calculator;
@@ -116,74 +113,105 @@ block content
         const fridgePrices = tariffs.fridgePrices;
         const icenginePrices = tariffs.icenginePrices;
 
-        const cargoCategories = {
-          LIGHT: 'легкий',
-          HEAVY: 'тяжелый'
+        const calcLightPrice = ({volume, origin, destination}) => {
+          if (!isNumber(volume)) return {title: null, tariff: null, amount: null};
+
+          let idx = 0;
+          while (volume >= lightCargoPrices[idx].limit) {
+            idx++;
+            if (!lightCargoPrices[idx]) throw Error();
+          };
+          const tariff = lightCargoPrices[idx].price?.[origin]?.[destination] ?? null;
+          const amount = tariff * volume;
+          const title = "легкий груз " + lightCargoPrices[idx].title
+
+          return {title, tariff, amount};
         }
 
-        const detectCargoCategory = (weight, volume) => {
-          if (!isNumber(weight) && !isNumber(volume)) return null;
-          if (isNumber(weight) && !isNumber(volume)) return cargoCategories.HEAVY;
-          if (!isNumber(weight) && isNumber(volume)) return cargoCategories.LIGHT;
+        const calcHeavyPrice = ({weight, origin, destination}) => {
+          if (!isNumber(weight)) return {title: null, tariff: null, amount: null};
 
-          const detectLight = (volume / (weight * 0.001)) >= 5;
-          return detectLight ? cargoCategories.LIGHT : cargoCategories.HEAVY;
+          let idx = 0;
+          while (weight >= heavyCargoPrices[idx].limit) {
+            idx++;
+            if (!heavyCargoPrices[idx]) throw Error();
+          };
+          const tariff = heavyCargoPrices[idx].price?.[origin]?.[destination] ?? null;
+          const amount = tariff * weight;
+          const title = "тяжелый груз " + heavyCargoPrices[idx].title
+
+          return {title, tariff, amount};
+        }
+
+        const calcICEnginePrice = ({params, origin, destination}) => {
+          const isICEngine = (params?.includes('ic-engine')) ?? false;
+          if (!isICEngine) return null;
+
+          const amount = icenginePrices.price?.[origin]?.[destination] ?? 0;
+          const title = icenginePrices.title;
+          return {title, amount};
+        }
+
+        const calcMinPrice = ({weight, volume, params, origin, destination}) => {
+          let priceFound = null;
+
+          for (let idx = 0; idx < minPrices.length; ++idx) {
+            const needWeightChecking = isNumber(minPrices[idx].limitHeavy);
+            const weigthChecked = needWeightChecking && weight < minPrices[idx].limitHeavy;
+            const needVolumeChecking = isNumber(minPrices[idx].limitLight);
+            const volumeChecked = needVolumeChecking && volume < minPrices[idx].limitLight;
+
+            if ((!needWeightChecking || weigthChecked) && (!needVolumeChecking || volumeChecked)) {
+              priceFound = minPrices[idx];
+              break;
+            }
+          }
+
+          if (!priceFound) {
+            return null;
+          };
+
+          const amount = priceFound.price?.[origin]?.[destination] ?? 0;
+          const title = "минимально за мелкий груз " + priceFound.title?.replaceAll("<br>", " ");
+
+          return {title, amount};
         }
 
         const processCalc = ({weight, volume, params, origin, destination}) => {
-          const cargoCategory = detectCargoCategory(weight, volume);
-          if (!cargoCategory) return null;
+          if (!isNumber(weight) || weight <= 0 || !isNumber(volume) || volume <= 0) return null;
 
-          const isICEngine = (params?.includes('ic-engine')) ?? false;
+          let price;
+
+          const minPrice = calcMinPrice({weight, volume, params, origin, destination});
+
+          if (minPrice) {
+            price = minPrice;
+          } else {
+            price = volume * 1000 / weight > 5
+              ? calcLightPrice({weight, volume, params, origin, destination})
+              : calcHeavyPrice({weight, volume, params, origin, destination});
+          }
+
           const isFridge = (params?.includes('fridge')) ?? false;
-          const isOversized = (isICEngine || params?.includes('oversized')) ?? false;
+          const isOversized = (params?.includes('ic-engine') || params?.includes('oversized')) ?? false;
 
-          let cargoPrices, cargoIndicator, limit;
-          switch (cargoCategory) {
-            case cargoCategories.LIGHT:
-              cargoPrices = lightCargoPrices;
-              cargoIndicator = volume;
-              limitKey = 'limitLight';
-              break;
-            case cargoCategories.HEAVY:
-              cargoPrices = heavyCargoPrices;
-              cargoIndicator = weight;
-              limitKey = 'limitHeavy';
-              break;
-            default: throw Error();
-          };
+          const fridgeAmount = isFridge ? (fridgePrices.price?.[origin]?.[destination] ?? 0) : null;
 
-          let idx = 0;;
-          while (cargoIndicator >= cargoPrices[idx].limit) {
-            idx++;
-            if (!cargoPrices[idx]) throw Error();
-          };
-          console.log('price', cargoPrices[idx]);
+          if (isOversized) {
+            price.amount = oversizedRaisingFactor * price.amount;
+          }
 
-          const tariff = cargoPrices[idx].price?.[origin]?.[destination] ?? null;
-          if (!isNumber(tariff)) return null;
+          const ICEnginePrice = calcICEnginePrice({weight, volume, params, origin, destination});
+          if (ICEnginePrice && ICEnginePrice.amount > price.amount) {
+            price = ICEnginePrice
+          }
 
-          let amount = tariff * cargoIndicator * (isOversized ? oversizedRaisingFactor : 1);
+          if (fridgeAmount > 0) {
+            price.amount += fridgeAmount;
+          }
 
-          idx = 0;
-          // console.log(cargoIndicator, minPrices[idx]?.[limitKey]);
-          while((minPrices[idx][limitKey] === null) || (cargoIndicator > minPrices[idx][limitKey])) {
-            idx++;
-            // console.log(cargoIndicator, minPrices[idx]?.[limitKey]);
-            if (!minPrices[idx]) break;
-          };
-          console.log('minPrice', minPrices[idx]);
-
-          const minAmount = minPrices[idx]?.price?.[origin]?.[destination] ?? 0;
-
-          const fridgeAmount = isFridge ? (fridgePrices.price?.[origin]?.[destination] ?? 0) : 0;
-          const ICEngineAmount = isICEngine ? (icenginePrices.price?.[origin]?.[destination] ?? 0) : 0;
-
-          const finalAmount = Math.max(amount, minAmount, ICEngineAmount) + fridgeAmount;
-
-          console.log({origin, destination, finalAmount});
-          console.log({amount, minAmount, ICEngineAmount, fridgeAmount});
-          return finalAmount;
+          price.isOversized = isOversized;
+          return price;
         }
 
         const handleFormChange = (event) => {
@@ -193,26 +221,30 @@ block content
           const weight = parseFloat((data.get('weight') ?? '').replace(',', '.'));
           const volume = parseFloat((data.get('volume') ?? '').replace(',', '.'));
 
-          const cargoCategory = detectCargoCategory(weight, volume);
-          const cargoCategoryElement = form.querySelector('.cargo-category');
-          cargoCategoryElement.innerHTML = `${cargoCategory ? cargoCategory + ' груз': '&nbsp;'}`;
-
           const origin = data.get('origin');
           const destination = data.get('destination');
 
           const directionIsSelected = Boolean(origin && destination);
-          const directionIsValid = Boolean(processCalc({weight: 1, volume: 1, origin, destination}));
+          const directionIsValid = processCalc({weight: 1000, volume: 1, origin, destination}).amount > 0;
 
           const directionErrorMessageElement = form.querySelector('.direction-error-message');
           directionErrorMessageElement.hidden = !directionIsSelected || directionIsValid;
 
-          const amount = processCalc({weight, volume, params: data.getAll('params[]'), origin, destination});
+          const price = processCalc({weight, volume, params: data.getAll('params[]'), origin, destination});
+
+          const categoryMessage = price ? price.title + (price.isOversized ? '<br>негабаритный груз' : '') : '&nbsp;';
+          const cargoCategoryElement = form.querySelector('.cargo-category');
+          cargoCategoryElement.innerHTML = categoryMessage;
+
+          const priceValue = (price && price.amount > 0)
+            ? `${parseFloat(price.amount.toFixed(2))} ₽`
+            : '<не рассчитано>';
 
           const resultElement = form.elements.result;
-          resultElement.value = amount === null ? '<не рассчитано>' : `${parseFloat(amount.toFixed(2))} рублей`;
+          resultElement.value = priceValue;
         };
 
-        form.addEventListener('change', handleFormChange);
+        form.addEventListener('input', handleFormChange);
         form.addEventListener('submit', (event) => {
           console.log('submit', event);
         });
