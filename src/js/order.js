@@ -2,6 +2,8 @@ import {cleanForm, saveForm, restoreSavedForm} from "./form/utils";
 import setSuggestions from "./order/suggestion";
 import makeOrderJSON from "./order/make-json";
 import setRequiredAttributes from "./order/required";
+import setCustomValidity from "./order/custom-validity";
+
 import {
   setPayerVisibility,
   setCounterpartyStructure,
@@ -40,6 +42,7 @@ const handleFormChange = (event) => {
   setPayerVisibility(form);
   setCargoOperationsStructure(form);
   setRequiredAttributes(form);
+  setCustomValidity(form);
 };
 
 form.addEventListener("change", handleFormChange);

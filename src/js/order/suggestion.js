@@ -12,8 +12,13 @@ export default function setSuggestions(form) {
     if (!type) throw Error();
 
     // eslint-disable-next-line no-undef
-    $(el).suggestions({token: suggestionToken, type});
-    // TODO адрес без области и района https://codepen.io/dadata/pen/qdwPdZ
+    $(el).suggestions({
+      token: suggestionToken,
+      type,
+      onSelect: function (suggestion) {
+        this.dispatchEvent(new Event("change", {bubbles: true}));
+      }
+    });
   });
 
   const setHandlers = (counterpartyRole) => {
