@@ -44,7 +44,7 @@ mixin counterpartyRole(role)
     .control-group.grid12
       .control.control--required.grid12__col
         label.control__label(for=`${role}`) Организация или ИП
-        p.control__hint Если в выпадающем списке отсутствует ваша организация, добавьте к названию город, улицу, фамилию директора или ИНН.
+        p.control__hint Если в выпадающем списке отсутствует ваша организация, добавьте к названию #[em через пробел] город, улицу, фамилию директора или ИНН.
         input(id=`${role}`, type="text", name=`${role}`, placeholder="название, адрес, ИНН или ОГРН")
 
       .control.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--4
