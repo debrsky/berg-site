@@ -78,7 +78,7 @@ block content
         const form = document.forms.calculator;
 
         const weightElement = form.querySelector('[name="weight"]');
-        new IMask(weightElement, {
+        const weightMask = new IMask(weightElement, {
           mask: Number,  // enable number mask
 
           scale: 1,  // digits after point, 0 for integers
@@ -91,7 +91,7 @@ block content
         });
 
         const volumeElement = form.querySelector('[name="volume"]');
-        new IMask(volumeElement, {
+        const volumeMask = new IMask(volumeElement, {
           mask: Number,  // enable number mask
 
           scale: 3,  // digits after point, 0 for integers
@@ -249,4 +249,11 @@ block content
           console.log('submit', event);
         });
 
+        // fix bug with resoring form state with back button
+        window.addEventListener('pageshow', () => {
+          weightMask.updateValue();
+          volumeMask.updateValue();
+
+          form.dispatchEvent(new Event('input'));
+        });
       })();
