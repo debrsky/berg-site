@@ -205,8 +205,18 @@ function makehtml($data) {
         </tr>
         <tr>
           <td>Контакт</td>
-          <td style="font-weight: bold; ">{$_($data->{'consigner'}->{'cargoContactFio'})} {$_($data->{'consigner'}->{'cargoContactTel'})}</td>
-          <td style="font-weight: bold; ">{$_($data->{'consignee'}->{'cargoContactFio'})} {$_($data->{'consignee'}->{'cargoContactTel'})}</td>
+          <td style="font-weight: bold; ">{$_(
+            $data->consigner->type === 'private-person'
+              ? $data->consigner->name.' '.$data->consigner->tel
+              : $data->consigner->cargoContactFio.' '.$data->consigner->cargoContactTel
+          )}
+          </td>
+          <td style="font-weight: bold; ">{$_(
+            $data->consignee->type === 'private-person'
+              ? $data->consignee->name.' '.$data->consignee->tel
+              : $data->consignee->cargoContactFio.' '.$data->consignee->cargoContactTel
+          )}
+          </td>
         </tr>
       </tbody>
     </table>
