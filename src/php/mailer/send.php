@@ -9,7 +9,8 @@ require 'phpmailer/Exception.php';
 require('config.php');
 require('makehtml.php');
 
-
+$status = '';
+$result = '';
 $json = $_POST['data'];
 
 $data = json_decode($json);
