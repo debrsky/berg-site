@@ -9,11 +9,30 @@ require 'phpmailer/Exception.php';
 require('config.php');
 require('makehtml.php');
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+  http_response_code(404);
+  die();
+}
+
+
 $status = '';
 $result = '';
 $json = $_POST['data'];
 
 $data = json_decode($json);
+
+if (
+  !property_exists($data, 'cargo')
+  || !property_exists($data, 'consigner')
+  || !property_exists($data, 'consignee')
+  || !property_exists($data, 'loading')
+  || !property_exists($data, 'unloading')
+  || !property_exists($data, 'loading')
+  || !property_exists($data, 'author')
+) {
+  http_response_code(400);
+  die();
+}
 
 $meta = new stdClass();
 
