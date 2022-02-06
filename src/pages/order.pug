@@ -266,31 +266,10 @@ block content
               span Отправляя заявку, вы соглашаетесь с обработкой ваших персональных данных.
           .control-group__error-message При отправке заявки произошла ошибка, заявка не отправлена.
 
-  // 1. The dialog container
-  #sent-dialog.dialog-container(aria-labelledby="sent-dialog__title", data-a11y-dialog="sent-dialog", aria-hidden="true")
-    // 2. The dialog overlay
-    .dialog-overlay(data-a11y-dialog-hide)
-    // 3. The actual dialog
-    .dialog-content(role="dialog", style="position: relative;")
-      // 4. The close button
-      button(type="button", data-a11y-dialog-hide, aria-label="Close dialog", style="position: absolute; top: 0; right: 0;") &times;
-      // 5. The dialog title
-      .dialog-content__container(style="padding: 10mm;")
-        h2#sent-dialog__title Ваша заявка
-        .dialog-content__data ОФОРМЛЕНА, НО НЕ ОТПРАВЛЕНА
-
 block scripts
   script(src="vendor/jquery/jquery.min.js")
   script(src="vendor/suggestions/jquery.suggestions.min.js")
   script(src="vendor/imask/imask.min.js")
-
-  // https://github.com/KittyGiraudel/a11y-dialog
-  script(src="https://cdn.jsdelivr.net/npm/a11y-dialog@7/dist/a11y-dialog.min.js")
-  script.
-    // Get the dialog container HTML element (with the accessor method you want)
-    const element = document.getElementById('sent-dialog');
-    // Instantiate a new A11yDialog module
-    window.dialog = new A11yDialog(element);
 
   script.
     window.terminals = !{JSON.stringify(tariffs.terminals)};
