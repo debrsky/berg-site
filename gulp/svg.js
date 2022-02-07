@@ -1,5 +1,6 @@
 import gulp from "gulp";
-import imagemin from "gulp-imagemin";
+// import imagemin, {gifsicle, mozjpeg, optipng, svgo} from 'gulp-imagemin';
+import imagemin, {svgo} from "gulp-imagemin";
 
 export default function svg() {
   return gulp
@@ -8,8 +9,8 @@ export default function svg() {
     })
     .pipe(
       imagemin([
-        imagemin.svgo({
-          plugins: [{cleanupIDs: false}]
+        svgo({
+          plugins: [{name: "cleanupIDs", active: false}]
         })
       ])
     )
