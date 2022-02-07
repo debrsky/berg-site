@@ -1,4 +1,7 @@
+a.link,
 a.instagram,
+a.word,
+a.pdf,
 a[href^="tel:"],
 a[href^="mailto:"] {
   text-decoration: none;
@@ -26,6 +29,26 @@ a[href^="tel:+742"]::before {
 a[href^="tel:"].fax::before {
   content: "📠";
 }
+a.word::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.7ch;
+  /* background-color: red; */
+  background-image: url("/img/icons/word.svg");
+  background-size: 100% 100%;
+}
+a.pdf::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.7ch;
+  /* background-color: red; */
+  background-image: url("/img/icons/pdf.svg");
+  background-size: 100% 100%;
+}
 *,
 *::before,
 *::after {
@@ -34,7 +57,7 @@ a[href^="tel:"].fax::before {
 [hidden] {
   display: none !important;
 }
-noscript {
+.noscript {
   position: fixed;
   padding: 1ch;
   text-align: center;
@@ -91,6 +114,7 @@ details summary {
   margin: 0;
   display: grid;
   grid-template-columns: 100%;
+  grid-template-rows: -webkit-min-content -webkit-min-content auto -webkit-min-content -webkit-min-content;
   grid-template-rows: min-content min-content auto min-content min-content;
   grid-template-areas: "header" "nav-header" "main" "nav-footer" "footer";
 }
@@ -124,6 +148,7 @@ details summary {
 }
 @media (max-width: 767.98px) {
   .page__body {
+    grid-template-rows: -webkit-min-content -webkit-min-content -webkit-min-content auto -webkit-min-content;
     grid-template-rows: min-content min-content min-content auto min-content;
     grid-template-areas: "header" "nav-footer" "nav-header" "main" "footer";
   }
@@ -136,7 +161,8 @@ details summary {
   border: 0;
   padding: 0;
   white-space: nowrap;
-  clip-path: inset(100%);
+  -webkit-clip-path: inset(100%);
+          clip-path: inset(100%);
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
@@ -214,65 +240,6 @@ details summary {
 .table tbody tr th,
 .table tbody tr td {
   border-bottom: 1px solid lightgray;
-}
-/**
- * 1. Make the dialog container, and its child overlay spread across
- *    the entire window.
- */
-.dialog-container,
-.dialog-overlay {
-  position: fixed;
-  /* 1 */
-  top: 0;
-  /* 1 */
-  right: 0;
-  /* 1 */
-  bottom: 0;
-  /* 1 */
-  left: 0;
-  /* 1 */
-}
-/**
-  * 1. Make sure the dialog container and all its descendants sits on
-  *    top of the rest of the page.
-  * 2. Make the dialog container a flex container to easily center the
-  *    dialog.
-  */
-.dialog-container {
-  z-index: 2;
-  /* 1 */
-  display: flex;
-  /* 2 */
-}
-/**
-  * 1. Make sure the dialog container and all its descendants are not
-  *    visible and not focusable when it is hidden.
-  */
-.dialog-container[aria-hidden="true"] {
-  display: none;
-  /* 1 */
-}
-/**
-  * 1. Make the overlay look like an overlay.
-  */
-.dialog-overlay {
-  background-color: rgba(43, 46, 56, 0.9);
-  /* 1 */
-}
-/**
-  * 1. Vertically and horizontally center the dialog in the page.
-  * 2. Make sure the dialog sits on top of the overlay.
-  * 3. Make sure the dialog has an opaque background.
-  */
-.dialog-content {
-  margin: auto;
-  /* 1 */
-  z-index: 2;
-  /* 2 */
-  position: relative;
-  /* 2 */
-  background-color: white;
-  /* 3 */
 }
 .grid12 {
   display: grid;
@@ -449,12 +416,18 @@ details summary {
 .button--submiting.button--hover,
 .button--submiting:focus,
 .button--submiting.button--focus {
-  animation: blinds 2s linear infinite;
+  -webkit-animation: blinds 2s linear infinite;
+          animation: blinds 2s linear infinite;
   background-position: 0 0;
   background-size: 5ch 1em;
   background-repeat: repeat-x repeat-y;
   background-image: linear-gradient(to right, var(--brand-color) 0%, var(--brand-color-secondary) 50%, var(--brand-color) 100%);
   color: white;
+}
+@-webkit-keyframes blinds {
+  100% {
+    background-position: 5ch 0;
+  }
 }
 @keyframes blinds {
   100% {
@@ -480,6 +453,8 @@ details summary {
   padding: 0;
   margin: 0;
   font-size: 1rem;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   background-color: var(--brand-color-white);
   border: none;
@@ -499,10 +474,47 @@ details summary {
   border: none;
   border-bottom: 1px dashed var(--brand-color-secondary);
 }
+select.suggest-helper__label {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  -moz-text-align-last: center;
+       text-align-last: center;
+  width: 11ch;
+}
+@media (min-width: 512px) {
+  .section {
+    position: relative;
+    background-clip: content-box;
+  }
+  .section:not(:first-of-type) {
+    padding-top: 1rem;
+    border-top: 1px solid var(--brand-color);
+  }
+  .section__header {
+    position: absolute;
+    margin-top: 0;
+    left: 0;
+    top: 0;
+    max-width: calc((21ch - 1ch) / 1.17);
+    width: -webkit-min-content;
+    width: -moz-min-content;
+    width: min-content;
+  }
+  .section:not(:first-of-type) .section__header {
+    top: 1rem;
+  }
+  .section__content {
+    margin-left: calc(21rem * 76.3 / 140);
+    padding-left: 0.5ch;
+    border-left: 0.5ch solid var(--brand-color-secondary);
+  }
+}
 .header {
   font-size: 16px;
   display: grid;
   width: 100%;
+  grid-template-columns: -webkit-min-content auto;
   grid-template-columns: min-content auto;
   grid-gap: 20px;
   padding-top: 30px;
@@ -521,6 +533,7 @@ details summary {
 .logo {
   width: 350px;
   display: grid;
+  grid-template-columns: -webkit-min-content auto;
   grid-template-columns: min-content auto;
   grid-gap: 10px 20px;
   grid-template-areas: "icon text" "slogan slogan";
@@ -545,6 +558,8 @@ details summary {
   font-size: 1.33rem;
   font-weight: normal;
   margin: 0;
+  width: -webkit-min-content;
+  width: -moz-min-content;
   width: min-content;
 }
 .logo__slogan {
@@ -633,7 +648,7 @@ details summary {
 .nav-header {
   font-size: 1.11rem;
   line-height: 1.1;
-  margin-bottom: 3px;
+  margin-bottom: 30px;
   --gradient-padding: calc((130px - 105px) / 2);
   background-image: url(../img/nav-bg.jpg), linear-gradient(to bottom, transparent 0, transparent var(--gradient-padding), var(--brand-color) var(--gradient-padding), var(--brand-color) 50%, transparent 50%, transparent), linear-gradient(to top, transparent 0, transparent var(--gradient-padding), var(--brand-color) var(--gradient-padding), var(--brand-color) 50%, transparent 50%, transparent);
   background-repeat: no-repeat;
@@ -674,8 +689,10 @@ details summary {
   text-decoration: none;
   color: inherit;
   display: grid;
+  grid-template-columns: -webkit-min-content -webkit-min-content;
   grid-template-columns: min-content min-content;
-  column-gap: 12px;
+  -moz-column-gap: 12px;
+       column-gap: 12px;
   align-items: center;
   margin: 3px;
 }
@@ -914,8 +931,21 @@ details summary {
 .pricing__table-wrapper {
   page-break-inside: avoid;
 }
+.announcement {
+  display: flex;
+  margin-bottom: 1em;
+}
+.announcement__block {
+  margin: auto;
+  background-color: var(--brand-color-secondary-light);
+  padding: 1em;
+  border-radius: 1em;
+  text-align: center;
+}
 .v-text {
   writing-mode: vertical-rl;
+  height: -webkit-min-content;
+  height: -moz-min-content;
   height: min-content;
   transform: rotate(180deg);
 }
@@ -936,12 +966,18 @@ details summary {
   flex-wrap: wrap;
 }
 .min-content {
+  width: -webkit-min-content;
+  width: -moz-min-content;
   width: min-content;
 }
 .max-content {
+  width: -webkit-max-content;
+  width: -moz-max-content;
   width: max-content;
 }
 .fit-content {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
 }
 

@@ -9,10 +9,30 @@ require 'phpmailer/Exception.php';
 require('config.php');
 require('makehtml.php');
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+  http_response_code(404);
+  die();
+}
 
+
+$status = '';
+$result = '';
 $json = $_POST['data'];
 
 $data = json_decode($json);
+
+if (
+  !property_exists($data, 'cargo')
+  || !property_exists($data, 'consigner')
+  || !property_exists($data, 'consignee')
+  || !property_exists($data, 'loading')
+  || !property_exists($data, 'unloading')
+  || !property_exists($data, 'loading')
+  || !property_exists($data, 'author')
+) {
+  http_response_code(400);
+  die();
+}
 
 $meta = new stdClass();
 
@@ -42,7 +62,7 @@ $mail = new PHPMailer\PHPMailer\PHPMailer();
 // Настройки PHPMailer
 $mail = new PHPMailer\PHPMailer\PHPMailer();
 try {
-  $mail->isSMTP();
+  // $mail->isSMTP(); отключена отправка через SMTP из-за тормозов, отправка через sendmail на порядки (0.1 секунда против 5-15 секунд) быстрее
   $mail->CharSet = "UTF-8";
   $mail->SMTPAuth   = true;
   //$mail->SMTPDebug = 2;
@@ -82,7 +102,9 @@ try {
 $order = json_encode($data, JSON_UNESCAPED_UNICODE);
 
 // log
-$myfile = file_put_contents('log.txt', $order.PHP_EOL , FILE_APPEND | LOCK_EX);
+date_default_timezone_set('Asia/Vladivostok');
+$log_filename = date('Y.M').'.log.txt';
+$myfile = file_put_contents($log_filename, $order.PHP_EOL , FILE_APPEND | LOCK_EX);
 
 // Отображение результата
 header('Content-Type: application/json; charset=utf-8');

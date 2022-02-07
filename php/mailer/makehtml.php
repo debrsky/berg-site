@@ -203,6 +203,21 @@ function makehtml($data) {
             )}
           </td>
         </tr>
+        <tr>
+          <td>Контакт</td>
+          <td style="font-weight: bold; ">{$_(
+            $data->consigner->type === 'private-person'
+              ? $data->consigner->name.' '.$data->consigner->tel
+              : $data->consigner->cargoContactFio.' '.$data->consigner->cargoContactTel
+          )}
+          </td>
+          <td style="font-weight: bold; ">{$_(
+            $data->consignee->type === 'private-person'
+              ? $data->consignee->name.' '.$data->consignee->tel
+              : $data->consignee->cargoContactFio.' '.$data->consignee->cargoContactTel
+          )}
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -218,6 +233,10 @@ function makehtml($data) {
       email
       <span style="font-weight: bold; ">{$_($data->{'author'}->{'email'})}</span></p>
   </div>
+  <div>
+    <p style="font-size: 6pt;">ip: {$_($_SERVER['REMOTE_ADDR']??'')}; User-Agent: {$_($_SERVER['HTTP_USER_AGENT']??'')}</p>
+  </div>
+
   END;
 
   // var_dump($html);
