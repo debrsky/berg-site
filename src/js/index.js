@@ -3,7 +3,7 @@ import {setPlace} from "./common/set-place.js";
 (async () => {
   const userPlace = await setPlace();
   select.value = userPlace;
-  select.dispatchEvent(new Event("change"));
+  select.dispatchEvent(new Event("change", {bubbles: true}));
 })();
 
 const select = document.getElementById("contacts__place-selector");
