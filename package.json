@@ -21,6 +21,7 @@
     "@rollup/stream": "^2.0.0",
     "autoprefixer": "^10.4.2",
     "browser-sync": "^2.27.7",
+    "colors": "^1.4.0",
     "del": "^6.0.0",
     "delete": "^1.1.0",
     "doiuse": "^4.4.1",
@@ -36,6 +37,7 @@
     "gulp-autoprefixer": "^8.0.0",
     "gulp-debug": "^4.0.0",
     "gulp-html-bem-validator": "^1.0.5",
+    "gulp-imagemin": "^8.0.0",
     "gulp-less": "^5.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^9.0.0",
@@ -57,10 +59,5 @@
     "vinyl-ftp": "^0.6.1",
     "vinyl-named": "^1.1.0",
     "vinyl-source-stream": "^2.0.0"
-  },
-  "dependencies": {
-    "colors": "^1.4.0",
-    "gulp-imagemin": "^8.0.0",
-    "jquery": "^3.6.0"
   }
 }
