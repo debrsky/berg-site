@@ -10,7 +10,16 @@ export default function svg() {
     .pipe(
       imagemin([
         svgo({
-          plugins: [{name: "cleanupIDs", active: false}]
+          plugins: [
+            {
+              name: "preset-default",
+              params: {
+                overrides: {
+                  cleanupIDs: false
+                }
+              }
+            }
+          ]
         })
       ])
     )
