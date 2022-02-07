@@ -102,7 +102,9 @@ try {
 $order = json_encode($data, JSON_UNESCAPED_UNICODE);
 
 // log
-$myfile = file_put_contents('log.txt', $order.PHP_EOL , FILE_APPEND | LOCK_EX);
+date_default_timezone_set('Asia/Vladivostok');
+$log_filename = date('Y.M').'.log.txt';
+$myfile = file_put_contents($log_filename, $order.PHP_EOL , FILE_APPEND | LOCK_EX);
 
 // Отображение результата
 header('Content-Type: application/json; charset=utf-8');
