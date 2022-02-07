@@ -1,16 +1,13 @@
-const gulp = require(`gulp`);
-const plumber = require(`gulp-plumber`);
-const rename = require(`gulp-rename`);
-const sourcemap = require("gulp-sourcemaps");
-const lessG = require("gulp-less");
-const postcss = require("gulp-postcss");
-const autoprefixer = require("autoprefixer");
-const doiuse = require("doiuse");
-// const csso = require("postcss-csso");
+import gulp from "gulp";
+import plumber from "gulp-plumber";
+import rename from "gulp-rename";
+import sourcemap from "gulp-sourcemaps";
+import lessG from "gulp-less";
+import postcss from "gulp-postcss";
+import autoprefixer from "autoprefixer";
+import doiuse from "doiuse";
 
-// const colors = require("colors");
-
-module.exports = function less() {
+export default function less() {
   return gulp
     .src(`src/less/style.less`)
     .pipe(plumber())
@@ -42,4 +39,4 @@ module.exports = function less() {
     .pipe(rename(`style.css`))
     .pipe(sourcemap.write(`.`))
     .pipe(gulp.dest(`public/css`));
-};
+}

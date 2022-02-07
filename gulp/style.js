@@ -1,8 +1,9 @@
-const {parallel} = require("gulp");
+import gulp from "gulp";
+import css from "./css.js";
+import less from "./less.js";
 
-const css = require("./css");
-const less = require("./less");
+const {parallel} = gulp;
 
-module.exports = function style() {
+export default function style() {
   return parallel(css, less)(...arguments);
-};
+}

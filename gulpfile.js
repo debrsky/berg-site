@@ -1,21 +1,28 @@
-require("dotenv").config();
+import {fileURLToPath} from "url";
+import {dirname} from "path";
 
-const gulp = require("gulp");
-const serve = require(`./gulp/serve`);
-const clean = require(`./gulp/clean`);
-const copy = require(`./gulp/copy`);
-const images = require(`./gulp/images`);
-const svg = require(`./gulp/svg`);
-const html = require(`./gulp/html`);
-const pug2html = require(`./gulp/pug2html`);
-const style = require(`./gulp/style`);
-const script = require(`./gulp/script`);
-const validateHTML = require(`./gulp/validate-html`);
-const sitemap = require("./gulp/sitemap");
+import "dotenv/config";
 
-const ghPages = require(`./gulp/deploy-to-gh-pages`);
-const ftpProd = require(`./gulp/deploy-to-ftp-prod`);
-const ftpTest = require(`./gulp/deploy-to-ftp-test`);
+import gulp from "gulp";
+import serve from "./gulp/serve.js";
+import clean from "./gulp/clean.js";
+import copy from "./gulp/copy.js";
+import images from "./gulp/images.js";
+import svg from "./gulp/svg.js";
+import html from "./gulp/html.js";
+import pug2html from "./gulp/pug2html.js";
+import style from "./gulp/style.js";
+import script from "./gulp/script.js";
+import validateHTML from "./gulp/validate-html.js";
+import sitemap from "./gulp/sitemap.js";
+
+import ghPages from "./gulp/deploy-to-gh-pages.js";
+import ftpProd from "./gulp/deploy-to-ftp-prod.js";
+import ftpTest from "./gulp/deploy-to-ftp-test.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+process.rootDir = __dirname;
 
 const build = gulp.series(
   clean,
@@ -34,9 +41,7 @@ const deployToGh = gulp.series(build, ghPages);
 const deployToFtpProd = gulp.series(build, ftpProd);
 const deployToFtpTest = gulp.series(build, ftpTest);
 
-process.rootDir = __dirname;
-
-module.exports = {
+export {
   dev,
   build,
   validate,

@@ -1,12 +1,9 @@
-const gulp = require("gulp");
-const plumber = require("gulp-plumber");
-const pug = require("gulp-pug");
-const pugLinter = require("gulp-pug-linter");
-// const htmlValidator = require("gulp-w3c-html-validator");
-// const bemValidator = require("gulp-html-bem-validator");
-// const rename = require(`gulp-rename`);
+import gulp from "gulp";
+import plumber from "gulp-plumber";
+import pug from "gulp-pug";
+import pugLinter from "gulp-pug-linter";
 
-module.exports = function pages() {
+export default function pages() {
   const pugOptions = {
     pretty: true,
     basedir: process.rootDir
@@ -19,14 +16,10 @@ module.exports = function pages() {
     }
   };
 
-  return (
-    gulp
-      .src(paths.pages.src, {since: gulp.lastRun(pages)})
-      .pipe(plumber())
-      .pipe(pugLinter({reporter: "default"}))
-      .pipe(pug(pugOptions))
-      // .pipe(htmlValidator())
-      // .pipe(bemValidator())
-      .pipe(gulp.dest(paths.pages.dest))
-  );
-};
+  return gulp
+    .src(paths.pages.src, {since: gulp.lastRun(pages)})
+    .pipe(plumber())
+    .pipe(pugLinter({reporter: "default"}))
+    .pipe(pug(pugOptions))
+    .pipe(gulp.dest(paths.pages.dest));
+}

@@ -1,7 +1,6 @@
-const ghPages = require("gh-pages");
-const path = require("path");
+import ghPages from "gh-pages";
+import path from "path";
 
-function deployToGhPages(cb) {
+export default function deployToGhPages(cb) {
   ghPages.publish(path.join(process.cwd(), "./public"), cb);
 }
-module.exports = deployToGhPages;

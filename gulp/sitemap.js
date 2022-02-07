@@ -1,11 +1,10 @@
-const gulp = require("gulp");
-const path = require("path");
-const Vinyl = require("vinyl");
+import gulp from "gulp";
+import path from "path";
+import Vinyl from "vinyl";
+import {Transform} from "stream";
 
 const siteUrl = process.env.SITE_URL;
 const htmlDir = "public";
-
-const {Transform} = require("stream");
 
 class SitemapTransform extends Transform {
   constructor(options) {
@@ -45,11 +44,11 @@ class SitemapTransform extends Transform {
 
 const sitemapTransform = new SitemapTransform({objectMode: true});
 
-module.exports = function sitemap() {
+export default function sitemap() {
   return gulp
     .src([htmlDir + `/*.html`], {
       base: htmlDir
     })
     .pipe(sitemapTransform)
     .pipe(gulp.dest(htmlDir));
-};
+}

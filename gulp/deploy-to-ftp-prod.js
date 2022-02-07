@@ -1,5 +1,5 @@
-const gulp = require("gulp");
-const ftp = require("vinyl-ftp");
+import gulp from "gulp";
+import ftp from "vinyl-ftp";
 
 const connection = ftp.create({
   host: process.env.FTP_HOST,
@@ -9,7 +9,7 @@ const connection = ftp.create({
   log: console.log
 });
 
-function deployToFtpProd() {
+export default function deployToFtpProd() {
   const globs = ["public/**", "!public/php/mailer/config.php"];
 
   // using base = '.' will transfer everything to destination correctly
@@ -20,5 +20,3 @@ function deployToFtpProd() {
     .pipe(connection.newer("/")) // only upload newer files
     .pipe(connection.dest("/"));
 }
-
-module.exports = deployToFtpProd;

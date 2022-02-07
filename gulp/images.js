@@ -1,8 +1,10 @@
-const {src, dest} = require("gulp");
-const sharpResponsive = require("gulp-sharp-responsive");
-const del = require(`del`);
+import gulp from "gulp";
+import sharpResponsive from "gulp-sharp-responsive";
+import del from "del";
 
-module.exports = function images() {
+const {src, dest} = gulp;
+
+export default function images() {
   del.sync(`images`);
   return src([`docs/presentation/*.jpg`, `!docs/presentation/z*`], {
     base: `docs`
@@ -31,4 +33,4 @@ module.exports = function images() {
       })
     )
     .pipe(dest(`images`));
-};
+}

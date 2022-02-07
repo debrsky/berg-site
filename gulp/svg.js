@@ -1,7 +1,7 @@
-const imagemin = require("gulp-imagemin");
-const gulp = require(`gulp`);
+import gulp from "gulp";
+import imagemin from "gulp-imagemin";
 
-module.exports = function svg() {
+export default function svg() {
   return gulp
     .src([`src/img/**/*.svg`], {
       base: `src`
@@ -14,4 +14,4 @@ module.exports = function svg() {
       ])
     )
     .pipe(gulp.dest(`public`));
-};
+}

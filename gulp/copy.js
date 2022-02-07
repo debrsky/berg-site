@@ -1,6 +1,6 @@
-const gulp = require(`gulp`);
+import gulp from "gulp";
 
-module.exports = function copy() {
+export default function copy() {
   return gulp
     .src(
       [
@@ -20,4 +20,4 @@ module.exports = function copy() {
       }
     )
     .pipe(gulp.dest(`public`));
-};
+}

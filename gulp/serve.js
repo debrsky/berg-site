@@ -1,13 +1,15 @@
-const gulp = require(`gulp`);
-const server = require(`browser-sync`).create();
+import gulp from "gulp";
+import browserSync from "browser-sync";
 
-const copy = require(`./copy`);
-const svg = require(`./svg.js`);
-const style = require(`./style`);
-const html = require(`./html`);
-const pug2html = require(`./pug2html`);
-const pages = require(`./pages`);
-const script = require(`./script`);
+import copy from "./copy.js";
+import svg from "./svg.js";
+import style from "./style.js";
+import html from "./html.js";
+import pug2html from "./pug2html.js";
+import pages from "./pages.js";
+import script from "./script.js";
+
+const server = browserSync.create();
 
 function readyFullReload(cb) {
   server.reload();
@@ -18,7 +20,7 @@ function readyStyleReload(cb) {
   return gulp.src("public/css").pipe(server.stream()).on("end", cb);
 }
 
-module.exports = function serve() {
+export default function serve() {
   server.init({
     server: `public/`,
     notify: false,
@@ -42,4 +44,4 @@ module.exports = function serve() {
     `src/img/**/*.svg`,
     gulp.series(svg, html, pug2html, readyFullReload)
   );
-};
+}

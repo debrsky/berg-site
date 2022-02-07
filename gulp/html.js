@@ -1,16 +1,10 @@
-const gulp = require(`gulp`);
-// const htmlValidator = require("gulp-w3c-html-validator");
-// const bemValidator = require("gulp-html-bem-validator");
-const posthtml = require("gulp-posthtml");
-const include = require("posthtml-include");
+import gulp from "gulp";
+import posthtml from "gulp-posthtml";
+import include from "posthtml-include";
 
-module.exports = function html() {
-  return (
-    gulp
-      .src(`src/**/*.html`)
-      .pipe(posthtml([include()]))
-      // .pipe(htmlValidator())
-      // .pipe(bemValidator())
-      .pipe(gulp.dest(`public`))
-  );
-};
+export default function html() {
+  return gulp
+    .src(`src/**/*.html`)
+    .pipe(posthtml([include()]))
+    .pipe(gulp.dest(`public`));
+}

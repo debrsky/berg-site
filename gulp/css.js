@@ -1,7 +1,5 @@
-const gulp = require(`gulp`);
+import gulp from "gulp";
 
-function css() {
+export default function css() {
   return gulp.src(`src/css/**/*.css`).pipe(gulp.dest(`public/css`));
 }
-
-module.exports = css;

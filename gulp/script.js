@@ -1,17 +1,17 @@
-const gulp = require("gulp");
-const rollup = require("@rollup/stream");
-const terser = require("rollup-plugin-terser").terser;
-const nodeResolve = require("@rollup/plugin-node-resolve").nodeResolve;
-const sourcemaps = require("gulp-sourcemaps");
-const source = require("vinyl-source-stream");
-const buffer = require("vinyl-buffer");
-const glob = require("glob");
-const path = require("path");
+import gulp from "gulp";
+import rollup from "@rollup/stream";
+import {terser} from "rollup-plugin-terser";
+import {nodeResolve} from "@rollup/plugin-node-resolve";
+import sourcemaps from "gulp-sourcemaps";
+import source from "vinyl-source-stream";
+import buffer from "vinyl-buffer";
+import glob from "glob";
+import path from "path";
 
 // TODO add cache
 // https://github.com/rollup/stream#caching
 
-module.exports = function script() {
+export default function script() {
   const files = glob.sync("src/js/*.js", {});
 
   return Promise.all(
@@ -53,4 +53,4 @@ module.exports = function script() {
       });
     })
   );
-};
+}

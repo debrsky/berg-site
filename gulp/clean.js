@@ -1,5 +1,5 @@
-const del = require(`del`);
+import del from "del";
 
-module.exports = function clean() {
+export default function clean() {
   return del(`public`);
-};
+}
