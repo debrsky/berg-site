@@ -1,0 +1,41 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="robots", content="noindex")
+    title Let's encrypt root certificate
+    link(rel="stylesheet", href="css/normalize.css")
+    style.
+      .img {
+        display: block;
+        max-width: 100%;
+        margin: 0 auto;
+        box-shadow: 0 0 5px 5px silver;
+      }
+  body(style="max-width: 210mm; margin: 0 auto;")
+    h1 Windows 7. Истек срок действия сертификата у сайта
+    p
+      | Для пользователей, у которых не подключены автоматические обновления корневых сертификатов,
+      | можно добавить сертификат ISRG Root X1 вручную. Для этого нужно скачать сертификат с сайта
+      | LetsEncrypt по ссылке #[a(href="https://letsencrypt.org/certs/isrgrootx1.der") https://letsencrypt.org/certs/isrgrootx1.der].
+      | Открыть скачанный файл, в открывшемся окне выбрать "Установить сертификат...":
+    img.img(src="img/letsencrypt/1.png", alt="Окно Сведения о сертификате")
+    p В мастере импорта сертификатов выбрать "Локальный компьютер":
+    img.img(src="img/letsencrypt/2.png", alt="Окно Мастер импорта сертификатов")
+    p
+      | Выбрать "Поместить все сертификаты в следующее хранилище", в диалоге выбора хранилища,
+      | открывающемся по кнопке "Обзор...", выбрать "Доверенные корневые центры сертификации":
+    img.img(src="img/letsencrypt/3.png", alt="Окно Выбор хранилища сертификтов")
+    p На последнем шаге мастера нажать кнопку "Готово".
+    p
+      | После выполнения этой последовательности шагов, сертификат должен появиться в защищенном хранилище.
+      | Чтобы проверить это, нужно нажать комбинацию клавиш «Win+R», откроется диалог «Выполнить»,
+      | в котором нужно ввести #[em certmgr.msc]
+    img.img(src="img/letsencrypt/4.png", alt="Окно Выполнить с командой certmgr.msc")
+    p
+      | В открывшемся окне в подразделе "Сертификаты" раздела "Доверенные корневые центры сертификации"
+      | в списке должен появиться сертификат ISRG Root X1:
+    img.img(src="img/letsencrypt/5.png", alt="Окно certmgr.msc Хранилище Доверенные центры сертификации")
+
+    p Источник: #[a(href="https://habr.com/ru/post/580092/") https://habr.com/ru/post/580092/]
