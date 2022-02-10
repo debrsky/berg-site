@@ -148,7 +148,7 @@ mixin cargoOperation(operation)
         textarea(id=`${operation}-point-client-address`, name=`${operation}-point-client-address`, data-suggestion-type="address")
 
 block head
-  link(rel="canonical", href="order.html")
+  link(rel="canonical", href=`${process.env.SITE_URL}/order.html`)
   link(href="vendor/suggestions/suggestions.min.css", rel="stylesheet")
   style.
     .suggestions-promo {
