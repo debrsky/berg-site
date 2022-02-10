@@ -88,6 +88,9 @@ form.addEventListener("submit", (event) => {
         );
 
       cleanForm(form);
+
+      if (window.orderSuccessfullySent) window.orderSuccessfullySent();
+
       window.location.assign("order-ok.html");
     })
     .catch((err) => {

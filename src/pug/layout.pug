@@ -111,6 +111,9 @@ html(lang="ru")
         img(src="https://mc.yandex.ru/watch/87156585", style="position:absolute; left:-9999px;", alt="")
     // /Yandex.Metrika counter
 
+    script.
+      window.orderSuccessfullySent = function orderSuccessfullySent () {ym(87156585,'reachGoal','order successfully sent');console.log('order successfully sent')};
+
     // https://yandex.ru/dev/browser/constructor/doc/
     script(src="https://yastatic.net/browser-updater/v1/script.js")
     script.
