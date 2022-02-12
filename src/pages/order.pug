@@ -175,10 +175,10 @@ block content
           input#cargo(type="text", name="cargo")
         .control.control--required.grid12__col.grid12__col--4.grid12__desktop-col.grid12__desktop-col--2
           label.control__label(for="cargo-weight") Вес, кг
-          input#cargo-weight(type="text", name="cargo-weight", inputmode="numeric")
+          input#cargo-weight(type="text", name="cargo-weight", inputmode="decimal")
         .control.control--required.grid12__col.grid12__col--4.grid12__desktop-col.grid12__desktop-col--2
           label.control__label(for="cargo-volume") Объем, м³
-          input#cargo-volume(type="text", name="cargo-volume", inputmode="numeric")
+          input#cargo-volume(type="text", name="cargo-volume", inputmode="decimal")
         .control.control--required.grid12__col.grid12__col--4.grid12__desktop-col.grid12__desktop-col--2
           label.control__label(for="cargo-qty") Количество мест
           input#cargo-qty(type="text", name="cargo-qty", inputmode="numeric")
@@ -187,7 +187,7 @@ block content
           input#cargo-condition(type="text", name="cargo-condition", placeholder="не требуется")
         .control.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--3
           label.control__label(for="cargo-value") Объявленная стоимость, руб.
-          input#cargo-value(type="text", name="cargo-value", inputmode="numeric")
+          input#cargo-value(type="text", name="cargo-value", inputmode="decimal")
         label.control.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--3
           span.control__label Страховка
           select#insurance(name="insurance")
