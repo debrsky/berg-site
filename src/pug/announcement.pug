@@ -1,4 +1,8 @@
 .announcement
+  script(src="https://api-maps.yandex.ru/2.1/?load=Geolink&lang=ru_RU&apikey=aa281979-9e28-442a-9b8f-43fab62b25e4")
+  -
+    const ll = [43.800389, 131.915237];
+    const mapBounds = `[[${ll[0]-1e-3},${ll[1]-1e-3}],[${ll[0]+1e-3},${ll[1]+1e-3}]]`;
   .announcement__block
     | ⚡⚡⚡ Уважаемые клиенты! Доводим до вашего сведения, что с 1 октября 2022 года пункт приёма груза в
-    | Уссурийске меняет адрес на #[em ул. Сельскохозяйственная, 16а].
+    | Уссурийске меняет адрес на #[span.ymaps-geolink(data-type="geo", data-bounds=mapBounds) ул. Сельскохозяйственная, 16а].
