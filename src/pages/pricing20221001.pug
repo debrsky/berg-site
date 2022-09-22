@@ -1,0 +1,146 @@
+extends ../pug/layout
+block variables
+  -
+    title = "Прайс"
+    description = "Прайс-лист ТК Берг на услуги грузоперевозки между городами Владивосток, Уссурийск, Хабаровск, Комсомольск-на-Амуре, Благовещенск."
+
+block content
+  include ../pug/tariffs20221001
+
+  -
+    const startdate = new Date(tariffs.startdate);
+    const places = tariffs.places;
+
+    const getDestinationPlaces = (origin, prices) => {
+      const destinationPlaces = new Set();
+
+      prices.forEach(({price}) => {
+        Object.keys(price[origin]).forEach((place) => destinationPlaces.add(place))
+      })
+
+      return [...destinationPlaces];
+    };
+
+    const truckDeliveryPrices = tariffs.truckDeliveryPrices;
+    const oversizedRaisingFactor = tariffs.oversizedRaisingFactor;
+    const heavyCargoPrices = tariffs.heavyCargoPrices;
+    const lightCargoPrices = tariffs.lightCargoPrices;
+    const minPrices = tariffs.minPrices;
+
+    const fridgeTariff =
+      Object.values(tariffs.fridgePrices.price)
+      .map((el) => Object.values(el))
+      .flat()
+      .reduce((acc, cur) => cur < acc ? cur : acc);
+
+  article.pricing
+    h2.h2 Прайс-лист по направлениям (c 1 октября 2022 года)
+    section
+      h3.h3 Тарифы на междугороднюю перевозку
+      p Если объем 1 тонны груза более 5 кубометров, груз считается легким. В противном случае груз считается тяжелым.
+      -let destinationPlaces;
+      .pricing__directions
+        -for (const origin of Object.keys(places))
+          details(style="page-break-inside: avoid;")
+            summary
+              h4.h4(style="display: inline;")
+                | Место отправления:
+                |
+                span(style="white-space: nowrap;") #{places[origin]}
+
+            .pricing__table-list
+              .pricing__table-wrapper
+                -destinationPlaces = getDestinationPlaces(origin, heavyCargoPrices);
+                table.table.pricing__table
+                  caption
+                    h5.h5 Тяжелый груз
+                    span.pricing__table-measure-unit руб./кг
+
+                  thead
+                    tr
+                      th(rowspan="2", scope="col") Масса груза
+                      th(colspan=destinationPlaces.length, scope="colgroup") Место получения
+                    tr
+                      each destination in destinationPlaces
+                        th(scope="col")
+                          span.v-text=places[destination]
+
+                  tbody
+                    each priceRow in heavyCargoPrices
+                      tr
+                        th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
+                        each destination in destinationPlaces
+                          td=priceRow.price[origin][destination].toString().replace('.', ',')
+
+              .pricing__table-wrapper
+                -destinationPlaces = getDestinationPlaces(origin, lightCargoPrices);
+                table.table.pricing__table
+                  caption
+                    h5.h5
+                      span(title="Груз считается легким, если объем 1 тонны груза более 5 кубометров") Легкий груз
+                    span.pricing__table-measure-unit руб./м³
+
+                  thead
+                    tr
+                      th(rowspan="2", scope="col") Объем груза
+                      th(colspan=destinationPlaces.length, scope="colgroup") Место получения
+                    tr
+                      each destination in destinationPlaces
+                        th(scope="col")
+                          span.v-text=places[destination]
+
+                  tbody
+                    each priceRow in lightCargoPrices
+                      tr
+                        th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
+                        each destination in destinationPlaces
+                          td=priceRow.price[origin][destination].toString().replace('.', ',')
+
+              .pricing__table-wrapper
+                -destinationPlaces = getDestinationPlaces(origin, minPrices);
+                table.table.pricing__table
+                  caption
+                    h5.h5 Минимально за мелкий груз
+                    span.pricing__table-measure-unit руб.
+
+                  thead
+                    tr
+                      th(rowspan="2", scope="col") Масса или объем груза
+                      th(colspan=destinationPlaces.length, scope="colgroup") Место получения
+                    tr
+                      each destination in destinationPlaces
+                        th(scope="col")
+                          span.v-text=places[destination]
+
+                  tbody
+                    each priceRow in minPrices
+                      tr
+                        th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³').replace(/\sкг/g, '&nbsp;кг')}
+                        each destination in destinationPlaces
+                          td=priceRow.price[origin][destination].toString().replace('.', ',')
+
+    section
+      h3.h3 Подача а/м на погрузку/выгрузку
+      table.table
+        tbody
+          each priceLine in truckDeliveryPrices
+            tr
+              td !{priceLine.title}
+              td !{priceLine.price}
+      p При массе груза более 5 тонн или объеме груза более 25 кубометров а/м подается бесплатно.
+
+    section
+      h3.h3 Примечания
+      p При использовании рефрижераторной установки взимается дополнительная плата #[em #{fridgeTariff} руб./сутки].
+      p.
+        При перевозке негабаритного груза стоимость за услуги увеличивается на #[em #{Math.round(oversizedRaisingFactor * 100 - 100)}%].
+        Негабаритным груз считается, если объем одного места превышает 1 кубометр или одна из линейных величин
+        (длина, ширина, высота) превышает 1 метр; а также места, которые по своим размерам и свойства не могут быть
+        загружены и размещены в транспортном средстве без затруднений.
+
+    p(style="font-size: xx-small; text-align: end;")
+      | Настоящий прайс действует с
+      |
+      time(datetime=startdate.toISOString().substring(0, 10)) #{startdate.toISOString().substring(0, 10)}
+      | .
+      | Скачать #[a.pdf(href="files/price/price20221001.pdf") прайс].
