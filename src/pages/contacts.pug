@@ -9,7 +9,7 @@ block head
   -
     const maps = [
       {city: "Владивосток", address: "пр-кт 100-летия Владивостока, 161А", ll: [43.189470, 131.915753]},
-      {city: "Уссурийск", address: "ул. Чичерина, 152", ll: [43.793698, 131.981680]},
+      {city: "Уссурийск", address: "ул. Сельскохозяйственная, 16А", ll: [43.800389, 131.915237]},
       {city: "Хабаровск", address: "ул. Восточное шоссе, 8Б", ll: [48.482227, 135.145745]},
       {city: "Комсомольск-на-Амуре", address: "ул. Лесозаводская, 6А", ll: [50.5516, 137.036]},
       {city: "Благовещенск", address: "ул. Чехова, 3", ll: [50.273424, 127.566212]}
@@ -67,12 +67,8 @@ block content
         ul.contacts-page__phone-list
           li.contacts-page__phone-list-item
             .contacts-page__phone-link
-              a.fax(href="tel:+74234355500") +7(4234)355-500
-            span телефон/факс
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
               a(href="tel:+79243307799") +7(924)330-77-99
-            span Марина
+            span &nbsp;
 
     -mapIdx = 2; // Хабаровск
     section.section
