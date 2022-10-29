@@ -110,7 +110,7 @@ function makehtml($data) {
         <td>Время</td>
         <td>Город</td>
         <td>Способ</td>
-        <td>Адрес</td>
+        <td style="word-wrap: break-word">Адрес</td>
       </tr>
     </thead>
     <tbody>
