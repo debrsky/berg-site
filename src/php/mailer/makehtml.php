@@ -119,7 +119,7 @@ function makehtml($data) {
         <td style="font-weight: bold; ">{$_($data->{$operation}->{'time'})}</td>
         <td style="font-weight: bold; ">{$_($data->{$operation}->{'place'})}</td>
         <td style="font-weight: bold; ">{$_(array("$operation-point-terminal" => 'Терминал', "$operation-point-client" => 'Подача машины', "$operation-point-pickup" => 'Передача на трассе')[$data->{$operation}->{'point'}])}</td>
-        <td style="font-weight: bold; word-wrap: break-word">{$_($data->{$operation}->{'pointClientAddress'})}</td>
+        <td style="font-weight: bold; word-break:break-all">{$_($data->{$operation}->{'pointClientAddress'})}</td>
       </tr>
     </tbody>
   </table>
@@ -188,14 +188,14 @@ function makehtml($data) {
         </tr>
         <tr>
           <td>Адрес</td>
-          <td style="font-weight: bold; word-wrap: break-word">
+          <td style="font-weight: bold; word-break:break-all">
             {$_(
               ($data->{'loading'}->{'point'} == 'loading-point-terminal')
                 ? ''
                 : $data->{'loading'}->{'pointClientAddress'}
             )}
           </td>
-          <td style="font-weight: bold; word-wrap: break-word">
+          <td style="font-weight: bold; word-break:break-all">
             {$_(
               $data->{'unloading'}->{'point'} == 'unloading-point-terminal'
                 ? ''
