@@ -31,7 +31,7 @@ block content
         balloonContentHeader: 'Весогабаритный контроль',
         balloonContentBody: el.camera_place,
         balloonContentFooter: `${el.serial_no} ${el.camera_model}`,
-        clusterCaption: null,
+        clusterCaption: el.serial_no,
         hintContent: null
       }
     }));
@@ -53,7 +53,7 @@ block content
 
         // https://yandex.ru/dev/maps/jsbox/2.1/object_manager
         objectManager = new ymaps.ObjectManager({
-            clusterize: false
+            clusterize: true
         });
 
         myMap.geoObjects.add(objectManager);
