@@ -3,9 +3,59 @@ block variables
   -title = "Весогабаритный контроль"
 
 block content
+  -
+    // https://гибдд.рф/r/25/milestones
+    // https://гибдд.рф/milestones/download
+    const checkPoints = [
+      {"serial_no":"012/08/2021","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Находка-Лазо-Ольга-Кавалерово км 15+546-15+746","gps_x":"133.0908470000","gps_y":"42.9203160000"},
+      {"serial_no":"b00100029","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Артем - Находка - п. Восточный км 102+900 - км 103+100","gps_x":"132.5283810000","gps_y":"42.9147530000"},
+      {"serial_no":"013/08/2021","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Шкотово - Партизанск км 34+450 - км 34+650","gps_x":"132.8102150000","gps_y":"43.3506210000"},
+      {"serial_no":"b00100027","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Раздольное - Хасан км 102+275 - км 102+475","gps_x":"131.3193780000","gps_y":"42.9446020000"},
+      {"serial_no":"b0010002d","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Осиновка - Рудная Пристань км 134+550 - км 134+750","gps_x":"133.4407640000","gps_y":"44.2948170000"},
+      {"serial_no":"b0010001f","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Поселок Новый  полуостров Де-Фриз  Седанка км 3+760 км 3+960","gps_x":"132.0067910000","gps_y":"43.3461700000"},
+      {"serial_no":"b0010001b","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Подъезд к г. Владивосток от автодороги Хабаровск - Владивосток км 1+860-км 2+060","gps_x":"132.0736920000","gps_y":"43.3419230000"},
+      {"serial_no":"b00100021","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Поселок Новый  полуостров Де-Фриз  Седанка км 3+760 км 3+960","gps_x":"132.0067910000","gps_y":"43.3461700000"},
+      {"serial_no":"b00100025","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Подъезд к аэропорту г. Владивостока км 5+930 - км 6+130","gps_x":"132.1392114900","gps_y":"43.3587302500"},
+      {"serial_no":"b0010001d","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Подъезд к г. Владивосток от автодороги Хабаровск - Владивосток км 1+860-км 2+060","gps_x":"132.0736920000","gps_y":"43.3419230000"},
+      {"serial_no":"b00100023","camera_model":"BETAMONT Measure-in-Motion® ZEUS 2.0","camera_place":"Проезжая часть, Подъезд к аэропорту г. Владивостока км 5+930 - км 6+130","gps_x":"132.1392114900","gps_y":"43.3587302500"}
+    ]
+
+    const features = checkPoints.map((el, idx) => ({
+      type:"Feature",
+      id: idx,
+      geometry: {
+        type: "Point",
+        coordinates: [el.gps_y, el.gps_x]
+      },
+      properties: {
+        balloonContentHeader: 'Весогабаритный контроль',
+        balloonContentBody: el.camera_place,
+        balloonContentFooter: `${el.serial_no} ${el.camera_model}`,
+        clusterCaption: null,
+        hintContent: null
+      }
+    }));
+    const data = {type: "FeatureCollection", features};
   article
-    section
-      a(href="https://primorsky.ru/authorities/executive-agencies/departments/roads/apvk-doc.php")
-        | Информация о функционировании весогабаритного контроля
-    section(style="height: 480px; margin-top: 1em;")
-      script(type="text/javascript", charset="utf-8", async, src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1268a6aa0d85f481364f0b8ca7f70d939375a19e4bac529077c2143a0526395e&amp;width=640&amp;height=480&amp;lang=ru_RU&amp;scroll=true")
+    h3.h3 Пункты автоматического весогабаритного контроля в Приморском крае
+    div(style="font-size: small; text-align: end;") источник #[a(href="https://гибдд.рф/r/25/milestones") гибдд.рф]
+    #map(style="height: 480px; margin-top: 1em;")
+
+    script(src="https://api-maps.yandex.ru/2.1/?apikey=aa281979-9e28-442a-9b8f-43fab62b25e4&lang=ru_RU", type="text/javascript")
+    script.
+      const data = !{JSON.stringify(data)}
+      ymaps.ready(init);
+      function init() {
+        var myMap = new ymaps.Map("map", {
+            center: [43.923093, 133.907727],
+            zoom: 7
+        });
+
+        // https://yandex.ru/dev/maps/jsbox/2.1/object_manager
+        objectManager = new ymaps.ObjectManager({
+            clusterize: false
+        });
+
+        myMap.geoObjects.add(objectManager);
+        objectManager.add(data);
+      }
