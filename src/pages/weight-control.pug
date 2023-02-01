@@ -1,0 +1,11 @@
+extends ../pug/layout
+block variables
+  -title = "Весогабаритный контроль"
+
+block content
+  article
+    section
+      a(href="https://primorsky.ru/authorities/executive-agencies/departments/roads/apvk-doc.php")
+        | Информация о функционировании весогабаритного контроля
+    section(style="height: 480px; margin-top: 1em;")
+      script(type="text/javascript", charset="utf-8", async, src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A1268a6aa0d85f481364f0b8ca7f70d939375a19e4bac529077c2143a0526395e&amp;width=640&amp;height=480&amp;lang=ru_RU&amp;scroll=true")
