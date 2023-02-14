@@ -10,3 +10,8 @@
       После #[time(datetime="2023-03-15") 15 марта 2023 года] договоры,
       заключенные до #[time(datetime="2022-12-31") 31 декабря 2022 года] будут
       считаться утратившими юридическую силу.
+    - const subject = encodeURIComponent('Карточка компании');
+    - const body = encodeURIComponent('Здравствуйте! Для заключения договора высылаем карточку компании. ');
+    p(style="text-align: justify;").
+      Для перезаключения договоров Вам необходимо выслать карточку компании
+      на эл. почту #[a(href=`mailto:berg2004@list.ru?subject=${subject}&body=${body}`) berg2004@list.ru].
