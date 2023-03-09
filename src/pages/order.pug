@@ -248,13 +248,15 @@ block content
           li
             a.link(href="terms.html") Условия перевозки грузов
           li
+            a.link(href="package.html") Требования к упаковке груза
+          li
             a.link(href="pricing.html") Тарифы на грузоперевозку
-            p(style="font-size: small;") 💥 С #[em 1 октября 2022 года] действуют новые тарифы
+            //- p(style="font-size: small;") 💥 С #[em 1 октября 2022 года] действуют новые тарифы
 
         .control-group
           .control.control--required
             input#accept(type="checkbox", name="accept", value="accept")
-            label.control__label(for="accept") Я ознакомился с условиями перевозки грузов и тарифами.
+            label.control__label(for="accept") Подтверждаю, что с условиями перевозки грузов, требованиями к упаковке груза и тарифами на грузоперевозку #[em ознакомлен]
 
         .control-group
           .control.flex.flex-wrap(style="gap: 1ch; justify-content: center; align-items: center;")
