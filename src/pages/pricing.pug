@@ -34,7 +34,7 @@ block content
       .reduce((acc, cur) => cur < acc ? cur : acc);
 
   article.pricing
-    h2.h2 Прайс-лист по направлениям (c 1 октября 2022 года)
+    h2.h2 Прайс-лист по направлениям
     section
       h3.h3 Тарифы на междугороднюю перевозку
       p Если объем 1 тонны груза более 5 кубометров, груз считается легким. В противном случае груз считается тяжелым.
@@ -143,4 +143,4 @@ block content
       |
       time(datetime=startdate.toISOString().substring(0, 10)) #{startdate.toISOString().substring(0, 10)}
       | .
-      | Скачать #[a.pdf(href="files/price/price20221001.pdf") прайс].
+      | Скачать #[a.pdf(href="files/price/price20230501.pdf") прайс].
