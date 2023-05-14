@@ -103,7 +103,7 @@ $order = json_encode($data, JSON_UNESCAPED_UNICODE);
 
 // log
 date_default_timezone_set('Asia/Vladivostok');
-$log_filename = date('Y.M').'.log.txt';
+$log_filename = date('Y.m').'.log.jsonl';
 $myfile = file_put_contents($log_filename, $order.PHP_EOL , FILE_APPEND | LOCK_EX);
 
 // Отображение результата
