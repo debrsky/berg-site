@@ -5,7 +5,7 @@ block variables
     description = "Прайс-лист ТК Берг на услуги грузоперевозки между городами Владивосток, Уссурийск, Хабаровск, Комсомольск-на-Амуре, Благовещенск."
 
 block content
-  include ../pug/tariffs
+  include ../pug/tariffs20230911
 
   -
     const startdate = new Date(tariffs.startdate);
@@ -23,6 +23,7 @@ block content
 
     const truckDeliveryPrices = tariffs.truckDeliveryPrices;
     const oversizedRaisingFactor = tariffs.oversizedRaisingFactor;
+    const loadingOvertimePrice = tariffs.loadingOvertimePrice;
     const heavyCargoPrices = tariffs.heavyCargoPrices;
     const lightCargoPrices = tariffs.lightCargoPrices;
     const minPrices = tariffs.minPrices;
@@ -34,7 +35,7 @@ block content
       .reduce((acc, cur) => cur < acc ? cur : acc);
 
   article.pricing
-    h2.h2 Прайс-лист по направлениям
+    h2.h2 Прайс-лист по направлениям (c #[time(datetime="2023-09-11") 11 сентября 2023 года])
     section
       h3.h3 Тарифы на междугороднюю перевозку
       p Если объем 1 тонны груза более 5 кубометров, груз считается легким. В противном случае груз считается тяжелым.
@@ -122,7 +123,9 @@ block content
     section
       h3.h3 Подача а/м на погрузку/выгрузку
 
-      p #[em Норматив погрузки/выгрузки &mdash; 5 тонн (25 кубометров) в час.]
+      p.
+        #[em Норматив погрузки/выгрузки &mdash; 5 тонн (25 кубометров) в час]. При превышении данного норматива взимается
+        дополнительная плата за простой машины под погрузкой/выгрузкой в размере #[em #{loadingOvertimePrice} руб./час].
 
       table.table
         tbody
@@ -130,22 +133,21 @@ block content
             tr
               td !{priceLine.title}
               td !{priceLine.price}
-      p При массе груза более 5 тонн или объеме груза более 25 кубометров а/м подается бесплатно.
+      p При массе груза 8 тонн и более или объеме груза 40 кубометров и более а/м подается бесплатно.
 
     section
       h3.h3 Примечания
-      p При использовании рефрижераторной установки взимается дополнительная плата #[em #{fridgeTariff} руб./сутки].
       p.
         При перевозке негабаритного груза стоимость за услуги увеличивается на #[em #{Math.round(oversizedRaisingFactor * 100 - 100)}%].
         Негабаритным груз считается, если объем одного места превышает 1 кубометр или одна из линейных величин
-        (длина, ширина, высота) превышает 1 метр; а&nbsp;также места, которые по своим размерам и свойства не могут быть
-        загружены и размещены в транспортном средстве без затруднений.
+        (длина, ширина, высота) превышает 1 метр; а&nbsp;также места, которые по своим размерам и свойствам без затруднений
+        не могут быть загружены и размещены в транспортном средстве.
     section
       h3.h3 Скачать прайс
       p
       | Прайс по направлениям в виде отдельного документа можно скачать здесь:
       |
-      a.pdf(href="files/price/price20230501.pdf") прайс
+      a.pdf(href="files/price/price20230911.pdf") прайс
       | .
 
     p(style="font-size: xx-small; text-align: end;")
