@@ -9,7 +9,7 @@
   "svg.preview.background": "transparent",
 
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "puglint.enable": true,
   "eslint.alwaysShowStatus": true,
