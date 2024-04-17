@@ -1,24 +1,34 @@
 .table {
-  border-collapse: collapse;
-  width: 100%;
-  page-break-inside: auto;
+	border-collapse: collapse;
+	width: 100%;
+	page-break-inside: auto;
 }
 
 .table tr {
-  page-break-inside: avoid;
-  page-break-after: auto;
+	page-break-inside: avoid;
+	page-break-after: auto;
 }
 
 .table th,
 .table td {
-  padding: 0.5ch;
+	padding: 0.5ch;
 }
 
 .table thead:first-of-type tr th {
-  border-bottom: 1px solid grey;
+	border-bottom: 1px solid grey;
 }
 
 .table tbody tr th,
 .table tbody tr td {
-  border-bottom: 1px solid lightgray;
+	border-bottom: 1px solid lightgray;
+}
+
+.table--background {
+	background-color: rgba(255, 255, 255, 0.4);
+	border: 1ch solid transparent;
+}
+
+.table--background caption {
+	background-color: rgba(255, 255, 255, 0.4);
+	padding-top: 1ch;
 }
