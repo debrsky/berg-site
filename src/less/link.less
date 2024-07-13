@@ -5,68 +5,73 @@ a.pdf,
 a[href^="tel:"],
 a[href^="https://wa.me/"],
 a[href^="mailto:"] {
-  text-decoration: none;
-  color: var(--brand-color);
-  white-space: nowrap;
+	text-decoration: none;
+	color: var(--brand-color);
+}
+
+a[href^="tel:"],
+a[href^="https://wa.me/"],
+a[href^="mailto:"] {
+	white-space: nowrap;
 }
 
 a[href^="tel:"]::before,
 a[href^="mailto:"]::before {
-  font-family: "Segoe UI Emoji", emoji, sans-serif;
+	font-family: "Segoe UI Emoji", emoji, sans-serif;
 
-  display: inline-block;
-  text-align: center;
-  width: 3ch;
+	display: inline-block;
+	text-align: center;
+	width: 3ch;
 }
 
 a[href^="tel:"]::before {
-  content: "📱";
+	content: "📱";
 }
 
 a[href^="https://wa.me/"]::before
 {
-  content: "";
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  margin-right: 0.7ch;
-  margin-left: 0.5ch;
-  background-image: url("/img/icons/whatsapp.svg");
-  background-size: 100% 100%;
+	content: "";
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin-right: 0.7ch;
+	margin-left: 0.5ch;
+	background-image: url("/img/icons/whatsapp.svg");
+	background-size: 100% 100%;
 }
 
 a[href^="mailto:"]::before {
-  content: "📧";
+	content: "📧";
 }
 
 a[href^="tel:+742"]::before {
-  content: "📞";
-  content: "☏";
-  content: "☎";
+	content: "📞";
+	content: "☏";
+	content: "☎";
 }
 
 a[href^="tel:"].fax::before {
-  content: "📠";
+	content: "📠";
 }
 
 a.word::before {
-  content: "";
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  margin-right: 0.7ch;
-  /* background-color: red; */
-  background-image: url("/img/icons/word.svg");
-  background-size: 100% 100%;
+	content: "";
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin-right: 0.7ch;
+	/* background-color: red; */
+	background-image: url("/img/icons/word.svg");
+	background-size: 100% 100%;
 }
 
 a.pdf::before {
-  content: "";
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  margin-right: 0.7ch;
-  /* background-color: red; */
-  background-image: url("/img/icons/pdf.svg");
-  background-size: 100% 100%;
+	content: "";
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin-right: 0.7ch;
+	/* background-color: red; */
+	background-image: url("/img/icons/pdf.svg");
+	background-size: 100% 100%;
 }
