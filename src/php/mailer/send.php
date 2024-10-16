@@ -57,14 +57,16 @@ $title = "[$direction] $order_date $cargo ($cargo_weight кг|$cargo_volume м³
 
 $body = $html;
 
+$debug = [];
+
 // Настройки PHPMailer
 $mail = new PHPMailer\PHPMailer\PHPMailer();
 try {
   // $mail->isSMTP(); отключена отправка через SMTP из-за тормозов, отправка через sendmail на порядки (0.1 секунда против 5-15 секунд) быстрее
   $mail->CharSet = "UTF-8";
   $mail->SMTPAuth   = true;
-  //$mail->SMTPDebug = 2;
-  $mail->Debugoutput = function($str, $level) {$GLOBALS['status'][] = $str;};
+  ////commit$mail->SMTPDebug = 2;
+  $mail->Debugoutput = function($str, $level) {$GLOBALS['debug'][] = $str;};
 
   // Настройки вашей почты
   $mail->Host       = $config['Host']; // SMTP сервера вашей почты
@@ -107,4 +109,5 @@ $myfile = file_put_contents($log_filename, $order.PHP_EOL , FILE_APPEND | LOCK_E
 // Отображение результата
 header('Content-Type: application/json; charset=utf-8');
 http_response_code(200);
-echo json_encode(["result" => $result, "status" => $status], JSON_UNESCAPED_UNICODE);
+
+echo json_encode(["result" => $result, "status" => $status, "debug" => sizeof($debug) > 0 ? $debug : null], JSON_UNESCAPED_UNICODE);
