@@ -57,8 +57,6 @@ $title = "[$direction] $order_date $cargo ($cargo_weight кг|$cargo_volume м³
 
 $body = $html;
 
-$mail = new PHPMailer\PHPMailer\PHPMailer();
-
 // Настройки PHPMailer
 $mail = new PHPMailer\PHPMailer\PHPMailer();
 try {
