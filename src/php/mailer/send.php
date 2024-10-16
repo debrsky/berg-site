@@ -65,7 +65,7 @@ try {
   // $mail->isSMTP(); отключена отправка через SMTP из-за тормозов, отправка через sendmail на порядки (0.1 секунда против 5-15 секунд) быстрее
   $mail->CharSet = "UTF-8";
   $mail->SMTPAuth   = true;
-  ////commit$mail->SMTPDebug = 2;
+  //$mail->SMTPDebug = 2;
   $mail->Debugoutput = function($str, $level) {$GLOBALS['debug'][] = $str;};
 
   // Настройки вашей почты
