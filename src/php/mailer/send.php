@@ -63,7 +63,26 @@ $debug = [];
 // Настройки PHPMailer
 $mail = new PHPMailer\PHPMailer\PHPMailer();
 try {
+
+  $useSMTP = false;
+
+  $parts = explode('@', $email);
+  if (count($parts) == 2) {
+    $domain = $parts[1];
+    $spec_domains = [
+      'mail.ru'
+    ];
+    if (in_array($domain, $spec_domains)) {
+      $useSMTP = true;
+    }
+  }
+
   // $mail->isSMTP(); отключена отправка через SMTP из-за тормозов, отправка через sendmail на порядки (0.1 секунда против 5-15 секунд) быстрее
+
+  if ($useSMTP) {
+    $mail->isSMTP();
+  }
+
   $mail->CharSet = "UTF-8";
   $mail->SMTPAuth   = true;
   //$mail->SMTPDebug = 2;
