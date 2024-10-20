@@ -1,5 +1,6 @@
 <?php
 // https://shpaginkirill.medium.com/the-sane-phpmailer-instruction-sending-message-and-files-to-the-mail-4dbbeb395aed
+// https://teletype.in/@shpagin/phpmailer
 
 // Файлы phpmailer
 require 'phpmailer/PHPMailer.php';
