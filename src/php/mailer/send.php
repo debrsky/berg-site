@@ -70,7 +70,11 @@ try {
   if (count($parts) == 2) {
     $domain = $parts[1];
     $spec_domains = [
-      'mail.ru'
+      'mail.ru',
+      'list.ru',
+      'inbox.ru',
+      'bk.ru',
+      'xmail.ru'
     ];
     if (in_array($domain, $spec_domains)) {
       $useSMTP = true;
