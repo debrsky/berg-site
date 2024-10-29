@@ -15,7 +15,9 @@ block content
       const destinationPlaces = new Set();
 
       prices.forEach(({price}) => {
-        Object.keys(price[origin]).forEach((place) => destinationPlaces.add(place))
+        if (price) {
+          Object.keys(price[origin]).forEach((place) => destinationPlaces.add(place))
+        }
       })
 
       return [...destinationPlaces];
@@ -35,7 +37,7 @@ block content
       .reduce((acc, cur) => cur < acc ? cur : acc);
 
   article.pricing
-    h2.h2 Прайс-лист по направлениям (c #[time(datetime="2024-07-01") 1 июля 2024 года])
+    h2.h2 Прайс-лист по направлениям (c #[time(datetime="2024-11-01") 1 ноября 2024 года])
     section
       h3.h3 Тарифы на междугороднюю перевозку
       p Если объем 1 тонны груза более 5 кубометров, груз считается легким. В противном случае груз считается тяжелым.
@@ -68,10 +70,15 @@ block content
 
                   tbody
                     each priceRow in heavyCargoPrices
-                      tr
-                        th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
-                        each destination in destinationPlaces
-                          td=priceRow.price[origin][destination].toString().replace('.', ',')
+                      if priceRow.limit === Infinity
+                        tr
+                          th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
+                          td(colspan=destinationPlaces.length) Машинорейс#[br]по договоренности
+                      else
+                        tr
+                          th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
+                          each destination in destinationPlaces
+                            td=priceRow.price[origin][destination].toString().replace('.', ',')
 
               .pricing__table-wrapper
                 -destinationPlaces = getDestinationPlaces(origin, lightCargoPrices);
@@ -92,10 +99,15 @@ block content
 
                   tbody
                     each priceRow in lightCargoPrices
-                      tr
-                        th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
-                        each destination in destinationPlaces
-                          td=priceRow.price[origin][destination].toString().replace('.', ',')
+                      if priceRow.limit === Infinity
+                        tr
+                          th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
+                          td(colspan=destinationPlaces.length) Машинорейс#[br]по договоренности
+                      else
+                        tr
+                          th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
+                          each destination in destinationPlaces
+                            td=priceRow.price[origin][destination].toString().replace('.', ',')
 
               .pricing__table-wrapper
                 -destinationPlaces = getDestinationPlaces(origin, minPrices);
@@ -147,7 +159,7 @@ block content
       p
       | Прайс по направлениям в виде отдельного документа можно скачать здесь:
       |
-      a.pdf(href="files/price/price20240701.pdf") прайс
+      a.pdf(href="files/price/price20241101.pdf") прайс
       | .
 
     p(style="font-size: xx-small; text-align: end;")

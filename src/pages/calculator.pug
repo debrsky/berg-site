@@ -122,9 +122,10 @@ block content
           };
           const tariff = lightCargoPrices[idx].price?.[origin]?.[destination] ?? null;
           const amount = tariff * volume;
-          const title = "легкий груз " + lightCargoPrices[idx].title
+          const title = "легкий груз " + lightCargoPrices[idx].title;
+          const limit = lightCargoPrices[idx].limit;
 
-          return {title, tariff, amount};
+          return {title, tariff, amount, limit};
         }
 
         const calcHeavyPrice = ({weight, origin, destination}) => {
@@ -137,9 +138,10 @@ block content
           };
           const tariff = heavyCargoPrices[idx].price?.[origin]?.[destination] ?? null;
           const amount = tariff * weight;
-          const title = "тяжелый груз " + heavyCargoPrices[idx].title
+          const title = "тяжелый груз " + heavyCargoPrices[idx].title;
+          const limit = heavyCargoPrices[idx].limit
 
-          return {title, tariff, amount};
+          return {title, tariff, amount, limit};
         }
 
         const calcICEnginePrice = ({params, origin, destination}) => {
@@ -237,7 +239,9 @@ block content
 
           const priceValue = (price && price.amount > 0)
             ? `${parseFloat(price.amount.toFixed(2))} ₽`
-            : '<не рассчитано>';
+            : price.limit === Infinity
+              ? 'Машинорейс по договоренности'
+              : '<не рассчитано>';
 
           const resultElement = form.elements.result;
           resultElement.value = priceValue;
