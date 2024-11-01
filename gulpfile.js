@@ -19,6 +19,7 @@ import sitemap from "./gulp/sitemap.js";
 import ghPages from "./gulp/deploy-to-gh-pages.js";
 import ftpProd from "./gulp/deploy-to-ftp-prod.js";
 import ftpTest from "./gulp/deploy-to-ftp-test.js";
+import zProd from "./gulp/deploy-z.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -40,6 +41,7 @@ const validate = gulp.series(clean, copy, svg, html, pug2html, validateHTML);
 const deployToGh = gulp.series(build, ghPages);
 const deployToFtpProd = gulp.series(build, ftpProd);
 const deployToFtpTest = gulp.series(build, ftpTest);
+const deployToZProd = gulp.series(build, zProd);
 
 export {
   dev,
@@ -57,5 +59,6 @@ export {
   serve,
   deployToGh,
   deployToFtpProd,
-  deployToFtpTest
+  deployToFtpTest,
+  deployToZProd
 };

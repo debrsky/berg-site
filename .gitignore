@@ -1,5 +1,6 @@
 public
 src/php/mailer/config.php
+src/php/deploy/config.php
 
 # Logs
 logs

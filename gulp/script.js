@@ -5,7 +5,7 @@ import {nodeResolve} from "@rollup/plugin-node-resolve";
 import sourcemaps from "gulp-sourcemaps";
 import source from "vinyl-source-stream";
 import buffer from "vinyl-buffer";
-import glob from "glob";
+import * as glob from "glob";
 import path from "path";
 
 // TODO add cache
