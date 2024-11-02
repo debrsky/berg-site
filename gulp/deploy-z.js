@@ -54,7 +54,7 @@ export default async function deployZ() {
     if (!response.ok) {
       const text = await response.text();
       console.log(text);
-      throw new Error(result.error || 'Deploy failed');
+      throw new Error('Deploy failed');
     }
 
     const result = await response.json();
