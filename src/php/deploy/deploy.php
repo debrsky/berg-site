@@ -7,6 +7,9 @@
  * @author Claude from Anthropic
  */
 
+// Фиксируем время начала выполнения скрипта
+$startTime = microtime(true);
+
 header('Content-Type: application/json');
 
 // Загрузка конфигурации
@@ -109,18 +112,23 @@ try {
 
     recursiveDelete($tempDir);
 
+    // Вычисляем время выполнения скрипта в секундах
+    $executionTime = round(microtime(true) - $startTime, 3);
+
     echo json_encode([
         'success' => true,
         'message' => 'Archive successfully deployed',
         'new_files' => $newFiles,
-        'modified_files' => $modifiedFiles
+        'modified_files' => $modifiedFiles,
+        'execution_time' => $executionTime . ' sec'
     ]);
 
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode([
         'error' => 'Deployment failed',
-        'message' => $e->getMessage()
+        'message' => $e->getMessage(),
+        'execution_time' => $executionTime . ' sec'
     ]);
 
     // Очистка в случае ошибки
