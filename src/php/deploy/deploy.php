@@ -57,7 +57,7 @@ try {
     $modifiedFiles = [];
 
     // Рекурсивно копируем те файлы из временной директории, содержимое которых изменилось
-    function recursiveCopy($src, $dst, &$newFiles, &$modifiedFiles) {
+    function recursiveCopy($src, $dst, &$newFiles, &$modifiedFiles, $baseDir) {
       $dir = opendir($src);
       if (!is_dir($dst)) {
           mkdir($dst);
@@ -66,15 +66,16 @@ try {
           if ($file != '.' && $file != '..') {
               $srcFile = $src . '/' . $file;
               $dstFile = $dst . '/' . $file;
+              $relativePath = str_replace($baseDir . '/', '', $dstFile);
 
               if (is_dir($srcFile)) {
-                  recursiveCopy($srcFile, $dstFile, $newFiles, $modifiedFiles);
+                  recursiveCopy($srcFile, $dstFile, $newFiles, $modifiedFiles, $baseDir);
               } else {
                   // Проверяем существует ли файл в целевой директории
                   if (!file_exists($dstFile)) {
                       // Новый файл - копируем
                       copy($srcFile, $dstFile);
-                      $newFiles[] = str_replace($dst . '/', '', $dstFile);
+                      $newFiles[] = $relativePath;
                   } else {
                       // Сравниваем содержимое файлов
                       $srcHash = md5_file($srcFile);
@@ -83,16 +84,16 @@ try {
                       if ($srcHash !== $dstHash) {
                           // Содержимое изменилось - копируем
                           copy($srcFile, $dstFile);
-                          $modifiedFiles[] = str_replace($dst . '/', '', $dstFile);
+                          $modifiedFiles[] = $relativePath;
                       }
                   }
               }
           }
       }
       closedir($dir);
-    }
+  }
 
-    recursiveCopy($tempDir, $targetDir, $newFiles, $modifiedFiles);
+  recursiveCopy($tempDir, $targetDir, $newFiles, $modifiedFiles, $targetDir);
 
     // Очищаем временные файлы
     function recursiveDelete($dir) {
