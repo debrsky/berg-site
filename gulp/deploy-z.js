@@ -1,7 +1,8 @@
 import gulp from "gulp";
 const { src, dest } = gulp;
 import archiver from 'gulp-archiver';
-import * as glob from 'glob';
+// import * as glob from 'glob';
+import { globSync } from 'glob';
 import fs from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
@@ -9,18 +10,13 @@ import fetch from 'node-fetch';
 import { FormData } from 'formdata-node';
 import { fileFromPath } from "formdata-node/file-from-path";
 
-
 export default async function deployZ() {
   // Глобальный паттерн для файлов
-  const pattern = [
-    "public/**",
-    "!public/php/mailer/config.php",
-    "!public/php/deploy/config.php"
-  ];
+  const pattern = "public/**/*";
   const outputFile = join(tmpdir(), `temp-${Date.now()}-${Math.random().toString(36).slice(2)}.zip`);
 
   // Использовать glob для поиска файлов по шаблону
-  const files = glob.sync(pattern, { nodir: true });
+  const files = globSync(pattern, { nodir: true });
 
   // Create archive
   await new Promise((resolve, reject) => {
@@ -59,6 +55,7 @@ export default async function deployZ() {
 
     const result = await response.json();
     console.log('Deploy successful:', result.message);
+    console.log(result);
 
     // Clean up archive file
     fs.unlinkSync(outputFile);
