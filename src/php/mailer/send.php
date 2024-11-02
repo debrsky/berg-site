@@ -74,7 +74,8 @@ try {
       'list.ru',
       'inbox.ru',
       'bk.ru',
-      'xmail.ru'
+      'xmail.ru',
+      'optmail.com' // по заявке клиента
     ];
     if (in_array($domain, $spec_domains)) {
       $useSMTP = true;
