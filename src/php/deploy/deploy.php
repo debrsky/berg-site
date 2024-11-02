@@ -50,11 +50,14 @@ try {
 
     // Перемещаем файлы в целевую директорию
     if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0755, true);
+      mkdir($targetDir, 0755, true);
     }
 
+    $newFiles = [];
+    $modifiedFiles = [];
+
     // Рекурсивно копируем те файлы из временной директории, содержимое которых изменилось
-    function recursiveCopy($src, $dst) {
+    function recursiveCopy($src, $dst, &$newFiles, &$modifiedFiles) {
       $dir = opendir($src);
       if (!is_dir($dst)) {
           mkdir($dst);
@@ -65,12 +68,13 @@ try {
               $dstFile = $dst . '/' . $file;
 
               if (is_dir($srcFile)) {
-                  recursiveCopy($srcFile, $dstFile);
+                  recursiveCopy($srcFile, $dstFile, $newFiles, $modifiedFiles);
               } else {
                   // Проверяем существует ли файл в целевой директории
                   if (!file_exists($dstFile)) {
                       // Новый файл - копируем
                       copy($srcFile, $dstFile);
+                      $newFiles[] = str_replace($dst . '/', '', $dstFile);
                   } else {
                       // Сравниваем содержимое файлов
                       $srcHash = md5_file($srcFile);
@@ -79,14 +83,16 @@ try {
                       if ($srcHash !== $dstHash) {
                           // Содержимое изменилось - копируем
                           copy($srcFile, $dstFile);
+                          $modifiedFiles[] = str_replace($dst . '/', '', $dstFile);
                       }
                   }
               }
           }
       }
       closedir($dir);
-  }
-    recursiveCopy($tempDir, $targetDir);
+    }
+
+    recursiveCopy($tempDir, $targetDir, $newFiles, $modifiedFiles);
 
     // Очищаем временные файлы
     function recursiveDelete($dir) {
@@ -105,7 +111,8 @@ try {
     echo json_encode([
         'success' => true,
         'message' => 'Archive successfully deployed',
-        'backup' => $config['backup']['enabled'] ? $backupName : null
+        'new_files' => $newFiles,
+        'modified_files' => $modifiedFiles
     ]);
 
 } catch (Exception $e) {
