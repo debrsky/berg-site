@@ -1,8 +1,6 @@
 import gulp from "gulp";
 const { src, dest } = gulp;
 import archiver from 'gulp-archiver';
-// import * as glob from 'glob';
-import { globSync } from 'glob';
 import fs from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
@@ -11,16 +9,11 @@ import { FormData } from 'formdata-node';
 import { fileFromPath } from "formdata-node/file-from-path";
 
 export default async function deployZ() {
-  // Глобальный паттерн для файлов
-  const pattern = "public/**/*";
   const outputFile = join(tmpdir(), `temp-${Date.now()}-${Math.random().toString(36).slice(2)}.zip`);
-
-  // Использовать glob для поиска файлов по шаблону
-  const files = globSync(pattern, { nodir: true });
 
   // Create archive
   await new Promise((resolve, reject) => {
-    src(files, { base: 'public' })
+    src(['public/**/*'], { base: 'public' })
       .pipe(archiver(outputFile))
       .pipe(dest('.'))
       .on('end', resolve)
