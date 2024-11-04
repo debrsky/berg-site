@@ -58,6 +58,30 @@ try {
 
     $newFiles = [];
     $modifiedFiles = [];
+    $missingFiles = []; // Массив для хранения файлов, отсутствующих в архиве
+
+    // Получаем список всех файлов в целевой директории до копирования
+    function getFilesList($dir, $prefix = '') {
+      $files = [];
+      $items = array_diff(scandir($dir), array('.', '..'));
+
+      foreach ($items as $item) {
+          $path = $dir . '/' . $item;
+          if (is_dir($path)) {
+              $files = array_merge($files, getFilesList($path, $prefix . $item . '/'));
+          } else {
+              $files[] = $prefix . $item;
+          }
+      }
+      return $files;
+    }
+
+    $existingFiles = getFilesList($targetDir);
+    $tempFiles = getFilesList($tempDir);
+
+    // Находим файлы, которые есть в целевой директории, но отсутствуют во временной
+    $missingFiles = array_values(array_diff($existingFiles, $tempFiles));
+    sort($missingFiles);
 
     // Рекурсивно копируем те файлы из временной директории, содержимое которых изменилось
     function recursiveCopy($src, $dst, &$newFiles, &$modifiedFiles, $baseDir) {
@@ -98,16 +122,16 @@ try {
 
   recursiveCopy($tempDir, $targetDir, $newFiles, $modifiedFiles, $targetDir);
 
-    // Очищаем временные файлы
-    function recursiveDelete($dir) {
-        if (is_dir($dir)) {
-            $files = array_diff(scandir($dir), array('.', '..'));
-            foreach ($files as $file) {
-                $path = $dir . '/' . $file;
-                is_dir($path) ? recursiveDelete($path) : unlink($path);
-            }
-            return rmdir($dir);
-        }
+  // Очищаем временные файлы
+  function recursiveDelete($dir) {
+      if (is_dir($dir)) {
+          $files = array_diff(scandir($dir), array('.', '..'));
+          foreach ($files as $file) {
+              $path = $dir . '/' . $file;
+              is_dir($path) ? recursiveDelete($path) : unlink($path);
+          }
+          return rmdir($dir);
+      }
     }
 
     recursiveDelete($tempDir);
@@ -120,6 +144,7 @@ try {
         'message' => 'Archive successfully deployed',
         'new_files' => $newFiles,
         'modified_files' => $modifiedFiles,
+        'missing_files' => $missingFiles,
         'execution_time' => $executionTime . ' sec'
     ]);
 
