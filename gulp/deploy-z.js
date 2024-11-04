@@ -78,7 +78,7 @@ export default async function deployZ() {
       .on('error', reject);
   });
 
-  console.log('Файлы на сервере, отсутстующие в списке на деплой');
+  console.log('Файлы на сервере, отсутствующие в списке на деплой');
   console.log(Object.keys(serverFileList));
 
   let fileStat;
