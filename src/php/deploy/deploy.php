@@ -25,6 +25,50 @@ if (!$token || $token !== $config['auth_token']) {
     exit;
 }
 
+// Единая функция для получения списка файлов
+// Может возвращать как массив путей, так и массив с хешами файлов
+function getFilesList($dir, $prefix = '', $includeHash = false) {
+  $files = [];
+  $items = array_diff(scandir($dir), array('.', '..'));
+
+  foreach ($items as $item) {
+      $path = $dir . '/' . $item;
+      if (is_dir($path)) {
+          $files = array_merge($files, getFilesList($path, $prefix . $item . '/', $includeHash));
+      } else {
+          if ($includeHash) {
+              $files[$prefix . $item] = md5_file($path);
+          } else {
+              $files[] = $prefix . $item;
+          }
+      }
+  }
+  return $files;
+}
+
+// Если GET запрос - возвращаем список файлов с хешами
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+  $targetDir = $config['target_directory'];
+  $files = getFilesList($targetDir, '', true); // Передаем true для включения хешей
+  ksort($files);
+
+  $executionTime = round(microtime(true) - $startTime, 3);
+
+  echo json_encode([
+      'ok' => true,
+      'files' => $files,
+      'execution_time' => $executionTime . ' sec'
+  ]);
+  exit;
+}
+
+// Для POST запроса продолжаем стандартный флоу
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  http_response_code(405);
+  echo json_encode(['error' => 'Method not allowed']);
+  exit;
+}
+
 // Проверяем наличие загруженного файла
 if (!isset($_FILES['archive']) || $_FILES['archive']['error'] !== UPLOAD_ERR_OK) {
     http_response_code(400);
@@ -60,28 +104,15 @@ try {
     $modifiedFiles = [];
     $missingFiles = []; // Массив для хранения файлов, отсутствующих в архиве
 
+
     // Получаем список всех файлов в целевой директории до копирования
-    function getFilesList($dir, $prefix = '') {
-      $files = [];
-      $items = array_diff(scandir($dir), array('.', '..'));
-
-      foreach ($items as $item) {
-          $path = $dir . '/' . $item;
-          if (is_dir($path)) {
-              $files = array_merge($files, getFilesList($path, $prefix . $item . '/'));
-          } else {
-              $files[] = $prefix . $item;
-          }
-      }
-      return $files;
-    }
-
-    $existingFiles = getFilesList($targetDir);
-    $tempFiles = getFilesList($tempDir);
+    $existingFiles = getFilesList($targetDir, '', false); // Передаем false для получения только путей
+    $tempFiles = getFilesList($tempDir, '', false);
 
     // Находим файлы, которые есть в целевой директории, но отсутствуют во временной
     $missingFiles = array_values(array_diff($existingFiles, $tempFiles));
     sort($missingFiles);
+
 
     // Рекурсивно копируем те файлы из временной директории, содержимое которых изменилось
     function recursiveCopy($src, $dst, &$newFiles, &$modifiedFiles, $baseDir) {
@@ -140,11 +171,11 @@ try {
     $executionTime = round(microtime(true) - $startTime, 3);
 
     echo json_encode([
-        'success' => true,
+        'ok' => true,
         'message' => 'Archive successfully deployed',
+        'missing_files' => $missingFiles,
         'new_files' => $newFiles,
         'modified_files' => $modifiedFiles,
-        'missing_files' => $missingFiles,
         'execution_time' => $executionTime . ' sec'
     ]);
 
