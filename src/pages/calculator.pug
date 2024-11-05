@@ -67,6 +67,7 @@ block content
             .control
               p.h1(style="font-size: xx-large;")
                 output(name="result", aria-live="assertive")
+          p.truck-trip(aria-live="assertive", hidden) Стоимость перевозки грузов машинорейсом рассчитывается в индивидуальном порядке, обращайтесь к #[a.link(href="contacts.html") сотрудникам компании].
           .control-group
             .control
               p.cargo-category(aria-live="assertive") &nbsp;
@@ -242,6 +243,9 @@ block content
             : price.limit === Infinity
               ? 'Машинорейс по договоренности'
               : '<не рассчитано>';
+
+          const truckTripElement = form.querySelector('.truck-trip');
+          truckTripElement.hidden = price.limit < Infinity;
 
           const resultElement = form.elements.result;
           resultElement.value = priceValue;
