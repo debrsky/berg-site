@@ -62,19 +62,19 @@ $debug = [];
 
 function isMailRuDomain($domain): bool
 {
-    if (getmxrr($domain, $mxhosts, $mxweights)) {
-        if (empty($mxhosts)) {
-            return false; // Нет MX записей
-        }
-
-        $primaryMx = $mxhosts[array_search(min($mxweights), $mxweights)];
-        $mx_domain = strtolower($primaryMx);
-
-        // Проверяем, является ли MX запись доменом mail.ru или поддоменом .mail.ru
-        return $mx_domain === 'mail.ru' || (substr($mx_domain, -8) === '.mail.ru');
+  if (getmxrr($domain, $mxhosts, $mxweights)) {
+    if (empty($mxhosts)) {
+      return false; // Нет MX записей
     }
 
-    return false; // Не удалось получить MX записи
+    $primaryMx = $mxhosts[array_search(min($mxweights), $mxweights)];
+    $mx_domain = strtolower($primaryMx);
+
+    // Проверяем, является ли MX запись доменом mail.ru или поддоменом .mail.ru
+    return $mx_domain === 'mail.ru' || (substr($mx_domain, -8) === '.mail.ru');
+  }
+
+  return false; // Не удалось получить MX записи
 }
 
 // Настройки PHPMailer
@@ -87,7 +87,23 @@ try {
   if (count($parts) == 2) {
     $domain = $parts[1];
 
-    $useSMTP = isMailRuDomain($domain);
+    $spec_domains = [
+      'mail.ru',
+      'list.ru',
+      'inbox.ru',
+      'bk.ru',
+      'xmail.ru',
+      // по заявке клиентов
+      'optmail.com',
+      'bildex.ru',
+      'gel-company.ru',
+      'svcompany.trade'
+    ];
+    if (in_array($domain, $spec_domains)) {
+      $useSMTP = true;
+    } else {
+      $useSMTP = isMailRuDomain($domain);
+    }
   }
 
   // $mail->isSMTP(); отключена отправка через SMTP из-за тормозов, отправка через sendmail на порядки (0.1 секунда против 5-15 секунд) быстрее
