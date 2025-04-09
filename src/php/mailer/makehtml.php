@@ -8,10 +8,10 @@ function makehtml($data) {
   // var_dump($order_date);
 
   $cargo = <<<END
-  <table border="1" cellpadding="2" cellspacing="0" style="margin:0; padding:0; border-collapse: collapse; width: 100%;">
-    <caption>
+  <div style="text-align: center;">
       Груз <span style="font-weight: bold; ">{$_($data->cargo->name)}</span>
-    </caption>
+  </div>
+  <table border="1" cellpadding="2" cellspacing="0" style="margin:0; padding:0; border-collapse: collapse; width: 100%;">
     <thead>
       <tr>
         <td style="text-align: center; min-width: 12ch;">Вес, кг</td>
@@ -44,12 +44,12 @@ function makehtml($data) {
 
     if ($data->{$role}->type == 'legal-entity') {
       $counterAgent->{$role} = <<<END
-  <table border="1" cellpadding="2" cellspacing="0" style="margin:0; padding:0; border-collapse: collapse; width: 100%;">
-    <caption>
-      {$_(array('consigner'=>'Грузоотправитель', 'consignee'=>'Грузополучатель', 'payer'=>'Плательщик')[$role])}
-      <span style="font-weight: bold;">{$_($data->{$role}->name)}</span>
-    </caption>
 
+  <div style="text-align: center;">
+    {$_(array('consigner'=>'Грузоотправитель', 'consignee'=>'Грузополучатель', 'payer'=>'Плательщик')[$role])}
+    <span style="font-weight: bold;">{$_($data->{$role}->name)}</span>
+  </div>
+  <table border="1" cellpadding="2" cellspacing="0" style="margin:0; padding:0; border-collapse: collapse; width: 100%;">
     <tbody>
       <tr>
         <td style="padding: 2px;">ИНН</td>
@@ -83,14 +83,12 @@ function makehtml($data) {
 
     if ($data->{$role}->type == "private-person") {
       $counterAgent->{$role} = <<<END
-  <table border="1" cellpadding="2" cellspacing="0" style="margin:0; padding:0; border-collapse: collapse; width: 100%;">
-    <caption>
-      {$_(array('consigner'=>'Грузоотправитель', 'consignee'=>'Грузополучатель', 'payer'=>'Плательщик')[$role])}
-      <span style="font-weight: bold; ">
-        {$_($data->{$role}->{'name'})} {$_($data->{$role}->{'tel'})}
-      </span>
-    </caption>
-  </table>
+  <div style="text-align: center;">
+    {$_(array('consigner'=>'Грузоотправитель', 'consignee'=>'Грузополучатель', 'payer'=>'Плательщик')[$role])}
+    <span style="font-weight: bold; ">
+      {$_($data->{$role}->{'name'})} {$_($data->{$role}->{'tel'})}
+    </span>
+  </div>
   END;
     }
   }
@@ -100,10 +98,10 @@ function makehtml($data) {
   $operationObject = new stdClass();
   foreach(array('loading', 'unloading') as $operation) {
     $operationObject->{$operation} = <<<END
+  <div>
+    {$_(array('loading' => 'Сдача груза', 'unloading' => 'Получение груза')[$operation])}
+  </div>
   <table border="1" cellpadding="2" cellspacing="0" style="margin:0; padding:0; border-collapse: collapse; width: 100%;">
-    <caption>
-      {$_(array('loading' => 'Сдача груза', 'unloading' => 'Получение груза')[$operation])}
-    </caption>
     <thead>
       <tr>
         <td>Дата</td>
