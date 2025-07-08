@@ -97,7 +97,8 @@ try {
       'optmail.com',
       'bildex.ru',
       'gel-company.ru',
-      'svcompany.trade'
+      'svcompany.trade',
+      'zlatodv.ru'
     ];
     if (in_array($domain, $spec_domains)) {
       $useSMTP = true;
