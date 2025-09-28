@@ -11,18 +11,18 @@ mixin contact(role, responsibility)
     };
     const prefix = `${role}-${responsibility}`;
   .control-group.grid12(class=`${prefix}-contact`)&attributes(attributes)
-    .control.grid12__col.grid12__desktop-col.grid12__desktop-col--6
-      label(for=`${prefix}-contact-fio`)
+    .control.grid12__col.grid12__desktop-col.grid12__desktop-col--6&attributes({ class: { 'control--required': responsibility === 'paying' } })
+      label.control__label(for=`${prefix}-contact-fio`)
         case responsibility
           when 'cargo'
-            | Контактное лицо по вопросам передачи груза
+            | Контактное лицо по вопросам передачи груза, ФИО
           when 'paying'
-            | Контактное лицо по вопросам оплаты перевозки
+            | Контактное лицо по вопросам оплаты перевозки, ФИО
 
-      input(id=`${prefix}-contact-fio`, type="text", name=`${prefix}-contact-fio`, data-suggestion-type="name")
-    .control.grid12__col.grid12__desktop-col.grid12__desktop-col--6
-      label(for=`${prefix}-contact-tel`) Телефон
-      input(id=`${prefix}-contact-tel`, type="tel", name=`${prefix}-contact-tel`)
+      input(id=`${prefix}-contact-fio`, type="text", name=`${prefix}-contact-fio`, data-suggestion-type="name", required=responsibility === 'paying')
+    .control.grid12__col.grid12__desktop-col.grid12__desktop-col--6&attributes({ class: { 'control--required': responsibility === 'paying' } })
+      label.control__label(for=`${prefix}-contact-tel`) Телефон
+      input(id=`${prefix}-contact-tel`, type="tel", name=`${prefix}-contact-tel`, required=responsibility === 'paying')
 
 mixin counterpartyRole(role)
   -
