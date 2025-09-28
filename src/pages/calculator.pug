@@ -240,12 +240,12 @@ block content
 
           const priceValue = (price && price.amount > 0)
             ? `${parseFloat(price.amount.toFixed(2))} ₽`
-            : price.limit === Infinity
+            : price && price.limit === Infinity
               ? 'Машинорейс по договоренности'
               : '<не рассчитано>';
 
           const truckTripElement = form.querySelector('.truck-trip');
-          truckTripElement.hidden = price.limit < Infinity;
+          truckTripElement.hidden = price && price.limit < Infinity;
 
           const resultElement = form.elements.result;
           resultElement.value = priceValue;
