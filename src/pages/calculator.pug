@@ -245,7 +245,7 @@ block content
               : '<не рассчитано>';
 
           const truckTripElement = form.querySelector('.truck-trip');
-          truckTripElement.hidden = price && price.limit < Infinity;
+          truckTripElement.hidden = !price || price && price.limit < Infinity;
 
           const resultElement = form.elements.result;
           resultElement.value = priceValue;
