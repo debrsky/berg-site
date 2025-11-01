@@ -137,7 +137,7 @@ mixin cargoOperation(operation)
         label.control__label(class=`${operation}-point-terminal-title`, for=`${operation}-point-terminal`) Терминал перевозчика
       .control.control--required(class=`${operation}-client-control`)
         input(id=`${operation}-point-client`, type="radio", name=`${operation}-point`, value=`${operation}-point-client`)
-        label.control__label(for=`${operation}-point-client`) Подача машины по адресу склада #{{loading:`грузоотправителя`, unloading:`грузополучателя`}[operation] || ''}
+        label.control__label(for=`${operation}-point-client`) Подача машины по адресу склада #{({loading:`грузоотправителя`, unloading:`грузополучателя`})[operation] || ''}
       .control.control--required(class=`${operation}-pickup-control`)
         input(id=`${operation}-point-pickup`, type="radio", name=`${operation}-point`, value=`${operation}-point-pickup`)
         label.control__label(for=`${operation}-point-pickup`) Передача груза на трассе в согласованное с водителем время
