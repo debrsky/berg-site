@@ -21,7 +21,7 @@ export const setPlace = async () => {
     const response = await fetch(url, options);
     if (!response.ok) return;
     const place = await response.json();
-    const {city, region} = place.location.data;
+    const { city, region } = place.location?.data ?? {};
 
     const placeRegions = {
       Приморский: "Владивосток", // eslint-disable-line sonarjs/no-duplicate-string
@@ -50,5 +50,6 @@ export const setPlace = async () => {
     return userPlaceDetected;
   } catch (err) {
     console.error(err);
+
   }
 };
