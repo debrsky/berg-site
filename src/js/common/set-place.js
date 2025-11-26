@@ -17,26 +17,28 @@ export const setPlace = async () => {
   const userPlace = localStorage.getItem("userPlace");
   if (userPlace) return userPlace;
 
+  const placeRegions = {
+    Приморский: "Владивосток", // eslint-disable-line sonarjs/no-duplicate-string
+    Хабаровский: "Хабаровск",
+    Амурская: "Благовещенск"
+  };
+
+  const placeCities = [
+    "Владивосток",
+    "Уссурийск",
+    "Хабаровск",
+    "Благовещенск"
+  ];
+
+  let userPlaceDetected;
+
   try {
     const response = await fetch(url, options);
     if (!response.ok) return;
     const place = await response.json();
-    const { city, region } = place.location?.data ?? {};
+    const { city, region } = place?.location?.data ?? {};
 
-    const placeRegions = {
-      Приморский: "Владивосток", // eslint-disable-line sonarjs/no-duplicate-string
-      Хабаровский: "Хабаровск",
-      Амурская: "Благовещенск"
-    };
 
-    const placeCities = [
-      "Владивосток",
-      "Уссурийск",
-      "Хабаровск",
-      "Благовещенск"
-    ];
-
-    let userPlaceDetected;
     if (placeCities.includes(city)) {
       userPlaceDetected = city;
     } else if (Object.keys(placeRegions).includes(region)) {
@@ -44,12 +46,12 @@ export const setPlace = async () => {
     } else {
       userPlaceDetected = "Владивосток";
     }
-
-    localStorage.setItem("userPlace", userPlaceDetected);
-
-    return userPlaceDetected;
   } catch (err) {
     console.error(err);
-
+    userPlaceDetected = "Владивосток";
   }
+
+  localStorage.setItem("userPlace", userPlaceDetected);
+
+  return userPlaceDetected;
 };
