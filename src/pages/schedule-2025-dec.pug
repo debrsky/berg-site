@@ -34,7 +34,7 @@ block content
         br
         small (выдача груза во Владивостоке уже в 2026 году)
 
-    // Новогодний блок с случайным пожеланием на чистом JS
+    // Новогодний блок с плавной сменой пожеланий каждые 7 сек
     .ny-block(style="display:flex; align-items:center; justify-content:center; gap:50px; margin:80px 0 100px; flex-wrap:wrap;")
       img(src="/img/ny/snowman@172x147.png" alt="" width="172" height="147" style="flex-shrink:0;")
 
@@ -43,8 +43,8 @@ block content
           | С наступающим
           br
           | Новым 2026 годом!
-        p#random-wish(style="margin:0; font-size:1.22em; color:#333;")
-          | Загружаем пожелание…
+
+        p#random-wish(style="margin:0; font-size:1.22em; color:#333; min-height:1.4em; opacity:0; transition:opacity 1.2s ease-in-out;")
 
     script.
       const wishes = [
@@ -79,8 +79,21 @@ block content
         "Счастья, благополучия и перевозок с нами — быстро, выгодно и надёжно!"
       ];
 
-      const wishElement = document.getElementById('random-wish');
-      if (wishElement) {
-        const randomIndex = Math.floor(Math.random() * wishes.length);
-        wishElement.textContent = wishes[randomIndex];
+      const el = document.getElementById('random-wish');
+      let index = 0;
+
+      function showNextWish() {
+        index = (index + 1) % wishes.length;               // следующий по кругу
+        el.style.opacity = '0';                            // плавно скрываем
+        setTimeout(() => {
+          el.textContent = wishes[index];
+          el.style.opacity = '1';                          // плавно показываем
+        }, 600);                                           // половина анимации
       }
+
+      // Первое пожелание сразу
+      el.textContent = wishes[0];
+      el.style.opacity = '1';
+
+      // Меняем каждые 7 секунд
+      setInterval(showNextWish, 7000);
