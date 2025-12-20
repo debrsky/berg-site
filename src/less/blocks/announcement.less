@@ -1,10 +1,15 @@
 .announcement {
   display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 1ch;
   margin-bottom: 1em;
 }
 
 .announcement__block {
-  margin: auto;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
   background-color: var(--brand-color-secondary-lightest);
   padding: 1ch;
   border-radius: 3px;
