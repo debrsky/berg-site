@@ -205,7 +205,7 @@ block content
 
           const ICEnginePrice = calcICEnginePrice({weight, volume, params, origin, destination});
           if (ICEnginePrice && ICEnginePrice.amount > price.amount) {
-            price = ICEnginePrice
+            price = ICEnginePrice;
           }
 
           if (fridgeAmount > 0) {
