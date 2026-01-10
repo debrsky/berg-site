@@ -20,7 +20,7 @@ let docType;
         return;
     }
 
-  fetch(`/get_invoice.php?id_invoice=${invoiceId}&sig=${sig}`)
+  fetch(`/get_invoice.php?id_invoice=${invoiceId}&include_images=base64&sig=${sig}`)
     .then(res => {
         const status = res.status;  // Захватываем статус для сообщений об ошибках
         return res.json()

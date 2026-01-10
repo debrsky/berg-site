@@ -46,7 +46,7 @@ const sitemapTransform = new SitemapTransform({objectMode: true});
 
 export default function sitemap() {
   return gulp
-    .src([htmlDir + `/*.html`], {
+    .src([htmlDir + `/*.html`, '!' + htmlDir + `/client-doc.html`], {
       base: htmlDir
     })
     .pipe(sitemapTransform)
