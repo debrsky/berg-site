@@ -1,0 +1,190 @@
+doctype html
+html(lang="ru")
+  head
+    meta(charset="utf-8")
+    title Документ
+    link(rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%230c98d9%22 /></svg>")
+    style.
+      :root {
+          --page-width: 210mm;
+          --page-height: 297mm;
+          --page-margin-top: 10mm;
+          --page-margin-bottom: 10mm;
+          --page-margin-left: 10mm;
+          --page-margin-right: 10mm;
+
+          font-family: Arial, Helvetica, sans-serif;
+      }
+
+      :root {
+          box-sizing: border-box;
+          background-color: silver;
+      }
+
+      *,
+      ::before,
+      ::after {
+          box-sizing: inherit;
+      }
+
+      body {
+          padding: 0;
+          margin: 0;
+      }
+
+      @page portrait {
+          size: A4 portrait;
+          margin: 10mm 10mm 10mm 10mm;
+      }
+
+      @page landscape {
+          size: A4 landscape;
+          margin: 10mm 10mm 10mm 10mm;
+      }
+
+      .page {
+          padding-left: var(--page-margin-left);
+          padding-right: var(--page-margin-right);
+          padding-top: var(--page-margin-top);
+          padding-bottom: var(--page-margin-bottom);
+          background-color: white;
+          page-break-after: always;
+      }
+
+      .page:last-child {
+          page-break-after: avoid;
+      }
+
+      .page--A4-portrait {
+          page: portrait;
+          width: var(--page-width);
+          height: var(--page-height);
+      }
+
+      .page--A4-landscape {
+          page: landscape;
+          width: var(--page-height);
+          height: var(--page-width);
+      }
+
+      @media print {
+          :root {
+              background: none;
+          }
+
+          body {
+              margin: 0;
+              padding: 0;
+          }
+
+          .page {
+              margin: 0;
+              padding: 0;
+              outline: none;
+              height: unset;
+              transform: none;
+          }
+
+          .page--A4-portrait {
+              max-width: calc(var(--page-width) - var(--page-margin-left) - var(--page-margin-right));
+          }
+
+          .page--A4-landscape {
+              max-width: calc(var(--page-height) - var(--page-margin-top) - var(--page-margin-bottom));
+          }
+
+          .page-container {
+              display: block;
+          }
+      }
+  body
+    style.
+      /* Панель управления */
+      .control-panel {
+          z-index: 100;
+          padding: 1rem;
+          background-color: rgba(200, 200, 200, 0.8);
+          backdrop-filter: blur(1px);
+
+          border: 1px solid #777;
+          box-shadow: 0px 0px 11px 11px rgba(34, 60, 80, 0.3);
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          position: fixed;
+          bottom: 10mm;
+          left: 20mm
+      }
+
+      .control-panel__fieldset {
+          border: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          gap: 1rem;
+      }
+
+      .control-panel__label {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+      }
+
+      .control-panel__input {
+          margin-right: 0.5rem;
+      }
+
+      .control-panel__button {
+          padding: 0.5rem 1rem;
+          border: 1px solid #007bff;
+          background-color: #007bff;
+          color: white;
+          cursor: pointer;
+          border-radius: 4px;
+      }
+
+      .control-panel__button:hover {
+          background-color: #0056b3;
+      }
+
+      .control-panel__button--print {
+          background-color: #28a745;
+          border-color: #28a745;
+      }
+
+      .control-panel__button--print:hover {
+          background-color: #218838;
+      }
+
+      .control-panel__button--save {
+          background-color: #ffc107;
+          border-color: #ffc107;
+          color: #333;
+      }
+
+      .control-panel__button--save:hover {
+          background-color: #e0a800;
+      }
+
+      @media print {
+          .control-panel {
+              display: none;
+              /* Скрываем панель при печати */
+          }
+
+      }
+    article.control-panel(role="group" aria-label="Панель управления УПД")
+      fieldset.control-panel__fieldset
+        label.control-panel__label(for="signature-checkbox")
+          input#signature-checkbox.control-panel__input(type="checkbox" checked aria-checked="true")
+          | Подпись
+        label.control-panel__label(for="stamp-checkbox")
+          input#stamp-checkbox.control-panel__input(type="checkbox" checked aria-checked="true")
+          | Печать
+      button.control-panel__button.control-panel__button--print(aria-label="Отправить на печать") Печать
+      button.control-panel__button.control-panel__button--save(aria-label="Сохранить в файл") Сохранить в файл
+    main
+      section#doc.page.page--A4-landscape
+
+    script(src="js/client-doc.js" type="module")
