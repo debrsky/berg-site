@@ -20,22 +20,44 @@ let docType;
         return;
     }
 
-    fetch(`/get_invoice.php?id_invoice=${invoiceId}&sig=${sig}`)
-        .then(res => {
-            if (!res.ok) {
-                throw new Error(`HTTP error! Status: ${res.status}`);
+  fetch(`/get_invoice.php?id_invoice=${invoiceId}&sig=${sig}`)
+    .then(res => {
+        const status = res.status;  // Захватываем статус для сообщений об ошибках
+        return res.json()
+            .then(json => ({ status, json, isJsonValid: true }))
+            .catch(() => ({ status, json: null, isJsonValid: false }));  // Если не JSON — null
+    })
+    .then(({ status, json, isJsonValid }) => {
+        const isSuccessStatus = (status >= 200 && status < 300);
+
+        if (!isSuccessStatus || (json && json.error)) {
+            // Всегда showError при ошибке
+            let errMsg = '';
+            if (json && json.error) {
+                errMsg = json.error;  // Приоритет: дополнительное сообщение из JSON
+            } else if (!isJsonValid) {
+                errMsg = `Неверный формат ответа (не JSON). Статус: ${status}`;
+            } else {
+                errMsg = `HTTP ошибка! Статус: ${status}`;
             }
-            return res.json();
-        })
-        .then(json => {
-            docData = json;
-            updateDoc();
-        })
-        .catch(error => {
-            console.error('Ошибка загрузки данных:', error);
-            showError('Не удалось загрузить данные счёта. Попробуйте позже или проверьте соединение.');
-        });
-})();
+            showError(errMsg);
+            return;  // Прерываем
+        }
+
+        if (!json) {
+            showError('Данные не получены. Попробуйте позже.');
+            return;
+        }
+
+        docData = json;
+        updateDoc();
+    })
+    .catch(error => {
+        console.error('Ошибка загрузки данных:', error);
+        showError('Не удалось загрузить данные счёта. Попробуйте позже или проверьте соединение.');
+    });
+
+  })();
 
 function updateDoc() {
     if (!docData) return;
