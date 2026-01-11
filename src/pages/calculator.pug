@@ -239,7 +239,7 @@ block content
           cargoCategoryElement.innerHTML = categoryMessage;
 
           const priceValue = (price && price.amount > 0)
-            ? `${parseFloat(price.amount.toFixed(2))} ₽`
+            ? `${fmtMoney(price.amount)} ₽, в том числе НДС 5% — ${fmtMoney(price.amount * 5 / 105)} ₽`
             : price && price.limit === Infinity
               ? 'Машинорейс по договоренности'
               : '<не рассчитано>';
@@ -264,4 +264,17 @@ block content
 
           form.dispatchEvent(new Event('input'));
         });
+
+        // Функция форматирования денег
+        function fmtMoney(value, digits = 2) {
+          if (typeof value !== 'number' || isNaN(value)) {
+            return '';
+          }
+          return value.toLocaleString('ru-RU', {
+            style: 'decimal',
+            minimumFractionDigits: digits,
+            maximumFractionDigits: digits
+          });
+        }
+
       })();
