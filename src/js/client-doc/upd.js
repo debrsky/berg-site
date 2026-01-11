@@ -72,14 +72,14 @@ export function generateUPD(data, options = {}) {
   // Итоговая строка
   const totalRow = `
   <tr>
-    <td style="border-left: none; border-bottom: none;"></td>
-    <td colspan="7" style="border-bottom: none;" class="upd-border-left-bold upd-text-right upd-padding-right">Всего к оплате (9)</td>
+    <td style="border-left-color: transparent; border-bottom-color: transparent;"></td>
+    <td colspan="7" style="border-bottom-color: transparent;" class="upd-border-left-bold upd-text-right upd-padding-right">Всего к оплате (9)</td>
     <td class="upd-money upd-text-bold">${amountWithoutNds}</td>
     <td class="upd-text-center upd-valign-middle">--</td>
     <td class="upd-text-center upd-valign-middle">x</td>
     <td class="${nds === 0 ? 'upd-text-center' : 'upd-money upd-text-bold'}">${nds === 0 ? '--' : ndsAmount}</td>
     <td class="upd-money upd-text-bold">${amount}</td>
-    <td colspan="3" style="border-right: none; border-bottom: none;"></td>
+    <td colspan="3" style="border-right-color: transparent; border-bottom-color: transparent;"></td>
   </tr>`;
 
   // Подписи и изображения
