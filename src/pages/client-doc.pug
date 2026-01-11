@@ -168,6 +168,10 @@ html(lang="ru")
           background-color: #e0a800;
       }
 
+      .control-panel__radio {
+        margin-right: 0.5rem;
+      }
+
       @media print {
           .control-panel {
               display: none;
@@ -175,17 +179,28 @@ html(lang="ru")
           }
 
       }
-    article.control-panel(role="group" aria-label="Панель управления УПД")
+    article.control-panel(role="group" aria-label="Панель управления")
       fieldset.control-panel__fieldset
+        legend.control-panel__label Показывать:
         label.control-panel__label(for="signature-checkbox")
           input#signature-checkbox.control-panel__input(type="checkbox" checked aria-checked="true")
           | Подпись
         label.control-panel__label(for="stamp-checkbox")
           input#stamp-checkbox.control-panel__input(type="checkbox" checked aria-checked="true")
           | Печать
+
+      fieldset.control-panel__fieldset
+        legend.control-panel__label Тип документа:
+        label.control-panel__label(for="doc-type-bill")
+          input#doc-type-bill.control-panel__input.control-panel__radio(type="radio" name="doc-type" value="bill" aria-label="Счёт")
+          | Счёт
+        label.control-panel__label(for="doc-type-upd")
+          input#doc-type-upd.control-panel__input.control-panel__radio(type="radio" name="doc-type" value="upd" aria-label="УПД")
+          | УПД
+
       button.control-panel__button.control-panel__button--print(aria-label="Отправить на печать") Печать
       button.control-panel__button.control-panel__button--save(aria-label="Сохранить в файл") Сохранить в файл
     main
-      section#doc.page.page--A4-landscape
+      section#doc.page
 
     script(src="js/client-doc.js" type="module")

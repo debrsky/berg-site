@@ -1,7 +1,6 @@
 import { generateInvoice } from './client-doc/invoice.js';
 import { generateUPD } from './client-doc/upd.js';
 
-let updHtml;
 let doc;
 let showSignature = true;
 let showStamp = true;
@@ -83,8 +82,35 @@ function showError(message) {
 // Слушатели для панели
 const signatureCheckbox = document.getElementById('signature-checkbox');
 const stampCheckbox = document.getElementById('stamp-checkbox');
+const docTypeRadios = document.querySelectorAll('input[name="doc-type"]');
 const printButton = document.querySelector('.control-panel__button--print');
 const saveButton = document.querySelector('.control-panel__button--save');
+
+if (docTypeRadios.length > 0) {
+    docTypeRadios.forEach(radio => {
+        if (radio.value === docType) {
+            radio.checked = true;
+            radio.setAttribute('aria-checked', 'true');
+        } else {
+            radio.setAttribute('aria-checked', 'false');
+        }
+    });
+};
+
+docTypeRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        if (e.target.checked) {
+            docType = e.target.value;
+            // Обновляем ARIA для всех (для доступности)
+            docTypeRadios.forEach(r => r.setAttribute('aria-checked', r.checked));
+            // Обновляем URL без перезагрузки
+            const url = new URL(window.location);
+            url.searchParams.set('type', docType);
+            history.replaceState(null, '', url.toString());
+            updateDoc();
+        }
+    });
+});
 
 signatureCheckbox.addEventListener('change', (e) => {
     showSignature = e.target.checked;
