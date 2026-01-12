@@ -343,7 +343,7 @@ img.doc-image:not([src]) {
         <td style="width: 10mm;"> </td>
         <td style="">Индивидуальный предприниматель</td>
         <td style="width: 37mm;" class="doc-border-bottom doc-image-container">
-          <img style="bottom: -2mm; left: 5mm; width: 27mm" src="${options.signature ? signatureSrc : ''}" alt="рукописная подпись" class="doc-image doc-image--signature">
+          <img style="top: -12mm; left: 5mm; width: 27mm" src="${options.signature ? signatureSrc : ''}" alt="рукописная подпись" class="doc-image doc-image--signature">
         </td>
         <td style="width: 10mm;"> </td>
         <td style="width: 40mm;" class="doc-valign-bottom">${seller.ceo ?? ''}</td>

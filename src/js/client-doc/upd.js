@@ -573,7 +573,7 @@ ${totalRow}
               <tr>
                 <td style="width: 35ch;">Индивидуальный предприниматель<br>или иное уполномоченное лицо</td>
                 <td style="width: 27mm;" class="upd-border-bottom upd-image-container">
-                  <img style="bottom: -2mm; left: 0; width: 27mm" src="${(options.signature && updStatus === 1) ? signatureSrc : ''}" alt="рукописная подпись" class="upd-image upd-image--signature">
+                  <img style="top: -10mm; left: 0; width: 27mm;" src="${(options.signature && updStatus === 1) ? signatureSrc : ''}" alt="рукописная подпись" class="upd-image upd-image--signature">
                 </td>
                 <td style="width: 3mm;"> </td>
                 <td style="width: 50mm;" class="upd-border-bottom upd-valign-bottom">${seller.ceo ?? ''}</td>
@@ -635,7 +635,7 @@ ${totalRow}
                 <td style="width: 50mm; height: 2em;" class="upd-border-bottom upd-text-center upd-valign-bottom">${positionTitle}</td>
                 <td style="width: 3mm;"> </td>
                 <td style="width: 27mm" class="upd-border-bottom upd-image-container">
-                  <img style="bottom: -4mm; left: 0; width: 27mm;" src="${(options.signature && updStatus === 2) ? signatureSrc : ''}" alt="рукописная подпись" class="upd-image upd-image--signature">
+                  <img style="top: -10mm; left: 0; width: 27mm;" src="${(options.signature && updStatus === 2) ? signatureSrc : ''}" alt="рукописная подпись" class="upd-image upd-image--signature">
                 </td>
                 <td style="width: 3mm;"> </td>
                 <td class="upd-border-bottom upd-valign-bottom">${seller.ceo ?? ''}</td>
