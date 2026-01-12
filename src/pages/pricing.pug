@@ -39,7 +39,7 @@ block content
   article.pricing
     h2.h2 Прайс-лист по направлениям (c #[time(datetime="2026-01-01") 1 января 2026 года])
     section
-      h3.h3 Тарифы на междугороднюю перевозку (включая НДС 5%)
+      h3.h3 Тарифы на междугороднюю перевозку (включая НДС)
       p Если объем 1 тонны груза более 5 кубометров, груз считается легким. В противном случае груз считается тяжелым.
       -let destinationPlaces;
       .pricing__directions
@@ -58,7 +58,7 @@ block content
                   caption
                     h5.h5 Тяжелый груз
                     span.pricing__table-measure-unit руб./кг
-                    span.pricing__table-vat-warning в том числе НДС 5%
+                    span.pricing__table-vat-warning в том числе НДС
 
                   thead
                     tr
@@ -88,7 +88,7 @@ block content
                     h5.h5
                       span(title="Груз считается легким, если объем 1 тонны груза более 5 кубометров") Легкий груз
                     span.pricing__table-measure-unit руб./м³
-                    span.pricing__table-vat-warning в том числе НДС 5%
+                    span.pricing__table-vat-warning в том числе НДС
 
                   thead
                     tr
@@ -117,7 +117,7 @@ block content
                   caption
                     h5.h5 Минимально за мелкий груз
                     span.pricing__table-measure-unit руб.
-                    span.pricing__table-vat-warning в том числе НДС 5%
+                    span.pricing__table-vat-warning в том числе НДС
 
                   thead
                     tr
@@ -136,7 +136,7 @@ block content
                           td=priceRow.price[origin][destination].toString().replace('.', ',')
 
     section
-      h3.h3 Подача а/м на погрузку/выгрузку (включая НДС 5%)
+      h3.h3 Подача а/м на погрузку/выгрузку (включая НДС)
 
       p.
         #[em Норматив погрузки/выгрузки &mdash; 5 тонн (25 кубометров) в час]. При превышении данного норматива взимается

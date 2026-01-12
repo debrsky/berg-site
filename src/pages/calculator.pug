@@ -239,7 +239,7 @@ block content
           cargoCategoryElement.innerHTML = categoryMessage;
 
           const priceValue = (price && price.amount > 0)
-            ? `${fmtMoney(price.amount)} ₽, в том числе НДС 5% — ${fmtMoney(price.amount * 5 / 105)} ₽`
+            ? `${fmtMoney(price.amount)} ₽`
             : price && price.limit === Infinity
               ? 'Машинорейс по договоренности'
               : '<не рассчитано>';
