@@ -13,9 +13,9 @@ export function generateUPD(data, options = {}) {
   const consignerStr = [consigner.name, consigner.address].filter(Boolean).join(', ');
   const consigneeStr = [consignee.name, consignee.address].filter(Boolean).join(', ');
   const positionTitle = isIp ? 'Индивидуальный предприниматель' : '';
-  const amountWithoutNds = fmtMoney(data?.amountWithoutNds ?? 0);
-  const ndsAmount = fmtMoney(data?.ndsAmount ?? 0);
-  const amount = fmtMoney(data?.amount ?? 0);
+  const amountWithoutNds = fmtMoney(data?.total_amount_without_nds ?? 0);
+  const ndsAmount = fmtMoney(data?.total_nds_amount ?? 0);
+  const amount = fmtMoney(data?.total_amount ?? 0);
 
   // Функция форматирования денег (из исходного скрипта)
   function fmtMoney(value, digits = 2) {
@@ -56,11 +56,11 @@ export function generateUPD(data, options = {}) {
     <td class="upd-text-center">${item?.mUcode ?? ''}</td>
     <td class="upd-text-center">${item?.mU ?? ''}</td>
     <td class="upd-text-center">${fmtNumber(item?.qty ?? '')}</td>
-    <td class="upd-money">${fmtMoney(item?.priceWithoutNds ?? 0, 4)}</td>
-    <td class="upd-money">${fmtMoney(item?.amountWithoutNds ?? 0)}</td>
+    <td class="upd-money">${fmtMoney(item?.price_without_nds ?? 0, 4)}</td>
+    <td class="upd-money">${fmtMoney(item?.amount_without_nds ?? 0)}</td>
     <td class="upd-text-center">--</td>
     <td class="upd-text-center">${nds === 0 ? '--' : `${nds}%`}</td>
-    <td class="${nds === 0 ? 'upd-text-center' : 'upd-money'}">${nds === 0 ? '--' : fmtMoney(item?.ndsAmount ?? 0)}</td>
+    <td class="${nds === 0 ? 'upd-text-center' : 'upd-money'}">${nds === 0 ? '--' : fmtMoney(item?.nds_amount ?? 0)}</td>
     <td class="upd-money">${fmtMoney(item?.amount ?? 0)}</td>
     <td></td>
     <td></td>

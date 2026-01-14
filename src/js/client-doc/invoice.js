@@ -13,9 +13,9 @@ export function generateInvoice(data, options = {}) {
   const consignerStr = [consigner.name, consigner.address].filter(Boolean).join(', ');
   const consigneeStr = [consignee.name, consignee.address].filter(Boolean).join(', ');
   const positionTitle = isIp ? 'Индивидуальный предприниматель' : '';
-  const amountWithoutNds = fmtMoney(data?.amountWithoutNds ?? 0);
-  const ndsAmount = fmtMoney(data?.ndsAmount ?? 0);
-  const amount = fmtMoney(data?.amount ?? 0);
+  const amountWithoutNds = fmtMoney(data?.total_amount_without_nds ?? 0);
+  const ndsAmount = fmtMoney(data?.total_nds_amount ?? 0);
+  const amount = fmtMoney(data?.total_amount ?? 0);
 
   // Функция форматирования денег
   function fmtMoney(value, digits = 2) {
