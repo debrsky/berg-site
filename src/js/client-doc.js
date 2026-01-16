@@ -78,16 +78,16 @@ function updateDoc() {
 
         const watermark = document.createElement('div');
         watermark.className = 'watermark';
-        watermark.innerHTML = 'НЕДЕЙСТВИТЕЛЬНО';
+        watermark.innerHTML = 'ОБРАЗЕЦ';
 
         // Добавляем стили inline (или в отдельный style, но inline проще для изоляции)
         watermark.style.position = 'absolute';
         watermark.style.top = '50%';
         watermark.style.left = '50%';
         watermark.style.transform = 'translate(-50%, -50%) rotate(-45deg)';
-        watermark.style.fontSize = '4rem';  // Большой размер
+        watermark.style.fontSize = '6rem';  // Большой размер
         watermark.style.fontWeight = 'bold';
-        watermark.style.color = 'red';
+        watermark.style.color = 'green';
         watermark.style.opacity = '0.5';  // Полупрозрачный
         watermark.style.pointerEvents = 'none';  // Не мешает взаимодействию
         watermark.style.zIndex = '999';  // Поверх всего
