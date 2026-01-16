@@ -792,7 +792,7 @@ ${totalRow}
           <table class="upd-layout-table">
             <tbody>
               <tr>
-                <td style="height: 2em;" class="upd-border-bottom upd-valign-bottom">${payer.name ?? ''}</td>
+                <td style="height: 2em;" class="upd-border-bottom upd-valign-bottom"> </td>
                 <td style="width: 6mm;" class="upd-valign-bottom">[21]</td>
               </tr>
               <tr>
