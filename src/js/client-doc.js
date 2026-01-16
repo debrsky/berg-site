@@ -69,6 +69,31 @@ function updateDoc() {
     docElement.innerHTML = doc.html;
 
     document.title = `${doc.title} №${docData.nomer} от ${docData.inv_date}. ${docData.seller.name}`;
+
+    const hostname = window.location.hostname.toLowerCase();
+    const isDev = hostname.startsWith('dev.');
+
+    if (isDev) {
+        docElement.style.position = 'relative';
+
+        const watermark = document.createElement('div');
+        watermark.className = 'watermark';
+        watermark.innerHTML = 'НЕДЕЙСТВИТЕЛЬНО';
+
+        // Добавляем стили inline (или в отдельный style, но inline проще для изоляции)
+        watermark.style.position = 'absolute';
+        watermark.style.top = '50%';
+        watermark.style.left = '50%';
+        watermark.style.transform = 'translate(-50%, -50%) rotate(-45deg)';
+        watermark.style.fontSize = '4rem';  // Большой размер
+        watermark.style.fontWeight = 'bold';
+        watermark.style.color = 'red';
+        watermark.style.opacity = '0.5';  // Полупрозрачный
+        watermark.style.pointerEvents = 'none';  // Не мешает взаимодействию
+        watermark.style.zIndex = '999';  // Поверх всего
+
+        docElement.appendChild(watermark);
+    }
 }
 
 function showError(message) {
