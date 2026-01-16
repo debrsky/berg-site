@@ -14,17 +14,36 @@ import { FormData } from 'formdata-node';
 import { fileFromPath } from "formdata-node/file-from-path";
 
 export default async function deployZ() {
+  const env = process.env.DEPLOY_ENV || 'dev'; // По умолчанию dev
+  if (!['dev', 'prod'].includes(env)) {
+    throw new Error(`Неверное значение DEPLOY_ENV: "${env}". Допустимо: 'dev' или 'prod'.`);
+  }
+
+  let deployUrl, deployToken;
+  if (env === 'dev') {
+    deployUrl = process.env.DEPLOY_DEV_URL;
+    deployToken = process.env.DEPLOY_DEV_TOKEN;
+  } else {
+    deployUrl = process.env.DEPLOY_PROD_URL;
+    deployToken = process.env.DEPLOY_PROD_TOKEN;
+  }
+
+  if (!deployUrl || !deployToken) {
+    throw new Error(`Отсутствуют переменные окружения для ${env}: DEPLOY_${env.toUpperCase()}_URL или DEPLOY_${env.toUpperCase()}_TOKEN.`);
+  }
+
+  console.log(`Деплой на сервер: ${env} (URL: ${deployUrl})`);
+
   const outputFile = join(tmpdir(), `temp-${Date.now()}-${Math.random().toString(36).slice(2)}.zip`);
 
   const serverFileList = {};
 
   // get file list
   try {
-    const url = process.env.DEPLOY_URL;
-    const response = await fetch(url, {
+    const response = await fetch(deployUrl, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${process.env.DEPLOY_TOKEN}`,
+        'Authorization': `Bearer ${deployToken}`,
       }
     });
 
@@ -97,13 +116,11 @@ export default async function deployZ() {
 
     formData.append('archive', await fileFromPath(outputFile));
 
-    // const url = 'https://httpbin.org/post';
-    const url = process.env.DEPLOY_URL;
-    const response = await fetch(url, {
+    const response = await fetch(deployUrl, {
       method: 'POST',
       body: formData,
       headers: {
-        'Authorization': `Bearer ${process.env.DEPLOY_TOKEN}`,
+        'Authorization': `Bearer ${deployToken}`,
       }
     });
 
