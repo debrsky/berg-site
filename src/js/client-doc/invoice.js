@@ -320,7 +320,7 @@ img.doc-image:not([src]) {
         <th style="width: 10ch;">Цена</th>
         <th style="width: 12ch;">Сумма</th>
       </tr>
-    <thead>
+    </thead>
     <tbody>
       ${detailsRows}
       <tr>
