@@ -42,6 +42,7 @@ function addDevNotification() {
     notification.style.padding = '10px';
     notification.style.textAlign = 'center';
     notification.style.fontWeight = 'bold';
+    notification.style.opacity = '.7';
     notification.style.zIndex = '9999'; // Чтобы был поверх всего
 
     // Вставляем в начало body
