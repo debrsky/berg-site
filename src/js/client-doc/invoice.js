@@ -254,6 +254,7 @@ export function generateInvoice(data, options = {}) {
   display: block;
   position: absolute;
   pointer-events: none;
+  mix-blend-mode: multiply;
 }
 
 .doc-image--stamp {

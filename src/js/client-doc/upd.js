@@ -264,6 +264,7 @@ export function generateUPD(data, options = {}) {
   display: block;
   position: absolute;
   pointer-events: none;
+  mix-blend-mode: multiply;
 }
 
 .upd-image--stamp {
