@@ -13,9 +13,9 @@ export function generateUPD(data, options = {}) {
   const consignerStr = [consigner.name, consigner.address].filter(Boolean).join(', ');
   const consigneeStr = [consignee.name, consignee.address].filter(Boolean).join(', ');
   const positionTitle = isIp ? 'Индивидуальный предприниматель' : '';
-  const amountWithoutNds = fmtMoney(data?.total_amount_without_nds ?? 0);
-  const ndsAmount = fmtMoney(data?.total_nds_amount ?? 0);
-  const amount = fmtMoney(data?.total_amount ?? 0);
+  const amountWithoutNds = data?.total_amount_without_nds ?? 0;
+  const ndsAmount = data?.total_nds_amount ?? 0;
+  const amount = data?.total_amount ?? 0;
 
   // Функция форматирования денег (из исходного скрипта)
   function fmtMoney(value, digits = 2) {
@@ -74,15 +74,16 @@ export function generateUPD(data, options = {}) {
   }
 
   // Итоговая строка
+
   const totalRow = `
   <tr>
     <td style="border-left-color: transparent; border-bottom-color: transparent;"></td>
     <td colspan="7" style="border-bottom-color: transparent;" class="upd-border-left-bold upd-text-right upd-padding-right">Всего к оплате (9)</td>
-    <td class="upd-money upd-text-bold">${amountWithoutNds}</td>
+    <td class="upd-money upd-text-bold">${fmtMoney(amountWithoutNds)}</td>
     <td class="upd-text-center upd-valign-middle">--</td>
     <td class="upd-text-center upd-valign-middle">x</td>
-    <td class="${ndsAmount === 0 ? 'upd-text-center' : 'upd-money upd-text-bold'}">${ndsAmount === 0 ? '--' : ndsAmount}</td>
-    <td class="upd-money upd-text-bold">${amount}</td>
+    <td class="${ndsAmount === 0 ? 'upd-text-center' : 'upd-money upd-text-bold'}">${ndsAmount === 0 ? '--' : fmtMoney(ndsAmount)}</td>
+    <td class="upd-money upd-text-bold">${fmtMoney(amount)}</td>
     <td colspan="3" style="border-right-color: transparent; border-bottom-color: transparent;"></td>
   </tr>`;
 
