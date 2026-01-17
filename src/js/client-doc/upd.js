@@ -47,6 +47,7 @@ export function generateUPD(data, options = {}) {
     detailsRows = '<tr><td colspan="16" class="upd-text-center">Нет позиций в счёте.</td></tr>';
   } else {
     details.forEach((item, index) => {
+      const itemNds = item?.nds ?? 0;
       detailsRows += `
   <tr>
     <td></td>
@@ -59,8 +60,8 @@ export function generateUPD(data, options = {}) {
     <td class="upd-money">${fmtMoney(item?.price_without_nds ?? 0, 4)}</td>
     <td class="upd-money">${fmtMoney(item?.amount_without_nds ?? 0)}</td>
     <td class="upd-text-center">--</td>
-    <td class="upd-text-center">${nds === 0 ? '--' : `${nds}%`}</td>
-    <td class="${nds === 0 ? 'upd-text-center' : 'upd-money'}">${nds === 0 ? '--' : fmtMoney(item?.nds_amount ?? 0)}</td>
+    <td class="upd-text-center">${itemNds === 0 ? '--' : `${itemNds}%`}</td>
+    <td class="${itemNds === 0 ? 'upd-text-center' : 'upd-money'}">${itemNds === 0 ? '--' : fmtMoney(item?.nds_amount ?? 0)}</td>
     <td class="upd-money">${fmtMoney(item?.amount ?? 0)}</td>
     <td></td>
     <td></td>
