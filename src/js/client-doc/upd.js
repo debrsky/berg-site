@@ -57,7 +57,10 @@ export function generateUPD(data, options = {}) {
     <td class="upd-text-center">${item?.mUcode ?? ''}</td>
     <td class="upd-text-center">${item?.mU ?? ''}</td>
     <td class="upd-text-center">${fmtNumber(item?.qty ?? '')}</td>
-    <td class="upd-money">${fmtMoney(item?.price_without_nds ?? 0, 6)}</td>
+    <td class="upd-money">${
+      fmtMoney(item?.price_without_nds ?? 0, 6)
+        .replace(/(,\d{2})\d*?0+$/, '$1') /* Убираем нули после второго знака после запятой */
+    }</td>
     <td class="upd-money">${fmtMoney(item?.amount_without_nds ?? 0)}</td>
     <td class="upd-text-center">--</td>
     <td class="upd-text-center">${itemNds === 0 ? '--' : `${itemNds}%`}</td>
@@ -78,7 +81,7 @@ export function generateUPD(data, options = {}) {
     <td class="upd-money upd-text-bold">${amountWithoutNds}</td>
     <td class="upd-text-center upd-valign-middle">--</td>
     <td class="upd-text-center upd-valign-middle">x</td>
-    <td class="${nds === 0 ? 'upd-text-center' : 'upd-money upd-text-bold'}">${nds === 0 ? '--' : ndsAmount}</td>
+    <td class="${ndsAmount === 0 ? 'upd-text-center' : 'upd-money upd-text-bold'}">${ndsAmount === 0 ? '--' : ndsAmount}</td>
     <td class="upd-money upd-text-bold">${amount}</td>
     <td colspan="3" style="border-right-color: transparent; border-bottom-color: transparent;"></td>
   </tr>`;
