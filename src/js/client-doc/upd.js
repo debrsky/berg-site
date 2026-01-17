@@ -59,7 +59,7 @@ export function generateUPD(data, options = {}) {
     <td class="upd-text-center">${fmtNumber(item?.qty ?? '')}</td>
     <td class="upd-money">${
       fmtMoney(item?.price_without_nds ?? 0, 6)
-        .replace(/(,\d{2})\d*?0+$/, '$1') /* Убираем нули после второго знака после запятой */
+        .replace(/(,\d{2}\d*?)0+$/, '$1') /* Убираем нули после второго знака после запятой */
     }</td>
     <td class="upd-money">${fmtMoney(item?.amount_without_nds ?? 0)}</td>
     <td class="upd-text-center">--</td>
