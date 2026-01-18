@@ -334,7 +334,7 @@ img.upd-image:not([src]) {
           <table class="upd-layout-table">
             <tbody>
               <tr>
-                <td style="width: 50%;" class="upd-padding-right">
+                <td style="width: 50%;" class="upd-padding-right upd-valign-top">
                   <table class="upd-layout-table">
                     <tbody>
                       <tr>
