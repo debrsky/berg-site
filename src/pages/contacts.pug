@@ -11,7 +11,7 @@ block head
       {city: "Владивосток", address: "пр-кт 100-летия Владивостока, 161А", ll: [43.189470, 131.915753]},
       {city: "Уссурийск", address: "ул. Сельскохозяйственная, 16А", ll: [43.800389, 131.915237]},
       {city: "Хабаровск", address: "ул. Восточное шоссе, 8Б", ll: [48.482227, 135.145745]},
-      {city: "Комсомольск-на-Амуре", address: "ул. Лесозаводская, 6А", ll: [50.5516, 137.036]},
+      {city: "Комсомольск-на-Амуре", address: "ул. Лесозаводская, 5В", ll: [50.547668, 137.038033]},
       {city: "Благовещенск", address: "ул. Чехова, 3", ll: [50.273424, 127.566212]}
     ]
 
@@ -132,9 +132,8 @@ block content
         address
           -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
           span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-        h4 ТЭС
         ul.contacts-page__phone-list
           li.contacts-page__phone-list-item
             .contacts-page__phone-link
-              a(href="tel:+79241042323") +79241042323
-            span Анна
+              a(href="tel:+79244114161") +79244114161
+            span Наталья
