@@ -272,6 +272,15 @@ img.doc-image:not([src]) {
   display: none;
 }
 
+.doc-warning {
+  text-align: center;
+  font-size: var(--doc-text-size-large);
+  border: 1pt solid firebrick;
+  padding: .5em;
+  color: firebrick;
+  font-weight: bold;
+}
+
 </style>
 <article class="doc">
   <table class="doc-layout-table doc-layout-table--real">
@@ -301,7 +310,7 @@ img.doc-image:not([src]) {
       </tr>
     <tbody>
   </table>
-
+  <p class="doc-warning">Внимание! Срок оплаты счета 3 рабочих дня.</p>
   <h1 class="doc-h1 doc-text-center doc-text-bold">Счет на оплату <span style="margin-right: 0.2ch;">№</span>${data?.nomer ?? ''} от ${data?.inv_date ?? ''}</h1>
 
   <p class="doc-p">Продавец: <span class="doc-text-bold">${seller.name}</span>, ИНН ${seller.inn ?? ''}, адрес ${seller.address ?? ''}.</p>
