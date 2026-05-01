@@ -159,11 +159,11 @@ block content
 
           for (let idx = 0; idx < minPrices.length; ++idx) {
             const needWeightChecking = isNumber(minPrices[idx].limitHeavy);
-            const weigthChecked = needWeightChecking && weight < minPrices[idx].limitHeavy;
+            const weightChecked = needWeightChecking && weight < minPrices[idx].limitHeavy;
             const needVolumeChecking = isNumber(minPrices[idx].limitLight);
             const volumeChecked = needVolumeChecking && volume < minPrices[idx].limitLight;
 
-            if ((!needWeightChecking || weigthChecked) && (!needVolumeChecking || volumeChecked)) {
+            if ((!needWeightChecking || weightChecked) && (!needVolumeChecking || volumeChecked)) {
               priceFound = minPrices[idx];
               break;
             }
