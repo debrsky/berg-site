@@ -103,7 +103,7 @@ block content
           mapToRadix: ['.']  // symbols to process as radix
         });
 
-        const tariffs=!{JSON.stringify(tariffs, (key, value) => (value === Infinity ? 'Infinity' : value)).replace(/"Infinity"/g, 'Infinity')};
+        const tariffs=!{JSON.stringify(tariffs, (key, value) => (value === Infinity ? 'Infinity' : value)).replace(/:"Infinity"/g, ':Infinity')};
 
         const places = tariffs.places;
         const oversizedRaisingFactor = tariffs.oversizedRaisingFactor;
