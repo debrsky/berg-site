@@ -204,8 +204,9 @@ block content
           }
 
           const ICEnginePrice = calcICEnginePrice({weight, volume, params, origin, destination});
+
           if (ICEnginePrice && ICEnginePrice.amount > price.amount) {
-            price = ICEnginePrice;
+            price = { ...price, title: ICEnginePrice.title, amount: ICEnginePrice.amount };
           }
 
           if (fridgeAmount > 0) {
@@ -238,10 +239,10 @@ block content
           const cargoCategoryElement = form.querySelector('.cargo-category');
           cargoCategoryElement.innerHTML = categoryMessage;
 
-          const priceValue = (price && price.amount > 0)
-            ? `${fmtMoney(price.amount)} ₽`
-            : price && price.limit === Infinity
-              ? 'Машинорейс по договоренности'
+          const priceValue = (price && price.limit === Infinity)
+            ? 'Машинорейс по договоренности'
+            : (price && price.amount > 0)
+              ? `${fmtMoney(price.amount)} ₽`
               : '<не рассчитано>';
 
           const truckTripElement = form.querySelector('.truck-trip');
