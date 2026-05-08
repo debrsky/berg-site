@@ -12,7 +12,8 @@ export default function copy() {
         `src/*.ico`,
         `src/*.txt`,
         `src/vendor/**/*.*`,
-        `src/php/**/*.php`, `!src/php/**/config.php`,
+        `src/php/**/*.php`,
+        `!src/php/**/config.php`,
         `src/files/**/*.*`
       ],
       {
