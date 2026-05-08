@@ -1,54 +1,41 @@
+// sitemap.js
 import gulp from "gulp";
 import path from "path";
-import Vinyl from "vinyl";
-import {Transform} from "stream";
+import {writeFile} from "fs/promises";
 
 const siteUrl = process.env.SITE_URL;
 const htmlDir = "public";
 
-class SitemapTransform extends Transform {
-  constructor(options) {
-    super(options);
-    this.pages = [];
-  }
+export default async function sitemap() {
+  const pages = [];
 
-  _transform(file, encoding, callback) {
-    if (!/<meta [^>]*?noindex/i.test(String(file.contents))) {
-      this.pages.push(file.basename);
-    }
-    callback();
-  }
-
-  _flush(callback) {
-    const header =
-      '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-    const footer = "</urlset>";
-    const urlsetBody = this.pages
-      .map((page) => `<url><loc>${siteUrl}/${page}</loc></url>`)
-      .join("\n");
-
-    const xml = header + "\n" + urlsetBody + "\n" + footer;
-
-    this.push(
-      new Vinyl({
-        cwd: htmlDir,
-        base: htmlDir,
-        path: path.resolve(path.join(htmlDir, "sitemap.xml")),
-        contents: Buffer.from(xml)
+  await new Promise((resolve, reject) => {
+    gulp
+      .src([`${htmlDir}/*.html`, `!${htmlDir}/client-doc.html`])
+      .on("data", (file) => {
+        if (!/<meta [^>]*?noindex/i.test(String(file.contents))) {
+          pages.push(file.basename);
+        }
       })
-    );
+      .on("end", resolve)
+      .on("error", reject);
+  });
 
-    callback();
+  if (pages.length === 0) {
+    console.log("[sitemap] Нет страниц для добавления в sitemap");
+    return;
   }
-}
 
-const sitemapTransform = new SitemapTransform({objectMode: true});
+  const header =
+    '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  const footer = "</urlset>";
 
-export default function sitemap() {
-  return gulp
-    .src([htmlDir + `/*.html`, "!" + htmlDir + `/client-doc.html`], {
-      base: htmlDir
-    })
-    .pipe(sitemapTransform)
-    .pipe(gulp.dest(htmlDir));
+  const urlsetBody = pages
+    .map((page) => `<url><loc>${siteUrl}/${page}</loc></url>`)
+    .join("\n");
+
+  const xml = `${header}\n${urlsetBody}\n${footer}`;
+  const outputPath = path.join(htmlDir, "sitemap.xml");
+
+  await writeFile(outputPath, xml, "utf8");
 }
