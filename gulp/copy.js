@@ -17,7 +17,8 @@ export default function copy() {
         `src/files/**/*.*`
       ],
       {
-        base: `src`
+        base: `src`,
+        encoding: false
       }
     )
     .pipe(gulp.dest(`public`));
