@@ -78,7 +78,7 @@ export default async function deployZ() {
 
   // Create archive
   await new Promise((resolve, reject) => {
-    src(["public/**/*"], {base: "public"})
+    src(["public/**/*"], {base: "public", encoding: false})
       .pipe(
         transform({
           objectMode: true,
