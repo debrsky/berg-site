@@ -122,7 +122,7 @@ block content
             if (!lightCargoPrices[idx]) throw Error();
           };
           const tariff = lightCargoPrices[idx].price?.[origin]?.[destination] ?? null;
-          if (tariff === null) return {title: null, tariff: null, amount: 0};
+          if (tariff === null && lightCargoPrices[idx].limit !== Infinity) return {title: null, tariff: null, amount: 0};
 
           const amount = tariff * volume;
           const title = "легкий груз " + lightCargoPrices[idx].title;
