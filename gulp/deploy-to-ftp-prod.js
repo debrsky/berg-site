@@ -16,7 +16,7 @@ export default function deployToFtpProd() {
   // turn off buffering in gulp.src for best performance
 
   return gulp
-    .src(globs, {base: "public", buffer: false})
+    .src(globs, {base: "public", buffer: false, encoding: false})
     .pipe(connection.newer("/")) // only upload newer files
     .pipe(connection.dest("/"));
 }
