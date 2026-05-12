@@ -1,5 +1,5 @@
 export function generateInvoice(data, options = {}) {
-  options = { stamp: false, signature: false, ...options };
+  options = {stamp: false, signature: false, ...options};
 
   const nds = data?.nds ?? 0;
   const updStatus = nds > 0 ? 1 : 2;
@@ -9,58 +9,66 @@ export function generateInvoice(data, options = {}) {
   const consignee = data?.consignee ?? {};
   const app = data?.app ?? {};
   const details = data?.details ?? [];
-  const isIp = (seller.inn?.length === 12);
-  const consignerStr = [consigner.name, consigner.address].filter(Boolean).join(', ');
-  const consigneeStr = [consignee.name, consignee.address].filter(Boolean).join(', ');
-  const positionTitle = isIp ? 'Индивидуальный предприниматель' : '';
+  const isIp = seller.inn?.length === 12;
+  const consignerStr = [consigner.name, consigner.address]
+    .filter(Boolean)
+    .join(", ");
+  const consigneeStr = [consignee.name, consignee.address]
+    .filter(Boolean)
+    .join(", ");
+  const positionTitle = isIp ? "Индивидуальный предприниматель" : "";
   const amountWithoutNds = fmtMoney(data?.total_amount_without_nds ?? 0);
   const ndsAmount = fmtMoney(data?.total_nds_amount ?? 0);
   const amount = fmtMoney(data?.total_amount ?? 0);
 
   // Функция форматирования денег
   function fmtMoney(value, digits = 2) {
-    if (typeof value !== 'number' || isNaN(value)) {
-      return '';
+    if (typeof value !== "number" || isNaN(value)) {
+      return "";
     }
-    return value.toLocaleString('ru-RU', {
-      style: 'decimal',
+    return value.toLocaleString("ru-RU", {
+      style: "decimal",
       minimumFractionDigits: digits,
       maximumFractionDigits: digits
     });
   }
   // Функция форматирования чисел
   function fmtNumber(value, digits = 3) {
-    if (typeof value !== 'number' || isNaN(value)) {
-      return '';
+    if (typeof value !== "number" || isNaN(value)) {
+      return "";
     }
-    return value.toLocaleString('ru-RU', {
-      style: 'decimal',
-      minimumFractionDigits: digits,
-      maximumFractionDigits: digits
-    }).replace(/0+$/g, '').replace(/,$/g, '');
+    return value
+      .toLocaleString("ru-RU", {
+        style: "decimal",
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits
+      })
+      .replace(/0+$/g, "")
+      .replace(/,$/g, "");
   }
 
   // Генерация строк таблицы позиций
-  let detailsRows = '';
+  let detailsRows = "";
   if (details.length === 0) {
-    detailsRows = '<tr><td colspan="6" class="doc-text-center">Нет позиций в счёте.</td></tr>';
+    detailsRows =
+      '<tr><td colspan="6" class="doc-text-center">Нет позиций в счёте.</td></tr>';
   } else {
     details.forEach((item, index) => {
       detailsRows += `
   <tr>
     <td class="doc-text-center">${index + 1}</td>
-    <td>${item?.name ?? ''}</td>
-    <td class="doc-text-center">${item?.mU ?? ''}</td>
-    <td class="doc-text-center">${fmtNumber(item?.qty ?? '')}</td>
-    <td class="doc-money">${fmtMoney(item?.price ?? '')}</td>
+    <td>${item?.name ?? ""}</td>
+    <td class="doc-text-center">${item?.mU ?? ""}</td>
+    <td class="doc-text-center">${fmtNumber(item?.qty ?? "")}</td>
+    <td class="doc-money">${fmtMoney(item?.price ?? "")}</td>
     <td class="doc-money">${fmtMoney(item?.amount ?? 0)}</td>
   </tr>`;
     });
   }
 
   // Подписи и изображения
-  const signatureSrc = seller.signature_base64 ? seller.signature_base64 : '';
-  const stampSrc = seller.stamp_base64 ? seller.stamp_base64 : '';
+  const signatureSrc = seller.signature_base64 ? seller.signature_base64 : "";
+  const stampSrc = seller.stamp_base64 ? seller.stamp_base64 : "";
 
   const html = `<style>
 .doc {
@@ -286,7 +294,9 @@ img.doc-image:not([src]) {
   <table class="doc-layout-table doc-layout-table--real">
     <tbody>
       <tr>
-        <td rowspan="2" style="border-bottom-color: transparent;" class="doc-valign-top">${seller.bank}</td>
+        <td rowspan="2" style="border-bottom-color: transparent;" class="doc-valign-top">${
+          seller.bank
+        }</td>
         <td>БИК</td>
         <td>${seller.bik}</td>
       </tr>
@@ -303,7 +313,9 @@ img.doc-image:not([src]) {
         <td rowspan="3" class="doc-valign-top">${seller.rs}</td>
       </tr>
       <tr>
-        <td style="height: 2em; border-bottom-color: transparent" class="doc-valign-top">${seller.name}</td>
+        <td style="height: 2em; border-bottom-color: transparent" class="doc-valign-top">${
+          seller.name
+        }</td>
       </tr>
       <tr>
         <td>Получатель</td>
@@ -311,13 +323,35 @@ img.doc-image:not([src]) {
     <tbody>
   </table>
   <p class="doc-warning">Внимание! Срок оплаты счета 3 рабочих дня.</p>
-  <h1 class="doc-h1 doc-text-center doc-text-bold">Счет на оплату <span style="margin-right: 0.2ch;">№</span>${data?.nomer ?? ''} от ${data?.inv_date ?? ''}</h1>
+  <h1 class="doc-h1 doc-text-center doc-text-bold">Счет на оплату <span style="margin-right: 0.2ch;">№</span>${
+    data?.nomer ?? ""
+  } от ${data?.inv_date ?? ""}</h1>
 
-  <p class="doc-p">Продавец: <span class="doc-text-bold">${seller.name}</span>, ИНН ${seller.inn ?? ''}, адрес ${seller.address ?? ''}.</p>
-  <p class="doc-p doc-text-small">Покупатель: <span class="doc-text-bold">${payer.name}</span>, ИНН ${payer.inn ?? ''}${(payer.inn ?? '').length === 12 ? '' : `, КПП ${payer.kpp ?? ''}`}, адрес ${payer.address}.</p>
-  <p class="doc-p doc-text-small">Грузоотправитель: <span class="doc-text-bold">${consigner.name}</span>, ИНН ${consigner.inn ?? ''}${(consigner.inn ?? '').length === 12 ? '' : `, КПП ${consigner.kpp ?? ''}`}, адрес ${consigner.address}.</p>
-  <p class="doc-p doc-text-small">Грузополучатель: <span class="doc-text-bold">${consignee.name}</span>, ИНН ${consignee.inn ?? ''}${(consignee.inn ?? '').length === 12 ? '' : `, КПП ${consignee.kpp ?? ''}`}, адрес ${consignee.address}.</p>
-  <p class="doc-p">Основание: Заявка № ${app.nomer ?? ''}${app.base_code} от ${app.date_reg ?? ''}, груз: ${app.cargo ?? ''} (${fmtNumber(app.weight ?? '')}&nbsp;кг|${fmtNumber(app.volume ?? '')}&nbsp;м³${app.count_pcs ? `|${fmtNumber(app.count_pcs)}` : ''}).</p>
+  <p class="doc-p">Продавец: <span class="doc-text-bold">${
+    seller.name
+  }</span>, ИНН ${seller.inn ?? ""}, адрес ${seller.address ?? ""}.</p>
+  <p class="doc-p doc-text-small">Покупатель: <span class="doc-text-bold">${
+    payer.name
+  }</span>, ИНН ${payer.inn ?? ""}${
+    (payer.inn ?? "").length === 12 ? "" : `, КПП ${payer.kpp ?? ""}`
+  }, адрес ${payer.address}.</p>
+  <p class="doc-p doc-text-small">Грузоотправитель: <span class="doc-text-bold">${
+    consigner.name
+  }</span>, ИНН ${consigner.inn ?? ""}${
+    (consigner.inn ?? "").length === 12 ? "" : `, КПП ${consigner.kpp ?? ""}`
+  }, адрес ${consigner.address}.</p>
+  <p class="doc-p doc-text-small">Грузополучатель: <span class="doc-text-bold">${
+    consignee.name
+  }</span>, ИНН ${consignee.inn ?? ""}${
+    (consignee.inn ?? "").length === 12 ? "" : `, КПП ${consignee.kpp ?? ""}`
+  }, адрес ${consignee.address}.</p>
+  <p class="doc-p">Основание: Заявка № ${app.nomer ?? ""}${app.base_code} от ${
+    app.date_reg ?? ""
+  }, груз: ${app.cargo ?? ""} (${fmtNumber(
+    app.weight ?? ""
+  )}&nbsp;кг|${fmtNumber(app.volume ?? "")}&nbsp;м³${
+    app.count_pcs ? `|${fmtNumber(app.count_pcs)}` : ""
+  }).</p>
 
   <table style="margin-top: 0.5em;" class="doc-layout-table doc-layout-table--real doc-text-smaller">
     <thead>
@@ -337,8 +371,12 @@ img.doc-image:not([src]) {
         <td class="doc-money">${amount}</td>
       </tr>
       <tr>
-        <td colspan="5" style="border-left-color: transparent; border-bottom-color: transparent;" class="doc-text-right">В том числе НДС${nds > 0 ? ` ${nds}%` : ''}:</td>
-        <td class="${nds > 0 ? 'doc-money' : 'doc-text-center'}">${nds > 0 ? ndsAmount : 'без ндс'}</td>
+        <td colspan="5" style="border-left-color: transparent; border-bottom-color: transparent;" class="doc-text-right">В том числе НДС${
+          nds > 0 ? ` ${nds}%` : ""
+        }:</td>
+        <td class="${nds > 0 ? "doc-money" : "doc-text-center"}">${
+    nds > 0 ? ndsAmount : "без ндс"
+  }</td>
       </tr>
       <tr>
         <td colspan="5" style="border-left-color: transparent; border-bottom-color: transparent;" class="doc-text-right doc-text-bold">Всего к оплате:</td>
@@ -353,21 +391,27 @@ img.doc-image:not([src]) {
         <td style="width: 10mm;"> </td>
         <td style="">Индивидуальный предприниматель</td>
         <td style="width: 37mm;" class="doc-border-bottom doc-image-container">
-          <img style="top: -12mm; left: 5mm; width: 27mm" src="${options.signature ? signatureSrc : ''}" alt="рукописная подпись" class="doc-image doc-image--signature">
+          <img style="top: -12mm; left: 5mm; width: 27mm" src="${
+            options.signature ? signatureSrc : ""
+          }" alt="рукописная подпись" class="doc-image doc-image--signature">
         </td>
         <td style="width: 10mm;"> </td>
-        <td style="width: 40mm;" class="doc-valign-bottom">${seller.ceo ?? ''}</td>
+        <td style="width: 40mm;" class="doc-valign-bottom">${
+          seller.ceo ?? ""
+        }</td>
         <td style="width: 10mm;"> </td>
       </tr>
     </tbody>
   </table>
   <div style="margin-left: 15mm;" class="doc-image-container">
     М.П.
-    <img style="left: -10mm; top: -10mm;" src="${options.stamp ? stampSrc : ''}" alt="оттиск печати" class="doc-image doc-image--stamp">
+    <img style="left: -10mm; top: -10mm;" src="${
+      options.stamp ? stampSrc : ""
+    }" alt="оттиск печати" class="doc-image doc-image--stamp">
   </div>
 
 
 </article>`;
 
-  return { title: 'Счет', orientation: 'portrait', html };
+  return {title: "Счет", orientation: "portrait", html};
 }
