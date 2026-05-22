@@ -14,8 +14,11 @@ const options = {
 };
 
 export const setPlace = async () => {
+  const fallbackCity = "Владивосток"; // eslint-disable-line sonarjs/no-duplicate-string
+  const placeCities = ["Владивосток", "Уссурийск", "Хабаровск", "Благовещенск"];
+
   const userPlace = localStorage.getItem("userPlace");
-  if (userPlace) return userPlace;
+  if (placeCities.includes(userPlace)) return userPlace;
 
   const placeRegions = {
     Приморский: "Владивосток", // eslint-disable-line sonarjs/no-duplicate-string
@@ -23,32 +26,27 @@ export const setPlace = async () => {
     Амурская: "Благовещенск"
   };
 
-  const placeCities = [
-    "Владивосток",
-    "Уссурийск",
-    "Хабаровск",
-    "Благовещенск"
-  ];
-
   let userPlaceDetected;
 
   try {
     const response = await fetch(url, options);
-    if (!response.ok) return;
+    if (!response.ok) {
+      userPlaceDetected = fallbackCity;
+      return userPlaceDetected;
+    }
     const place = await response.json();
-    const { city, region } = place?.location?.data ?? {};
-
+    const {city, region} = place?.location?.data ?? {};
 
     if (placeCities.includes(city)) {
       userPlaceDetected = city;
     } else if (Object.keys(placeRegions).includes(region)) {
-      userPlaceDetected = region;
+      userPlaceDetected = placeRegions[region];
     } else {
-      userPlaceDetected = "Владивосток";
+      userPlaceDetected = fallbackCity;
     }
   } catch (err) {
     console.error(err);
-    userPlaceDetected = "Владивосток";
+    userPlaceDetected = fallbackCity;
   }
 
   localStorage.setItem("userPlace", userPlaceDetected);
