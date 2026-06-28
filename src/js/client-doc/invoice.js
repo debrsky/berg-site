@@ -27,7 +27,11 @@ export function generateInvoice(data, options = {}) {
   const ndsAmount = fmtMoney(data?.total_nds_amount ?? 0);
   const amount = fmtMoney(data?.total_amount ?? 0);
 
-  const bankDetailsChanged = String(seller.bik ?? "").trim() !== "040507705";
+  const sellerId = Number(seller.id_seller ?? seller.id ?? data?.id_seller);
+  const sellerBik = String(seller.bik ?? "").trim();
+
+  const bankDetailsChanged =
+    sellerBik !== (sellerId === 28 ? "040813608" : "040507705");
 
   // Функция форматирования денег
   function fmtMoney(value, digits = 2) {
