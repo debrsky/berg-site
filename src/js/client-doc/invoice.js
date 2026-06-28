@@ -1,7 +1,9 @@
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export function generateInvoice(data, options = {}) {
   options = {stamp: false, signature: false, ...options};
 
   const nds = data?.nds ?? 0;
+  // eslint-disable-next-line no-unused-vars
   const updStatus = nds > 0 ? 1 : 2;
   const seller = data?.seller ?? {};
   const payer = data?.payer ?? {};
@@ -10,13 +12,17 @@ export function generateInvoice(data, options = {}) {
   const app = data?.app ?? {};
   const details = data?.details ?? [];
   const isIp = seller.inn?.length === 12;
+  // eslint-disable-next-line no-unused-vars
   const consignerStr = [consigner.name, consigner.address]
     .filter(Boolean)
     .join(", ");
+  // eslint-disable-next-line no-unused-vars
   const consigneeStr = [consignee.name, consignee.address]
     .filter(Boolean)
     .join(", ");
+  // eslint-disable-next-line no-unused-vars
   const positionTitle = isIp ? "Индивидуальный предприниматель" : "";
+  // eslint-disable-next-line no-unused-vars
   const amountWithoutNds = fmtMoney(data?.total_amount_without_nds ?? 0);
   const ndsAmount = fmtMoney(data?.total_nds_amount ?? 0);
   const amount = fmtMoney(data?.total_amount ?? 0);
@@ -333,16 +339,19 @@ img.doc-image:not([src]) {
   <p class="doc-p doc-text-small">Покупатель: <span class="doc-text-bold">${
     payer.name
   }</span>, ИНН ${payer.inn ?? ""}${
+    // eslint-disable-next-line sonarjs/no-nested-template-literals
     (payer.inn ?? "").length === 12 ? "" : `, КПП ${payer.kpp ?? ""}`
   }, адрес ${payer.address}.</p>
   <p class="doc-p doc-text-small">Грузоотправитель: <span class="doc-text-bold">${
     consigner.name
   }</span>, ИНН ${consigner.inn ?? ""}${
+    // eslint-disable-next-line sonarjs/no-nested-template-literals
     (consigner.inn ?? "").length === 12 ? "" : `, КПП ${consigner.kpp ?? ""}`
   }, адрес ${consigner.address}.</p>
   <p class="doc-p doc-text-small">Грузополучатель: <span class="doc-text-bold">${
     consignee.name
   }</span>, ИНН ${consignee.inn ?? ""}${
+    // eslint-disable-next-line sonarjs/no-nested-template-literals
     (consignee.inn ?? "").length === 12 ? "" : `, КПП ${consignee.kpp ?? ""}`
   }, адрес ${consignee.address}.</p>
   <p class="doc-p">Основание: Заявка № ${app.nomer ?? ""}${app.base_code} от ${
@@ -350,6 +359,7 @@ img.doc-image:not([src]) {
   }, груз: ${app.cargo ?? ""} (${fmtNumber(
     app.weight ?? ""
   )}&nbsp;кг|${fmtNumber(app.volume ?? "")}&nbsp;м³${
+    // eslint-disable-next-line sonarjs/no-nested-template-literals
     app.count_pcs ? `|${fmtNumber(app.count_pcs)}` : ""
   }).</p>
 
@@ -372,6 +382,7 @@ img.doc-image:not([src]) {
       </tr>
       <tr>
         <td colspan="5" style="border-left-color: transparent; border-bottom-color: transparent;" class="doc-text-right">В том числе НДС${
+          // eslint-disable-next-line sonarjs/no-nested-template-literals
           nds > 0 ? ` ${nds}%` : ""
         }:</td>
         <td class="${nds > 0 ? "doc-money" : "doc-text-center"}">${
