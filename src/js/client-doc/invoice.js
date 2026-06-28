@@ -27,6 +27,8 @@ export function generateInvoice(data, options = {}) {
   const ndsAmount = fmtMoney(data?.total_nds_amount ?? 0);
   const amount = fmtMoney(data?.total_amount ?? 0);
 
+  const bankDetailsChanged = String(seller.bik ?? "").trim() !== "040507705";
+
   // Функция форматирования денег
   function fmtMoney(value, digits = 2) {
     if (typeof value !== "number" || isNaN(value)) {
@@ -295,6 +297,15 @@ img.doc-image:not([src]) {
   font-weight: bold;
 }
 
+.doc-payment-notice {
+  padding-top: 2mm;
+  border-color: transparent;
+  color: firebrick;
+  font-size: var(--doc-text-size);
+  font-weight: bold;
+  text-align: right;
+}
+
 </style>
 <article class="doc">
   <table class="doc-layout-table doc-layout-table--real">
@@ -393,6 +404,18 @@ img.doc-image:not([src]) {
         <td colspan="5" style="border-left-color: transparent; border-bottom-color: transparent;" class="doc-text-right doc-text-bold">Всего к оплате:</td>
         <td class="doc-money doc-text-bold">${amount}</td>
       </tr>
+
+      ${
+        bankDetailsChanged
+          ? // eslint-disable-next-line sonarjs/no-nested-template-literals
+            `<tr>
+        <td colspan="6" class="doc-payment-notice">
+          Банковские реквизиты изменились. Оплата принимается только по реквизитам из верхней части счета.
+        </td>
+      </tr>`
+          : ""
+      }
+
     </tbody>
   </table>
 
