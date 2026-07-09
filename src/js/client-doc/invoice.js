@@ -37,8 +37,14 @@ export function generateInvoice(data, options = {}) {
     28: "040813608"
   };
   const expectedBik = expectedBiks[sellerId];
+  const bankDetailsChanged = Boolean(expectedBik) && sellerBik !== expectedBik;
 
-  const bankDetailsChanged = sellerBik !== expectedBik;
+  const bankDetailsNotice = bankDetailsChanged
+    ? `<p class="doc-payment-notice">
+      ВНИМАНИЕ: РЕКВИЗИТЫ ИЗМЕНИЛИСЬ.<br>
+      Оплачивайте только по реквизитам в верхней части счета.
+    </p>`
+    : "";
 
   // Функция форматирования денег
   function fmtMoney(value, digits = 2) {
@@ -309,12 +315,15 @@ img.doc-image:not([src]) {
 }
 
 .doc-payment-notice {
-  padding-top: 2mm;
-  border-color: transparent;
+  margin: 3mm 0;
+  padding: 3mm;
+  border: 2pt solid firebrick;
+  background: #fff3f3;
   color: firebrick;
-  font-size: var(--doc-text-size);
+  font-size: var(--doc-text-size-large);
   font-weight: bold;
-  text-align: right;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 </style>
@@ -350,6 +359,7 @@ img.doc-image:not([src]) {
       </tr>
     <tbody>
   </table>
+  ${bankDetailsNotice}
   <p class="doc-warning">Внимание! Срок оплаты счета 3 рабочих дня.</p>
   <h1 class="doc-h1 doc-text-center doc-text-bold">Счет на оплату <span style="margin-right: 0.2ch;">№</span>${
     data?.nomer ?? ""
@@ -415,20 +425,18 @@ img.doc-image:not([src]) {
         <td colspan="5" style="border-left-color: transparent; border-bottom-color: transparent;" class="doc-text-right doc-text-bold">Всего к оплате:</td>
         <td class="doc-money doc-text-bold">${amount}</td>
       </tr>
-
-      ${
-        bankDetailsChanged
-          ? // eslint-disable-next-line sonarjs/no-nested-template-literals
-            `<tr>
-        <td colspan="6" class="doc-payment-notice">
-          Банковские реквизиты изменились. Оплата принимается только по реквизитам из верхней части счета.
-        </td>
-      </tr>`
-          : ""
-      }
-
     </tbody>
   </table>
+
+  ${
+    bankDetailsChanged
+      ? // eslint-disable-next-line sonarjs/no-nested-template-literals
+        `<div class="doc-payment-notice" style="margin-top: 10px;">
+        Банковские реквизиты изменились. Оплата принимается только по реквизитам из верхней части счета.
+      </div>`
+      : ""
+  }
+
 
   <table style="margin-top: 20mm;" class="doc-layout-table">
     <tbody>
