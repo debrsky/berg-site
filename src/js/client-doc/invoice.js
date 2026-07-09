@@ -30,8 +30,15 @@ export function generateInvoice(data, options = {}) {
   const sellerId = Number(seller.id_seller ?? seller.id ?? data?.id_seller);
   const sellerBik = String(seller.bik ?? "").trim();
 
-  const bankDetailsChanged =
-    sellerBik !== (sellerId === 28 ? "040813608" : "040507705");
+  const expectedBiks = {
+    1: "040507705",
+    3: "040813608",
+    27: "040507705",
+    28: "040813608"
+  };
+  const expectedBik = expectedBiks[sellerId];
+
+  const bankDetailsChanged = sellerBik !== expectedBik;
 
   // Функция форматирования денег
   function fmtMoney(value, digits = 2) {
