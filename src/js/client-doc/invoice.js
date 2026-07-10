@@ -32,7 +32,7 @@ export function generateInvoice(data, options = {}) {
 
   const expectedBiks = {
     1: "040507705",
-    3: "040813608",
+    3: "040507705",
     27: "040507705",
     28: "040813608"
   };
