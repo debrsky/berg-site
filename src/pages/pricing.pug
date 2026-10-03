@@ -2,6 +2,7 @@ extends ../pug/layout
 block variables
   -
     title = "Прайс 2026-01-01"
+    pageClass = "page--pricing"
     description = "Прайс-лист ТК Берг на услуги грузоперевозки между городами Владивосток, Уссурийск, Хабаровск, Комсомольск-на-Амуре, Благовещенск."
 
 block content
@@ -46,7 +47,7 @@ block content
       -let destinationPlaces;
       .pricing__directions
         -for (const origin of Object.keys(places))
-          details(style="page-break-inside: avoid;")
+          details
             summary
               h4.h4(style="display: inline;")
                 | Место отправления:
@@ -179,7 +180,7 @@ block content
 
       p.
 
-    section
+    section.pricing__download
       h3.h3 Скачать прайс
       p
       | Прайс по направлениям в виде отдельного документа можно скачать здесь:

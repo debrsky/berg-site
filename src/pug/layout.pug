@@ -1,4 +1,5 @@
 -let description = "Ежедневные грузовые перевозки автомобильным транспортом в направлениях: Владивосток — Хабаровск и обратно по рабочим дням, Комсомольск-на-Амуре по рабочим дням, Благовещенск по вторникам и четвергам."
+-let pageClass = ""
 block variables
 
 doctype html
@@ -15,7 +16,7 @@ html(lang="ru")
 
     block head
 
-  body.page
+  body.page(class=pageClass)
     noscript.noscript У вас отключен JavaScript, сайт не будет работать нормально
 
     #sprite.visually-hidden(aria-hidden="true")

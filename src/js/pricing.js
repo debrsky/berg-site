@@ -60,6 +60,22 @@ for (const table of document.querySelectorAll(".pricing__table")) {
   });
 }
 
+// Печатать все направления, даже если они свернуты на экране.
+const directions = document.querySelectorAll(".pricing__directions details");
+let openedForPrint = [];
+window.addEventListener("beforeprint", () => {
+  openedForPrint = [...directions].filter((details) => !details.open);
+  openedForPrint.forEach((details) => {
+    details.open = true;
+  });
+});
+window.addEventListener("afterprint", () => {
+  openedForPrint.forEach((details) => {
+    details.open = false;
+  });
+  openedForPrint = [];
+});
+
 // Снять выбор на сенсорном экране при касании вне ячейки с ценой.
 document.addEventListener("pointerdown", (event) => {
   if (event.pointerType !== "touch" || event.target.closest(priceCellSelector))
