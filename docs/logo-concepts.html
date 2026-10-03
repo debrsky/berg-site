@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Берг — доработка логотипа</title>
+  <style>
+    @font-face { font-family: "PT Sans"; src: url("../src/fonts/PTS55F_W.woff") format("woff"); font-weight: 400; }
+    @font-face { font-family: "PT Sans"; src: url("../src/fonts/PTS75F_W.woff") format("woff"); font-weight: 700; }
+    :root { font-family: "PT Sans", Arial, sans-serif; color: #253c49; background: #eef3f7; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 32px 20px 60px; }
+    main { max-width: 1080px; margin: auto; }
+    h1 { margin: 0 0 8px; font-size: clamp(26px, 4vw, 36px); }
+    .intro { margin: 0 0 28px; color: #526775; }
+    .concept { margin: 0 0 24px; background: white; border: 1px solid #dce6ec; border-radius: 12px; overflow: hidden; }
+    .concept-header { padding: 18px 24px 4px; }
+    h2 { margin: 0 0 5px; font-size: 22px; }
+    .concept-header p { margin: 0 0 16px; color: #526775; }
+    .examples { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; padding: 0 24px 24px; align-items: start; }
+    .example-label { display: block; margin-bottom: 8px; color: #526775; font-size: 13px; }
+    .header-mock { min-height: 156px; padding: 24px; background: white; border: 1px solid #dce6ec; border-radius: 6px; }
+    .header-mock.mobile { min-height: 92px; padding: 15px; }
+    .tagline { margin-top: 10px; color: #444; font-size: 16px; }
+    .original { width: 147px; height: 62px; display: block; }
+    .brand-row { display: flex; align-items: center; gap: 18px; }
+    .descriptor { color: #0c98d9; font-size: 23px; line-height: 1.08; }
+    .mobile .original { width: 74px; height: 31px; }
+    /* 1: unchanged familiar silhouette, flat ink, more readable supporting text. */
+    .restored .wordmark { width: 147px; height: 62px; background: #008ec9; -webkit-mask: url("../src/img/logo.svg") center / contain no-repeat; mask: url("../src/img/logo.svg") center / contain no-repeat; }
+    .restored .descriptor { padding-left: 16px; border-left: 3px solid #ff8902; font-weight: 700; font-size: 21px; color: #087fb8; }
+    .restored .mobile .wordmark { width: 74px; height: 31px; }
+    /* 2: original sign with a new typographic lockup. */
+    .editorial .brand-row { align-items: center; gap: 20px; }
+    .editorial .descriptor { padding-left: 16px; border-left: 3px solid #ff8902; font-size: 19px; color: #253c49; letter-spacing: .01em; }
+    .editorial .tagline { margin-top: 14px; font-size: 15px; letter-spacing: .025em; }
+    @media (max-width: 690px) {
+      .examples { grid-template-columns: 1fr; }
+      .header-mock { min-height: 125px; }
+      .concept-header, .examples { padding-left: 16px; padding-right: 16px; }
+      .restored .brand-row { gap: 10px; }
+      .restored .header-mock:not(.mobile) .wordmark { width: 110px; height: 47px; flex: none; }
+      .restored .descriptor { padding-left: 10px; font-size: 17px; }
+      .editorial .brand-row { gap: 10px; }
+      .editorial .header-mock:not(.mobile) .original { width: 110px; height: 47px; flex: none; }
+      .editorial .descriptor { padding-left: 10px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Доработка логотипа «Берг»</h1>
+  <p class="intro">Черновые визуальные варианты для сравнения; действующий сайт не изменён. Для каждого показаны полная и компактная версии.</p>
+
+  <section class="concept restored">
+    <div class="concept-header"><h2>1. Бережное обновление + разделитель</h2><p>Исходные буквы и пропорции, ровный голубой цвет вместо градиента, собранная подпись и тонкая оранжевая линия из второго варианта.</p></div>
+    <div class="examples">
+      <div><span class="example-label">Полная версия</span><div class="header-mock"><div class="brand-row"><div class="wordmark" role="img" aria-label="Берг"></div><div class="descriptor">Транспортная<br>компания</div></div><div class="tagline">Автоперевозки грузов по Дальнему Востоку</div></div></div>
+      <div><span class="example-label">Узкая шапка</span><div class="header-mock mobile"><div class="wordmark" role="img" aria-label="Берг"></div></div></div>
+    </div>
+  </section>
+
+  <section class="concept editorial">
+    <div class="concept-header"><h2>2. Обновлённая композиция</h2><p>Исторический знак остаётся без изменений. Тонкий оранжевый разделитель и спокойная тёмная подпись связывают его с интерфейсом сайта.</p></div>
+    <div class="examples">
+      <div><span class="example-label">Полная версия</span><div class="header-mock"><div class="brand-row"><img class="original" src="logo-original.svg" alt="Берг"><div class="descriptor">Транспортная<br>компания</div></div><div class="tagline">Автоперевозки грузов по Дальнему Востоку</div></div></div>
+      <div><span class="example-label">Узкая шапка</span><div class="header-mock mobile"><img class="original" src="logo-original.svg" alt="Берг"></div></div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
