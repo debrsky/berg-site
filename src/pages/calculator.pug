@@ -181,6 +181,9 @@ block content
           return {title, amount};
         }
 
+        const hasRoute = (origin, destination) =>
+          heavyCargoPrices[0].price?.[origin]?.[destination] != null;
+
         const processCalc = ({weight, volume, params, origin, destination}) => {
           if (!isNumber(weight) || weight <= 0 || !isNumber(volume) || volume <= 0) return null;
 
@@ -230,12 +233,14 @@ block content
           const destination = data.get('destination');
 
           const directionIsSelected = Boolean(origin && destination);
-          const directionIsValid = processCalc({weight: 1000, volume: 1, origin, destination}).amount > 0;
+          const directionIsValid = directionIsSelected && hasRoute(origin, destination);
 
           const directionErrorMessageElement = form.querySelector('.direction-error-message');
           directionErrorMessageElement.hidden = !directionIsSelected || directionIsValid;
 
-          const price = processCalc({weight, volume, params: data.getAll('params[]'), origin, destination});
+          const price = directionIsValid
+            ? processCalc({weight, volume, params: data.getAll('params[]'), origin, destination})
+            : null;
 
           const categoryMessage = price ? price.title + (price.isOversized ? '<br>негабаритный груз' : '') : '&nbsp;';
           const cargoCategoryElement = form.querySelector('.cargo-category');
