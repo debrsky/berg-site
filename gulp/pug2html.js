@@ -5,6 +5,7 @@ import pugLinter from "gulp-pug-linter";
 
 export default function pug2html() {
   const pugOptions = {
+    doctype: "html",
     pretty: false,
     basedir: process.rootDir
   };
