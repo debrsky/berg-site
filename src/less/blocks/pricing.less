@@ -8,6 +8,49 @@
   gap: 10px;
 }
 
+.pricing__directions summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 3px;
+  background-color: #f5f9fc;
+  cursor: pointer;
+  list-style: none;
+}
+
+.pricing__directions summary::-webkit-details-marker {
+  display: none;
+}
+
+.pricing__directions summary .h4 {
+  margin: 0;
+}
+
+.pricing__directions summary::after {
+  content: "";
+  flex: 0 0 10px;
+  width: 10px;
+  height: 10px;
+  margin-left: auto;
+  border-right: 2px solid var(--brand-color);
+  border-bottom: 2px solid var(--brand-color);
+  transform: translateY(-3px) rotate(45deg);
+}
+
+.pricing__directions details[open] summary::after {
+  transform: translateY(3px) rotate(225deg);
+}
+
+.pricing__directions summary:hover {
+  background-color: #e9f4fc;
+}
+
+.pricing__directions summary:focus-visible {
+  outline: 2px solid #087bb8;
+  outline-offset: 2px;
+}
+
 .pricing__table-list {
   display: flex;
   flex-wrap: wrap;
@@ -176,8 +219,14 @@
   .page--pricing .pricing__directions summary {
     display: block;
     margin-bottom: 2mm;
+    padding: 0;
+    background: transparent;
     break-after: avoid;
     font-weight: bold;
+  }
+
+  .page--pricing .pricing__directions summary::after {
+    display: none;
   }
 
   .page--pricing .pricing__directions summary::marker {
