@@ -1,6 +1,7 @@
 @page-padding: 5px;
 
 .page {
+  --page-gutter: 12px;
   min-width: @width-mobile;
 
   height: 100%;
@@ -63,6 +64,13 @@
 
 .container--wide {
   max-width: min(calc(var(--container-width) + 60px), calc(960px + 60px));
+}
+
+@media (max-width: @width-desktop) {
+  .main > .container {
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+  }
 }
 
 @media (max-width: @width-tablet) {
