@@ -92,7 +92,14 @@ form.addEventListener("submit", (event) => {
 
       cleanForm(form);
 
-      if (window.orderSuccessfullySent) window.orderSuccessfullySent();
+      try {
+        window.orderSuccessfullySent?.();
+      } catch (error) {
+        console.warn(
+          "Не удалось зарегистрировать отправку заявки в аналитике",
+          error
+        );
+      }
 
       window.location.assign("order-ok.html");
     })
