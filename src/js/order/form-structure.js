@@ -51,7 +51,6 @@ const setCargoOperationStructure = (form, operation) => {
   const formData = new FormData(form);
 
   const operationPlace = formData.get(`${operation}-place`);
-  const operationPoint = formData.get(`${operation}-point`);
   const address = formData.get(`${operation}-point-client-address`).trim();
   const addressElement = form.elements[`${operation}-point-client-address`];
 
@@ -75,9 +74,6 @@ const setCargoOperationStructure = (form, operation) => {
     `.group-${operation}-point-client-address`
   );
 
-  operationPointClientAddressGroupElement.hidden =
-    !operationPoint || operationPoint === `${operation}-point-terminal`;
-
   if (!operationPlace) {
     // Не выбран город
     operationPointTerminalControlElement.hidden = false;
@@ -100,6 +96,17 @@ const setCargoOperationStructure = (form, operation) => {
     operationPointClientControlElement.hidden = true;
     operationPointPickupControlElement.hidden = false;
   }
+
+  const selectedPoint = form.querySelector(
+    `input[name="${operation}-point"]:checked`
+  );
+  if (selectedPoint?.closest(".control").hidden) {
+    selectedPoint.checked = false;
+  }
+
+  const currentPoint = new FormData(form).get(`${operation}-point`);
+  operationPointClientAddressGroupElement.hidden =
+    !currentPoint || currentPoint === `${operation}-point-terminal`;
 
   operationPointTerminalTitleElement.textContent = terminalTitle;
 };
