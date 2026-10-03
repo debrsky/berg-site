@@ -81,7 +81,7 @@ block content
                         tr
                           th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
                           each destination in destinationPlaces
-                            td=priceRow.price[origin][destination].toString().replace('.', ',')
+                            td(tabindex="0")=priceRow.price[origin][destination].toString().replace('.', ',')
 
               .pricing__table-wrapper
                 -destinationPlaces = getDestinationPlaces(origin, lightCargoPrices);
@@ -111,7 +111,7 @@ block content
                         tr
                           th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³')}
                           each destination in destinationPlaces
-                            td=priceRow.price[origin][destination].toString().replace('.', ',')
+                            td(tabindex="0")=priceRow.price[origin][destination].toString().replace('.', ',')
 
               .pricing__table-wrapper
                 -destinationPlaces = getDestinationPlaces(origin, minPrices);
@@ -135,7 +135,7 @@ block content
                       tr
                         th(scope="row") !{priceRow.title.replace(/\sм³/g, '&nbsp;м³').replace(/\sкг/g, '&nbsp;кг')}
                         each destination in destinationPlaces
-                          td=priceRow.price[origin][destination].toString().replace('.', ',')
+                          td(tabindex="0")=priceRow.price[origin][destination].toString().replace('.', ',')
 
     section
       h3.h3 Подача а/м на погрузку/выгрузку (включая НДС)
@@ -192,3 +192,6 @@ block content
       |
       time(datetime=startdate.toISOString().substring(0, 10)) #{startdate.toISOString().substring(0, 10)}
       | .
+
+block scripts
+  script(src="js/pricing.js")

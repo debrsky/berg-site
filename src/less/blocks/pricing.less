@@ -36,6 +36,32 @@
   text-align: center;
 }
 
+.pricing__table tbody tr:nth-child(even) {
+  background-color: #f5f9fc;
+}
+
+.pricing__table .pricing__active-row,
+.pricing__table .pricing__active-column {
+  background-color: #dceef9;
+}
+
+.pricing__table .pricing__active-cell {
+  background-color: #acdafa;
+}
+
+.pricing__table td:focus-visible {
+  outline: 2px solid #087bb8;
+  outline-offset: -2px;
+}
+
+@media print {
+  .pricing__table .pricing__active-row,
+  .pricing__table .pricing__active-column,
+  .pricing__table .pricing__active-cell {
+    background-color: transparent;
+  }
+}
+
 .pricing__table-wrapper {
   page-break-inside: avoid;
 }
