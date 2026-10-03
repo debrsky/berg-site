@@ -4,7 +4,7 @@ html(lang="ru")
     meta(charset="utf-8")
     meta(name="robots" content="noindex, nofollow")
     title Документ
-    link(rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%230c98d9%22 /></svg>")
+    link(rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%230c98d9%22 /%3E%3C/svg%3E")
     style.
       :root {
           --page-width: 210mm;
@@ -98,7 +98,6 @@ html(lang="ru")
               display: block;
           }
       }
-  body
     style.
       /* Панель управления */
       .control-panel {
@@ -179,14 +178,15 @@ html(lang="ru")
           }
 
       }
-    article.control-panel(role="group" aria-label="Панель управления")
+  body
+    .control-panel(role="group" aria-label="Панель управления")
       fieldset.control-panel__fieldset
         legend.control-panel__label Показывать:
         label.control-panel__label(for="signature-checkbox")
-          input#signature-checkbox.control-panel__input(type="checkbox" checked aria-checked="true")
+          input#signature-checkbox.control-panel__input(type="checkbox" checked)
           | Подпись
         label.control-panel__label(for="stamp-checkbox")
-          input#stamp-checkbox.control-panel__input(type="checkbox" checked aria-checked="true")
+          input#stamp-checkbox.control-panel__input(type="checkbox" checked)
           | Печать
 
       fieldset.control-panel__fieldset
@@ -201,6 +201,6 @@ html(lang="ru")
       button.control-panel__button.control-panel__button--print(aria-label="Отправить на печать") Печать
       button.control-panel__button.control-panel__button--save(aria-label="Сохранить в файл") Сохранить в файл
     main
-      section#doc.page
+      #doc.page
 
     script(src="js/client-doc.js" type="module")
