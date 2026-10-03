@@ -67,6 +67,7 @@ block content
             .control
               p.h1(style="font-size: xx-large;")
                 output(name="result", aria-live="assertive")
+          p.calculation-assumption(aria-live="polite", hidden)
           p.truck-trip(aria-live="assertive", hidden) Стоимость перевозки грузов машинорейсом рассчитывается в индивидуальном порядке, обращайтесь к #[a.link(href="contacts.html") сотрудникам компании].
           .control-group
             .control
@@ -238,9 +239,24 @@ block content
           const directionErrorMessageElement = form.querySelector('.direction-error-message');
           directionErrorMessageElement.hidden = !directionIsSelected || directionIsValid;
 
+          const weightMissing = data.get('weight') === '';
+          const volumeMissing = data.get('volume') === '';
+          const weightOnly = isNumber(weight) && weight > 0 && volumeMissing;
+          const volumeOnly = isNumber(volume) && volume > 0 && weightMissing;
+          // At 5 m³ per tonne the cargo is heavy; below 200 kg per m³ it is light.
+          const calculatedWeight = volumeOnly ? volume * 100 : weight;
+          const calculatedVolume = weightOnly ? weight / 200 : volume;
           const price = directionIsValid
-            ? processCalc({weight, volume, params: data.getAll('params[]'), origin, destination})
+            ? processCalc({weight: calculatedWeight, volume: calculatedVolume, params: data.getAll('params[]'), origin, destination})
             : null;
+
+          const assumptionElement = form.querySelector('.calculation-assumption');
+          assumptionElement.hidden = !price || (!weightOnly && !volumeOnly);
+          if (!assumptionElement.hidden) {
+            assumptionElement.textContent = weightOnly
+              ? `При объёме не более ${fmtQuantity(calculatedVolume)} м³. Укажите объём для точного расчёта.`
+              : `При весе менее ${fmtQuantity(volume * 200)} кг. Укажите вес для точного расчёта.`;
+          }
 
           const categoryMessage = price ? price.title + (price.isOversized ? '<br>негабаритный груз' : '') : '&nbsp;';
           const cargoCategoryElement = form.querySelector('.cargo-category');
@@ -257,7 +273,9 @@ block content
           truckTripElement.hidden = !showTruckTripWarning;
 
           const resultElement = form.elements.result;
-          resultElement.value = priceValue;
+          resultElement.value = price && price.amount > 0 && (weightOnly || volumeOnly)
+            ? `Предварительно: ${priceValue}`
+            : priceValue;
         };
 
         form.addEventListener('input', handleFormChange);
@@ -270,6 +288,10 @@ block content
 
           form.dispatchEvent(new Event('input'));
         });
+
+        function fmtQuantity(value) {
+          return value.toLocaleString('ru-RU', {maximumFractionDigits: 6});
+        }
 
         // Функция форматирования денег
         function fmtMoney(value, digits = 2) {
