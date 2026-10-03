@@ -1,0 +1,47 @@
+extends ../pug/layout
+block variables
+  -
+    title = "Демо градиентных фонов страницы"
+    pageClass = "page--gradient-demo"
+
+block content
+  article.gradient-demo
+    h1.h2 Фон всей страницы: линейные и радиальные градиенты
+    p Выберите градиент ниже. Он применяется ко всей странице, включая область вокруг шапки и подвала. Тему можно переключить кнопкой наверху.
+
+    .gradient-demo__choices(role="group", aria-label="Вариант фона страницы")
+      button.gradient-demo__choice(type="button", data-gradient="diagonal", aria-pressed="false") 1. По диагонали
+      button.gradient-demo__choice(type="button", data-gradient="glow", aria-pressed="false") 2. Свечение в углу
+      button.gradient-demo__choice(type="button", data-gradient="vertical", aria-pressed="false") 3. Сверху вниз
+      button.gradient-demo__choice(type="button", data-gradient="radial-top", aria-pressed="false") 4. Радиальный сверху
+      button.gradient-demo__choice(type="button", data-gradient="radial-double", aria-pressed="true") 5. Два мягких пятна
+
+    h2.h3 Доставка грузов по Дальнему Востоку
+    p Ежедневные автомобильные перевозки между Владивостоком, Хабаровском, Благовещенском и другими городами региона.
+    p Рассчитайте стоимость перевозки или оформите заявку прямо на сайте.
+    p
+      a(href="calculator.html") Рассчитать стоимость
+      |  ·&nbsp;
+      a(href="order.html") Оформить заявку
+    h2.h3 Как выглядит фон на длинной странице
+    p Это пример обычного содержимого страницы без отдельной цветной подложки. Прокрутите страницу, чтобы увидеть градиент рядом с навигацией и подвалом.
+    ul
+      li Перевозки сборных грузов от 1 кг
+      li Страхование и охрана груза
+      li Доставка по Дальнему Востоку
+
+block scripts
+  script.
+    (() => {
+      const page = document.querySelector(".page--gradient-demo");
+      const choices = page.querySelectorAll(".gradient-demo__choice");
+      page.dataset.gradient = "radial-double";
+      choices.forEach((choice) => {
+        choice.addEventListener("click", () => {
+          page.dataset.gradient = choice.dataset.gradient;
+          choices.forEach((button) => {
+            button.setAttribute("aria-pressed", String(button === choice));
+          });
+        });
+      });
+    })();

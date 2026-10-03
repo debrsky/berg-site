@@ -8,6 +8,10 @@
   min-height: 100vh;
   padding: 0;
   margin: 0;
+  background-color: var(--surface-page);
+  background-image:
+    radial-gradient(circle at 10% 15%, var(--page-glow), transparent 45%),
+    radial-gradient(circle at 90% 85%, var(--page-tint), transparent 45%);
 
   display: grid;
   grid-template-columns: 100%;
@@ -64,6 +68,12 @@
 
 .container--wide {
   max-width: min(calc(var(--container-width) + 60px), calc(960px + 60px));
+}
+
+@media print {
+  .page {
+    background-image: none;
+  }
 }
 
 @media (max-width: @width-desktop) {
