@@ -97,6 +97,13 @@
   color: var(--brand-color);
 }
 
+html[data-theme="dark"] .nav-header__item:hover,
+html[data-theme="dark"] .nav-header__item:focus-within {
+  background-color: var(--surface-raised);
+  background-image: none;
+  color: var(--text-link);
+}
+
 @media (max-width: @width-desktop) {
   .nav-header {
     background-image: none;

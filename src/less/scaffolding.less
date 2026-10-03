@@ -52,10 +52,88 @@ html {
 
   --brand-color-danger: red;
 
-  // https://colorscheme.ru/#3s11TvNO0w0w0
+  --surface-page: #fff;
+  --surface-raised: #f5f9fc;
+  --surface-hover: #e9f4fc;
+  --surface-selected: #dceef9;
+  --surface-selected-strong: #acdafa;
+  --surface-notice: var(--brand-color-secondary-lightest);
+  --surface-form: var(--brand-color-lightest);
+  --surface-table: rgb(255 255 255 / 40%);
+  --text-primary: #444;
+  --text-link: var(--brand-color);
+  --border-subtle: #d7e2e8;
+  --field-background: #fff;
+  --field-text: #444;
 
-  color: var(--brand-color-black);
-  background-color: var(--brand-color-white);
+  color-scheme: light;
+  color: var(--text-primary);
+  background-color: var(--surface-page);
+}
+
+html[data-theme="dark"] {
+  --surface-page: #171d25;
+  --surface-raised: #242f3b;
+  --surface-hover: #304051;
+  --surface-selected: #344e60;
+  --surface-selected-strong: #426781;
+  --surface-notice: #382b20;
+  --surface-form: #213747;
+  --surface-table: rgb(255 255 255 / 5%);
+  --text-primary: #e7edf2;
+  --text-link: #75cbf5;
+  --border-subtle: #4a5b69;
+  --field-background: #26323e;
+  --field-text: #e7edf2;
+
+  --brand-color-danger: #ff8080;
+  color-scheme: dark;
+}
+
+html[data-theme="dark"] .suggestions-suggestions {
+  color: var(--text-primary);
+  background-color: var(--surface-raised);
+  border-color: var(--border-subtle);
+}
+
+html[data-theme="dark"] .suggestions-suggestion:hover,
+html[data-theme="dark"] .suggestions-selected,
+html[data-theme="dark"] .suggestions-selected:hover {
+  background-color: var(--surface-hover);
+}
+
+html[data-theme="dark"] .suggestions-suggestions strong {
+  color: var(--text-link);
+}
+
+html[data-theme="dark"] .suggestions-hint,
+html[data-theme="dark"] .suggestions-subtext {
+  color: #b3bfca;
+}
+
+html[data-theme="dark"] .suggestions-subtext_label {
+  background-color: var(--surface-selected);
+}
+
+@media print {
+  html[data-theme="dark"] {
+    --surface-page: #fff;
+    --surface-raised: #f5f9fc;
+    --surface-hover: #e9f4fc;
+    --surface-selected: #dceef9;
+    --surface-selected-strong: #acdafa;
+    --surface-notice: #ffeedb;
+    --surface-form: #e1f4ff;
+    --surface-table: rgb(255 255 255 / 40%);
+    --text-primary: #444;
+    --text-link: #0c98d9;
+    --border-subtle: #d7e2e8;
+    --field-background: #fff;
+    --field-text: #444;
+    color: var(--text-primary);
+    background-color: var(--surface-page);
+    color-scheme: light;
+  }
 }
 
 img {
@@ -71,7 +149,7 @@ details summary {
 a:focus-visible,
 button:focus-visible,
 summary:focus-visible {
-  outline: 2px solid var(--brand-color-dark);
+  outline: 2px solid var(--text-link);
   outline-offset: 2px;
 }
 

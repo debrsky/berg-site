@@ -12,6 +12,19 @@ html(lang="ru")
     meta(name="description", content=`${description ? description : ""}`)
     title=`${title ? `${title}. ` : ""}Берг Транспортная компания`
     link(rel="icon", href="favicon.ico")
+    script.
+      (() => {
+        let theme;
+        try {
+          theme = localStorage.getItem("theme");
+        } catch (_) {
+          // Сайт доступен и при отключённом хранилище.
+        }
+        if (theme !== "dark" && theme !== "light") {
+          theme = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
     link(rel="stylesheet", href="css/normalize.css")
     link(rel="stylesheet", href="css/style.css")
 
@@ -22,6 +35,8 @@ html(lang="ru")
 
     #sprite.visually-hidden(aria-hidden="true")
       include /public/img/sprite.svg
+
+    include theme-bar.pug
 
     include header.pug
 

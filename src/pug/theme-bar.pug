@@ -1,0 +1,19 @@
+.theme-bar
+  .theme-control
+    svg.visually-hidden(aria-hidden="true", xmlns="http://www.w3.org/2000/svg")
+      symbol#theme-icon-sun(viewBox="0 0 24 24")
+        circle(cx="12", cy="12", r="4")
+        path(d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42")
+      symbol#theme-icon-moon(viewBox="0 0 24 24")
+        path(d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z")
+      symbol#theme-icon-system(viewBox="0 0 24 24")
+        rect(x="3", y="4", width="18", height="13", rx="2")
+        path(d="M12 17v4m-4 0h8")
+    button#theme-toggle.theme-toggle(type="button", disabled, aria-label="Переключить тему")
+      svg.theme-toggle__icon.theme-toggle__icon--light(width="20", height="20", aria-hidden="true")
+        use(href="#theme-icon-sun")
+      svg.theme-toggle__icon.theme-toggle__icon--dark(width="20", height="20", aria-hidden="true")
+        use(href="#theme-icon-moon")
+      svg.theme-toggle__icon.theme-toggle__icon--system(width="20", height="20", aria-hidden="true")
+        use(href="#theme-icon-system")
+      span.theme-toggle__label Тема

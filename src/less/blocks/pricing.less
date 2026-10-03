@@ -14,7 +14,7 @@
   gap: 12px;
   padding: 8px 10px;
   border-radius: 3px;
-  background-color: #f5f9fc;
+  background-color: var(--surface-raised);
   cursor: pointer;
   list-style: none;
 }
@@ -43,7 +43,7 @@
 }
 
 .pricing__directions summary:hover {
-  background-color: #e9f4fc;
+  background-color: var(--surface-hover);
 }
 
 .pricing__directions summary:focus-visible {
@@ -80,16 +80,16 @@
 }
 
 .pricing__table tbody tr:nth-child(even) {
-  background-color: #f5f9fc;
+  background-color: var(--surface-raised);
 }
 
 .pricing__table .pricing__active-row,
 .pricing__table .pricing__active-column {
-  background-color: #dceef9;
+  background-color: var(--surface-selected);
 }
 
 .pricing__table .pricing__active-cell {
-  background-color: #acdafa;
+  background-color: var(--surface-selected-strong);
 }
 
 .pricing__table td:focus-visible {
@@ -110,6 +110,16 @@
   html {
     font-size: 10pt;
     color: #000;
+    background-color: #fff;
+    color-scheme: light;
+  }
+
+  html[data-theme="dark"] {
+    --text-link: #000;
+    --surface-raised: #fff;
+    color: #000;
+    background-color: #fff;
+    color-scheme: light;
   }
 
   .page--pricing {

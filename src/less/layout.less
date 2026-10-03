@@ -13,15 +13,21 @@
   grid-template-rows:
     min-content
     min-content
+    min-content
     auto
     min-content
     min-content;
   grid-template-areas:
+    "theme-bar"
     "header"
     "nav-header"
     "main"
     "nav-footer"
     "footer";
+}
+
+.theme-bar {
+  grid-area: theme-bar;
 }
 
 .header {
