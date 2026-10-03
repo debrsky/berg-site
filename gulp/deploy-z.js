@@ -8,12 +8,10 @@ import {tmpdir} from "os";
 import fetch from "node-fetch";
 import {FormData} from "formdata-node";
 import {fileFromPath} from "formdata-node/file-from-path";
-function transform(options) {
-  return new Transform(options);
-}
+
 const {src, dest} = gulp;
 
-export default async function deployZ() {
+function getDeploySettings() {
   const env = process.env.DEPLOY_ENV || "dev"; // По умолчанию dev
   if (!["dev", "prod"].includes(env)) {
     throw new Error(
@@ -21,21 +19,120 @@ export default async function deployZ() {
     );
   }
 
-  let deployUrl, deployToken;
-  if (env === "dev") {
-    deployUrl = process.env.DEPLOY_DEV_URL;
-    deployToken = process.env.DEPLOY_DEV_TOKEN;
-  } else {
-    deployUrl = process.env.DEPLOY_PROD_URL;
-    deployToken = process.env.DEPLOY_PROD_TOKEN;
-  }
-
+  const prefix = `DEPLOY_${env.toUpperCase()}`;
+  const deployUrl = process.env[`${prefix}_URL`];
+  const deployToken = process.env[`${prefix}_TOKEN`];
   if (!deployUrl || !deployToken) {
     throw new Error(
-      `Отсутствуют переменные окружения для ${env}: DEPLOY_${env.toUpperCase()}_URL или DEPLOY_${env.toUpperCase()}_TOKEN.`
+      `Отсутствуют переменные окружения для ${env}: ${prefix}_URL или ${prefix}_TOKEN.`
     );
   }
 
+  return {env, deployUrl, deployToken};
+}
+
+async function getServerFileList(deployUrl, deployToken) {
+  const response = await fetch(deployUrl, {
+    method: "GET",
+    headers: {Authorization: `Bearer ${deployToken}`}
+  });
+
+  console.log("Запрос списка файлов:", response.status, response.statusText);
+  if (!response.ok) {
+    const text = await response.text();
+    console.log(text);
+    throw new Error("Deploy failed");
+  }
+
+  const result = await response.json();
+  const serverFileList = {};
+  Object.entries(result.files).forEach(([key, value]) => {
+    serverFileList[key] = value.replace(/\\/g, "/");
+  });
+
+  console.log(
+    "Получен список файлов, всего файлов:",
+    Object.keys(serverFileList).length
+  );
+  return serverFileList;
+}
+
+function changedFiles(serverFileList) {
+  return src(["public/**/*"], {base: "public", encoding: false}).pipe(
+    new Transform({
+      objectMode: true,
+      transform(file, encoding, callback) {
+        if (!file.isBuffer()) return callback(); // пропускаем директории
+
+        const hash = crypto.createHash("md5");
+        hash.update(file.contents);
+        const md5 = hash.digest("hex");
+        const filePath = file.relative?.replace(/\\/g, "/");
+        const fileSize = file.contents.length;
+        const isFileModified = md5 !== serverFileList[filePath];
+
+        delete serverFileList[filePath];
+
+        if (isFileModified) {
+          console.log("to deploy:", filePath, fileSize);
+          callback(null, file);
+        } else {
+          callback();
+        }
+      }
+    })
+  );
+}
+
+function createArchive(outputFile, serverFileList) {
+  return new Promise((resolve, reject) => {
+    changedFiles(serverFileList)
+      .pipe(archiver(outputFile))
+      .pipe(dest("."))
+      .on("end", resolve)
+      .on("error", reject);
+  });
+}
+
+async function getArchiveSize(outputFile) {
+  try {
+    const fileStat = await fs.promises.stat(outputFile);
+    console.log("Archive created:", outputFile, fileStat.size);
+    return fileStat.size;
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+    console.log("Нет измененных файлов, нечего деплоить");
+    return null;
+  }
+}
+
+async function sendArchive(deployUrl, deployToken, outputFile) {
+  const formData = new FormData();
+  formData.append("archive", await fileFromPath(outputFile));
+
+  const response = await fetch(deployUrl, {
+    method: "POST",
+    body: formData,
+    headers: {Authorization: `Bearer ${deployToken}`}
+  });
+
+  console.log("Отправка архива:", response.status, response.statusText);
+  if (!response.ok) {
+    const text = await response.text();
+    console.log(text);
+    throw new Error("Deploy failed");
+  }
+
+  const result = await response.json();
+  delete result.missing_files;
+  console.log(result);
+  console.log("Deploy successful:", result.message);
+
+  fs.unlinkSync(outputFile);
+}
+
+export default async function deployZ() {
+  const {env, deployUrl, deployToken} = getDeploySettings();
   console.log(`Деплой на сервер: ${env} (URL: ${deployUrl})`);
 
   const outputFile = join(
@@ -43,116 +140,22 @@ export default async function deployZ() {
     `temp-${Date.now()}-${Math.random().toString(36).slice(2)}.zip`
   );
 
-  const serverFileList = {};
-
-  // get file list
+  let serverFileList;
   try {
-    const response = await fetch(deployUrl, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${deployToken}`
-      }
-    });
-
-    console.log("Запрос списка файлов:", response.status, response.statusText);
-    if (!response.ok) {
-      const text = await response.text();
-      console.log(text);
-      throw new Error("Deploy failed");
-    }
-
-    const result = await response.json();
-    Object.assign(serverFileList, result.files);
-    Object.entries(serverFileList).forEach(([key, value]) => {
-      serverFileList[key] = value.replace(/\\/g, "/");
-    });
-
-    console.log(
-      "Получен список файлов, всего файлов:",
-      Object.keys(serverFileList).length
-    );
+    serverFileList = await getServerFileList(deployUrl, deployToken);
   } catch (error) {
     console.error(error);
     throw error;
   }
 
-  // Create archive
-  await new Promise((resolve, reject) => {
-    src(["public/**/*"], {base: "public", encoding: false})
-      .pipe(
-        transform({
-          objectMode: true,
-          transform(file, encoding, callback) {
-            if (!file.isBuffer()) return callback(); // пропускаем директории
-
-            const hash = crypto.createHash("md5");
-            hash.update(file.contents);
-            const md5 = hash.digest("hex");
-            const filePath = file.relative?.replace(/\\/g, "/");
-            const fileSize = file.contents.length;
-            const isFileModified = md5 !== serverFileList[filePath];
-
-            delete serverFileList[filePath];
-
-            if (isFileModified) {
-              console.log("to deploy:", filePath, fileSize);
-              callback(null, file);
-            } else {
-              // console.log('skip:', filePath, fileSize);
-              callback();
-            }
-          }
-        })
-      )
-      .pipe(archiver(outputFile))
-      .pipe(dest("."))
-      .on("end", resolve)
-      .on("error", reject);
-  });
-
+  await createArchive(outputFile, serverFileList);
   console.log("Файлы на сервере, отсутствующие в списке на деплой");
   console.log(Object.keys(serverFileList));
 
-  let fileStat;
+  if ((await getArchiveSize(outputFile)) === null) return;
+
   try {
-    fileStat = await fs.promises.stat(outputFile);
-    console.log("Archive created:", outputFile, fileStat.size);
-  } catch (error) {
-    if (error.code !== "ENOENT") throw error;
-    console.log("Нет измененных файлов, нечего деплоить");
-    return;
-  }
-
-  // Send archive to server
-  try {
-    const formData = new FormData();
-
-    formData.append("archive", await fileFromPath(outputFile));
-
-    const response = await fetch(deployUrl, {
-      method: "POST",
-      body: formData,
-      headers: {
-        Authorization: `Bearer ${deployToken}`
-      }
-    });
-
-    console.log("Отправка архива:", response.status, response.statusText);
-    if (!response.ok) {
-      const text = await response.text();
-      console.log(text);
-      throw new Error("Deploy failed");
-    }
-
-    const result = await response.json();
-
-    delete result.missing_files;
-
-    console.log(result);
-    console.log("Deploy successful:", result.message);
-
-    // Clean up archive file
-    fs.unlinkSync(outputFile);
+    await sendArchive(deployUrl, deployToken, outputFile);
   } catch (error) {
     console.error("Deploy error:", error.message);
     throw error;
