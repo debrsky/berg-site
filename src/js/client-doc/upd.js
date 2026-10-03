@@ -1,3 +1,96 @@
+const blank = (value) => value ?? "";
+
+function getDisplayFlags(isIp, updStatus, options, seller) {
+  const signatureSrc = seller.signature_base64 ? seller.signature_base64 : "";
+  const stampSrc = seller.stamp_base64 ? seller.stamp_base64 : "";
+  return {
+    isIpAttribute: isIp ? "true" : "false",
+    legalDisplay: isIp ? "none" : "table",
+    ipDisplay: isIp ? "table" : "none",
+    invoiceSignature: options.signature && updStatus === 1 ? signatureSrc : "",
+    transferSignature: options.signature && updStatus === 2 ? signatureSrc : "",
+    stampImage: options.stamp ? stampSrc : ""
+  };
+}
+
+function fmtMoney(value, digits = 2) {
+  if (typeof value !== "number" || isNaN(value)) return "";
+  return value.toLocaleString("ru-RU", {
+    style: "decimal",
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
+  });
+}
+
+function fmtNumber(value, digits = 3) {
+  if (typeof value !== "number" || isNaN(value)) return "";
+  return value
+    .toLocaleString("ru-RU", {
+      style: "decimal",
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits
+    })
+    .replace(/0+$/g, "")
+    .replace(/,$/g, "");
+}
+
+function renderDetailRow(item, index) {
+  const itemNds = item?.nds ?? 0;
+  const taxRate = itemNds === 0 ? "--" : itemNds + "%";
+  const taxClass = itemNds === 0 ? "upd-text-center" : "upd-money";
+  const taxAmount = itemNds === 0 ? "--" : fmtMoney(item?.nds_amount ?? 0);
+  const price = fmtMoney(item?.price_without_nds ?? 0, 6).replace(
+    /(,\d{2}\d*?)0+$/,
+    "$1"
+  ); // Убираем нули после второго знака после запятой
+  return `
+  <tr>
+    <td></td>
+    <td class="upd-border-left-bold">${index + 1}</td>
+    <td>${item?.name ?? ""}</td>
+    <td></td>
+    <td class="upd-text-center">${item?.mUcode ?? ""}</td>
+    <td class="upd-text-center">${item?.mU ?? ""}</td>
+    <td class="upd-text-center">${fmtNumber(item?.qty ?? "")}</td>
+    <td class="upd-money">${price}</td>
+    <td class="upd-money">${fmtMoney(item?.amount_without_nds ?? 0)}</td>
+    <td class="upd-text-center">--</td>
+    <td class="upd-text-center">${taxRate}</td>
+    <td class="${taxClass}">${taxAmount}</td>
+    <td class="upd-money">${fmtMoney(item?.amount ?? 0)}</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>`;
+}
+
+function renderDetailsRows(details) {
+  if (details.length === 0) {
+    return '<tr><td colspan="16" class="upd-text-center">Нет позиций в счёте.</td></tr>';
+  }
+  return details.map(renderDetailRow).join("");
+}
+
+function renderTotalRow(data) {
+  const amountWithoutNds = data?.total_amount_without_nds ?? 0;
+  const ndsAmount = data?.total_nds_amount ?? 0;
+  const amount = data?.total_amount ?? 0;
+  const taxClass =
+    ndsAmount === 0 ? "upd-text-center" : "upd-money upd-text-bold";
+  const taxAmount = ndsAmount === 0 ? "--" : fmtMoney(ndsAmount);
+  return `
+  <tr>
+    <td style="border-left-color: transparent; border-bottom-color: transparent;"></td>
+    <td colspan="7" style="border-bottom-color: transparent;" class="upd-border-left-bold upd-text-right upd-padding-right">Всего к оплате (9)</td>
+    <td class="upd-money upd-text-bold">${fmtMoney(amountWithoutNds)}</td>
+    <td class="upd-text-center upd-valign-middle">--</td>
+    <td class="upd-text-center upd-valign-middle">x</td>
+    <td class="${taxClass}">${taxAmount}</td>
+    <td class="upd-money upd-text-bold">${fmtMoney(amount)}</td>
+    <td colspan="3" style="border-right-color: transparent; border-bottom-color: transparent;"></td>
+  </tr>`;
+}
+
 export function generateUPD(data, options = {}) {
   options = {stamp: false, signature: false, ...options};
 
@@ -8,7 +101,6 @@ export function generateUPD(data, options = {}) {
   const consigner = data?.consigner ?? {};
   const consignee = data?.consignee ?? {};
   const app = data?.app ?? {};
-  const details = data?.details ?? [];
   const isIp = seller.inn?.length === 12;
   const consignerStr = [consigner.name, consigner.address]
     .filter(Boolean)
@@ -17,93 +109,13 @@ export function generateUPD(data, options = {}) {
     .filter(Boolean)
     .join(", ");
   const positionTitle = isIp ? "Индивидуальный предприниматель" : "";
-  const amountWithoutNds = data?.total_amount_without_nds ?? 0;
-  const ndsAmount = data?.total_nds_amount ?? 0;
-  const amount = data?.total_amount ?? 0;
-
-  // Функция форматирования денег (из исходного скрипта)
-  function fmtMoney(value, digits = 2) {
-    if (typeof value !== "number" || isNaN(value)) {
-      return "";
-    }
-    return value.toLocaleString("ru-RU", {
-      style: "decimal",
-      minimumFractionDigits: digits,
-      maximumFractionDigits: digits
-    });
-  }
-
-  // Функция форматирования чисел
-  function fmtNumber(value, digits = 3) {
-    if (typeof value !== "number" || isNaN(value)) {
-      return "";
-    }
-    return value
-      .toLocaleString("ru-RU", {
-        style: "decimal",
-        minimumFractionDigits: digits,
-        maximumFractionDigits: digits
-      })
-      .replace(/0+$/g, "")
-      .replace(/,$/g, "");
-  }
-
-  // Генерация строк таблицы позиций
-  let detailsRows = "";
-  if (details.length === 0) {
-    detailsRows =
-      '<tr><td colspan="16" class="upd-text-center">Нет позиций в счёте.</td></tr>';
-  } else {
-    details.forEach((item, index) => {
-      const itemNds = item?.nds ?? 0;
-      detailsRows += `
-  <tr>
-    <td></td>
-    <td class="upd-border-left-bold">${index + 1}</td>
-    <td>${item?.name ?? ""}</td>
-    <td></td>
-    <td class="upd-text-center">${item?.mUcode ?? ""}</td>
-    <td class="upd-text-center">${item?.mU ?? ""}</td>
-    <td class="upd-text-center">${fmtNumber(item?.qty ?? "")}</td>
-    <td class="upd-money">${
-      fmtMoney(item?.price_without_nds ?? 0, 6).replace(
-        /(,\d{2}\d*?)0+$/,
-        "$1"
-      ) /* Убираем нули после второго знака после запятой */
-    }</td>
-    <td class="upd-money">${fmtMoney(item?.amount_without_nds ?? 0)}</td>
-    <td class="upd-text-center">--</td>
-    <td class="upd-text-center">${itemNds === 0 ? "--" : `${itemNds}%`}</td>
-    <td class="${itemNds === 0 ? "upd-text-center" : "upd-money"}">${
-        itemNds === 0 ? "--" : fmtMoney(item?.nds_amount ?? 0)
-      }</td>
-    <td class="upd-money">${fmtMoney(item?.amount ?? 0)}</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>`;
-    });
-  }
-
-  // Итоговая строка
-
-  const totalRow = `
-  <tr>
-    <td style="border-left-color: transparent; border-bottom-color: transparent;"></td>
-    <td colspan="7" style="border-bottom-color: transparent;" class="upd-border-left-bold upd-text-right upd-padding-right">Всего к оплате (9)</td>
-    <td class="upd-money upd-text-bold">${fmtMoney(amountWithoutNds)}</td>
-    <td class="upd-text-center upd-valign-middle">--</td>
-    <td class="upd-text-center upd-valign-middle">x</td>
-    <td class="${
-      ndsAmount === 0 ? "upd-text-center" : "upd-money upd-text-bold"
-    }">${ndsAmount === 0 ? "--" : fmtMoney(ndsAmount)}</td>
-    <td class="upd-money upd-text-bold">${fmtMoney(amount)}</td>
-    <td colspan="3" style="border-right-color: transparent; border-bottom-color: transparent;"></td>
-  </tr>`;
-
-  // Подписи и изображения
-  const signatureSrc = seller.signature_base64 ? seller.signature_base64 : "";
-  const stampSrc = seller.stamp_base64 ? seller.stamp_base64 : "";
+  const detailsRows = renderDetailsRows(data?.details ?? []);
+  const totalRow = renderTotalRow(data);
+  const display = getDisplayFlags(isIp, updStatus, options, seller);
+  const nomer = blank(data?.nomer);
+  const invDate = blank(data?.inv_date);
+  const sellerKpp = seller.kpp ? "/" + seller.kpp : "";
+  const payerKpp = payer.kpp ? " / " + payer.kpp : "";
 
   const html = `<style>
 .upd {
@@ -327,13 +339,9 @@ img.upd-image:not([src]) {
             <tbody>
               <tr>
                 <td style="width: 25mm;" class="upd-text-bold">Счет-фактура №</td>
-                <td style="width: 25mm;" class="upd-border-bottom upd-text-center upd-text-bold">${
-                  data?.nomer ?? ""
-                }</td>
+                <td style="width: 25mm;" class="upd-border-bottom upd-text-center upd-text-bold">${nomer}</td>
                 <td style="width: 7mm;" class="upd-text-center">от</td>
-                <td style="width: 25mm;" class="upd-border-bottom upd-text-center upd-text-bold">${
-                  data?.inv_date ?? ""
-                }</td>
+                <td style="width: 25mm;" class="upd-border-bottom upd-text-center upd-text-bold">${invDate}</td>
                 <td style="width: 10mm;" class="upd-valign-bottom">(1)</td>
                 <td rowspan="2" class="upd-text-right upd-text-smallest upd-valign-top">
                   Приложение № 1 к постановлению Правительства Российской Федерации от 26 декабря 2011 г. № 1137<br>
@@ -357,21 +365,21 @@ img.upd-image:not([src]) {
                     <tbody>
                       <tr>
                         <td style="width: 30mm;" class="upd-text-bold">Продавец:</td>
-                        <td class="upd-border-bottom">${seller.name ?? ""}</td>
+                        <td class="upd-border-bottom">${blank(seller.name)}</td>
                         <td style="width: 6mm;" class="upd-valign-bottom">(2)</td>
                       </tr>
                       <tr>
                         <td>Адрес:</td>
-                        <td class="upd-border-bottom">${
-                          seller.address ?? ""
-                        }</td>
+                        <td class="upd-border-bottom">${blank(
+                          seller.address
+                        )}</td>
                         <td class="upd-valign-bottom">(2а)</td>
                       </tr>
                       <tr>
                         <td>ИНН/КПП продавца:</td>
-                        <td class="upd-border-bottom">${seller.inn ?? ""}${
-    seller.kpp ? "/" + seller.kpp : ""
-  }</td>
+                        <td class="upd-border-bottom">${blank(
+                          seller.inn
+                        )}${sellerKpp}</td>
                         <td class="upd-valign-bottom">(2б)</td>
                       </tr>
                       <tr>
@@ -401,21 +409,21 @@ img.upd-image:not([src]) {
                     <tbody>
                       <tr>
                         <td style="width: 30mm;" class="upd-text-bold">Покупатель:</td>
-                        <td class="upd-border-bottom">${payer.name ?? ""}</td>
+                        <td class="upd-border-bottom">${blank(payer.name)}</td>
                         <td style="width: 6mm;" class="upd-valign-bottom">(6)</td>
                       </tr>
                       <tr>
                         <td>Адрес:</td>
-                        <td class="upd-border-bottom">${
-                          payer.address ?? ""
-                        }</td>
+                        <td class="upd-border-bottom">${blank(
+                          payer.address
+                        )}</td>
                         <td class="upd-valign-bottom">(6а)</td>
                       </tr>
                       <tr>
                         <td>ИНН/КПП покупателя:</td>
-                        <td class="upd-border-bottom">${payer.inn ?? ""}${
-    payer.kpp ? " / " + payer.kpp : ""
-  }</td>
+                        <td class="upd-border-bottom">${blank(
+                          payer.inn
+                        )}${payerKpp}</td>
                         <td class="upd-valign-bottom">(6б)</td>
                       </tr>
                       <tr>
@@ -429,9 +437,7 @@ img.upd-image:not([src]) {
                             <tbody>
                               <tr>
                                 <td style="width: 63mm;">Документ об отгрузке (наименование № дата)</td>
-                                <td class="upd-border-bottom">УПД № ${
-                                  data?.nomer ?? ""
-                                } от ${data?.inv_date ?? ""}</td>
+                                <td class="upd-border-bottom">УПД № ${nomer} от ${invDate}</td>
                               </tr>
                             </tbody>
                           </table>
@@ -560,10 +566,8 @@ ${totalRow}
         <td class="upd-padding-left upd-border-left-bold upd-border-bottom-bold">
           <!-- для ИП выключать (при длине ИНН 12 знаков) -->
           <table data-is-ip="${
-            isIp ? "true" : "false"
-          }" class="upd-layout-table" style="display: ${
-    isIp ? "none" : "table"
-  };">
+            display.isIpAttribute
+          }" class="upd-layout-table" style="display: ${display.legalDisplay};">
             <tbody>
               <tr>
                 <td style="width: 49%;">
@@ -594,9 +598,9 @@ ${totalRow}
                         <td style="width: 43mm;">Главный бухгалтер или иное уполномоченное лицо</td>
                         <td style="width: 27mm;" class="upd-border-bottom"></td>
                         <td style="width: 3mm;"> </td>
-                        <td class="upd-border-bottom upd-valign-bottom">${
-                          seller.cao ?? ""
-                        }</td>
+                        <td class="upd-border-bottom upd-valign-bottom">${blank(
+                          seller.cao
+                        )}</td>
                       </tr>
                       <tr>
                         <td> </td>
@@ -611,16 +615,14 @@ ${totalRow}
             </tbody>
           </table>
           <table data-is-ip="${
-            isIp ? "true" : "false"
-          }" class="upd-layout-table" style="display: ${
-    isIp ? "table" : "none"
-  };">
+            display.isIpAttribute
+          }" class="upd-layout-table" style="display: ${display.ipDisplay};">
             <tbody>
               <tr>
                 <td style="width: 35ch;">Индивидуальный предприниматель<br>или иное уполномоченное лицо</td>
                 <td style="width: 27mm;" class="upd-border-bottom upd-image-container">
                   <img style="top: -10mm; left: 0; width: 27mm;" src="${
-                    options.signature && updStatus === 1 ? signatureSrc : ""
+                    display.invoiceSignature
                   }" alt="рукописная подпись" class="upd-image upd-image--signature">
                 </td>
                 <td style="width: 3mm;"> </td>
@@ -628,9 +630,9 @@ ${totalRow}
                   seller.ceo ?? ""
                 }</td>
                 <td style="width: 2%;"> </td>
-                <td style="width: 40ch;" class="upd-border-bottom upd-valign-bottom upd-text-center">ОГРНИП ${
-                  seller.ogrn ?? ""
-                } от ${seller.ogrn_date ?? ""}</td>
+                <td style="width: 40ch;" class="upd-border-bottom upd-valign-bottom upd-text-center">ОГРНИП ${blank(
+                  seller.ogrn
+                )} от ${blank(seller.ogrn_date)}</td>
                 <td></td>
               </tr>
               <tr>
@@ -666,13 +668,13 @@ ${totalRow}
     <tbody>
       <tr>
         <td style="width: 47mm;">Данные о транспортировке и грузе</td>
-        <td class="upd-border-bottom">Заявка № ${app.nomer ?? ""}${
+        <td class="upd-border-bottom">Заявка № ${blank(app.nomer)}${
     app.base_code
-  } от ${app.date_reg ?? ""}, груз: ${
-    app.cargo ?? ""
-  }, масса брутто ${fmtNumber(app.weight ?? "")} кг, авто объем ${fmtNumber(
-    app.volume ?? ""
-  )} м³, кол-во мест ${fmtNumber(app.count_pcs) ?? ""}.</td>
+  } от ${blank(app.date_reg)}, груз: ${blank(
+    app.cargo
+  )}, масса брутто ${fmtNumber(blank(app.weight))} кг, авто объем ${fmtNumber(
+    blank(app.volume)
+  )} м³, кол-во мест ${fmtNumber(blank(app.count_pcs))}.</td>
         <td style="width: 6mm;">[11]</td>
       </tr>
       <tr>
@@ -694,7 +696,7 @@ ${totalRow}
                 <td style="width: 3mm;"> </td>
                 <td style="width: 27mm" class="upd-border-bottom upd-image-container">
                   <img style="top: -10mm; left: 0; width: 27mm;" src="${
-                    options.signature && updStatus === 2 ? signatureSrc : ""
+                    display.transferSignature
                   }" alt="рукописная подпись" class="upd-image upd-image--signature">
                 </td>
                 <td style="width: 3mm;"> </td>
@@ -717,9 +719,7 @@ ${totalRow}
             <tbody>
               <tr>
                 <td style="width: 45mm; height: 2em;" class="upd-valign-bottom">Дата отгрузки, передачи (сдачи)</td>
-                <td class="upd-border-bottom upd-valign-bottom">${
-                  data?.inv_date ?? ""
-                }</td>
+                <td class="upd-border-bottom upd-valign-bottom">${invDate}</td>
                 <td style="width: 6mm;" class="upd-valign-bottom">[13]</td>
               </tr>
             </tbody>
@@ -767,9 +767,9 @@ ${totalRow}
           <table class="upd-layout-table">
             <tbody>
               <tr>
-                <td style="height: 2em;" class="upd-border-bottom upd-valign-bottom">${
-                  seller.name ?? ""
-                }</td>
+                <td style="height: 2em;" class="upd-border-bottom upd-valign-bottom">${blank(
+                  seller.name
+                )}</td>
                 <td style="width: 6mm;" class="upd-valign-bottom">[16]</td>
               </tr>
               <tr>
@@ -782,7 +782,7 @@ ${totalRow}
           <div style="margin-left: 15mm;" class="upd-image-container">
             М.П.
             <img style="left: -15mm; bottom: -17mm;" src="${
-              options.stamp ? stampSrc : ""
+              display.stampImage
             }" alt="оттиск печати" class="upd-image upd-image--stamp">
           </div>
         </td>
@@ -815,9 +815,7 @@ ${totalRow}
             <tbody>
               <tr>
                 <td style="width: 45mm; height: 2em;" class="upd-valign-bottom">Дата получения (приемки)</td>
-                <td class="upd-border-bottom upd-valign-bottom">${
-                  data?.inv_date ?? ""
-                }</td>
+                <td class="upd-border-bottom upd-valign-bottom">${invDate}</td>
                 <td style="width: 6mm;" class="upd-valign-bottom">[18]</td>
               </tr>
             </tbody>
