@@ -261,9 +261,7 @@ block content
         };
 
         form.addEventListener('input', handleFormChange);
-        form.addEventListener('submit', (event) => {
-          console.log('submit', event);
-        });
+        form.addEventListener('submit', (event) => event.preventDefault());
 
         // fix bug with restoring form state with back button
         window.addEventListener('pageshow', () => {
