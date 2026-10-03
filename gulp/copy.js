@@ -1,6 +1,6 @@
 import gulp from "gulp";
 
-export default function copy() {
+function copySources() {
   return gulp
     .src(
       [
@@ -22,4 +22,14 @@ export default function copy() {
       }
     )
     .pipe(gulp.dest(`public`));
+}
+
+function copySuggestionsStyles() {
+  return gulp
+    .src("node_modules/@dadata/suggestions/dist/suggestions.min.css")
+    .pipe(gulp.dest("public/vendor/suggestions"));
+}
+
+export default function copy() {
+  return gulp.parallel(copySources, copySuggestionsStyles)(...arguments);
 }
