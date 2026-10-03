@@ -251,6 +251,8 @@ block content
             a.link(href="package.html") Требования к упаковке груза
           li
             a.link(href="pricing.html") Тарифы на грузоперевозку
+          li
+            a.link(href="privacy-policy.html") Политика обработки персональных данных
 
         p.new-tariff-warning
           | 📣 С
@@ -262,13 +264,11 @@ block content
         .control-group
           .control.control--required
             input#accept(type="checkbox", name="accept", value="accept")
-            label.control__label(for="accept") Подтверждаю, что с условиями перевозки грузов, требованиями к упаковке груза и тарифами на грузоперевозку #[em ознакомлен]
+            label.control__label(for="accept") Подтверждаю, что с условиями перевозки грузов, требованиями к упаковке груза, тарифами на грузоперевозку и политикой обработки персональных данных #[em ознакомлен]
 
         .control-group
-          .control.flex.flex-wrap(style="gap: 1ch; justify-content: center; align-items: center;")
-            button.max-content.button.button--primary.form__button(type="submit", style="flex-shrink: 0;") Отправить заявку
-            div.
-              Отправляя заявку, вы соглашаетесь с #[a.link(href="privacy-policy.html") обработкой] ваших персональных данных.
+          .control
+            button.max-content.button.button--primary.form__button(type="submit") Отправить заявку
           .control-group__error-message При отправке заявки произошла ошибка, заявка не отправлена.
 
 block scripts
