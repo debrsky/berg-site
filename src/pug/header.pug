@@ -1,8 +1,9 @@
 header.header.container
   .logo
     a.logo__icon(href="home.html", aria-label="Главная страница сайта")
-      svg(width="147", height="62", role="presentation")
-        use(xlink:href="#logo")
+      span.logo__artwork(aria-hidden="true")
+        svg(width="147", height="62", role="presentation")
+          use(xlink:href="#logo")
 
     h1.logo__text #[span.visually-hidden Берг] Транспортная #[br] компания
     .logo__slogan Автоперевозки грузов по Дальнему Востоку
