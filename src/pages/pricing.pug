@@ -185,8 +185,6 @@ block content
             td Погрузочно-разгрузочные работы (непаллетированный груз)
             td 100 руб. за 100 кг
 
-      p.
-
     section.pricing__download
       h3.h3 Скачать прайс
       p
@@ -195,7 +193,7 @@ block content
       a.pdf(href="files/price/price20260101prime.pdf") прайс
       | .
 
-    p(style="font-size: xx-small; text-align: end;")
+    p.pricing__effective-date(style="font-size: xx-small; text-align: end;")
       | Настоящий прайс действует с
       |
       time(datetime=startdate.toISOString().substring(0, 10)) #{startdate.toISOString().substring(0, 10)}

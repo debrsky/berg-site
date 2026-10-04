@@ -104,7 +104,7 @@
 @media print {
   @page {
     size: A4;
-    margin: 12mm;
+    margin: 10mm;
   }
 
   html {
@@ -139,7 +139,8 @@
   .page--pricing .footer,
   .page--pricing .announcement,
   .page--pricing .noscript,
-  .page--pricing .pricing__download {
+  .page--pricing .pricing__download,
+  .page--pricing .pricing__effective-date {
     display: none !important;
   }
 
@@ -184,6 +185,10 @@
     text-align: right;
   }
 
+  .page--pricing .contacts__address-text::before {
+    content: attr(data-place) ", ";
+  }
+
   .page--pricing .contacts__phones a:not(:first-of-type) {
     margin: 0;
   }
@@ -199,16 +204,16 @@
 
   .page--pricing .pricing h2 {
     font-size: 16pt;
-    margin: 4mm 0 3mm;
+    margin: 3mm 0 2mm;
   }
 
   .page--pricing .pricing h3 {
     font-size: 12pt;
-    margin: 4mm 0 2mm;
+    margin: 3mm 0 1mm;
   }
 
   .page--pricing .pricing p {
-    margin: 2mm 0;
+    margin: 1mm 0;
   }
 
   .page--pricing .pricing__directions {
@@ -217,9 +222,7 @@
 
   .page--pricing .pricing__directions details {
     display: block;
-    margin: 4mm 0;
-    break-inside: avoid;
-    page-break-inside: avoid;
+    margin: 2mm 0;
   }
 
   .page--pricing .pricing__directions details::details-content {
@@ -235,6 +238,10 @@
     font-weight: bold;
   }
 
+  .page--pricing .pricing__directions summary .h4 {
+    font-size: 14pt;
+  }
+
   .page--pricing .pricing__directions summary::after {
     display: none;
   }
@@ -245,21 +252,27 @@
 
   .page--pricing .pricing__table-list {
     justify-content: flex-start;
-    gap: 4mm;
+    gap: 2mm;
   }
 
   .page--pricing .pricing__table-wrapper {
-    width: calc(50% - 2mm);
+    width: calc(50% - 1mm);
     break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .page--pricing .pricing__table {
     font-size: 9pt;
   }
 
+  .page--pricing .pricing > section > table {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
   .page--pricing .pricing__table th,
   .page--pricing .pricing__table td {
-    padding: 1mm;
+    padding: 0.6mm;
   }
 
   .page--pricing .pricing__table .v-text {
