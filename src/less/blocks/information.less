@@ -17,3 +17,15 @@
 .page--information .main article > section > p:first-of-type {
   margin-top: 0;
 }
+
+html[data-theme="dark"] .about-map {
+  filter: invert(1) hue-rotate(180deg);
+  mix-blend-mode: screen;
+}
+
+@media print {
+  html[data-theme="dark"] .about-map {
+    filter: none;
+    mix-blend-mode: normal;
+  }
+}
