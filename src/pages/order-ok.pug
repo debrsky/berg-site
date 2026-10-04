@@ -1,4 +1,6 @@
 extends ../pug/layout
+include ../pug/order-truck
+
 block variables
   -title = "Заявка отправлена"
 
@@ -6,5 +8,13 @@ block head
   meta(name="robots", content="noindex")
 
 block content
-  article(style="display: flex; justify-content: center;")
-    h2.h2 Заявка успешно отправлена
+  article.order-success(aria-labelledby="order-success-title")
+    .order-success__scene(aria-hidden="true")
+      .order-success__road
+      .order-success__truck
+        +orderTruck(84, 58)
+      svg.order-success__document(width="38", height="48", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round", focusable="false")&attributes({viewBox: "0 0 38 48"})
+        path(d="M6 2h17l9 9v34H6zM23 2v10h9M12 17h8")
+        path.order-success__check(d="m12 29 5 5 10-12")&attributes({pathLength: "24"})
+    h2#order-success-title.h2.order-success__title Заявка успешно отправлена
+    p.order-success__message Спасибо за обращение в транспортную компанию «Берг»!

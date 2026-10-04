@@ -1,4 +1,6 @@
 extends ../pug/layout
+include ../pug/order-truck
+
 block variables
   -
     title = "Заявка"
@@ -269,8 +271,15 @@ block content
 
         .control-group
           .control
-            button.max-content.button.button--primary.button--borderless.form__button(type="submit") Отправить заявку
-          .control-group__error-message При отправке заявки произошла ошибка, заявка не отправлена.
+            button.button.button--primary.button--borderless.form__button.order-submit(type="submit", aria-disabled="false", aria-busy="false")
+              span.order-submit__labels
+                span.order-submit__reserve(aria-hidden="true") Отправляем заявку…
+                span.order-submit__label Отправить заявку
+              span.order-submit__road(aria-hidden="true")
+                span.order-submit__vehicle
+                  +orderTruck()
+          p.order-submit__status(role="status", aria-live="polite", aria-atomic="true")
+          .control-group__error-message.order-submit__error(role="alert", aria-atomic="true")
 
 block scripts
   script(src="vendor/imask/imask.min.js")

@@ -1,0 +1,115 @@
+.order-success {
+  max-width: 660px;
+  margin: clamp(24px, 5vw, 56px) auto;
+  padding: clamp(20px, 4vw, 40px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  background-color: var(--surface-raised);
+  text-align: center;
+}
+
+.order-success__scene {
+  position: relative;
+  width: min(320px, 100%);
+  height: 110px;
+  margin: 0 auto 24px;
+  overflow: hidden;
+  color: var(--text-link);
+}
+
+.order-success__road {
+  position: absolute;
+  right: 0;
+  bottom: 18px;
+  left: 0;
+  height: 2px;
+  border-radius: 1px;
+  background-color: var(--brand-color-secondary);
+}
+
+.order-success__truck {
+  position: absolute;
+  right: 68px;
+  bottom: 13px;
+  width: 84px;
+  height: 58px;
+}
+
+.order-success__truck svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.order-success__document {
+  position: absolute;
+  right: 12px;
+  bottom: 20px;
+  display: block;
+  width: 38px;
+  height: 48px;
+}
+
+.order-success__check {
+  stroke: var(--brand-color-secondary);
+  stroke-dasharray: 24;
+  stroke-dashoffset: 0;
+}
+
+.order-success__title.h2 {
+  margin: 0;
+}
+
+.order-success__message {
+  margin: 16px 0 0;
+  line-height: 1.5;
+}
+
+// Однократная доставка; без движения или JS сцена сразу в финальном состоянии.
+@media screen and (prefers-reduced-motion: no-preference) {
+  .order-success__truck {
+    animation: order-success-arrive 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .order-success__document {
+    animation: order-success-deliver 450ms ease-out 850ms both;
+  }
+
+  .order-success__check {
+    animation: order-success-confirm 350ms ease-out 1200ms both;
+  }
+}
+
+@keyframes order-success-arrive {
+  0% {
+    opacity: 0;
+    transform: translateX(-180px);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes order-success-deliver {
+  from {
+    opacity: 0;
+    transform: translate(-18px, 6px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes order-success-confirm {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

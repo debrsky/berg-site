@@ -1,0 +1,136 @@
+.order-submit.button {
+  position: relative;
+  max-width: calc(100% - 2ch);
+  padding: 0.85em 1.5em calc(21px + 0.65em);
+  overflow: hidden;
+  background-color: var(--brand-color-dark);
+  color: var(--brand-color-white);
+  transform: none;
+}
+
+.order-submit__labels {
+  position: relative;
+  display: grid;
+}
+
+.order-submit__label,
+.order-submit__reserve {
+  grid-area: 1 / 1;
+}
+
+// Размер кнопки не меняется при смене текста.
+.order-submit__reserve {
+  visibility: hidden;
+}
+
+.order-submit.button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(110deg, transparent 44%, rgba(255, 255, 255, 0.16) 50%, transparent 56%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+}
+
+.order-submit__road {
+  position: absolute;
+  right: 12px;
+  bottom: 6px;
+  left: 12px;
+  height: 21px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.order-submit__road::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background-color: var(--brand-color-secondary);
+}
+
+.order-submit__vehicle {
+  display: block;
+  width: calc(100% - 28px);
+  transform: translateX(50%);
+}
+
+.order-submit__vehicle svg {
+  display: block;
+}
+
+.order-submit.button[aria-disabled="true"] {
+  cursor: progress;
+}
+
+.order-submit.button[aria-busy="true"] .order-submit__road {
+  opacity: 1;
+}
+
+.order-submit__status,
+.order-submit__error {
+  margin: 0.65em 1ch 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.order-submit__status:empty {
+  margin: 0;
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+  .order-submit.button {
+    transition: background-color 180ms ease-out;
+  }
+
+  .order-submit.button[aria-busy="true"] .order-submit__vehicle {
+    animation: order-truck-drive 2.8s linear infinite;
+  }
+
+  .order-submit.button:not([aria-disabled="true"]):focus-visible {
+    background-color: var(--brand-color-darker);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .order-submit.button:not([aria-disabled="true"]):hover {
+      background-color: var(--brand-color-darker);
+    }
+
+    .order-submit.button:not([aria-disabled="true"]):hover::after {
+      animation: order-button-shine 650ms ease-in-out;
+    }
+  }
+}
+
+@keyframes order-truck-drive {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  10%, 85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes order-button-shine {
+  0% {
+    opacity: 0;
+    background-position: 100% 0;
+  }
+  20%, 75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    background-position: 0% 0;
+  }
+}

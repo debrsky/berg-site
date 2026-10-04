@@ -3,6 +3,7 @@ import setSuggestions from "./order/suggestion";
 import makeOrderJSON from "./order/make-json";
 import setRequiredAttributes from "./order/required";
 import setCustomValidity from "./order/custom-validity";
+import {initOrderSubmission} from "./order/submission.js";
 
 import {
   setPayerVisibility,
@@ -47,73 +48,25 @@ const handleFormChange = (event) => {
 
 form.addEventListener("change", handleFormChange);
 
-let isSubmiting = false;
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  if (isSubmiting) return;
-  isSubmiting = true;
-
-  const buttonSubmit = form.querySelector("button[type=submit]");
-  buttonSubmit.classList.add("button--submiting");
-
-  saveForm(form, {exclude: ["loading-date", "accept"]});
-
-  const json = makeOrderJSON(form);
-
-  const dataToSend = new FormData();
-  dataToSend.append("data", JSON.stringify(json));
-
-  const errorGroupElement = form
-    .querySelector("button[type=submit]")
-    .closest(".control-group");
-  errorGroupElement.classList.remove("control-group--error");
-
-  // TODO timeout for fetch
-  fetch("php/mailer/send.php", {
-    method: "POST",
-    body: dataToSend
-  })
-    .then(function (res) {
-      if (!res.ok)
-        throw Error(
-          "При отправке заявки возникла ошибка, заявка не отправлена."
-        );
-      return res.json();
-    })
-    .then(function (data) {
-      console.log(data);
-      if (data.debug) {
-        console.log(data.debug);
-      }
-      if (data.result !== "success")
-        throw Error(
-          "При отправке заявки возникла ошибка почтового сервера, заявка не отправлена."
-        );
-
-      cleanForm(form);
-
-      try {
-        window.orderSuccessfullySent?.();
-      } catch (error) {
-        console.warn(
-          "Не удалось зарегистрировать отправку заявки в аналитике",
-          error
-        );
-      }
-
-      window.location.assign("order-ok.html");
-    })
-    .catch((err) => {
-      console.error(err.message);
-      errorGroupElement.classList.add("control-group--error");
-    })
-    .finally(() => {
-      buttonSubmit.classList.remove("button--submiting");
-      isSubmiting = false;
-    });
-
-  // const content = dialog.$el.querySelector(".dialog-content__data");
-  // window.dialog.show();
+initOrderSubmission(form, {
+  createBody: () => {
+    saveForm(form, {exclude: ["loading-date", "accept"]});
+    const dataToSend = new FormData();
+    dataToSend.append("data", JSON.stringify(makeOrderJSON(form)));
+    return dataToSend;
+  },
+  onSuccess: () => {
+    cleanForm(form);
+    try {
+      window.orderSuccessfullySent?.();
+    } catch (error) {
+      console.warn(
+        "Не удалось зарегистрировать отправку заявки в аналитике",
+        error
+      );
+    }
+    window.location.assign("order-ok.html");
+  }
 });
 
 const cleanFormElement = form.querySelector(".suggest-helper--clean-form");
