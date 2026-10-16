@@ -9,7 +9,7 @@ import autoprefixer from "autoprefixer";
 
 export default function less() {
   return gulp
-    .src(`src/less/style.less`)
+    .src(["src/less/style.less", "src/less/landing.less"])
     .pipe(plumber())
     .pipe(sourcemap.init())
     .pipe(lessG({math: "parens-division"}))
@@ -33,7 +33,7 @@ export default function less() {
         // }) /*, csso() */
       ])
     )
-    .pipe(rename(`style.css`))
+    .pipe(rename({extname: ".css"}))
     .pipe(sourcemap.write(`.`))
     .pipe(gulp.dest(`public/css`));
 }

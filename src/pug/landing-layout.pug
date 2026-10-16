@@ -1,0 +1,45 @@
+include tariffs.pug
+include business-data.pug
+-let description = ""
+-let pagePath = ""
+-let stylesheet = "landing.css"
+-let landingOrigin = ""
+-let landingDestination = ""
+-let landingPhone = null
+block variables
+
+doctype html
+html(lang="ru")
+  head
+    include document-head.pug
+    block head
+
+  body#top.landing-shell
+    a.landing-shell__skip(href="#landing-main") Перейти к содержанию
+    header.landing-shell__header
+      .landing-shell__container.landing-shell__header-content
+        a.landing-shell__brand(href="home.html", target="_blank", rel="noopener", aria-label="Берг — главная страница сайта, откроется в новой вкладке")
+          img.landing-shell__logo(src="img/logo.svg", alt="Берг", width="147", height="62")
+          span.landing-shell__brand-caption Транспортная#[br]компания
+        if landingPhone
+          .landing-shell__contact
+            span.landing-shell__contact-label Отправка · #{tariffs.places[landingOrigin]}
+            a.landing-shell__phone(href="tel:" + landingPhone.number, data-route-id=landingOrigin + "-" + landingDestination, data-route-goal="phone", data-cta-position="hero")=landingPhone.text
+
+    main#landing-main.landing-shell__main(tabindex="-1")
+      .landing-shell__container
+        noscript
+          p.landing-shell__notice Тарифы и контакты доступны без JavaScript. Для расчёта и предзаполнения маршрута включите JavaScript или свяжитесь с нами по телефону.
+        block content
+
+    footer.landing-shell__footer
+      .landing-shell__container.landing-shell__footer-content
+        p © #{business.name}
+        a.link(href="privacy-policy.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Политика обработки персональных данных
+        include theme-control.pug
+        a.link(href="#top") Наверх ↑
+
+    block scripts
+    script(src="js/landing.js")
+    script(src="js/route.js")
+    include analytics.pug

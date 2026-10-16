@@ -1,0 +1,23 @@
+meta(charset="UTF-8")
+meta(name="viewport", content="width=device-width, initial-scale=1.0")
+meta(name="description", content=`${description ? description : ""}`)
+title=`${title ? `${title}. ` : ""}Берг Транспортная компания`
+link(rel="icon", href="favicon.ico")
+if pagePath
+  link(rel="canonical", href=business.origin + "/" + pagePath)
+  script(type="application/ld+json")!= JSON.stringify(structuredData).replace(/</g, "\\u003c")
+script.
+  (() => {
+    let theme;
+    try {
+      theme = localStorage.getItem("theme");
+    } catch (_) {
+      // Сайт доступен и при отключённом хранилище.
+    }
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.dataset.theme = theme;
+  })();
+link(rel="stylesheet", href="css/normalize.css")
+link(rel="stylesheet", href="css/" + stylesheet)

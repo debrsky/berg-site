@@ -3,6 +3,7 @@ import setSuggestions from "./order/suggestion";
 import makeOrderJSON from "./order/make-json";
 import setRequiredAttributes from "./order/required";
 import setCustomValidity from "./order/custom-validity";
+import {trackRouteSuccess} from "./common/route.js";
 import {initOrderSubmission} from "./order/submission.js";
 
 import {
@@ -57,6 +58,7 @@ initOrderSubmission(form, {
   },
   onSuccess: () => {
     cleanForm(form);
+    trackRouteSuccess();
     try {
       window.orderSuccessfullySent?.();
     } catch (error) {

@@ -21,6 +21,7 @@ block content
     h1.h2 Тарифный калькулятор
 
     form.form(name="calculator")
+      p(data-route-notice, role="status", hidden)
       section.form__section
         h2.h3 Направление
         .form__section-content
@@ -63,247 +64,18 @@ block content
 
       section.form__section
         h2.h3 Результат расчета
-        .form__section-content
-          .control-group
-            .control
-              p.h1(style="font-size: xx-large;")
-                output(name="result", aria-live="assertive")
+        .form__section-content.calculator-result
+          p.calculator-result__amount
+            output(name="result", aria-live="assertive")
           p.calculation-assumption(aria-live="polite", hidden)
           p.truck-trip(aria-live="assertive", hidden) Стоимость перевозки грузов машинорейсом рассчитывается в индивидуальном порядке, обращайтесь к #[a.link(href="contacts.html") сотрудникам компании].
-          .control-group
-            .control
-              p.cargo-category(aria-live="assertive") &nbsp;
+          p.cargo-category.calculator-result__category(aria-live="assertive", hidden)
+          .calculator-result__next
+            .calculator-result__copy
+              p.calculator-result__title Перейти к оформлению перевозки
+              p.calculator-result__hint Предложим в заявке выбранный маршрут и введённые вес и объём. Сохранённые данные не заменяются автоматически.
+            a.button.button--primary.calculator-result__order(href="order.html", data-calculator-order) Оформить заявку
+    script#calculator-tariffs(type="application/json")!=JSON.stringify(tariffs, (key, value) => value === Infinity ? "Infinity" : value).replace(/</g, "\\u003c")
 
-    script.
-      (()=>{
-        const isNumber = (value) => typeof value === 'number' && isFinite(value);
-        const form = document.forms.calculator;
-
-        const weightElement = form.querySelector('[name="weight"]');
-        const weightMask = new IMask(weightElement, {
-          mask: Number,  // enable number mask
-
-          scale: 1,  // digits after point, 0 for integers
-          signed: false,  // disallow negative
-          thousandsSeparator: '',  // any single char
-          padFractionalZeros: false,  // if true, then pads zeros at end to the length of scale
-          normalizeZeros: true,  // appends or removes zeros at ends
-          radix: ',',  // fractional delimiter
-          mapToRadix: ['.']  // symbols to process as radix
-        });
-
-        const volumeElement = form.querySelector('[name="volume"]');
-        const volumeMask = new IMask(volumeElement, {
-          mask: Number,  // enable number mask
-
-          scale: 3,  // digits after point, 0 for integers
-          signed: false,  // disallow negative
-          thousandsSeparator: '',  // any single char
-          padFractionalZeros: false,  // if true, then pads zeros at end to the length of scale
-          normalizeZeros: true,  // appends or removes zeros at ends
-          radix: ',',  // fractional delimiter
-          mapToRadix: ['.']  // symbols to process as radix
-        });
-
-        const tariffs=!{JSON.stringify(tariffs, (key, value) => (value === Infinity ? 'Infinity' : value)).replace(/:"Infinity"/g, ':Infinity')};
-
-        const places = tariffs.places;
-        const oversizedRaisingFactor = tariffs.oversizedRaisingFactor;
-        const heavyCargoPrices = tariffs.heavyCargoPrices;
-        const lightCargoPrices = tariffs.lightCargoPrices;
-        const minPrices = tariffs.minPrices;
-        const fridgePrices = tariffs.fridgePrices;
-        const icenginePrices = tariffs.icenginePrices;
-
-        const calcLightPrice = ({volume, origin, destination}) => {
-          if (!isNumber(volume)) return {title: null, tariff: null, amount: null};
-
-          let idx = 0;
-          while (volume >= lightCargoPrices[idx].limit) {
-            idx++;
-            if (!lightCargoPrices[idx]) throw Error();
-          };
-          const tariff = lightCargoPrices[idx].price?.[origin]?.[destination] ?? null;
-          if (tariff === null && lightCargoPrices[idx].limit !== Infinity) return {title: null, tariff: null, amount: 0};
-
-          const amount = tariff * volume;
-          const title = "легкий груз " + lightCargoPrices[idx].title;
-          const limit = lightCargoPrices[idx].limit;
-
-          return {title, tariff, amount, limit};
-        }
-
-        const calcHeavyPrice = ({weight, origin, destination}) => {
-          if (!isNumber(weight)) return {title: null, tariff: null, amount: null};
-
-          let idx = 0;
-          while (weight >= heavyCargoPrices[idx].limit) {
-            idx++;
-            if (!heavyCargoPrices[idx]) throw Error();
-          };
-          const tariff = heavyCargoPrices[idx].price?.[origin]?.[destination] ?? null;
-          const amount = tariff * weight;
-          const title = "тяжелый груз " + heavyCargoPrices[idx].title;
-          const limit = heavyCargoPrices[idx].limit
-
-          return {title, tariff, amount, limit};
-        }
-
-        const calcICEnginePrice = ({params, origin, destination}) => {
-          const isICEngine = (params?.includes('ic-engine')) ?? false;
-          if (!isICEngine) return null;
-
-          const amount = icenginePrices.price?.[origin]?.[destination] ?? 0;
-          const title = icenginePrices.title;
-          return {title, amount};
-        }
-
-        const calcMinPrice = ({weight, volume, params, origin, destination}) => {
-          let priceFound = null;
-
-          for (let idx = 0; idx < minPrices.length; ++idx) {
-            const needWeightChecking = isNumber(minPrices[idx].limitHeavy);
-            const weightChecked = needWeightChecking && weight < minPrices[idx].limitHeavy;
-            const needVolumeChecking = isNumber(minPrices[idx].limitLight);
-            const volumeChecked = needVolumeChecking && volume < minPrices[idx].limitLight;
-
-            if ((!needWeightChecking || weightChecked) && (!needVolumeChecking || volumeChecked)) {
-              priceFound = minPrices[idx];
-              break;
-            }
-          }
-
-          if (!priceFound) {
-            return null;
-          };
-
-          const amount = priceFound.price?.[origin]?.[destination] ?? 0;
-          const title = "минимально за мелкий груз " + priceFound.title?.replaceAll("<br>", " ");
-
-          return {title, amount};
-        }
-
-        const hasRoute = (origin, destination) =>
-          heavyCargoPrices[0].price?.[origin]?.[destination] != null;
-
-        const processCalc = ({weight, volume, params, origin, destination}) => {
-          if (!isNumber(weight) || weight <= 0 || !isNumber(volume) || volume <= 0) return null;
-
-          let price;
-
-          const minPrice = calcMinPrice({weight, volume, params, origin, destination});
-
-          if (minPrice) {
-            price = minPrice;
-          } else {
-            price = volume * 1000 / weight > 5
-              ? calcLightPrice({weight, volume, params, origin, destination})
-              : calcHeavyPrice({weight, volume, params, origin, destination});
-          }
-
-          const isFridge = (params?.includes('fridge')) ?? false;
-          const isOversized = (params?.includes('ic-engine') || params?.includes('oversized')) ?? false;
-
-          const fridgeAmount = isFridge ? (fridgePrices.price?.[origin]?.[destination] ?? 0) : null;
-
-          if (isOversized) {
-            price.amount = oversizedRaisingFactor * price.amount;
-          }
-
-          const ICEnginePrice = calcICEnginePrice({weight, volume, params, origin, destination});
-
-          if (ICEnginePrice && ICEnginePrice.amount > price.amount) {
-            price = { ...price, title: ICEnginePrice.title, amount: ICEnginePrice.amount };
-          }
-
-          if (fridgeAmount > 0) {
-            price.amount += fridgeAmount;
-          }
-
-          price.isOversized = isOversized;
-          return price;
-        }
-
-        const handleFormChange = (event) => {
-          const form = event.currentTarget;
-          const data = new FormData(form);
-
-          const weight = parseFloat((data.get('weight') ?? '').replace(',', '.'));
-          const volume = parseFloat((data.get('volume') ?? '').replace(',', '.'));
-
-          const origin = data.get('origin');
-          const destination = data.get('destination');
-
-          const directionIsSelected = Boolean(origin && destination);
-          const directionIsValid = directionIsSelected && hasRoute(origin, destination);
-
-          const directionErrorMessageElement = form.querySelector('.direction-error-message');
-          directionErrorMessageElement.hidden = !directionIsSelected || directionIsValid;
-
-          const weightMissing = data.get('weight') === '';
-          const volumeMissing = data.get('volume') === '';
-          const weightOnly = isNumber(weight) && weight > 0 && volumeMissing;
-          const volumeOnly = isNumber(volume) && volume > 0 && weightMissing;
-          // At 5 m³ per tonne the cargo is heavy; below 200 kg per m³ it is light.
-          const calculatedWeight = volumeOnly ? volume * 100 : weight;
-          const calculatedVolume = weightOnly ? weight / 200 : volume;
-          const price = directionIsValid
-            ? processCalc({weight: calculatedWeight, volume: calculatedVolume, params: data.getAll('params[]'), origin, destination})
-            : null;
-
-          const assumptionElement = form.querySelector('.calculation-assumption');
-          assumptionElement.hidden = !price || (!weightOnly && !volumeOnly);
-          if (!assumptionElement.hidden) {
-            assumptionElement.textContent = weightOnly
-              ? `При объёме не более ${fmtQuantity(calculatedVolume)} м³. Укажите объём для точного расчёта.`
-              : `При весе менее ${fmtQuantity(volume * 200)} кг. Укажите вес для точного расчёта.`;
-          }
-
-          const categoryMessage = price ? price.title + (price.isOversized ? '<br>негабаритный груз' : '') : '&nbsp;';
-          const cargoCategoryElement = form.querySelector('.cargo-category');
-          cargoCategoryElement.innerHTML = categoryMessage;
-
-          const priceValue = (price && price.limit === Infinity)
-            ? 'Машинорейс по договоренности'
-            : (price && price.amount > 0)
-              ? `${fmtMoney(price.amount)} ₽`
-              : '<не рассчитано>';
-
-          const truckTripElement = form.querySelector('.truck-trip');
-          const showTruckTripWarning = Boolean(price && price.limit && (price.limit === Infinity));
-          truckTripElement.hidden = !showTruckTripWarning;
-
-          const resultElement = form.elements.result;
-          resultElement.value = price && price.amount > 0 && (weightOnly || volumeOnly)
-            ? `Предварительно: ${priceValue}`
-            : priceValue;
-        };
-
-        form.addEventListener('input', handleFormChange);
-        form.addEventListener('submit', (event) => event.preventDefault());
-
-        // fix bug with restoring form state with back button
-        window.addEventListener('pageshow', () => {
-          weightMask.updateValue();
-          volumeMask.updateValue();
-
-          form.dispatchEvent(new Event('input'));
-        });
-
-        function fmtQuantity(value) {
-          return value.toLocaleString('ru-RU', {maximumFractionDigits: 6});
-        }
-
-        // Функция форматирования денег
-        function fmtMoney(value, digits = 2) {
-          if (typeof value !== 'number' || isNaN(value)) {
-            return '';
-          }
-          return value.toLocaleString('ru-RU', {
-            style: 'decimal',
-            minimumFractionDigits: digits,
-            maximumFractionDigits: digits
-          });
-        }
-
-      })();
+block scripts
+  script(src="js/calculator.js")

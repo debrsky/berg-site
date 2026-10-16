@@ -26,8 +26,8 @@ const strip = (html) =>
     .replace(/\s+/g, " ");
 
 // These checks target the generated, quoted-attribute HTML produced by Pug.
-test("SEO: 12 indexable pages have unique metadata, visible H1 and self-canonical", () => {
-  assert.equal(indexed.length, 12);
+test("SEO: 13 indexable pages have unique metadata, visible H1 and self-canonical", () => {
+  assert.equal(indexed.length, 13);
   const titles = new Set();
   const descriptions = new Set();
   for (const file of indexed) {
@@ -154,7 +154,7 @@ test("SEO: structured data contains only confirmed owned sites and no invented d
 test("SEO: agreed schedule, reception, storage and editorial exclusions", () => {
   for (const file of ["home.html", "about.html"]) {
     const text = strip(read(file));
-    assert.match(text, /Владивосток — Хабаровск — по рабочим дням/);
+    assert.match(text, /Владивосток — Хабаровск — каждый рабочий день/);
     assert.match(text, /Хабаровск — Владивосток — по рабочим дням/);
     assert.match(text, /Владивосток — Благовещенск — по вторникам и пятницам/);
     assert.match(text, /Владивосток — Комсомольск-на-Амуре — еженедельно/);

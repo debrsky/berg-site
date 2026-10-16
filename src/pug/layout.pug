@@ -4,35 +4,14 @@ include business-data.pug
 -let pagePath = ""
 -let pageClass = ""
 -let activeNav = ""
+-let stylesheet = "style.css"
 block variables
 
 doctype html
 html(lang="ru")
   //- //TODO оптимизировать по скорости https://developers.google.com/speed/pagespeed/insights/
   head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    meta(name="description", content=`${description ? description : ""}`)
-    title=`${title ? `${title}. ` : ""}Берг Транспортная компания`
-    link(rel="icon", href="favicon.ico")
-    if pagePath
-      link(rel="canonical", href=business.origin + "/" + pagePath)
-      script(type="application/ld+json")!= JSON.stringify(structuredData).replace(/</g, "\\u003c")
-    script.
-      (() => {
-        let theme;
-        try {
-          theme = localStorage.getItem("theme");
-        } catch (_) {
-          // Сайт доступен и при отключённом хранилище.
-        }
-        if (theme !== "dark" && theme !== "light") {
-          theme = window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        }
-        document.documentElement.dataset.theme = theme;
-      })();
-    link(rel="stylesheet", href="css/normalize.css")
-    link(rel="stylesheet", href="css/style.css")
+    include document-head.pug
 
     block head
 
@@ -121,27 +100,14 @@ html(lang="ru")
 
     block scripts
 
+    if pagePath === "calculator.html" || pagePath === "order.html"
+      script#route-tariffs(type="application/json")!=JSON.stringify({places: tariffs.places, heavyCargoPrices: [tariffs.heavyCargoPrices[0]]}).replace(/</g, "\\u003c")
+    if pagePath === "calculator.html" || pagePath === "order.html"
+      script(src="js/route.js")
+
     script(src="js/index.js")
 
-    // Yandex.Metrika counter
-    script.
-      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-      ym(87156585, "init", {
-            clickmap:true,
-            trackLinks:true,
-            accurateTrackBounce:true,
-            webvisor:true
-      });
-    noscript
-      div
-        img(src="https://mc.yandex.ru/watch/87156585", style="position:absolute; left:-9999px;", alt="")
-    // /Yandex.Metrika counter
-
-    script.
-      window.orderSuccessfullySent = function orderSuccessfullySent () {ym(87156585,'reachGoal','order successfully sent');console.log('order successfully sent')};
+    include analytics.pug
 
     // https://yandex.ru/dev/browser/constructor/doc/
     script(src="https://yastatic.net/browser-updater/v1/script.js")

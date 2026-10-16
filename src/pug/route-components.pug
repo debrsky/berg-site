@@ -1,0 +1,72 @@
+mixin routeActions(origin, destination, position)
+  .route-landing__actions
+    a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="calculator", data-cta-position=position) Рассчитать стоимость
+    a.button(href="order.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="order", data-cta-position=position) Оформить заявку
+
+mixin routePhone(phone, origin, destination, position)
+  a.route-landing__phone(href="tel:" + phone.number, data-route-id=origin + "-" + destination, data-route-goal="phone", data-cta-position=position)=phone.text
+
+mixin routeTariffs(origin, destination)
+  -
+    const fmt = (value) => value.toLocaleString("ru-RU", {maximumFractionDigits: 10});
+    const groups = [
+      {title: "Тяжёлый груз", unit: "руб./кг", measure: "кг", rows: tariffs.heavyCargoPrices},
+      {title: "Лёгкий груз", unit: "руб./м³", measure: "м³", rows: tariffs.lightCargoPrices}
+    ];
+  .route-landing__tariffs
+    .route-landing__tariff-card
+      table.route-landing__table
+        caption
+          span.route-landing__tariff-title Минимальные категории
+          | #{" "}
+          span.route-landing__tariff-unit руб. за отправку
+        thead
+          tr
+            th(scope="col") Масса и объём одновременно
+            th(scope="col") Сумма
+        tbody
+          each row, idx in tariffs.minPrices
+            tr
+              th(scope="row")
+                if idx === 0
+                  | Документы:
+                else
+                  | Иначе:
+                |  менее #{fmt(row.limitHeavy)} кг и менее #{fmt(row.limitLight)} м³
+              td=fmt(row.price[origin][destination])
+    each group in groups
+      .route-landing__tariff-card
+        table.route-landing__table
+          caption
+            span.route-landing__tariff-title=group.title
+            | #{" "}
+            span.route-landing__tariff-unit=group.unit
+          thead
+            tr
+              th(scope="col") Диапазон, #{group.measure}
+              th(scope="col") Ставка
+          tbody
+            each row, idx in group.rows
+              tr
+                th(scope="row")
+                  if idx === 0
+                    | менее #{fmt(row.limit)}
+                  else if row.limit === Infinity
+                    | от #{fmt(group.rows[idx - 1].limit)}
+                  else
+                    | от #{fmt(group.rows[idx - 1].limit)} до #{fmt(row.limit)}
+                td=row.limit === Infinity ? "Машинорейс по договорённости" : fmt(row.price[origin][destination])
+  p Верхняя граница обычного диапазона не включается: на границе применяется следующая строка. Для минимальных категорий должны одновременно выполняться оба условия; выбирается первая подходящая.
+
+mixin routeExamples(origin, destination)
+  -
+    const samples = [{title: "Мелкое отправление", weight: 10, volume: 0.1}, {title: "Тяжёлый груз", weight: 500, volume: 1}, {title: "Объёмный груз", weight: 100, volume: 1}];
+  .route-landing__examples
+    each sample in samples
+      -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
+      .route-landing__example
+        h4.route-landing__example-title=sample.title
+        p.route-landing__sample #{sample.weight} кг · #{sample.volume.toLocaleString("ru-RU")} м³
+        p.route-landing__amount #{result.amount.toLocaleString("ru-RU")} руб.
+        p.route-landing__example-category=result.title.replace(/<br>/g, " ")
+        p.route-landing__example-note Только межгород, включая НДС

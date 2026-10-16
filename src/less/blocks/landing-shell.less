@@ -1,0 +1,115 @@
+.landing-shell {
+  min-width: @width-mobile;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-page);
+  line-height: 1.5;
+
+  &__container {
+    width: min(1080px, calc(100% - 40px));
+    margin-inline: auto;
+  }
+
+  &__header {
+    background: var(--surface-page);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  &__header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.15rem;
+  }
+
+  &__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    flex: none;
+  }
+
+  &__logo {
+    width: 105px;
+    height: auto;
+  }
+
+  &__brand-caption {
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    line-height: 1.2;
+    border-left: 2px solid var(--brand-color-secondary);
+    padding-left: 1rem;
+  }
+
+  &__contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  &__contact-label { font-size: 0.8rem; }
+  &__phone { font-size: 1.2rem; font-weight: bold; }
+  &__phone::before { content: none !important; }
+
+  &__main {
+    flex: 1;
+    width: 100%;
+    padding-top: 2rem;
+  }
+
+  &__footer {
+    background: var(--surface-raised);
+    border-top: 1px solid var(--border-subtle);
+    font-size: 0.8rem;
+  }
+
+  &__footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.7rem 1.5rem;
+    padding-block: 1.5rem;
+  }
+
+  &__footer p { margin: 0; }
+  &__footer .theme-toggle { font-size: 0.8rem; }
+
+  &__skip {
+    position: absolute;
+    top: 0;
+    left: 1rem;
+    z-index: 10;
+    transform: translateY(-150%);
+    padding: 0.7rem 1rem;
+    background: var(--surface-page);
+    border: 2px solid var(--text-link);
+  }
+
+  &__skip:focus { transform: none; }
+
+  &__notice {
+    padding: 1rem;
+    border: 1px solid var(--border-subtle);
+    background: var(--surface-notice);
+  }
+
+  @media (max-width: @width-tablet) {
+    &__container { width: calc(100% - 24px); }
+    &__header-content { gap: 0.75rem; padding-block: 1rem; }
+    &__logo { width: 84px; }
+    &__brand-caption { display: none; }
+    &__phone { font-size: 1.1rem; }
+    &__main { padding-top: 1rem; }
+    &__footer-content { align-items: flex-start; flex-direction: column; }
+  }
+
+  @media print {
+    &__skip, &__footer .theme-control { display: none; }
+    &__main { padding-top: 0; }
+  }
+}

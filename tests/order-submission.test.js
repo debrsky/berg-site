@@ -3,6 +3,7 @@ import {test} from "node:test";
 import {strict as assert} from "node:assert";
 import {setTimeout as delay} from "node:timers/promises";
 import {initOrderSubmission} from "../src/js/order/submission.js";
+import {rememberRoute, trackRouteSuccess} from "../src/js/common/route.js";
 
 function createUI(options = {}) {
   const attributes = new Map();
@@ -267,4 +268,43 @@ test("submission: success callback failure is not reported as delivery failure",
   assert.equal(ui.classes.has("control-group--error"), false);
   assert.equal(ui.attributes.get("aria-disabled"), "true");
   assert.equal(ui.label.textContent, "Заявка отправлена");
+});
+
+test("submission: route and legacy goals fire only on confirmed success, once", async () => {
+  const previousWindow = globalThis.window;
+  const values = new Map();
+  const goals = [];
+  globalThis.window = {
+    sessionStorage: {
+      getItem: (key) => values.get(key) ?? null,
+      setItem: (key, value) => values.set(key, value),
+      removeItem: (key) => values.delete(key)
+    },
+    ym: (...args) => goals.push(args)
+  };
+  try {
+    rememberRoute("vvo-khb");
+    let attempt = 0;
+    const ui = createUI({
+      fetchRequest: async () => response(attempt++ === 0 ? "error" : "success"),
+      onSuccess: () => {
+        trackRouteSuccess();
+        window.ym(87156585, "reachGoal", "order successfully sent");
+      }
+    });
+    await ui.submit();
+    assert.equal(goals.length, 0);
+    assert.ok(values.has("route-source"));
+    await ui.submit();
+    assert.deepEqual(
+      goals.map((args) => args[2]),
+      ["route_order_success", "order successfully sent"]
+    );
+    await ui.submit();
+    trackRouteSuccess();
+    assert.equal(goals.length, 2);
+    assert.equal(values.has("route-source"), false);
+  } finally {
+    globalThis.window = previousWindow;
+  }
 });

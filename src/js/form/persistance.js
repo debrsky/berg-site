@@ -1,4 +1,5 @@
-import {formSerialize, formDeserialize} from "./utils";
+import {formSerialize, formDeserialize} from "./utils.js";
+import {readStorage, writeStorage} from "../common/storage.js";
 const eventListeners = [];
 
 export const enablePersistance = (form) => {
@@ -8,10 +9,10 @@ export const enablePersistance = (form) => {
 
   const handleFormChange = () => {
     const data = formSerialize(form);
-    sessionStorage.setItem(`form[name=${formName}]`, JSON.stringify(data));
+    writeStorage("sessionStorage", `form[name=${formName}]`, data);
   };
   const handleDOMContentLoaded = () => {
-    const data = JSON.parse(sessionStorage.getItem(`form[name=${formName}]`));
+    const data = readStorage("sessionStorage", `form[name=${formName}]`);
     formDeserialize(form, data);
 
     form.dispatchEvent(new Event("change"));

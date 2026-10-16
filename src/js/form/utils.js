@@ -1,3 +1,5 @@
+import {readStorage, writeStorage} from "../common/storage.js";
+
 export const cleanForm = (form) => {
   const namedElements = form.querySelectorAll("[name]");
   namedElements.forEach((element) => {
@@ -14,16 +16,13 @@ export const cleanForm = (form) => {
 export const saveForm = (form, options = {}) => {
   const data = formSerialize(form, options);
   const formName = form.getAttribute("name");
-  localStorage.setItem(`form[name=${formName}]`, JSON.stringify(data));
+  writeStorage("localStorage", `form[name=${formName}]`, data);
 };
 
 export const restoreSavedForm = (form) => {
   const formName = form.getAttribute("name");
-  const savedForm = localStorage.getItem(`form[name=${formName}]`);
-  if (savedForm) {
-    const data = JSON.parse(savedForm);
-    formDeserialize(form, data);
-  }
+  const data = readStorage("localStorage", `form[name=${formName}]`);
+  if (data) formDeserialize(form, data);
 
   form.dispatchEvent(new Event("change"));
 };
@@ -87,7 +86,7 @@ export const formDeserialize = (form, data) => {
 
   Object.entries(data).forEach(([key, value]) => {
     // FIXME implement processing elements with multiple values
-    if (Array.isArray(value)) throw Error();
+    if (typeof value !== "string") return;
 
     const element = elementsMap[key];
     if (!element) return;

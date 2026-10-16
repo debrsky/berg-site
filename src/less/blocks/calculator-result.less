@@ -1,0 +1,52 @@
+.calculator-result {
+  min-width: 0;
+  margin: 0.5em 0;
+  padding: 1.2rem;
+  border-left: 0.5ch solid var(--brand-color-secondary);
+  background: var(--surface-form);
+
+  &__amount {
+    margin: 0 0 0.7rem;
+    color: var(--text-link);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.25;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__category { margin: 0.7rem 0; }
+
+  &__next {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  &__copy { min-width: 0; }
+  &__title { margin: 0 0 0.4rem; font-weight: bold; }
+  &__hint { max-width: 48ch; margin: 0; font-size: 0.85rem; line-height: 1.5; }
+
+  &__order {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 48px;
+    max-width: 100%;
+    padding: 0.85em 1.2em;
+    border-radius: 0.25rem;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  @media (max-width: @width-tablet) {
+    padding: 1rem;
+    &__next { grid-template-columns: 1fr; }
+    &__order { width: 100%; }
+  }
+}
