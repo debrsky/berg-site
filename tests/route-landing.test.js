@@ -16,8 +16,9 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   assert.match(main, /До 3 календарных суток/);
   assert.match(main, /от приёма груза на склад/);
   assert.match(main, /каждый рабочий день/);
-  assert.match(main, /менее 0,0025 м³/);
-  assert.doesNotMatch(main, /менее 0,003 м³/);
+  const text = main.replace(/<[^>]*>/g, "");
+  assert.match(text, /менее 0,0025 м³/);
+  assert.doesNotMatch(text, /менее 0,003 м³/);
   for (const value of ["550 руб.", "5 500 руб.", "2 200 руб."])
     assert.ok(main.includes(value));
   for (const number of ["+79243304405", "+79842953632"])
@@ -27,7 +28,7 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   assert.match(main, /только во Владивостоке/);
   assert.match(main, /200 руб.\/сутки за весь груз/);
   assert.match(main, /500 руб.\/м³ в сутки/);
-  assert.equal((main.match(/<details>/g) || []).length, 5);
+  assert.equal((main.match(/<details\b/g) || []).length, 6);
   assert.doesNotMatch(main, /<form|<img|FAQPage|khabarovsk-vladivostok\.html/);
 });
 
@@ -40,7 +41,7 @@ test("route landing: CTA and internal links exist; only implemented landing is l
     }
   }
   const html = read(page);
-  assert.equal((html.match(/data-route-goal="calculator"/g) || []).length, 3);
+  assert.equal((html.match(/data-route-goal="calculator"/g) || []).length, 4);
   assert.equal((html.match(/data-route-goal="order"/g) || []).length, 3);
   assert.match(html, /calculator\.html\?origin=vvo&amp;destination=khb/);
   assert.match(html, /order\.html\?origin=vvo&amp;destination=khb/);
@@ -114,10 +115,24 @@ test("route landing: redesigned hierarchy preserves conditions and accessible st
     /После 11:00 отправка возможна при наличии места на рейсе/
   );
   assert.match(hero, /гарантированный срок от приёма груза на склад/);
+  assert.ok(html.indexOf('id="tariffs"') < html.indexOf('id="dispatch"'));
+  assert.ok(html.indexOf('id="dispatch"') < html.indexOf('id="terminals"'));
   assert.ok(
     html.indexOf('class="route-landing__examples"') <
       html.indexOf('class="route-landing__tariffs"')
   );
+  assert.match(hero, /route-landing__duration"><strong>1<\/strong><span>сутки/);
+  assert.match(hero, /<svg[^>]*viewbox="0 0 360 110"/);
+  assert.doesNotMatch(hero, /route-landing__hero-contact/);
+  assert.match(
+    html,
+    /<details class="route-landing__disclosure"><summary>Подробные тарифы/
+  );
+  assert.match(
+    html,
+    /<aside class="route-landing__mobile-action"[^>]*>[\s\S]*?data-cta-position="mobile"/
+  );
+  assert.match(html, /Предложим этот маршрут в заявке. Проверьте города/);
   assert.equal((html.match(/Только межгород, включая НДС/g) || []).length, 3);
   const steps = html.match(
     /<ol class="route-landing__steps" role="list">([\s\S]*?)<\/ol>/
@@ -149,6 +164,27 @@ test("route landing: three tariff categories have separate cards with accessible
     assert.match(card, /scope="row"/);
     assert.match(card, /scope="col"/);
   });
+});
+
+test("route landing: tariff typography keeps quantities together and machine trips full-width", () => {
+  const html = read(page);
+  assert.match(html, /class="route-landing__nowrap">0,0025 м³<\/span>/);
+  assert.match(html, /class="route-landing__nowrap">0,5 кг<\/span>/);
+  assert.equal(
+    (
+      html.match(
+        /class="route-landing__machine-trip" scope="row" colspan="2"/g
+      ) || []
+    ).length,
+    2
+  );
+  assert.equal(
+    (
+      html.match(/class="route-landing__nowrap">по договорённости<\/span>/g) ||
+      []
+    ).length,
+    2
+  );
 });
 
 test("route landing: all document links open a safe new tab; anchors and phones stay native", () => {

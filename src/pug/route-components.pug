@@ -32,7 +32,12 @@ mixin routeTariffs(origin, destination)
                   | Документы:
                 else
                   | Иначе:
-                |  менее #{fmt(row.limitHeavy)} кг и менее #{fmt(row.limitLight)} м³
+                span.route-landing__limit
+                  | менее#{" "}
+                  span.route-landing__nowrap #{fmt(row.limitHeavy)} кг
+                span.route-landing__limit
+                  | и#{"\u00a0"}менее#{" "}
+                  span.route-landing__nowrap #{fmt(row.limitLight)} м³
               td=fmt(row.price[origin][destination])
     each group in groups
       .route-landing__tariff-card
@@ -48,14 +53,18 @@ mixin routeTariffs(origin, destination)
           tbody
             each row, idx in group.rows
               tr
-                th(scope="row")
-                  if idx === 0
-                    | менее #{fmt(row.limit)}
-                  else if row.limit === Infinity
-                    | от #{fmt(group.rows[idx - 1].limit)}
-                  else
-                    | от #{fmt(group.rows[idx - 1].limit)} до #{fmt(row.limit)}
-                td=row.limit === Infinity ? "Машинорейс по договорённости" : fmt(row.price[origin][destination])
+                if row.limit === Infinity
+                  th.route-landing__machine-trip(scope="row", colspan="2")
+                    span.route-landing__limit От#{"\u00a0"}#{fmt(group.rows[idx - 1].limit)} #{group.measure}
+                    | Машинорейс#{" "}
+                    span.route-landing__nowrap по договорённости
+                else
+                  th(scope="row")
+                    if idx === 0
+                      | менее#{"\u00a0"}#{fmt(row.limit)}
+                    else
+                      | от#{"\u00a0"}#{fmt(group.rows[idx - 1].limit)} до#{"\u00a0"}#{fmt(row.limit)}
+                  td=fmt(row.price[origin][destination])
   p Верхняя граница обычного диапазона не включается: на границе применяется следующая строка. Для минимальных категорий должны одновременно выполняться оба условия; выбирается первая подходящая.
 
 mixin routeExamples(origin, destination)
@@ -65,7 +74,7 @@ mixin routeExamples(origin, destination)
     each sample in samples
       -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
       .route-landing__example
-        h4.route-landing__example-title=sample.title
+        h3.route-landing__example-title=sample.title
         p.route-landing__sample #{sample.weight} кг · #{sample.volume.toLocaleString("ru-RU")} м³
         p.route-landing__amount #{result.amount.toLocaleString("ru-RU")} руб.
         p.route-landing__example-category=result.title.replace(/<br>/g, " ")
