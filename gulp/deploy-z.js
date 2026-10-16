@@ -58,7 +58,10 @@ async function getServerFileList(deployUrl, deployToken) {
 }
 
 function changedFiles(serverFileList) {
-  return src(["public/**/*"], {base: "public", encoding: false}).pipe(
+  return src(["public/**/*", "public/.htaccess"], {
+    base: "public",
+    encoding: false
+  }).pipe(
     new Transform({
       objectMode: true,
       transform(file, encoding, callback) {

@@ -1,26 +1,27 @@
 extends ../pug/layout
 block variables
   -
-    title = "Документы"
+    title = "Документы для перевозки груза"
+    pagePath = "docs.html"
+    description = "Документы ТК Берг: договор перевозки, транспортная накладная, доверенность, бланки и требования к документам при отправке груза."
     pageClass = "page--information"
     activeNav = "docs.html"
 
 block head
-  link(rel="canonical", href="docs.html")
 
 block content
   article
-    h2.visually-hidden Документы
+    h1.h2 Документы
 
     section
-      h3.h3 Документы, необходимые при отправке груза
+      h2.h3 Документы, необходимые при отправке груза
       p.
         #[strong Транспортная накладная] (документы на перевозимый груз) в 4-х экземплярах,
         согласно гл. 2 статья 8. п. 1 Федерального закона «Устав автомобильного
         транспорта и городского наземного электрического транспорта», п. 2.1.1 Правил
         дорожного движения.
 
-      h4.h4 Дополнительно для отдельных видов груза
+      h3.h4 Дополнительно для отдельных видов груза
 
       ul
         li
@@ -43,13 +44,13 @@ block content
             li #[strong ветеринарное свидетельство];
 
     section#contracts
-      h3.h3 Договоры
+      h2.h3 Договоры
       ul
         li
           a.word(href="/files/contracts/bergvl.ru-contract-20260227.docx") ИП Берг П.Г. Договор перевозки
 
     section
-      h3.h3 Прочие документы
+      h2.h3 Прочие документы
       ul
         li
           a.pdf(href="/files/cargo-presentation.pdf") Предъявление и прием груза для перевозки (Устав автомобильного транспорта)
@@ -64,8 +65,6 @@ block content
         li
           a.word(href="/files/pamjatka_po_oforml.pretenzij.docx") Памятка по оформлению претензии
         li
-          a.word(href="/files/iskluchenija_iz_dogovora_strahovanija.docx") Исключения из договора страхования
-        li
           a.word(href="/files/consignee-replace-letter.docx") Образец письма о смене ПОЛУЧАТЕЛЯ груза
         li
           a.word(href="/files/payer-replace-letter.docx") Образец письма о смене ПЛАТЕЛЬЩИКА за услугу
@@ -73,6 +72,6 @@ block content
           a.link(href="privacy-policy.html") Политика обработки персональных данных
 
     section
-      h3.h3 Полезная информация
+      h2.h3 Полезная информация
       ul
         li: a.link(href="/weight-control.html") Пункты весогабаритного контроля в Приморском крае

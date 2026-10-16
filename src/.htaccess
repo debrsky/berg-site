@@ -1,0 +1,47 @@
+RewriteEngine On
+
+# SEO: точные архивные URL сразу направляем на конечный адрес.
+# QSD (Apache 2.4+) отбрасывает параметры старых ссылок.
+RewriteRule ^pricing20220201\.html$ https://bergvl.ru/pricing.html [R=301,L,QSD]
+RewriteRule ^pricing20221001\.html$ https://bergvl.ru/pricing.html [R=301,L,QSD]
+RewriteRule ^pricing20230911\.html$ https://bergvl.ru/pricing.html [R=301,L,QSD]
+RewriteRule ^pricing-20240201\.html$ https://bergvl.ru/pricing.html [R=301,L,QSD]
+RewriteRule ^pricing20240701\.html$ https://bergvl.ru/pricing.html [R=301,L,QSD]
+
+# Снятые услуги, устаревшее расписание и тестовая страница.
+RewriteRule ^truck-service\.html$ - [G,L]
+RewriteRule ^containers\.html$ - [G,L]
+RewriteRule ^schedule-2025-dec\.html$ - [G,L]
+RewriteRule ^gradient-demo\.html$ - [G,L]
+
+# Сначала редирект с www на без www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# Затем редирект на HTTPS
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# И только потом редирект с корня на home.html
+RewriteCond %{REQUEST_URI} ^/$
+RewriteRule ^$ https://%{HTTP_HOST}/home.html [R=301,L]
+
+# для совместимости со ссылками старого сайта
+RewriteRule "^contacts(/?)$" "https://bergvl.ru/contacts.html" [L,R=301]
+RewriteRule "^order(/?)$" "https://bergvl.ru/order.html" [L,R=301]
+RewriteRule "^docs(/?)$" "https://bergvl.ru/docs.html" [L,R=301]
+
+<IfModule mod_mime.c>
+    AddType image/avif                                  avif
+    AddType image/avif-sequence                         avifs
+</IfModule>
+
+<FilesMatch "\.(html?|css|js|webp|avif|jpg)$">
+    # Разрешаем кэширование, но заставляем валидировать каждый раз
+    Header set Cache-Control "max-age=0, must-revalidate, proxy-revalidate"
+</FilesMatch>
+
+<Files "client-doc.html">
+    Header set X-Robots-Tag "noindex, nofollow"
+</Files>

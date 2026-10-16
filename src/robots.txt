@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /client-doc.html
+Sitemap: https://bergvl.ru/sitemap.xml

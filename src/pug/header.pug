@@ -4,41 +4,25 @@ header.header.container
       span.logo__artwork(aria-hidden="true")
         svg(width="147", height="62", role="presentation")
           use(xlink:href="#logo")
-
-    h1.logo__text #[span.visually-hidden Берг] Транспортная #[br] компания
+    div.logo__text #[span.visually-hidden Берг] Транспортная #[br] компания
     .logo__slogan Автоперевозки грузов по Дальнему Востоку
   #contacts.contacts
     address.contacts__address
       .contacts__place-selector.suggest-helper
         select#contacts__place-selector.suggest-helper__label
-          option(selected) Владивосток
-          option Уссурийск
-          option Хабаровск
-          option Благовещенск
-
-      span.contacts__address-text(data-place="Владивосток") пр-кт&nbsp;100-летия Владивостока,&nbsp;161А
-      span.contacts__address-text(data-place="Уссурийск" hidden) ул&nbsp;Сельскохозяйственная,&nbsp;16А
-      span.contacts__address-text(data-place="Хабаровск" hidden) ул 1-я Благодатная,&nbsp;11
-      span.contacts__address-text(data-place="Благовещенск" hidden) ул&nbsp;Чехова,&nbsp;3
-    //- .contacts__working-hours Пн-Пт с #[time(datetime="09:00") 09:00] до #[time(datetime="18:00") 18:00]
-    .contacts__phones(data-place="Владивосток")
-      a(href="tel:+74232318052") +7(423)231-80-52
-      //- a(href="tel:+79243304409") +7(924)330-44-09
-      br
-      a(href="tel:+79243304405") +7(924)330-44-05
-    .contacts__phones(data-place="Уссурийск" hidden)
-      a(href="tel:+79243307799") +7(924)330-77-99
-    .contacts__phones(data-place="Хабаровск" hidden)
-      a(href="tel:+74212377339") +7(4212)37-73-39
-      br
-      a(href="tel:+79243302076") +7(924)330-20-76
-    .contacts__phones(data-place="Благовещенск" hidden)
-      a(href="tel:+79248411208") +7(924)841-12-08
-
+          each code, idx in ['vvo', 'uss', 'khb', 'blg']
+            option(selected=idx === 0)=tariffs.places[code]
+      each code, idx in ['vvo', 'uss', 'khb', 'blg']
+        span.contacts__address-text(data-place=tariffs.places[code], hidden=idx !== 0)=tariffs.terminals[code]
+    each code, idx in ['vvo', 'uss', 'khb', 'blg']
+      .contacts__phones(data-place=tariffs.places[code], hidden=idx !== 0)
+        each phone, phoneIdx in business.terminals[code].phones.filter((item) => item.header)
+          if phoneIdx
+            br
+          a(href="tel:" + phone.number)=phone.text
     .contacts__email
-      a(href="mailto:berg2004@list.ru") berg2004@list.ru
-
+      a(href="mailto:" + business.email)=business.email
     .contacts__instagram
       a.instagram(href="https://www.instagram.com/tc_berg/" target="_blank" rel="noopener" style="position: relative; padding-left: 2.5ch;")
-        img(src="img/instagram.svg", alt="", style="position: absolute; top: 0.2em; left: 0; height: 1em; width: auto;")
+        img(src="img/instagram.svg", alt="", width="16", height="16", style="position: absolute; top: 0.2em; left: 0; height: 1em; width: auto;")
         span tc_berg

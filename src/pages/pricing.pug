@@ -1,13 +1,13 @@
 extends ../pug/layout
 block variables
   -
-    title = "Прайс 2026-01-01"
+    title = "Тарифы на грузоперевозки"
+    pagePath = "pricing.html"
+    description = "Тарифы ТК Берг по направлениям: перевозка по весу и объёму, минимальная стоимость, подача машины и хранение. Цены включают НДС."
     pageClass = "page--pricing"
     activeNav = "pricing.html"
-    description = "Прайс-лист ТК Берг на услуги грузоперевозки между городами Владивосток, Уссурийск, Хабаровск, Комсомольск-на-Амуре, Благовещенск."
 
 block content
-  include ../pug/tariffs
 
   -
     const startdate = new Date(tariffs.startdate);
@@ -39,9 +39,9 @@ block content
       .reduce((acc, cur) => cur < acc ? cur : acc);
 
   article.pricing
-    h2.h2 Прайс-лист по направлениям (c #[time(datetime="2026-01-01") 1 января 2026 года])
+    h1.h2 Прайс-лист по направлениям (c #[time(datetime="2026-01-01") 1 января 2026 года])
     section
-      h3.h3 Тарифы на междугороднюю перевозку (включая НДС)
+      h2.h3 Тарифы на междугороднюю перевозку (включая НДС)
       p
         | Если объём 1 тонны груза превышает 5 м³, груз считается «легким» и тарифицируется по объему.
         | В противном случае груз считается «тяжелым» и тарифицируется по весу.
@@ -50,7 +50,7 @@ block content
         -for (const origin of Object.keys(places))
           details
             summary
-              h4.h4(style="display: inline;")
+              h3.h4(style="display: inline;")
                 | Место отправления:
                 |
                 span(style="white-space: nowrap;") #{places[origin]}
@@ -60,7 +60,7 @@ block content
                 -destinationPlaces = getDestinationPlaces(origin, heavyCargoPrices);
                 table.table.pricing__table
                   caption
-                    h5.h5 Тяжелый груз
+                    h4.h5 Тяжелый груз
                     span.pricing__table-measure-unit руб./кг
                     span.pricing__table-vat-warning в том числе НДС
 
@@ -89,7 +89,7 @@ block content
                 -destinationPlaces = getDestinationPlaces(origin, lightCargoPrices);
                 table.table.pricing__table
                   caption
-                    h5.h5
+                    h4.h5
                       span(title="Груз считается легким, если объем 1 тонны груза более 5 кубометров") Легкий груз
                     span.pricing__table-measure-unit руб./м³
                     span.pricing__table-vat-warning в том числе НДС
@@ -119,7 +119,7 @@ block content
                 -destinationPlaces = getDestinationPlaces(origin, minPrices);
                 table.table.pricing__table
                   caption
-                    h5.h5 Минимально за мелкий груз
+                    h4.h5 Минимально за мелкий груз
                     span.pricing__table-measure-unit руб.
                     span.pricing__table-vat-warning в том числе НДС
 
@@ -140,7 +140,7 @@ block content
                           td(tabindex="0")=priceRow.price[origin][destination].toString().replace('.', ',')
 
     section
-      h3.h3 Подача а/м на погрузку/выгрузку (включая НДС)
+      h2.h3 Подача а/м на погрузку/выгрузку (включая НДС)
 
       p.
         #[em Норматив погрузки/выгрузки &mdash; 5 тонн (25 кубометров) в час]. При превышении данного норматива взимается
@@ -155,29 +155,18 @@ block content
       p При массе груза 8 тонн и более или объеме груза 40 кубометров и более а/м подается бесплатно.
 
     section
-      h3.h3 Примечания
+      h2.h3 Примечания
       p.
         При перевозке негабаритного груза стоимость за услуги увеличивается на #[em #{Math.round(oversizedRaisingFactor * 100 - 100)}%].
         Негабаритным груз считается, если объем одного места превышает 1 кубометр или одна из линейных величин
         (длина, ширина, высота) превышает 1 метр; а&nbsp;также места, которые по своим размерам и свойствам без затруднений
         не могут быть загружены и размещены в транспортном средстве.
     section#extra-services
-      h3.h3 Дополнительные услуги
+      h2.h3 Дополнительные услуги
 
+      +storageTerms()
       table.table
         tbody
-          tr
-            td Хранение груза (первые сутки)
-            td(style="width: 20ch;") бесплатно
-          tr
-            td Хранение груза менее 1 м³ / 200 кг (со вторых суток)
-            td 200 руб./м³ в сутки
-          tr
-            td Хранение груза более 1 м³ / 200 кг (со вторых суток)
-            td 500 руб./м³ в сутки
-          tr
-            td Хранение груза более 45 м³ / 10 т (со вторых суток)
-            td по согласованию
           tr
             td Уборка транспортного средства
             td от 500 руб.
@@ -186,7 +175,7 @@ block content
             td 100 руб. за 100 кг
 
     section.pricing__download
-      h3.h3 Скачать прайс
+      h2.h3 Скачать прайс
       p
       | Прайс по направлениям в виде отдельного документа можно скачать здесь:
       |

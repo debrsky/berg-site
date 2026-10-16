@@ -1,4 +1,7 @@
--let description = "Ежедневные грузовые перевозки автомобильным транспортом в направлениях: Владивосток — Хабаровск и обратно по рабочим дням, Комсомольск-на-Амуре по рабочим дням, Благовещенск по вторникам и четвергам."
+include tariffs.pug
+include business-data.pug
+-let description = ""
+-let pagePath = ""
 -let pageClass = ""
 -let activeNav = ""
 block variables
@@ -12,6 +15,9 @@ html(lang="ru")
     meta(name="description", content=`${description ? description : ""}`)
     title=`${title ? `${title}. ` : ""}Берг Транспортная компания`
     link(rel="icon", href="favicon.ico")
+    if pagePath
+      link(rel="canonical", href=business.origin + "/" + pagePath)
+      script(type="application/ld+json")!= JSON.stringify(structuredData).replace(/</g, "\\u003c")
     script.
       (() => {
         let theme;
@@ -104,11 +110,11 @@ html(lang="ru")
           br
           | Автоперевозки грузов по Дальнему Востоку
         .footer__col
-          address г. Владивосток, пр-кт 100-летия Владивостока, 161А
-          a(href="tel:+74232318052") +7 (423) 231-80-52
-          |,
-          |
-          a(href="tel:+74232340015") +7 (423) 234-00-15
+          address г. #{tariffs.places.vvo}, #{tariffs.terminals.vvo}
+          each phone, idx in business.terminals.vvo.phones.filter((item) => item.number === business.terminals.vvo.phones[0].number || item.footer)
+            if idx
+              =', '
+            a(href="tel:" + phone.number)=phone.text
 
       div(style="text-align: center;")
         a.link(href="privacy-policy.html") Политика обработки персональных данных

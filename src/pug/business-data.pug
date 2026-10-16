@@ -1,0 +1,91 @@
+//- Подтверждено владельцем в SEO-02, 2026-10-16. Цены/адреса — только tariffs.
+-
+  const business = {
+    name: 'Транспортная компания «Берг»',
+    origin: 'https://bergvl.ru',
+    email: 'berg2004@list.ru',
+    reception: 'По регламенту сдайте груз до 11:00 по местному времени. После 11:00 отправка возможна при наличии места на рейсе.',
+    collection: 'Время выдачи груза обычно согласовывается по телефону.',
+    applicationDeadline: 'Заявку на подачу машины на завтра необходимо подать сегодня до 16:00.',
+    dispatchOptions: 'Груз можно отправить с терминала или заказать машину для забора груза со склада отправителя.',
+    deliveryOptions: 'Груз можно получить на терминале или заказать доставку до склада получателя.',
+    temperature: 'Температурный режим — по согласованию.',
+    packagingNotice: 'Упаковку и обрешётку груза можно заказать только во Владивостоке.',
+    storage: {
+      small: 'До 1 м³ включительно — 200 руб./сутки за весь груз.',
+      large: 'Свыше 1 м³ — 500 руб./м³ в сутки.',
+      start: 'Платное хранение начинается со вторых суток после прибытия груза. Правила одинаковы во всех городах.'
+    },
+    routes: [
+      {origin: 'vvo', destination: 'khb', schedule: 'по рабочим дням', usualDays: 1, days: 3},
+      {origin: 'khb', destination: 'vvo', schedule: 'по рабочим дням', usualDays: 1, days: 3},
+      {origin: 'vvo', destination: 'blg', schedule: 'по вторникам и пятницам', usualDays: 3, days: 5},
+      {origin: 'blg', destination: 'vvo', schedule: 'по вторникам и пятницам', usualDays: 3, days: 5},
+      {origin: 'vvo', destination: 'kms', schedule: 'еженедельно'},
+      {origin: 'kms', destination: 'vvo', schedule: 'еженедельно'}
+    ],
+    terminals: {
+      vvo: {owned: true, phones: [
+        {number: '+74232318052', text: '+7 (423) 231-80-52', role: 'Общий телефон', header: true},
+        {number: '+79243304405', text: '+7 (924) 330-44-05', role: 'Отправка груза, диспетчер Евгений', header: true},
+        {number: '+79243304409', text: '+7 (924) 330-44-09', role: 'Выдача груза, диспетчер Яна'},
+        {number: '+79243304407', text: '+7 (924) 330-44-07', role: 'Телефон выходного дня'},
+        {number: '+79243304401', text: '+7 (924) 330-44-01', role: 'Договоры, претензии, Пётр'},
+        {number: '+74232340015', text: '+7 (423) 234-00-15', role: 'Бухгалтерия', footer: true},
+        {number: '+79243203283', text: '+7 (924) 320-32-83', role: 'Бухгалтерия'},
+        {number: '+79243301101', text: '+7 (924) 330-11-01', role: 'Обрешётка, Кирилл', packaging: true}
+      ]},
+      uss: {owned: true, phones: [
+        {number: '+79243307799', text: '+7 (924) 330-77-99', header: true}
+      ]},
+      khb: {owned: true, phones: [
+        {number: '+74212377339', text: '+7 (4212) 37-73-39', header: true},
+        {number: '+79243302076', text: '+7 (924) 330-20-76', role: 'Приём грузов, Татьяна', header: true},
+        {number: '+79842953632', text: '+7 (984) 295-36-32', role: 'Выдача грузов, Елена'}
+      ]},
+      blg: {owned: true, phones: [
+        {number: '+79248411208', text: '+7 (924) 841-12-08', role: 'Наталья', header: true},
+        {number: '+79248430022', text: '+7 (924) 843-00-22', role: 'Руководитель площадки Шульгин Сергей'}
+      ]},
+      kms: {owned: false, phones: [
+        {number: '+79244114161', text: '+7 (924) 411-41-61', role: 'Наталья'}
+      ]}
+    }
+  };
+  const routeName = (route) => `${tariffs.places[route.origin]} — ${tariffs.places[route.destination]}`;
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {'@type': 'Organization', '@id': business.origin + '/#organization', name: business.name, url: business.origin + '/home.html', email: business.email, telephone: business.terminals.vvo.phones[0].number},
+      ...Object.entries(business.terminals).filter(([, terminal]) => terminal.owned).map(([code, terminal]) => ({
+        '@type': 'LocalBusiness', '@id': business.origin + '/contacts.html#' + code,
+        name: business.name + ' — ' + tariffs.places[code],
+        parentOrganization: {'@id': business.origin + '/#organization'},
+        url: business.origin + '/contacts.html#' + code,
+        telephone: terminal.phones[0].number,
+        address: {'@type': 'PostalAddress', addressCountry: 'RU', addressLocality: tariffs.places[code], streetAddress: tariffs.terminals[code]}
+      }))
+    ]
+  };
+
+mixin routeSchedule()
+  ul
+    each route in business.routes
+      li #{routeName(route)} — #{route.schedule}.
+
+mixin deliveryTerms()
+  ul
+    each route in business.routes.filter((item) => item.days)
+      li
+        if route.usualDays
+          | #{routeName(route)} — обычно #{route.usualDays} #{route.usualDays === 1 ? 'сутки' : 'суток'}; гарантированный срок — до #{route.days} календарных суток.
+        else
+          | #{routeName(route)} — гарантированный срок до #{route.days} календарных суток.
+  p Гарантированные сроки считаются от приёма груза на склад и действуют для любого принятого груза по указанным направлениям.
+
+mixin storageTerms()
+  p=business.storage.start
+  ul
+    li=business.storage.small
+    li=business.storage.large
+  p Цены включают НДС.

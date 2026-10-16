@@ -2,14 +2,14 @@ extends ../pug/layout
 block variables
   -
     title = "Тарифный калькулятор"
+    pagePath = "calculator.html"
+    description = "Рассчитайте стоимость перевозки ТК Берг по направлению, весу и объёму груза с учётом выбранных дополнительных условий."
     activeNav = "calculator.html"
-    description = "Онлайн-расчет стоимости грузоперевозки в зависимости от характеристик груза по тарифам ТК Берг."
 
 block head
   script(src="vendor/imask/imask.min.js")
 
 block content
-  include ../pug/tariffs
   -
     const places = tariffs.places;
     const heavyCargoPrices = tariffs.heavyCargoPrices;
@@ -18,11 +18,11 @@ block content
     const fridgePrices = tariffs.fridgePrices;
 
   article
-    h2.h2 Тарифный калькулятор
+    h1.h2 Тарифный калькулятор
 
     form.form(name="calculator")
       section.form__section
-        h3.h3 Направление
+        h2.h3 Направление
         .form__section-content
           .control-group(style="display: flex; flex-wrap: wrap;")
             .control(style="width: min-content;")
@@ -40,7 +40,7 @@ block content
           p.direction-error-message(aria-live="assertive", hidden) Стоимость перевозки по данному направлению можно узнать у #[a.link(href="contacts.html") сотрудников компании], автоматический расчет тарифа не предусмотрен.
 
       section.form__section
-        h3.h3 Характеристики груза
+        h2.h3 Характеристики груза
         .form__section-content
           .control-group.flex.flex--wrap
             .control.min-content
@@ -62,7 +62,7 @@ block content
               label(for="oversized") Негабаритный груз
 
       section.form__section
-        h3.h3 Результат расчета
+        h2.h3 Результат расчета
         .form__section-content
           .control-group
             .control

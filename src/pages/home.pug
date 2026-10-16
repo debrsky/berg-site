@@ -1,44 +1,67 @@
 extends ../pug/layout
 block variables
   -
-    title = "";
-    description = "Ежедневные грузовые перевозки автомобильным транспортом в направлениях: Владивосток — Хабаровск и обратно по рабочим дням, Комсомольск-на-Амуре по рабочим дням, Благовещенск по вторникам и четвергам.";
+    title = "Грузоперевозки по Дальнему Востоку"
+    pagePath = "home.html"
+    description = "Автомобильные грузоперевозки ТК Берг: направления, расписание отправок, условия приёма груза и расчёт стоимости. Владивосток, Хабаровск, Благовещенск."
 
 block head
   link(rel="stylesheet", href="vendor/swiper/swiper-bundle.min.css")
   link(rel="stylesheet", href="css/swiper.css")
   script(src="vendor/swiper/swiper-bundle.min.js")
-  style.
-    .swiper-slide-img {
-      object-fit: contain;
-    }
 
 block content
-  article
-    h2.visually-hidden Главная страница
+  article.home-content
+    h1.h2 Грузоперевозки по Дальнему Востоку
+    p ТК Берг перевозит грузы и документы автомобильным транспортом. Собственные площадки работают во Владивостоке, Уссурийске, Хабаровске и Благовещенске.
+    p.home-content__actions
+      a.button.button--primary(href="calculator.html") Рассчитать стоимость
+      a.button(href="order.html") Оформить заявку
+    section
+      h2.h3 Направления и расписание
+      +routeSchedule()
+      p Тарифы по направлениям и дополнительные расходы — в #[a.link(href="pricing.html") прайсе]. Цены включают НДС.
+    section
+      h2.h3 Как отправить груз
+      ol
+        li Проверьте #[a.link(href="docs.html") документы] и #[a.link(href="package.html") требования к упаковке].
+        li Согласуйте перевозку с сотрудниками компании или заполните #[a.link(href="order.html") заявку].
+        li=business.reception
+      p=business.applicationDeadline
+      p=business.dispatchOptions
+      p=business.deliveryOptions
+      p=business.collection
+      p Адреса площадок и телефоны — в разделе #[a.link(href="contacts.html") «Контакты»].
+    section
+      h2.h3 Сроки и услуги
+      +deliveryTerms()
+      p=business.packagingNotice
+      p=business.temperature
+      p Подробнее о #[a.link(href="terms.html") сроках, приёме и хранении].
+    h2.h3 Транспорт и работа с грузом
 
     .swiper-container.mySwiper
       .swiper-wrapper
         -
           const slides = [
-            {file: "01@x400", alt: "Три тягача Вольво"},
-            {file: "02@x400", alt: "Автопоезд"},
-            {file: "04@x400", alt: "Вилочный автопогрузчик"},
-            {file: "05@x400", alt: "Три прицепа с установленными БДФ"},
-            {file: "06@x400", alt: "Ряд из пяти контейнеров на прицепах, двери открыты, виден груз -- картонные коробки"},
-            {file: "08@x400", alt: "Пять тягачей Вольво"},
-            {file: "11@x400", alt: "Два прицепа с белыми и синим контейнерами"},
-            {file: "12@x400", alt: "Вилочный погрузчик устанавливает груз на прицеп"},
-            {file: "13@x400", alt: "Вилочный погрузчик заехал внутрь контейнера"},
-            {file: "14@x400", alt: "Вилочный погрузчик с грузом заезжает внутрь контейнера"},
-            {file: "15@x400", alt: "Вилочный погрузчик с грузом -- бухтой кабеля большого диаметра"},
+            {file: "01@x400", width: 714, alt: "Три тягача Вольво"},
+            {file: "02@x400", width: 711, alt: "Автопоезд"},
+            {file: "04@x400", width: 600, alt: "Вилочный автопогрузчик"},
+            {file: "05@x400", width: 600, alt: "Три прицепа с установленными БДФ"},
+            {file: "06@x400", width: 600, alt: "Ряд из пяти контейнеров на прицепах, двери открыты, виден груз -- картонные коробки"},
+            {file: "08@x400", width: 533, alt: "Пять тягачей Вольво"},
+            {file: "11@x400", width: 711, alt: "Два прицепа с белыми и синим контейнерами"},
+            {file: "12@x400", width: 533, alt: "Вилочный погрузчик устанавливает груз на прицеп"},
+            {file: "13@x400", width: 533, alt: "Вилочный погрузчик заехал внутрь контейнера"},
+            {file: "14@x400", width: 533, alt: "Вилочный погрузчик с грузом заезжает внутрь контейнера"},
+            {file: "15@x400", width: 533, alt: "Вилочный погрузчик с грузом -- бухтой кабеля большого диаметра"},
           ]
         each slide, idx in slides
           .swiper-slide(data-hash="slide" + (idx+1))
             picture
               source(srcset="img/slides/presentation/"+slide.file+".avif", type="image/avif")
               source(srcset="img/slides/presentation/"+slide.file+".webp", type="image/webp")
-              img.swiper-slide-img(src="img/slides/presentation/"+slide.file+".jpg", alt=slide.alt)
+              img.swiper-slide-img(src="img/slides/presentation/"+slide.file+".jpg", alt=slide.alt, width=slide.width, height="400", loading=idx === 0 ? "eager" : "lazy", decoding="async")
 
       .swiper-button-prev
       .swiper-button-next

@@ -11,6 +11,7 @@ function copySources() {
         `src/img/**/*.mp4`,
         `src/*.ico`,
         `src/*.txt`,
+        `src/.htaccess`,
         `src/vendor/**/*.*`,
         `src/php/**/*.php`,
         `!src/php/**/config.php`,

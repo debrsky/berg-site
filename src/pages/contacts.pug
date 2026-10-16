@@ -2,139 +2,40 @@ extends ../pug/layout
 block variables
   -
     title = "Контакты"
+    pagePath = "contacts.html"
     activeNav = "contacts.html"
-    description = "Контакты представителей ТК Берг в городах Владивосток, Уссурийск, Хабаровск, Комсомольск-на-Амуре, Благовещенск."
+    description = "Адреса площадок и телефоны ТК Берг во Владивостоке, Уссурийске, Хабаровске, Благовещенске и Комсомольске-на-Амуре. Согласование времени выдачи груза."
 
 block head
-  link(rel="canonical", href="contacts.html")
-  -
-    const maps = [
-      {city: "Владивосток", address: "проспект 100-летия Владивостока, 161А", ll: [43.189470, 131.915753]},
-      {city: "Уссурийск", address: "Сельскохозяйственная улица, 16А", ll: [43.800389, 131.915237]},
-      {city: "Хабаровск", address: "1-я Благодатная улица, 11", ll: [48.482212, 135.145785]},
-      {city: "Комсомольск-на-Амуре", address: "Северное шоссе, 6/4", ll: [50.575140, 137.001911]},
-      {city: "Благовещенск", address: "улица Чехова, 3", ll: [50.273424, 127.566212]}
-    ]
-
   script(src="https://api-maps.yandex.ru/2.1/?load=Geolink&lang=ru_RU&apikey=aa281979-9e28-442a-9b8f-43fab62b25e4")
+  -
+    const coordinates = {
+      vvo: [43.189470, 131.915753],
+      uss: [43.800389, 131.915237],
+      khb: [48.482212, 135.145785],
+      blg: [50.273424, 127.566212],
+      kms: [50.575140, 137.001911]
+    };
 
 block content
   article.contacts-page
-    h2.visually-hidden Контакты
-    section.section
-      -let mapIdx = 0; // Владивосток
-      -let dataBounds;
-      h3.h3.section__header=maps[mapIdx].city
-      .section__content
-        address
-          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
-          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-        p Отправка из Владивостока:
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79243304405") +7(924)330-44-05
-            span диспетчер Евгений
-        p Выдача груза:
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79243304409") +7(924)330-44-09
-            span диспетчер Яна
-        p Телефон выходного дня:
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79243304407") +7(924)330-44-07
-        p Договоры, претензии:
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79243304401") +7(924)330-44-01
-            span Пётр
-        p Бухгалтерия:
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+74232340015") +7(423)234-00-15
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79243203283") +7(924)320-32-83
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="https://wa.me/79243203283?text=" + encodeURIComponent("Здравствуйте, у меня есть вопрос. ") target="_blank") +7(924)320-32-83
-        p Обрешетка:
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79243301101") +7(924)330-11-01
-            span Кирилл
-
-    -mapIdx = 1; // Уссурийск
-    section.section
-      h3.h2.section__header=maps[mapIdx].city
-      .section__content
-        address
-          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-2},${maps[mapIdx].ll[1]-1e-2}],[${maps[mapIdx].ll[0]+1e-2},${maps[mapIdx].ll[1]+1e-2}]]`
-          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79243307799") +7(924)330-77-99
-            span &nbsp;
-
-    -mapIdx = 2; // Хабаровск
-    section.section
-      h3.h2.section__header=maps[mapIdx].city
-      .section__content
-        address
-          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
-          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+74212377339") +7(4212)37-73-39
-            span
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79243302076") +7(924)330-20-76
-            span приём грузов, Татьяна
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79842953632") +7(984)295-36-32
-            span выдача грузов, Елена
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79241165406") +7(924)116-54-06
-            span обрешетка, Татьяна
-
-    -mapIdx = 4; // Благовещенск
-    section.section
-      h3.h2.section__header=maps[mapIdx].city
-      .section__content
-        address
-          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
-          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79248411208") +7(924)841-12-08
-            span Наталья
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79248430022") +7(924)843-00-22
-            span руководитель площадки Шульгин Сергей
-
-    -mapIdx = 3; // Комсомольск
-    section.section
-      h3.h2.section__header=maps[mapIdx].city
-      .section__content
-        address
-          -dataBounds = `[[${maps[mapIdx].ll[0]-1e-3},${maps[mapIdx].ll[1]-1e-3}],[${maps[mapIdx].ll[0]+1e-3},${maps[mapIdx].ll[1]+1e-3}]]`
-          span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=maps[mapIdx].address
-        ul.contacts-page__phone-list
-          li.contacts-page__phone-list-item
-            .contacts-page__phone-link
-              a(href="tel:+79244114161") +79244114161
-            span Наталья
+    h1.h2 Контакты ТК Берг
+    p Электронная почта: #[a(href="mailto:" + business.email)=business.email]
+    each terminal, code in business.terminals
+      section.section(id=code)
+        h2.h3.section__header=tariffs.places[code]
+        .section__content
+          address
+            -const ll = coordinates[code];
+            -const dataBounds = JSON.stringify([[ll[0] - 0.001, ll[1] - 0.001], [ll[0] + 0.001, ll[1] + 0.001]]);
+            span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=tariffs.terminals[code]
+          if !terminal.owned
+            p Площадка не является собственной площадкой ТК Берг.
+          ul.contacts-page__phone-list
+            each phone in terminal.phones
+              li.contacts-page__phone-list-item
+                .contacts-page__phone-link
+                  a(href="tel:" + phone.number)=phone.text
+                span=phone.role || ''
+                if phone.whatsapp
+                  a(href="https://wa.me/" + phone.number.slice(1) target="_blank" rel="noopener") WhatsApp

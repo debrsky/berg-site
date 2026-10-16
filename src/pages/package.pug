@@ -1,20 +1,22 @@
 extends ../pug/layout
 block variables
   -
-    title = "Упаковка"
+    title = "Упаковка груза"
+    pagePath = "package.html"
+    description = "Упаковка и обрешётка груза только во Владивостоке: требования, виды упаковки, тарифы и контакты для заказа в ТК Берг."
     activeNav = "package.html"
     pageClass = "page--information"
 
 block content
   article.package-page
-    h2.h2.visually-hidden Упаковка
+    h1.h2 Упаковка
 
     section.package-page__section
-      h3.h3 Требования к упаковке груза
+      h2.h3 Требования к упаковке груза
       p: a.pdf(href="/files/packaging.pdf") Требования к упаковке груза
 
     section.package-page__section
-      h3.h3 Тарифы на упаковку и маркировку груза
+      h2.h3 Тарифы на упаковку и маркировку груза
       p.
         Если клиент привез груз, требующий для обеспечения его сохранности в пути специальной тары
         (обрешетки, обертывания стрейч-пленкой, крепления/увязки проволокой), то по согласованию с клиентом
@@ -65,23 +67,18 @@ block content
             td
               span.nobr 600 руб.
 
-      p
-        |Заказ обрешетки и упаковки
-        |
-        a(href="tel:+79243301101") +79243301101
-        |
-        | Кирилл (Владивосток),
-        |
-        a(href="tel:+79241165406") +79241165406
-        |
-        | Татьяна (Хабаровск).
+      p Цены включают НДС.
+      p=business.packagingNotice
+      -const phone = business.terminals.vvo.phones.find((item) => item.packaging);
+      if phone
+        p #{tariffs.places.vvo}: #[a(href="tel:" + phone.number)=phone.text] — #{phone.role}.
 
     section.package-page__section
-      h3.h3 Виды упаковки груза
+      h2.h3 Виды упаковки груза
       .package-list
         .package-list__item
           figure.package-list__figure
-            img.package-list__img(src="img/package/pallet.png", alt="Паллета")
+            img.package-list__img(src="img/package/pallet.png", alt="Паллета", width="194", height="108", loading="lazy", decoding="async")
             figcaption.package-list__caption Паллета
           .package-list__description.
             Поддон или паллета &mdash; транспортная тара, средство пакетирования, которое имеет
@@ -90,7 +87,7 @@ block content
 
         .package-list__item
           figure.package-list__figure
-            img.package-list__img(src="img/package/crate.png", alt="Груз в обрешетке")
+            img.package-list__img(src="img/package/crate.png", alt="Груз в обрешетке", width="174", height="165", loading="lazy", decoding="async")
             figcaption.package-list__caption Жесткая упаковка (обрешетка груза)
           .package-list__description.
             Жесткая упаковка, подразумевающая изготовление обрешетки для груза, деревянными брусками и досками,
@@ -98,7 +95,7 @@ block content
 
         .package-list__item
           figure.package-list__figure
-            img.package-list__img(src="img/package/stretch.png", alt="Ящик, упакованный стрейч-пленкой")
+            img.package-list__img(src="img/package/stretch.png", alt="Ящик, упакованный стрейч-пленкой", width="130", height="165", loading="lazy", decoding="async")
             figcaption.package-list__caption Стрейч-пленка
           .package-list__description.
             Пленка стрейч является современным упаковочным материалом. Обладая самоклеящимися свойствами,
@@ -106,7 +103,7 @@ block content
 
         .package-list__item
           figure.package-list__figure
-            img.package-list__img(src="img/package/bag.png", alt="Мешок с пломбой")
+            img.package-list__img(src="img/package/bag.png", alt="Мешок с пломбой", width="135", height="203", loading="lazy", decoding="async")
             figcaption.package-list__caption Мешок с пломбой
           .package-list__description.
             Пластиковые Пломбы для мешков &mdash; это устройства, которые предназначены для опломбирования
@@ -114,7 +111,7 @@ block content
 
         .package-list__item
           figure.package-list__figure
-            img.package-list__img(src="img/package/air-bubble.png", alt="Рулон воздушно-пузырьковой пленки")
+            img.package-list__img(src="img/package/air-bubble.png", alt="Рулон воздушно-пузырьковой пленки", width="152", height="123", loading="lazy", decoding="async")
             figcaption.package-list__caption Воздушно-пузырьковая пленка
           .package-list__description.
             Воздушно-пузырчатая пленка &mdash; современный и экологически чистый упаковочный материал,
@@ -123,7 +120,7 @@ block content
 
         .package-list__item
           figure.package-list__figure
-            img.package-list__img(src="img/package/palletization.png", alt="Аппарат для паллетизации в работе")
+            img.package-list__img(src="img/package/palletization.png", alt="Аппарат для паллетизации в работе", width="133", height="180", loading="lazy", decoding="async")
             figcaption.package-list__caption Паллетизация
           .package-list__description.
             Паллетизация &mdash; это укладывание груза на паллеты, тщательная обмотка стрейч-пленкой и

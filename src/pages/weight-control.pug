@@ -1,6 +1,9 @@
 extends ../pug/layout
 block variables
-  -title = "Весогабаритный контроль"
+  -
+    title = "Весогабаритный контроль"
+    pagePath = "weight-control.html"
+    description = "Карта пунктов автоматического весогабаритного контроля в Приморском крае: расположение и сведения об оборудовании из указанного на странице источника."
 
 block content
   -
@@ -37,7 +40,7 @@ block content
     }));
     const data = {type: "FeatureCollection", features};
   article
-    h3.h3 Пункты автоматического весогабаритного контроля в Приморском крае
+    h1.h2 Пункты автоматического весогабаритного контроля в Приморском крае
     div(style="font-size: small; text-align: end;") источник #[a(href="https://гибдд.рф/r/25/milestones") гибдд.рф]
     #map(style="height: 480px; margin-top: 1em;")
 

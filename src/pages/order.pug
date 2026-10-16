@@ -3,9 +3,10 @@ include ../pug/order-truck
 
 block variables
   -
-    title = "Заявка"
+    title = "Заявка на грузоперевозку"
+    pagePath = "order.html"
+    description = "Оформите заявку на грузоперевозку ТК Берг: укажите груз, отправителя, получателя, условия погрузки, выгрузки и оплаты."
     activeNav = "order.html"
-    description = "Онлайн оформление заявки на грузоперевозку в ТК Берг."
 
 mixin contact(role, responsibility)
   -
@@ -89,15 +90,15 @@ mixin cargoOperation(operation)
   case operation
     when 'loading'
       section
-        h4.h4 Грузоотправитель
+        h3.h4 Грузоотправитель
         +counterpartyRole('consigner')
     when 'unloading'
       section
-        h4.h4 Грузополучатель
+        h3.h4 Грузополучатель
         +counterpartyRole('consignee')
 
   if operation === 'loading'
-    h4.h4 Дата и время отправления
+    h3.h4 Дата и время отправления
     .control-group.flex.flex--wrap
       label.control.control--required.min-content
         span.control__label Дата
@@ -108,9 +109,9 @@ mixin cargoOperation(operation)
         span.control__label Время
         |
         input(id=`${operation}-time`, type="text", name=`${operation}-time`, style="width: 20ch;")
-      p.control-group__hint Заявка на подачу машины на следующие сутки принимается до #[time 16:00]
+      p.control-group__hint=business.applicationDeadline
 
-  h4.h4
+  h3.h4
     case operation
       when 'loading'
         | Место отправления груза
@@ -151,7 +152,6 @@ mixin cargoOperation(operation)
         textarea(id=`${operation}-point-client-address`, name=`${operation}-point-client-address`, data-suggestion-type="address")
 
 block head
-  link(rel="canonical", href=`${process.env.SITE_URL}/order.html`)
   link(href="vendor/suggestions/suggestions.min.css", rel="stylesheet")
   style.
     .suggestions-promo {
@@ -159,19 +159,18 @@ block head
     }
 
 block content
-  include ../pug/tariffs
   -
     const places = tariffs.places;
 
   form.form.form--order(name="order", onsubmit="return false;")
     div(style="display: flex; gap: 1ch; justify-content: space-between; align-items: baseline;")
-      h2.h2 Заявка на грузоперевозку
+      h1.h2 Заявка на грузоперевозку
       button.suggest-helper.suggest-helper--clean-form(type="button", style="margin-left: auto;")
         span.suggest-helper__label Очистить заявку
       button.suggest-helper.suggest-helper--fill-form(type="button")
         span.suggest-helper__label Заполнить по последней заявке
     section.form__section
-      h3.h3 1. Груз
+      h2.h3 1. Груз
       .control-group.grid12.form__section-content
         .control.control--required.grid12__col.grid12__col--12
           label.control__label(for="cargo") Наименование
@@ -198,22 +197,22 @@ block content
             option(value="страховать") страховать
 
     section.form__section
-      h3.h3 2. Отправление груза
+      h2.h3 2. Отправление груза
       .form__section-content
         +cargoOperation('loading')
     section.form__section
-      h3.h3 3. Получение груза
+      h2.h3 3. Получение груза
       .form__section-content
         +cargoOperation('unloading')
 
     section.form__section
-      h3.h3 4. Оплата
+      h2.h3 4. Оплата
       .form__section-content
         section.section-payer
-          h4.h4 Плательщик
+          h3.h4 Плательщик
           +counterpartyRole('payer')
         section
-          h4.h4 Форма оплаты
+          h3.h4 Форма оплаты
           .control-group
             .control.control--required
               label.control__label(for="payment-form") Форма оплаты
@@ -225,14 +224,14 @@ block content
               p.control__hint Безналичный расчет возможен только при наличии договора.
 
     section.form__section
-      h3.h3
+      h2.h3
         label(for="memo") 5. Дополнительная информация
       .control-group
         .control
           textarea#memo(name="memo", placeholder="например, сделать остановку в Хабаровске")
 
     section.form__section
-      h3.h3 6. Заявку составил
+      h2.h3 6. Заявку составил
       .form__section-content.control-group.grid12
         .control.control--required.grid12__col.grid12__col.grid12__desktop-col.grid12__desktop-col--6
           label.control__label(for="order-author-fio") ФИО
@@ -245,7 +244,7 @@ block content
           input#order-author-email(type="email", name="order-author-email", data-suggestion-type="email")
 
     section.form__section
-      h3.h3 7. Отправка заявки
+      h2.h3 7. Отправка заявки
       .form__section-content
         ul
           li
@@ -269,9 +268,9 @@ block content
             input#accept(type="checkbox", name="accept", value="accept")
             label.control__label(for="accept") Подтверждаю, что с условиями перевозки грузов, требованиями к упаковке груза, тарифами на грузоперевозку и политикой обработки персональных данных #[em ознакомлен]
 
-        .control-group
+        .control-group.order-submit
           .control
-            button.button.button--primary.button--borderless.form__button.order-submit(type="submit", aria-disabled="false", aria-busy="false")
+            button.button.button--primary.button--borderless.form__button.order-submit__button(type="submit", aria-disabled="false", aria-busy="false")
               span.order-submit__labels
                 span.order-submit__reserve(aria-hidden="true") Отправляем заявку…
                 span.order-submit__label Отправить заявку
