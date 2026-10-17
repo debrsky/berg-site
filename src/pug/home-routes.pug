@@ -1,0 +1,45 @@
+mixin homeRoutes()
+  -
+    const pages = [
+      {origin: 'vvo', destination: 'khb', href: 'vladivostok-khabarovsk.html'},
+      {origin: 'khb', destination: 'vvo', href: 'khabarovsk-vladivostok.html'},
+      {origin: 'vvo', destination: 'blg', href: 'vladivostok-blagoveshchensk.html'},
+      {origin: 'uss', destination: 'khb', href: 'ussuriysk-khabarovsk.html'},
+      {origin: 'khb', destination: 'uss', href: 'khabarovsk-ussuriysk.html'},
+      {origin: 'khb', destination: 'blg', href: 'khabarovsk-blagoveshchensk.html'},
+      {origin: 'khb', destination: 'kms', href: 'khabarovsk-komsomolsk-na-amure.html'},
+      {origin: 'blg', destination: 'khb', href: 'blagoveshchensk-khabarovsk.html'},
+      {origin: 'kms', destination: 'khb', href: 'komsomolsk-na-amure-khabarovsk.html'}
+    ];
+    const originLabels = {uss: 'Из Уссурийска', khb: 'Из Хабаровска', blg: 'Из Благовещенска', kms: 'Из Комсомольска-на-Амуре'};
+    const sameRoute = (a, b) => a.origin === b.origin && a.destination === b.destination;
+    const otherPages = pages.filter((page) => !business.routes.some((route) => sameRoute(page, route)));
+
+  .home-routes
+    .home-routes__head(aria-hidden="true")
+      span Направление
+      span Отправки
+    dl.home-routes__schedule
+      each route in business.routes
+        - const page = pages.find((item) => sameRoute(item, route))
+        .home-routes__row
+          dt.home-routes__direction
+            span.home-routes__line(aria-hidden="true")
+            if page
+              a.home-routes__link(href=page.href)=routeName(route)
+            else
+              span.home-routes__name=routeName(route)
+          dd.home-routes__frequency=route.schedule
+    .home-routes__other
+      h3.home-routes__subtitle Другие направления
+      ul.home-routes__groups
+        each origin in [...new Set(otherPages.map((page) => page.origin))]
+          li.home-routes__group
+            h4.home-routes__origin=originLabels[origin]
+            ul.home-routes__destinations
+              each page in otherPages.filter((item) => item.origin === origin)
+                li
+                  a.home-routes__link(href=page.href)=routeName(page)
+    p.home-routes__pricing
+      a.home-routes__link(href="pricing.html") Тарифы по направлениям
+      | . Цены включают НДС.

@@ -11,6 +11,8 @@ block head
   script(src="vendor/swiper/swiper-bundle.min.js")
 
 block content
+  include ../pug/home-routes.pug
+
   article.home-content
     h1.h2 Грузоперевозки по Дальнему Востоку
     p ТК Берг перевозит грузы и документы автомобильным транспортом. Собственные площадки работают во Владивостоке, Уссурийске, Хабаровске и Благовещенске.
@@ -19,12 +21,7 @@ block content
       a.button(href="order.html") Оформить заявку
     section
       h2.h3 Направления и расписание
-      +routeSchedule()
-      p Подробнее: #[a.link(href="vladivostok-khabarovsk.html") перевозка Владивосток — Хабаровск], #[a.link(href="vladivostok-blagoveshchensk.html") Владивосток — Благовещенск] и #[a.link(href="ussuriysk-khabarovsk.html") Уссурийск — Хабаровск].
-      p Отправка из Хабаровска: #[a.link(href="khabarovsk-ussuriysk.html") грузоперевозки в Уссурийск], #[a.link(href="khabarovsk-blagoveshchensk.html") в Благовещенск] и #[a.link(href="khabarovsk-komsomolsk-na-amure.html") в Комсомольск-на-Амуре].
-      p Отправка из Благовещенска: #[a.link(href="blagoveshchensk-khabarovsk.html") грузоперевозки в Хабаровск].
-      p Отправка из Комсомольска-на-Амуре: #[a.link(href="komsomolsk-na-amure-khabarovsk.html") грузоперевозки в Хабаровск].
-      p Тарифы по направлениям и дополнительные расходы — в #[a.link(href="pricing.html") прайсе]. Цены включают НДС.
+      +homeRoutes()
     section
       h2.h3 Как отправить груз
       ol

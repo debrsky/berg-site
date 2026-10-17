@@ -15,7 +15,7 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   assert.match(main, /<dt>Обычно<\/dt><dd>За сутки<\/dd>/);
   assert.match(main, /До 3 календарных суток/);
   assert.match(main, /от приёма груза/);
-  assert.match(main, /каждый рабочий день/);
+  assert.match(main, /по рабочим дням/);
   const text = main.replace(/<[^>]*>/g, "");
   assert.match(text, /менее 0,0025 м³/);
   assert.doesNotMatch(text, /менее 0,003 м³/);
@@ -137,7 +137,7 @@ test("route landing: redesigned hierarchy preserves conditions and accessible st
     hero,
     /route-landing__journey|route-landing__duration|route-landing__road/
   );
-  assert.match(hero, /route-landing__schedule">Рейсы каждый рабочий день/);
+  assert.match(hero, /route-landing__schedule">Рейсы по рабочим дням/);
   assert.match(
     html,
     /После 11:00 отправка возможна при наличии места на рейсе/

@@ -1,0 +1,113 @@
+.home-routes {
+  font-size: 1rem;
+  line-height: 1.5;
+
+  &__head,
+  &__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: baseline;
+  }
+
+  &__head {
+    padding: 0.5rem 0;
+    font-size: 0.875em;
+  }
+
+  &__head span:first-child { padding-left: 2.25rem; }
+
+  &__schedule {
+    margin: 0;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  &__row {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+    break-inside: avoid;
+  }
+
+  &__direction {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    min-height: 44px;
+    padding-left: 2.25rem;
+    font-size: 1.125em;
+    font-weight: bold;
+  }
+
+  &__line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 1.5rem;
+    height: 1px;
+    background: var(--brand-color-secondary);
+  }
+
+  &__line::before,
+  &__line::after {
+    content: "";
+    position: absolute;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border: 1px solid var(--brand-color-secondary);
+    border-radius: 50%;
+    background: var(--surface-page);
+  }
+
+  &__line::before { left: 0; }
+  &__line::after { right: 0; background: var(--brand-color-secondary); }
+
+  &__frequency {
+    margin: 0;
+    min-width: 0;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    max-width: 100%;
+    color: var(--brand-color-dark);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.18em;
+    overflow-wrap: anywhere;
+  }
+
+  &__link:hover { text-decoration-thickness: 2px; }
+  &__link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+
+  &__other { margin-top: 1.75rem; }
+  &__subtitle { margin: 0 0 1rem; font-size: 1.125em; }
+
+  &__groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__origin { margin: 0 0 0.25rem; font-size: 1em; color: var(--text-primary); }
+  &__destinations { margin: 0; padding: 0; list-style: none; }
+  &__pricing { margin: 1.25rem 0 0; }
+
+  @media (max-width: @width-tablet) {
+    font-size: max(1rem, 16px);
+
+    &__head { display: none; }
+    &__row { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+    &__frequency { padding-left: 2.25rem; }
+    &__groups { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  }
+}
+
+html[data-theme="dark"] .home-routes__link {
+  color: var(--text-link);
+}

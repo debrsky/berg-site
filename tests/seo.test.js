@@ -163,8 +163,8 @@ test("SEO: structured data contains only confirmed owned sites and no invented d
 
 test("SEO: agreed schedule, reception, storage and editorial exclusions", () => {
   for (const file of ["home.html", "about.html"]) {
-    const text = strip(read(file));
-    assert.match(text, /Владивосток — Хабаровск — каждый рабочий день/);
+    const text = strip(read(file).replace(/<\/dt>\s*<dd\b[^>]*>/g, " — "));
+    assert.match(text, /Владивосток — Хабаровск — по рабочим дням/);
     assert.match(text, /Хабаровск — Владивосток — по рабочим дням/);
     assert.match(text, /Владивосток — Благовещенск — по вторникам и пятницам/);
     assert.match(text, /Владивосток — Комсомольск-на-Амуре — еженедельно/);
