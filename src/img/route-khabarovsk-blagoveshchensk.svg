@@ -1,0 +1,25 @@
+<svg class="route-landing__illustration" width="360" height="240" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+  <!-- Original route sheet and freight; a process illustration, not a map. -->
+  <g stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M59 17H269L292 40V205H59Z" fill="var(--surface-raised)"/>
+    <path d="M269 17V40H292"/>
+    <path d="M79 34H133M79 42H111M247 55H272M247 62H272"/>
+  </g>
+  <path data-route-line pathLength="1" d="M85 72V119Q85 133 99 133H153" stroke="var(--brand-color-secondary)" stroke-width="2"/>
+  <circle cx="85" cy="72" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/>
+  <circle cx="153" cy="133" r="5" fill="var(--brand-color-secondary)"/>
+  <g fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="17">
+    <text x="100" y="78">Хабаровск</text>
+    <text x="100" y="108">Благовещенск</text>
+  </g>
+  <g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M177 152L247 123L325 151V207L255 234L177 207Z" fill="var(--brand-color)"/>
+    <path d="M255 181L325 151V207L255 234Z" fill="var(--brand-color-dark)"/>
+    <path d="M177 152L255 181L325 151L247 123Z" fill="var(--surface-raised)"/>
+    <path d="M215 137L292 165V221M215 166V220"/>
+    <path d="M188 177L206 184V200L188 193Z" fill="white" stroke="none"/>
+    <path d="M272 191L309 177V198L272 212Z" fill="white" stroke="none"/>
+    <path d="M279 190V202M284 188V200M291 185V197M295 184V196M301 182V194" stroke="var(--brand-color-dark)"/>
+  </g>
+  <path d="M71 167H127M71 175H144M71 183H117M38 222H165" stroke="var(--border-subtle)" stroke-width="1.5"/>
+</svg>

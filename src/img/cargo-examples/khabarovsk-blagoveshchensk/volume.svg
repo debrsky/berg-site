@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <!-- Bulky armchair under a fitted protective cover, not another carton. -->
+  <path class="route-landing__cargo-side" d="m13 43 1 8h5l1-7m19-1-1 8h5l1-10"/>
+  <path class="route-landing__cargo-body" d="M12 29V13q0-6 6-6h18q6 0 6 6v16l6 1v15H7V30z"/>
+  <path class="route-landing__cargo-top" d="M17 28V15q0-3 3-3h13q3 0 3 3v13z"/>
+  <path class="route-landing__cargo-side" d="M36 28h6V13q0-5-4-6l-5 5q3 0 3 3z"/>
+  <path class="route-landing__cargo-paper" d="m16 30 21-3 5 8-24 3z"/>
+  <path class="route-landing__cargo-body" d="M7 29q0-3 3-3h3q3 0 3 3v11H7zm32-1q0-3 3-3h4q3 0 3 3v12H39z"/>
+  <path d="M8 45h40M12 13l5 3m22-5-3 5M19 41h17"/>
+  <path class="route-landing__cargo-label" d="M21 18h10v7H21z"/>
+</svg>
