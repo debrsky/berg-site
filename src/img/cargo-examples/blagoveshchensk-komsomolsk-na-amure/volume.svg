@@ -1,0 +1,5 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Empty shelving frame with protected corners. Original artwork. -->
+<path class="route-landing__cargo-body" d="M8 8h6v42H8zm34 0h6v42h-6z"/><path class="route-landing__cargo-side" d="M14 14h28v5H14zm0 14h28v5H14zm0 15h28v5H14z"/><path class="route-landing__cargo-top" d="M5 5h12v8H5zm34 0h12v8H39z"/><path class="route-landing__cargo-label" d="M21 29h13v4H21z"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>

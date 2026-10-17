@@ -1,0 +1,5 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Industrial chain coiled in a transport tray. Original artwork. -->
+<path class="route-landing__cargo-body" d="M6 32h44v17H6z"/><path class="route-landing__cargo-side" d="M6 32l6-7h33l5 7z"/><g class="route-landing__cargo-top"><path d="M10 20a6 6 0 0 1 12 0v5a6 6 0 0 1-12 0zm12-6a6 6 0 0 1 12 0v10a6 6 0 0 1-12 0zm12 6a6 6 0 0 1 12 0v5a6 6 0 0 1-12 0z"/></g><path class="route-landing__cargo-label" d="M20 37h16v7H20z"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>

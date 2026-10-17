@@ -1,21 +1,23 @@
 import gulp from "gulp";
-import plumber from "gulp-plumber";
 import pug from "gulp-pug";
 import pugLinter from "gulp-pug-linter";
+import {pipeline} from "node:stream/promises";
 import {calculateCargo} from "../src/js/common/calculate.js";
+import {landingLocals} from "./landing-data.js";
 
-export default function pug2html() {
-  const pugOptions = {
+export default async function pug2html() {
+  const options = {
     doctype: "html",
-    locals: {calculateCargo},
+    locals: {calculateCargo, ...(await landingLocals())},
     pretty: false,
     basedir: process.rootDir
   };
 
-  return gulp
-    .src("src/pages/*.pug")
-    .pipe(plumber())
-    .pipe(pugLinter({reporter: "default"}))
-    .pipe(pug(pugOptions))
-    .pipe(gulp.dest("public"));
+  // Await the actual stream completion; a rejected render must fail the build.
+  await pipeline(
+    gulp.src("src/pages/*.pug"),
+    pugLinter({reporter: "default"}),
+    pug(options),
+    gulp.dest("public")
+  );
 }

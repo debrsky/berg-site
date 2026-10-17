@@ -1,0 +1,15 @@
+mixin routeQuestions(title, labelled = false)
+  section#questions.route-landing__section.route-landing__section--questions(aria-labelledby=labelled ? "questions-title" : null)
+    h2(id=labelled ? "questions-title" : null)=title
+    block
+
+mixin routeStorageQuestion(title)
+  details
+    summary=title
+    +storageTerms()
+
+mixin routeRelatedLinks()
+  .route-landing__related
+    a.link(href="terms.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полные условия перевозки
+    a.link(href="payment.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Способы оплаты
+    block

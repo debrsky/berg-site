@@ -1,0 +1,29 @@
+//- Single terminal works in both the paired layout and the separate reception/arrival sections.
+mixin routeTerminal(origin, destination, options)
+  .route-landing__terminal
+    if options.receiving
+      p.route-landing__terminal-label.route-landing__terminal-label--destination Получение
+    else
+      p.route-landing__terminal-label Отправление
+    if options.anchor
+      h3.route-landing__contact-anchor(id=options.anchor, tabindex="-1")=options.title
+    else
+      h3=options.title
+    p.route-landing__address=tariffs.terminals[options.code]
+    +routePhone(options.phone, origin, destination, "terminal")
+    if options.showRole && options.phone.role
+      p.route-landing__hint=options.phone.role
+    if options.generalPhone
+      p.route-landing__hint Общий телефон
+      +routePhone(options.generalPhone, origin, destination, "terminal")
+    .route-landing__terminal-links
+      if options.contactOnly
+        a.link(href="contacts.html#" + options.code, target="_blank", rel="noopener", title="Откроется в новой вкладке") Контакты и проезд
+      else
+        a.link(href=options.searchMap ? "https://yandex.ru/maps/?text=" + encodeURIComponent(tariffs.places[options.code] + ", " + tariffs.terminals[options.code]) : business.terminals[options.code].mapUrl, target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
+        a.link(href="contacts.html#" + options.code, target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
+
+mixin routeTerminals(title)
+  section#terminals.route-landing__section.route-landing__section--terminals
+    h2=title
+    block

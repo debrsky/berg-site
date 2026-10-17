@@ -1,0 +1,36 @@
+mixin routeHeroActions(origin, destination, options)
+  if options.secondaryAnchor
+    .route-landing__actions
+      a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=landing.id, data-route-goal="calculator", data-cta-position="hero") Рассчитать стоимость
+      a.button(href=options.secondaryAnchor) Согласовать отправку
+  else
+    +routeActions(origin, destination, "hero")
+  p.route-landing__hint=options.hint || "Для расчёта понадобятся вес и объём груза."
+
+//- Facts are a slot: confirmed durations and explanatory notes remain route-specific.
+mixin routeHero(origin, destination, options = {})
+  header.route-landing__hero
+    .route-landing__hero-grid
+      .route-landing__hero-content
+        h1
+          span.route-landing__title-kicker=options.kicker || "Грузоперевозки"
+          | #{" "}
+          span.route-landing__title-route
+            span.route-landing__title-city=options.from || tariffs.places[origin]
+            if options.wordedRoute
+              | #{" "}
+            else
+              span.visually-hidden=" — "
+            span.route-landing__title-city=options.to || tariffs.places[destination]
+        p.route-landing__lead=options.lead
+      .route-landing__hero-aside
+        if options.shipment
+          .route-landing__shipment
+            != landingHero(landing.id)
+        else
+          != landingHero(landing.id)
+        block
+      if !options.actionsOutsideGrid
+        +routeHeroActions(origin, destination, options)
+    if options.actionsOutsideGrid
+      +routeHeroActions(origin, destination, options)

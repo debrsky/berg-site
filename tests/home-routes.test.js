@@ -35,7 +35,7 @@ test("Home: schedule keeps six confirmed routes with their own frequency", () =>
     "еженедельно",
     "еженедельно"
   ]);
-  assert.equal((schedule.match(/<a\b/g) || []).length, 3);
+  assert.equal((schedule.match(/<a\b/g) || []).length, 6);
   assert.doesNotMatch(schedule, /\shidden(?:[\s=>])|<button|<select/);
 });
 
@@ -49,8 +49,8 @@ test("Home: route links lead to existing pages and unscheduled routes stay separ
       /<a class="home-routes__link" href="([^"]+)">([^<]+)<\/a>/g
     )
   ];
-  assert.equal(links.length, 10);
-  assert.equal(new Set(links.map((item) => item[1])).size, 10);
+  assert.equal(links.length, 16);
+  assert.equal(new Set(links.map((item) => item[1])).size, 16);
   for (const [, href] of links) {
     assert.ok(existsSync(new URL(`../public/${href}`, import.meta.url)), href);
   }
@@ -59,7 +59,7 @@ test("Home: route links lead to existing pages and unscheduled routes stay separ
     block.indexOf('<p class="home-routes__pricing">')
   );
   assert.equal((other.match(/<h4\b/g) || []).length, 4);
-  assert.equal((other.match(/<a\b/g) || []).length, 6);
+  assert.equal((other.match(/<a\b/g) || []).length, 9);
   assert.doesNotMatch(
     other,
     /home-routes__frequency|еженедельно|по рабочим дням/

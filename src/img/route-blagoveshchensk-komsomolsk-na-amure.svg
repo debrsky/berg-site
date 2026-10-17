@@ -1,0 +1,9 @@
+<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+<!-- Two cities on the Amur. The orange link is schematic, not a driving route. -->
+<path d="M12 211C82 241 83 143 154 163S219 85 267 112S314 88 349 55" stroke="var(--surface-raised)" stroke-width="24"/>
+<path d="M12 211C82 241 83 143 154 163S219 85 267 112S314 88 349 55" stroke="var(--brand-color)" stroke-width="1.5"/>
+<text x="15" y="37" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="17">Благовещенск</text><text x="193" y="37" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="16">Комсомольск-</text><text x="193" y="56" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="16">на-Амуре</text>
+<path data-route-line pathLength="1" d="M41 72C74 62 107 83 155 78S237 76 297 81" stroke="var(--brand-color-secondary)" stroke-width="2.5" stroke-linecap="round"/><circle cx="41" cy="72" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/><circle cx="297" cy="81" r="5" fill="var(--brand-color-secondary)"/>
+<text x="124" y="139" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="14">Амур</text>
+<g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M230 172h89v48h-89z" fill="var(--brand-color)"/><path d="m230 172 16-15h89l-16 15v48l16-15v-48" fill="var(--surface-raised)"/><path d="M257 172v48"/><rect x="275" y="183" width="30" height="18" fill="white"/><path d="M280 190h20m-20 6h12"/></g>
+<text x="15" y="252" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="13">Схема направления, автоперевозка</text></svg>

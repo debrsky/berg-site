@@ -3,10 +3,14 @@ include business-data.pug
 -let description = ""
 -let pagePath = ""
 -let stylesheet = "landing.css"
--let landingOrigin = ""
--let landingDestination = ""
--let landingPhone = null
+-let landingId = ""
 block variables
+-
+  const landing = getLanding(landingId, business, tariffs);
+  pagePath = landing.pagePath;
+  const landingOrigin = landing.origin;
+  const landingDestination = landing.destination;
+  const landingPhone = landing.sendingPhone;
 
 doctype html
 html(lang="ru")

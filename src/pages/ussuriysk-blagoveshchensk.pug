@@ -1,0 +1,70 @@
+extends ../pug/landing-layout
+include ../pug/route-components.pug
+
+block variables
+  -
+    title = "Грузоперевозки Уссурийск — Благовещенск"
+    landingId = "uss-blg"
+    description = "Грузоперевозки Уссурийск — Благовещенск ТК Берг. Стоимость с НДС, забор и доставка по адресу, телефоны терминалов. Рейс и срок доставки — по согласованию."
+
+block content
+  -
+    const origin = landingOrigin;
+    const destination = landingDestination;
+    const sendingPhone = landingPhone;
+    const receivingPhone = landing.receivingPhone;
+    const content = {
+      "from": tariffs.places[origin],
+      "to": tariffs.places[destination],
+      "inFrom": "в Уссурийске",
+      "inTo": "в Благовещенске",
+      "out": "из Уссурийска",
+      "lead": "Транспортная компания «Берг» принимает грузы из Уссурийска для доставки в Благовещенск. Сообщите вес и объём для расчёта; дату отправки и срок доставки согласуйте до сдачи груза.",
+      "intro": "Одинаковая масса не всегда означает одинаковую стоимость: лёгкий груз рассчитывается по объёму. Сравните четыре примера по направлению Уссурийск — Благовещенск.",
+      "step": "Сообщите сотруднику терминала в Уссурийске вес, объём и размеры мест. Согласуйте дату отправки, срок доставки и необходимость забора со склада.",
+      "faq": "Что измерить перед расчётом?",
+      "answer": "Подготовьте общий вес и объём, а также размеры каждого места. Если одно место больше 1 м³ или одна из его сторон больше 1 м, действуют условия перевозки негабарита. Такие размеры нужно сообщить до отправки.",
+      "schedule": landing.schedule?.schedule,
+      "related": landing.related[0].slug,
+      "relatedLabel": routeName(landing.related[0])
+    };
+
+    const pricing = {
+      title: "Сколько стоит перевозка",
+      intro: content.intro,
+      notice: [
+        landingCopy.terminalVat,
+        landingCopy.ordinaryCargo,
+        landingCopy.extras
+      ],
+      calculation: landingCopy.calculation
+    };
+
+  article.route-landing
+    +routeHero(origin, destination, {lead: content.lead, actionsOutsideGrid: true})
+      +routeShipmentFacts(content)
+
+    +routeNavigation()
+
+    +routePricing(origin, destination, pricing)
+
+    +routeDispatch("Как отправить груз")
+      +routeShipmentSteps(content)
+
+    +routeOperations("Когда подать заявку и сдать груз", {applicationTitle: "Заявка на завтра", applicationNote: "Время местное. Заявка не заменяет согласование рейса; время приёма не является расписанием отправлений."})
+
+    +routeServices("Что согласовать дополнительно")
+      +routeShipmentServices(origin, content)
+
+    +routeTerminals("Где отправить и получить")
+      .route-landing__columns
+        +routeTerminal(origin, destination, {code: origin, phone: sendingPhone, title: "Приём " + content.inFrom, showRole: true, searchMap: true})
+        +routeTerminal(origin, destination, {code: destination, phone: receivingPhone, title: "Выдача " + content.inTo, receiving: true, showRole: true, searchMap: true})
+      p.route-landing__hint=business.collection
+
+    +routeQuestions("Вопросы перед отправкой")
+      +routeShipmentQuestions(content)
+
+    +routeClosing(origin, destination, sendingPhone, "Согласовать отправку " + content.out)
+
+    +routeMobileAction(origin, destination)

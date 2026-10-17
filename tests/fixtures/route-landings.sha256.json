@@ -1,0 +1,17 @@
+{
+  "vladivostok-khabarovsk": "5baf875959c9cd297ad0bd06dc5ea3762fc37d7a5cc173758c3961df29d5ef5c",
+  "khabarovsk-vladivostok": "d814860f25259ad6edaaa18594248d0ee2e9b3fbb86294a2f4b07d02b6d0640e",
+  "vladivostok-blagoveshchensk": "6533b7381df7e011d3f48fd69a6b4dfbbc4fe78371bdd389d4f5a9f27c557c30",
+  "blagoveshchensk-vladivostok": "fd24bca1ecc117875832c398b894c2b8075d8e53b73047577bd0a8659c832acb",
+  "ussuriysk-khabarovsk": "1f0d14878c2c5d0b14cfc7af2b6bd988829d44bcf2f3fe5ee5a447200f83e6a8",
+  "khabarovsk-ussuriysk": "7e183d854905e8b966bdda78eda160f14a33ae2d2f4403c5449ef4162d95a269",
+  "khabarovsk-blagoveshchensk": "5c91828446283c5c088b30f2d3166271ea313c443c0567d82a275b7f69a45e90",
+  "khabarovsk-komsomolsk-na-amure": "9f6ebdb93d40e591f5f78ac7248f6e878cfc610d0cf1b9c8a071e515414470e5",
+  "blagoveshchensk-khabarovsk": "56471fe2dbdfca85f7a873e3750b9f22cec5e41a83fc75fb4df5faa192033d41",
+  "komsomolsk-na-amure-khabarovsk": "16d111d2d97295c3c51e5e7bf0b6d5d1389aac0b0348a520e985eab26a152b73",
+  "vladivostok-komsomolsk-na-amure": "9033ec4810b5d7cfb4df9ac541ff297a55f4fefd51b62d9b788daea23596d906",
+  "ussuriysk-komsomolsk-na-amure": "3ae7466c3048e562b3132fa90949c24768ca14bf366e8a44a344ab265ef9d8bb",
+  "ussuriysk-blagoveshchensk": "722730fbbbadf77d2dfd2a2f33f1b3a6b26304fc8ed160754f45453f1205272e",
+  "blagoveshchensk-komsomolsk-na-amure": "c425aad8d8e7554ba7b2f8a1d10c423d3389d0901d1a80fe296c76596edc3e2d",
+  "komsomolsk-na-amure-vladivostok": "19a0da86491b94c78506e029dcc13da827247d4b50063f6045e8e7e2ed8161a5"
+}

@@ -1,0 +1,10 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Cast-iron radiator with tall separate sections on transport skids. Original artwork. -->
+<path class="route-landing__cargo-side" d="M6 45h44v5H6z"/>
+<path class="route-landing__cargo-top" d="M7 14h42v6H7zm0 22h42v6H7z"/>
+<path class="route-landing__cargo-body" d="M10 10q0-3 3-3t3 3v33h-6zm10 0q0-3 3-3t3 3v33h-6zm10 0q0-3 3-3t3 3v33h-6zm10 0q0-3 3-3t3 3v33h-6z"/>
+<path d="M7 17H4m45 0h3M13 43v2m30-2v2"/>
+<path class="route-landing__cargo-label" d="M18 23h20v9H18z"/>
+<path d="M22 27h12"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>

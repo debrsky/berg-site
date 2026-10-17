@@ -1,0 +1,5 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Landscape report with a broad binding comb. Original artwork. -->
+<path class="route-landing__cargo-body" d="M5 15h46v30H5z"/><path class="route-landing__cargo-paper" d="M11 20h36v20H11z"/><path d="M14 11v9m7-9v9m7-9v9m7-9v9m7-9v9M17 26h23m-23 6h14"/><path class="route-landing__cargo-label" d="M34 35h10v5H34z"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>

@@ -1,0 +1,22 @@
+mixin routePricing(origin, destination, options)
+  section#tariffs.route-landing__section
+    h2=options.title
+    p.route-landing__intro=options.intro
+    +routeExamples(origin, destination)
+    .route-landing__notice
+      each paragraph in options.notice
+        p=paragraph
+    +routeActions(origin, destination, "tariff")
+    details.route-landing__disclosure
+      summary Подробные тарифы и правила расчёта
+      .route-landing__disclosure-content
+        if options.preamble
+          p=options.preamble
+        p Цены включают НДС. Прайс действует с #[time(datetime=tariffs.startdate)=new Date(tariffs.startdate).toLocaleDateString("ru-RU", {timeZone: "UTC"})].
+        p=options.calculation
+        +routeTariffs(origin, destination)
+        p Для перевозки негабарита действует надбавка #{Math.round((tariffs.oversizedRaisingFactor - 1) * 100)}% по условиям прайса.
+        if options.temperature
+          p=business.temperature
+        p #[a.link(href="pricing.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полный прайс] и #[a.link(href="pricing.html#extra-services", target="_blank", rel="noopener", title="Откроется в новой вкладке") дополнительные расходы].
+        button.route-landing__collapse(type="button", data-collapse-tariffs, hidden) Свернуть подробные тарифы

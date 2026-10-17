@@ -1,0 +1,34 @@
+mixin routeDispatch(title)
+  section#dispatch.route-landing__section.route-landing__section--dispatch
+    h2=title
+    block
+
+mixin routeCutoffs(options)
+  .route-landing__cutoffs
+    .route-landing__cutoff
+      h3=options.receptionTitle || "Сдача груза на терминал"
+      if business.receptionCutoff
+        p.route-landing__cutoff-time До #{business.receptionCutoff}
+      .route-landing__cutoff-detail
+        p=business.reception
+        if options.receptionNote
+          p=options.receptionNote
+    .route-landing__cutoff
+      h3=options.applicationTitle
+      if business.applicationCutoff
+        p.route-landing__cutoff-time До #{business.applicationCutoff}
+      .route-landing__cutoff-detail
+        p=business.applicationDeadline
+        if options.applicationNote
+          p=options.applicationNote
+
+mixin routeOperations(title, options)
+  section.route-landing__section.route-landing__section--operations(aria-labelledby="cutoffs-title")
+    h2#cutoffs-title=title
+    +routeCutoffs(options)
+
+mixin routeServices(title)
+  section.route-landing__section.route-landing__section--services(aria-labelledby="services-title")
+    h2#services-title=title
+    .route-landing__service-notes
+      block

@@ -4,77 +4,45 @@ include ../pug/route-components.pug
 block variables
   -
     title = "Грузоперевозки Владивосток — Хабаровск"
-    pagePath = "vladivostok-khabarovsk.html"
-    landingOrigin = "vvo"
-    landingDestination = "khb"
-    landingPhone = business.terminals.vvo.phones.find((item) => item.role?.startsWith("Отправка"))
+    landingId = "vvo-khb"
     description = "Перевозка грузов из Владивостока в Хабаровск: обычно за сутки, отправления по рабочим дням. Тарифы, забор со склада и получение на терминале или с доставкой."
 
 block content
   -
     const origin = landingOrigin;
     const destination = landingDestination;
-    const route = business.routes.find((item) => item.origin === origin && item.destination === destination);
+    const route = landing.schedule;
     const usualDuration = route.usualDays === 1 ? "сутки" : `${route.usualDays} сут.`;
     const sendingPhone = landingPhone;
-    const receivingPhone = business.terminals.khb.phones.find((item) => item.role?.startsWith("Выдача"));
-    const receptionCutoff = business.reception.match(/[0-9]{2}:[0-9]{2}/)?.[0];
-    const applicationCutoff = business.applicationDeadline.match(/[0-9]{2}:[0-9]{2}/)?.[0];
+    const receivingPhone = landing.receivingPhone;
+
+    const pricing = {
+      title: "Сколько стоит перевозка",
+      intro: "Сравните свой груз с примерами для маршрута Владивосток — Хабаровск.",
+      notice: [landingCopy.terminalVat, landingCopy.extrasWithPackaging],
+      calculation: landingCopy.calculationDetailed,
+      preamble: landingCopy.ordinaryCargo
+    };
 
   article.route-landing
-    header.route-landing__hero
-      .route-landing__hero-grid
-        .route-landing__hero-content
-          h1
-            span.route-landing__title-kicker Грузоперевозки
-            | #{" "}
-            span.route-landing__title-route
-              span.route-landing__title-city Владивосток
-              span.visually-hidden=" — "
-              span.route-landing__title-city Хабаровск
-          p.route-landing__lead Доставим груз и документы. От терминала до терминала или с забором со склада отправителя и доставкой по адресу.
-        .route-landing__hero-aside
-          include ../img/route-forklift.svg
-          dl.route-landing__facts
-            .route-landing__fact
-              dt Отправления
-              dd.route-landing__schedule Рейсы #{route.schedule}
-            .route-landing__fact
-              dt Обычно
-              dd За #{usualDuration}
-            .route-landing__fact
-              dt Гарантированный срок
-              dd До #{route.days} календарных суток
-              dd.route-landing__fact-note От момента приёма груза, для любого принятого груза.
-        +routeActions(origin, destination, "hero")
-        p.route-landing__hint Для расчёта понадобятся вес и объём груза.
-    nav.route-landing__navigation(aria-label="Разделы направления")
-      a.link(href="#tariffs") Стоимость
-      a.link(href="#dispatch") Как отправить
-      a.link(href="#terminals") Терминалы
-      a.link(href="#questions") Вопросы
+    +routeHero(origin, destination, {lead: "Доставим груз и документы. От терминала до терминала или с забором со склада отправителя и доставкой по адресу."})
+      dl.route-landing__facts
+        .route-landing__fact
+          dt Отправления
+          dd.route-landing__schedule Рейсы #{route.schedule}
+        .route-landing__fact
+          dt Обычно
+          dd За #{usualDuration}
+        .route-landing__fact
+          dt Гарантированный срок
+          dd До #{route.days} календарных суток
+          dd.route-landing__fact-note От момента приёма груза, для любого принятого груза.
 
-    section#tariffs.route-landing__section
-      h2 Сколько стоит перевозка
-      p.route-landing__intro Сравните свой груз с примерами для маршрута Владивосток — Хабаровск.
-      +routeExamples(origin, destination)
-      .route-landing__notice
-        p Между терминалами, включая НДС.
-        p Забор и доставка по адресу, упаковка, погрузочно-разгрузочные работы и платное хранение оплачиваются отдельно.
-      +routeActions(origin, destination, "tariff")
-      details.route-landing__disclosure
-        summary Подробные тарифы и правила расчёта
-        .route-landing__disclosure-content
-          p Примеры для обычного груза: каждое место не больше 1 м³ и 1 м по каждой стороне. Без надбавок за негабарит, ДВС и температурный режим.
-          p Цены включают НДС. Прайс действует с #[time(datetime=tariffs.startdate)=new Date(tariffs.startdate).toLocaleDateString("ru-RU", {timeZone: "UTC"})].
-          p Стоимость зависит от массы и объёма. Сначала проверяются минимальные категории. В остальных случаях груз объёмом более 5 м³ на тонну рассчитывается по объёму, иначе — по весу.
-          +routeTariffs(origin, destination)
-          p Для перевозки негабарита действует надбавка #{Math.round((tariffs.oversizedRaisingFactor - 1) * 100)}% по условиям прайса.
-          p #[a.link(href="pricing.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полный прайс] и #[a.link(href="pricing.html#extra-services", target="_blank", rel="noopener", title="Откроется в новой вкладке") дополнительные расходы].
-          button.route-landing__collapse(type="button", data-collapse-tariffs, hidden) Свернуть подробные тарифы
+    +routeNavigation()
 
-    section#dispatch.route-landing__section.route-landing__section--dispatch
-      h2 Как отправить груз
+    +routePricing(origin, destination, pricing)
+
+    +routeDispatch("Как отправить груз")
       ol.route-landing__steps
         li
           h3 Подготовьте груз
@@ -89,59 +57,26 @@ block content
           h3 Получите в Хабаровске
           p На терминале или с доставкой до склада получателя по согласованию.
 
-    section.route-landing__section.route-landing__section--operations(aria-labelledby="cutoffs-title")
-      h2#cutoffs-title Когда передать груз
-      .route-landing__cutoffs
-        .route-landing__cutoff
-          h3 Сдача груза на терминал
-          if receptionCutoff
-            p.route-landing__cutoff-time До #{receptionCutoff}
-          .route-landing__cutoff-detail
-            p=business.reception
-        .route-landing__cutoff
-          h3 Заявка на грузоперевозку
-          if applicationCutoff
-            p.route-landing__cutoff-time До #{applicationCutoff}
-          .route-landing__cutoff-detail
-            p=business.applicationDeadline
-            p Это срок заявки на машину; он не заменяет регламент сдачи груза.
+    +routeOperations("Когда передать груз", {applicationTitle: "Заявка на грузоперевозку", applicationNote: "Это срок заявки на машину; он не заменяет регламент сдачи груза."})
 
-    section.route-landing__section.route-landing__section--services(aria-labelledby="services-title")
-      h2#services-title Дополнительные услуги
-      .route-landing__service-notes
-        p
-          strong Упаковка и обрешётка.
-          |  #{business.packagingNotice} #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Требования и тарифы].
-        p
-          strong Забор и доставка по адресу.
-          |  По согласованию. Условия и стоимость уточните у сотрудников компании.
-        p=business.temperature
+    +routeServices("Дополнительные услуги")
+      p
+        strong Упаковка и обрешётка.
+        |  #{business.packagingNotice} #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Требования и тарифы].
+      p
+        strong Забор и доставка по адресу.
+        |  По согласованию. Условия и стоимость уточните у сотрудников компании.
+      p=business.temperature
 
-    section#terminals.route-landing__section.route-landing__section--terminals
-      h2 Где отправить и получить
+    +routeTerminals("Где отправить и получить")
       .route-landing__columns
-        .route-landing__terminal
-          p.route-landing__terminal-label Отправление
-          h3 Отправить во Владивостоке
-          p.route-landing__address=tariffs.terminals.vvo
-          +routePhone(sendingPhone, origin, destination, "terminal")
-          p.route-landing__hint=sendingPhone.role
-          .route-landing__terminal-links
-            a.link(href="https://yandex.ru/maps/?pt=131.915753,43.189470&z=17&l=map", target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
-            a.link(href="contacts.html#vvo", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
-        .route-landing__terminal
-          p.route-landing__terminal-label.route-landing__terminal-label--destination Получение
-          h3 Получить в Хабаровске
-          p.route-landing__address=tariffs.terminals.khb
-          +routePhone(receivingPhone, origin, destination, "terminal")
-          p.route-landing__hint=receivingPhone.role
-          .route-landing__terminal-links
-            a.link(href="https://yandex.ru/maps/?pt=135.145785,48.482212&z=17&l=map", target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
-            a.link(href="contacts.html#khb", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
+        +routeTerminal(origin, destination, {code: origin, phone: sendingPhone, title: "Отправить во Владивостоке", showRole: true})
+
+        +routeTerminal(origin, destination, {code: destination, phone: receivingPhone, title: "Получить в Хабаровске", receiving: true, showRole: true})
+
       p.route-landing__hint=business.collection
 
-    section#questions.route-landing__section.route-landing__section--questions(aria-labelledby="questions-title")
-      h2#questions-title Вопросы по условиям
+    +routeQuestions("Вопросы по условиям", true)
       .route-landing__faq
         details
           summary Можно ли заказать забор и доставку по адресу?
@@ -150,27 +85,15 @@ block content
           summary Нужно ли заранее упаковать груз?
           p Ознакомьтесь с требованиями к упаковке. Во Владивостоке можно заказать упаковку и обрешётку; тарифы доступны на странице #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") «Упаковка»].
         details
-          summary Если привезти груз после 11:00, его отправят?
-          p Отправка после 11:00 возможна при наличии места на рейсе. Не считайте её гарантированной; согласуйте отправку с диспетчером.
+          summary Если привезти груз после #{business.receptionCutoff}, его отправят?
+          p Отправка после #{business.receptionCutoff} возможна при наличии места на рейсе. Не считайте её гарантированной; согласуйте отправку с диспетчером.
         details
           summary Сутки — гарантированный срок?
           p Обычно доставка занимает #{usualDuration}. Гарантированный срок по этому направлению — до #{route.days} календарных суток от приёма груза для любого принятого груза.
-        details
-          summary Сколько стоит хранение после прибытия?
-          +storageTerms()
-      p Нужна отправка в другую сторону? #[a.link(href="khabarovsk-vladivostok.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Хабаровск — Владивосток].
-      .route-landing__related
-        a.link(href="terms.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полные условия перевозки
-        a.link(href="payment.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Способы оплаты
+        +routeStorageQuestion("Сколько стоит хранение после прибытия?")
+      p Нужна отправка в другую сторону? #[a.link(href=landing.related[0].pagePath, target="_blank", rel="noopener", title="Откроется в новой вкладке") Хабаровск — Владивосток].
+      +routeRelatedLinks()
 
-    section.route-landing__closing
-      div
-        h2 Рассчитайте свой груз
-        p Владивосток — Хабаровск. Укажите вес и объём, чтобы узнать стоимость перевозки.
-        +routeActions(origin, destination, "bottom")
-      .route-landing__closing-contact
-        p Согласовать отправку с диспетчером
-        +routePhone(sendingPhone, origin, destination, "bottom")
+    +routeClosing(origin, destination, sendingPhone, "Согласовать отправку с диспетчером")
 
-    aside.route-landing__mobile-action(aria-label="Расчёт перевозки", hidden)
-      a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="calculator", data-cta-position="mobile") Рассчитать стоимость
+    +routeMobileAction(origin, destination)

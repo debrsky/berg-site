@@ -1,0 +1,15 @@
+mixin routeClosing(origin, destination, phone, contactLabel, hint)
+  section.route-landing__closing
+    div
+      h2 Рассчитайте свой груз
+      p #{tariffs.places[origin]} — #{tariffs.places[destination]}. Укажите вес и объём, чтобы узнать стоимость перевозки.
+      +routeActions(origin, destination, "bottom")
+      if hint
+        p.route-landing__hint=hint
+    .route-landing__closing-contact
+      p=contactLabel
+      +routePhone(phone, origin, destination, "bottom")
+
+mixin routeMobileAction(origin, destination)
+  aside.route-landing__mobile-action(aria-label="Расчёт перевозки", hidden)
+    a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="calculator", data-cta-position="mobile") Рассчитать стоимость

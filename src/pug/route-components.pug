@@ -1,3 +1,12 @@
+include route/hero.pug
+include route/pricing.pug
+include route/operations.pug
+include route/terminals.pug
+include route/questions.pug
+include route/navigation.pug
+include route/closing.pug
+include route/shipment.pug
+
 mixin routeActions(origin, destination, position, calculatorLabel = "Рассчитать стоимость")
   .route-landing__actions
     a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="calculator", data-cta-position=position)=calculatorLabel
@@ -73,126 +82,7 @@ mixin routeTariffs(origin, destination)
                   td=fmt(row.price[origin][destination])
   p Верхняя граница обычного диапазона не включается: на границе применяется следующая строка. Для минимальных категорий должны одновременно выполняться оба условия; выбирается первая подходящая.
 
-//- Original flat illustrations: solid faces and shipping labels echo the hero cargo.
-//- Orange is reserved for route markers, not decorative details on the parcels.
-mixin routeCargoIcon(kind)
-  svg.route-landing__cargo-icon(width="52", height="52", viewBox="0 0 56 56", fill="none", stroke="currentColor", stroke-width="1.4", stroke-linecap="round", stroke-linejoin="round", aria-hidden="true", focusable="false")
-    path.route-landing__cargo-ground(d="M5 51h46")
-    if kind === "documents"
-      path.route-landing__cargo-side(d="M10 12h25v37H10z")
-      path.route-landing__cargo-paper(d="M16 6h19l10 10v29H16z")
-      path.route-landing__cargo-top(d="M35 6v10h10z")
-      path(d="M23 25h14m-14 6h14m-14 6h8")
-    else if kind === "parcel"
-      path.route-landing__cargo-body(d="m10 19 18 8v22l-18-8z")
-      path.route-landing__cargo-side(d="m28 27 18-8v22l-18 8z")
-      path.route-landing__cargo-top(d="m10 19 18-8 18 8-18 8z")
-      path(d="m19 15 18 8v9")
-      path.route-landing__cargo-label(d="m15 30 8 3.5v7L15 37z")
-    else if kind === "pallet"
-      path.route-landing__cargo-side(d="M7 43h42v5H7z")
-      path(d="M12 48v3m16-3v3m16-3v3")
-      path.route-landing__cargo-body(d="m11 17 17 8v18H11z")
-      path.route-landing__cargo-side(d="m28 25 17-8v26H28z")
-      path.route-landing__cargo-top(d="m11 17 17-8 17 8-17 8z")
-      path(d="m20 13 17 8v22")
-      path.route-landing__cargo-label(d="m16 28 7 3v7l-7-3z")
-    else
-      path.route-landing__cargo-body(d="m6 18 18 8v24L6 41z")
-      path.route-landing__cargo-side(d="m24 26 26-9v24l-26 9z")
-      path.route-landing__cargo-top(d="m6 18 26-9 18 8-26 9z")
-      path(d="m19 13 18 9v10")
-      path.route-landing__cargo-label(d="m31 30 11-4v9l-11 4z")
-
-//- Prepared shipments: a separate series for departure from Khabarovsk.
-mixin routePreparedCargoIcon(kind)
-  if kind === "documents"
-    include ../img/cargo-examples/documents.svg
-  else if kind === "parcel"
-    include ../img/cargo-examples/parcel.svg
-  else if kind === "pallet"
-    include ../img/cargo-examples/pallet.svg
-  else
-    include ../img/cargo-examples/volume.svg
-
-//- Original terminal-ready cargo series for the Ussuriysk landing.
-mixin routeUssuriyskCargoIcon(kind)
-  if kind === "documents"
-    include ../img/cargo-examples/ussuriysk/documents.svg
-  else if kind === "parcel"
-    include ../img/cargo-examples/ussuriysk/parcel.svg
-  else if kind === "pallet"
-    include ../img/cargo-examples/ussuriysk/pallet.svg
-  else
-    include ../img/cargo-examples/ussuriysk/volume.svg
-
-//- Individual cargo series for Khabarovsk — Ussuriysk.
-mixin routeKhabarovskUssuriyskCargoIcon(kind)
-  if kind === "documents"
-    include ../img/cargo-examples/khabarovsk-ussuriysk/documents.svg
-  else if kind === "parcel"
-    include ../img/cargo-examples/khabarovsk-ussuriysk/parcel.svg
-  else if kind === "pallet"
-    include ../img/cargo-examples/khabarovsk-ussuriysk/pallet.svg
-  else
-    include ../img/cargo-examples/khabarovsk-ussuriysk/volume.svg
-
-//- Individual route-sheet cargo series for Khabarovsk — Blagoveshchensk.
-mixin routeKhabarovskBlagoveshchenskCargoIcon(kind)
-  if kind === "documents"
-    include ../img/cargo-examples/khabarovsk-blagoveshchensk/documents.svg
-  else if kind === "parcel"
-    include ../img/cargo-examples/khabarovsk-blagoveshchensk/parcel.svg
-  else if kind === "pallet"
-    include ../img/cargo-examples/khabarovsk-blagoveshchensk/pallet.svg
-  else
-    include ../img/cargo-examples/khabarovsk-blagoveshchensk/volume.svg
-
-//- Distinct objects for Blagoveshchensk — Khabarovsk.
-mixin routeBlagoveshchenskKhabarovskCargoIcon(kind)
-  if kind === "documents"
-    include ../img/cargo-examples/blagoveshchensk-khabarovsk/documents.svg
-  else if kind === "parcel"
-    include ../img/cargo-examples/blagoveshchensk-khabarovsk/parcel.svg
-  else if kind === "pallet"
-    include ../img/cargo-examples/blagoveshchensk-khabarovsk/pallet.svg
-  else
-    include ../img/cargo-examples/blagoveshchensk-khabarovsk/volume.svg
-
-//- Individual cargo silhouettes for Khabarovsk — Komsomolsk-on-Amur.
-mixin routeKhabarovskKomsomolskCargoIcon(kind)
-  if kind === "documents"
-    include ../img/cargo-examples/khabarovsk-komsomolsk-na-amure/documents.svg
-  else if kind === "parcel"
-    include ../img/cargo-examples/khabarovsk-komsomolsk-na-amure/parcel.svg
-  else if kind === "pallet"
-    include ../img/cargo-examples/khabarovsk-komsomolsk-na-amure/pallet.svg
-  else
-    include ../img/cargo-examples/khabarovsk-komsomolsk-na-amure/volume.svg
-
-//- Individual cargo series for Komsomolsk-on-Amur — Khabarovsk.
-mixin routeKomsomolskKhabarovskCargoIcon(kind)
-  if kind === "documents"
-    include ../img/cargo-examples/komsomolsk-na-amure-khabarovsk/documents.svg
-  else if kind === "parcel"
-    include ../img/cargo-examples/komsomolsk-na-amure-khabarovsk/parcel.svg
-  else if kind === "pallet"
-    include ../img/cargo-examples/komsomolsk-na-amure-khabarovsk/pallet.svg
-  else
-    include ../img/cargo-examples/komsomolsk-na-amure-khabarovsk/volume.svg
-
-//- Folded papers, round shipping canister, steel flanges and protected screen.
-mixin routeVladivostokBlagoveshchenskCargoIcon(kind)
-  if kind === "documents"
-    include ../img/cargo-examples/vladivostok-blagoveshchensk/documents.svg
-  else if kind === "parcel"
-    include ../img/cargo-examples/vladivostok-blagoveshchensk/parcel.svg
-  else if kind === "pallet"
-    include ../img/cargo-examples/vladivostok-blagoveshchensk/pallet.svg
-  else
-    include ../img/cargo-examples/vladivostok-blagoveshchensk/volume.svg
-
-mixin routeExamples(origin, destination, artwork = "standard")
+mixin routeExamples(origin, destination)
   -
     const samples = [
       {title: "Документы", icon: "documents", note: "Небольшой пакет бумаг", weight: 0.3, volume: 0.001},
@@ -206,24 +96,7 @@ mixin routeExamples(origin, destination, artwork = "standard")
       -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
       .route-landing__example
         .route-landing__example-heading
-          if artwork === "vladivostok-blagoveshchensk"
-            +routeVladivostokBlagoveshchenskCargoIcon(sample.icon)
-          else if artwork === "komsomolsk-na-amure-khabarovsk"
-            +routeKomsomolskKhabarovskCargoIcon(sample.icon)
-          else if artwork === "khabarovsk-komsomolsk-na-amure"
-            +routeKhabarovskKomsomolskCargoIcon(sample.icon)
-          else if artwork === "blagoveshchensk-khabarovsk"
-            +routeBlagoveshchenskKhabarovskCargoIcon(sample.icon)
-          else if artwork === "khabarovsk-blagoveshchensk"
-            +routeKhabarovskBlagoveshchenskCargoIcon(sample.icon)
-          else if artwork === "khabarovsk-ussuriysk"
-            +routeKhabarovskUssuriyskCargoIcon(sample.icon)
-          else if artwork === "ussuriysk"
-            +routeUssuriyskCargoIcon(sample.icon)
-          else if artwork === "prepared"
-            +routePreparedCargoIcon(sample.icon)
-          else
-            +routeCargoIcon(sample.icon)
+          != landingCargo(origin + "-" + destination, sample.icon)
           .route-landing__example-caption
             h3.route-landing__example-title=sample.title
             p.route-landing__example-note=sample.note

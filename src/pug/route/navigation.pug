@@ -1,0 +1,4 @@
+mixin routeNavigation(items = [["tariffs", "Стоимость"], ["dispatch", "Как отправить"], ["terminals", "Терминалы"], ["questions", "Вопросы"]])
+  nav.route-landing__navigation(aria-label="Разделы направления")
+    each item in items
+      a.link(href="#" + item[0])=item[1]

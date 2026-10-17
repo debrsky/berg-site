@@ -1,0 +1,5 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Bicycle wheel in four protective packing blocks. Original artwork. -->
+<circle class="route-landing__cargo-body" cx="28" cy="28" r="21"/><circle class="route-landing__cargo-paper" cx="28" cy="28" r="16"/><path d="M28 12v32M12 28h32M17 17l22 22m-22 0 22-22"/><path class="route-landing__cargo-top" d="M21 4h14v8H21zm0 40h14v8H21z"/><path class="route-landing__cargo-side" d="M4 21h8v14H4zm40 0h8v14h-8z"/><path class="route-landing__cargo-label" d="M22 24h12v8H22z"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>

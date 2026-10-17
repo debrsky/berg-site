@@ -1,16 +1,6 @@
 mixin homeRoutes()
   -
-    const pages = [
-      {origin: 'vvo', destination: 'khb', href: 'vladivostok-khabarovsk.html'},
-      {origin: 'khb', destination: 'vvo', href: 'khabarovsk-vladivostok.html'},
-      {origin: 'vvo', destination: 'blg', href: 'vladivostok-blagoveshchensk.html'},
-      {origin: 'uss', destination: 'khb', href: 'ussuriysk-khabarovsk.html'},
-      {origin: 'khb', destination: 'uss', href: 'khabarovsk-ussuriysk.html'},
-      {origin: 'khb', destination: 'blg', href: 'khabarovsk-blagoveshchensk.html'},
-      {origin: 'khb', destination: 'kms', href: 'khabarovsk-komsomolsk-na-amure.html'},
-      {origin: 'blg', destination: 'khb', href: 'blagoveshchensk-khabarovsk.html'},
-      {origin: 'kms', destination: 'khb', href: 'komsomolsk-na-amure-khabarovsk.html'}
-    ];
+    const pages = routeLandings.map((entry) => ({...entry, href: entry.slug + ".html"}));
     const originLabels = {uss: 'Из Уссурийска', khb: 'Из Хабаровска', blg: 'Из Благовещенска', kms: 'Из Комсомольска-на-Амуре'};
     const sameRoute = (a, b) => a.origin === b.origin && a.destination === b.destination;
     const otherPages = pages.filter((page) => !business.routes.some((route) => sameRoute(page, route)));

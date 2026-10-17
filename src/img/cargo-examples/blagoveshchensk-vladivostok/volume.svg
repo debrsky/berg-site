@@ -1,0 +1,9 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Lightweight folding stepladder with protective end caps. -->
+<path class="route-landing__cargo-side" d="m28 8 5-2 17 42-6 2z"/>
+<path class="route-landing__cargo-body" d="M18 8h19v5H18zM17 18h18v4H17zM15 29h18v4H15zM13 40h18v4H13z"/>
+<path class="route-landing__cargo-top" d="M18 8h5l-7 42h-5zM35 8h5l-7 42h-5z"/>
+<path class="route-landing__cargo-paper" d="M16 5h26v9H16zM9 45h10v6H9zM26 45h10v6H26z"/>
+<path class="route-landing__cargo-label" d="M23 7h11v5H23z"/>
+<path class="route-landing__cargo-ground" d="M5 53h46"/>
+</svg>

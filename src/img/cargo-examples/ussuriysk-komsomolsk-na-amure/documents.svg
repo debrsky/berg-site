@@ -1,0 +1,5 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Roll of printed receipt documents. Original artwork. -->
+<path class="route-landing__cargo-body" d="M14 12h27v34H14z"/><path class="route-landing__cargo-paper" d="M14 12q0-7 12-7t12 7v29l-5-3-5 3-5-3v12H9V35h5z"/><path d="M19 16h14m-14 6h14m-14 6h10M9 42h14"/><path class="route-landing__cargo-label" d="M27 43h10v5H27z"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>

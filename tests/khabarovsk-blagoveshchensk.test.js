@@ -1,9 +1,9 @@
 import {test} from "node:test";
 import {strict as assert} from "node:assert";
-import {readFileSync, existsSync} from "node:fs";
-import vm from "node:vm";
+import {readFileSync} from "node:fs";
+import {tariffs} from "./helpers/landing-data.js";
 import {calculateCargo} from "../src/js/common/calculate.js";
-import {parseRoute, routePages, validContext} from "../src/js/common/route.js";
+import {routePages, validContext} from "../src/js/common/route.js";
 
 const directory = new URL("../public/", import.meta.url);
 const page = "khabarovsk-blagoveshchensk.html";
@@ -17,13 +17,6 @@ const section = (id) =>
   html.match(
     new RegExp(`<section[^>]*id="${id}"[^>]*>([\\s\\S]*?)</section>`)
   )[1];
-const source = readFileSync(
-  new URL("../src/pug/tariffs.pug", import.meta.url),
-  "utf8"
-);
-const tariffs = vm.runInNewContext(
-  source.slice(source.indexOf("  const tariffs")) + "; tariffs;"
-);
 
 test("khb-blg: independent metadata, shared shell and original illustration", () => {
   assert.match(html, /<title>Грузоперевозки Хабаровск — Благовещенск/);
@@ -158,31 +151,7 @@ test("khb-blg: correct terminals, phone roles and confirmed operational rules", 
 });
 
 test("khb-blg: links, no-JS disclosures, route prefill and analytics registration", () => {
-  for (const [, attrs] of html.matchAll(/<a\b([^>]+)>/g)) {
-    const href = attrs.match(/href="([^"]+)"/)[1].replaceAll("&amp;", "&");
-    if (/^(#|tel:)/.test(href) || href === page) {
-      assert.doesNotMatch(attrs, /target=/);
-    } else {
-      assert.match(attrs, /target="_blank" rel="noopener"/);
-      assert.match(attrs, /title="Откроется в новой вкладке"/);
-    }
-    if (!/^(https?:|tel:|#)/.test(href)) {
-      assert.ok(existsSync(new URL(href.split(/[?#]/)[0], directory)), href);
-    }
-    if (attrs.includes("data-route-goal=")) {
-      assert.match(attrs, /data-route-id="khb-blg"/);
-      assert.match(
-        attrs,
-        /data-cta-position="(hero|tariff|terminal|bottom|mobile)"/
-      );
-      if (!href.startsWith("tel:")) {
-        assert.deepEqual(
-          parseRoute(new URL(href, "https://bergvl.ru/").search, tariffs),
-          {origin: "khb", destination: "blg"}
-        );
-      }
-    }
-  }
+  // Shared link/prefill checks run for all routes in landing-contract.test.js.
   assert.equal(routePages["khb-blg"], "khabarovsk-blagoveshchensk");
   const now = Date.now();
   assert.ok(

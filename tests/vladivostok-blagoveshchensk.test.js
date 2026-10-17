@@ -1,9 +1,9 @@
 import {test} from "node:test";
 import {strict as assert} from "node:assert";
 import {readFileSync, existsSync, readdirSync} from "node:fs";
-import vm from "node:vm";
+import {tariffs} from "./helpers/landing-data.js";
 import {calculateCargo} from "../src/js/common/calculate.js";
-import {parseRoute, routePages, validContext} from "../src/js/common/route.js";
+import {routePages, validContext} from "../src/js/common/route.js";
 
 const directory = new URL("../public/", import.meta.url);
 const page = "vladivostok-blagoveshchensk.html";
@@ -18,13 +18,6 @@ const section = (id) =>
   html.match(
     new RegExp(`<section[^>]*id="${id}"[^>]*>([\\s\\S]*?)</section>`)
   )[1];
-const source = readFileSync(
-  new URL("../src/pug/tariffs.pug", import.meta.url),
-  "utf8"
-);
-const tariffs = vm.runInNewContext(
-  source.slice(source.indexOf("  const tariffs")) + "; tariffs;"
-);
 
 test("vvo-blg: independent metadata, shared shell and weekly dispatch illustration", () => {
   assert.match(html, /<title>Грузоперевозки Владивосток — Благовещенск/);
@@ -43,10 +36,8 @@ test("vvo-blg: independent metadata, shared shell and weekly dispatch illustrati
   );
   for (const asset of ["css/landing.css", "js/landing.js", "js/route.js"])
     assert.ok(html.includes(asset));
-  assert.doesNotMatch(
-    html,
-    /js\/index.js|css\/style.css|data-forklift|blagoveshchensk-vladivostok.html/
-  );
+  assert.doesNotMatch(html, /js\/index.js|css\/style.css|data-forklift/);
+  assert.match(html, /href="blagoveshchensk-vladivostok.html"/);
   const illustration = html.match(
     /<svg class="route-landing__illustration"[\s\S]*?<\/svg>/
   )[0];
@@ -206,20 +197,7 @@ test("vvo-blg: native links and existing destinations", () => {
 });
 
 test("vvo-blg: no-JS content, route prefill and analytics context", () => {
-  for (const [, attrs] of html.matchAll(/<a\b([^>]+data-route-goal=[^>]+)>/g)) {
-    const href = attrs.match(/href="([^"]+)"/)[1].replaceAll("&amp;", "&");
-    assert.match(attrs, /data-route-id="vvo-blg"/);
-    assert.match(
-      attrs,
-      /data-cta-position="(hero|tariff|terminal|bottom|mobile)"/
-    );
-    if (!href.startsWith("tel:")) {
-      assert.deepEqual(
-        parseRoute(new URL(href, "https://bergvl.ru/").search, tariffs),
-        {origin: "vvo", destination: "blg"}
-      );
-    }
-  }
+  // Shared attribution/prefill checks run in landing-contract.test.js.
   assert.equal(routePages["vvo-blg"], "vladivostok-blagoveshchensk");
   const now = Date.now();
   assert.ok(

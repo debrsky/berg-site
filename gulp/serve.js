@@ -39,6 +39,10 @@ export default function serve() {
   gulp.watch(`src/pages/**/*.pug`, gulp.series(pages, readyFullReload));
 
   gulp.watch(`src/js/**/*.js`, gulp.series(script, readyFullReload));
+  gulp.watch(
+    `src/data/**/*.js`,
+    gulp.series(pug2html, script, readyFullReload)
+  );
   gulp.watch(`src/img/**/!(*.svg)`, gulp.series(copy, readyFullReload));
   gulp.watch(
     `src/img/**/*.svg`,

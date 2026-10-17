@@ -1,0 +1,5 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Padded flat mailing bag with folded seal. Original artwork. -->
+<path class="route-landing__cargo-body" d="M7 16h42v30H7z"/><path class="route-landing__cargo-top" d="M7 10h42v12l-21 6-21-6z"/><path class="route-landing__cargo-side" d="M7 38h42v8H7z"/><path d="M12 32h5m5 0h5m5 0h5m5 0h3"/><path class="route-landing__cargo-label" d="M21 15h15v7H21z"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>

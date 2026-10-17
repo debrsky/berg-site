@@ -1,0 +1,64 @@
+//- Reusable editorial fragments, not a fixed page layout.
+mixin routeShipmentFacts(content)
+  dl.route-landing__facts
+    .route-landing__fact
+      dt Отправления
+      if content.schedule
+        dd Рейсы #{content.schedule}
+        dd.route-landing__fact-note День ближайшего рейса согласуйте перед сдачей груза.
+      else
+        dd Дату рейса согласуем
+        dd.route-landing__fact-note Позвоните на терминал #{content.inFrom} до передачи груза.
+    .route-landing__fact
+      dt Срок доставки
+      dd Уточните перед отправкой
+
+mixin routeShipmentSteps(content)
+  ol.route-landing__steps
+    li
+      h3 Подготовьте груз
+      p Проверьте #[a.link(href="docs.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") документы для перевозки] и #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") требования к упаковке].
+    li
+      h3 Согласуйте отправку
+      p=content.step
+    li
+      h3 Оформите и передайте
+      p Заполните заявку. Привезите груз на терминал или передайте водителю при согласованном заборе со склада.
+    li
+      h3 Получите #{content.inTo}
+      p Согласуйте время выдачи на терминале или доставку до склада получателя.
+
+mixin routeShipmentServices(origin, content)
+  p
+    strong Забор и доставка по адресу.
+    |  Можно заказать машину на склад отправителя #{content.inFrom} и доставку до склада получателя #{content.inTo}. Условия и стоимость уточните при оформлении.
+  if origin === "vvo"
+    p
+      strong Упаковка и обрешётка.
+      |  Во Владивостоке можно заказать подготовку груза к перевозке. Согласуйте работы и стоимость до сдачи к рейсу.
+  else
+    p.route-landing__preparation
+      strong Подготовьте упаковку до сдачи груза.
+      |  Проверьте требования к защите каждого места до передачи на терминал или водителю.
+  p=business.temperature
+
+mixin routeShipmentQuestions(content)
+  .route-landing__faq
+    details
+      summary=content.faq
+      p=content.answer
+    details
+      summary Когда отправят и доставят груз?
+      if content.schedule
+        p Рейсы по направлению #{content.from} — #{content.to} идут #{content.schedule}. День ближайшего рейса и срок доставки вашего груза согласуйте по телефону терминала #{content.inFrom} до передачи груза.
+      else
+        p Дату рейса и срок доставки по направлению #{content.from} — #{content.to} согласуйте по телефону терминала #{content.inFrom} до передачи груза.
+    details
+      summary Можно ли отправить без поездки на терминал?
+      p Да, можно заказать забор со склада отправителя #{content.inFrom}. #{content.inTo.charAt(0).toUpperCase() + content.inTo.slice(1)} доступна доставка до склада получателя. Обе услуги оплачиваются отдельно от перевозки между терминалами.
+    details
+      summary Что будет, если сдать груз после #{business.receptionCutoff}?
+      p Отправка возможна при наличии места на рейсе. Заранее согласуйте передачу с сотрудником терминала #{content.inFrom}; отправка после #{business.receptionCutoff} не гарантирована.
+    +routeStorageQuestion("Когда начинается платное хранение?")
+  p Другие направления: #[a.link(href=content.related + ".html", target="_blank", rel="noopener", title="Откроется в новой вкладке")=content.relatedLabel].
+  +routeRelatedLinks()

@@ -45,7 +45,14 @@ block content
       p
         | Если объём 1 тонны груза превышает 5 м³, груз считается «легким» и тарифицируется по объему.
         | В противном случае груз считается «тяжелым» и тарифицируется по весу.
-      p #[a.link(href="vladivostok-khabarovsk.html") Владивосток — Хабаровск: тарифы, подготовка и отправка груза].
+      p #[a.link(href=landingPath("vvo-khb")) Владивосток — Хабаровск: тарифы, подготовка и отправка груза].
+      p #[a.link(href=landingPath("blg-vvo")) Благовещенск — Владивосток: стоимость, график и терминалы].
+      ul
+        li #[a.link(href=landingPath("vvo-kms")) Владивосток — Комсомольск-на-Амуре: расчёт и отправка груза].
+        li #[a.link(href=landingPath("uss-kms")) Уссурийск — Комсомольск-на-Амуре: расчёт и отправка груза].
+        li #[a.link(href=landingPath("uss-blg")) Уссурийск — Благовещенск: расчёт и отправка груза].
+        li #[a.link(href=landingPath("blg-kms")) Благовещенск — Комсомольск-на-Амуре: расчёт и отправка груза].
+        li #[a.link(href=landingPath("kms-vvo")) Комсомольск-на-Амуре — Владивосток: расчёт и отправка груза].
       -let destinationPlaces;
       .pricing__directions
         -for (const origin of Object.keys(places))

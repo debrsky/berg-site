@@ -1,0 +1,100 @@
+extends ../pug/landing-layout
+include ../pug/route-components.pug
+
+block variables
+  -
+    title = "Грузоперевозки Благовещенск — Владивосток"
+    landingId = "blg-vvo"
+    description = "Грузоперевозки Благовещенск — Владивосток: рейсы по вторникам и пятницам, обычно 3 суток. Тарифы с НДС, забор и доставка по адресу, контакты терминалов ТК Берг."
+
+block content
+  -
+    const origin = landingOrigin;
+    const destination = landingDestination;
+    const route = landing.schedule;
+    const sendingPhone = landingPhone;
+    const receivingPhone = landing.receivingPhone;
+
+    const pricing = {
+      title: "Сколько стоит доставка во Владивосток",
+      intro: "Четыре примера для маршрута Благовещенск — Владивосток. Сравните массу и объём со своим грузом, затем рассчитайте его в калькуляторе.",
+      notice: [landingCopy.terminalVat, landingCopy.ordinaryCargo, landingCopy.extras],
+      calculation: landingCopy.calculation
+    };
+
+  article.route-landing
+    +routeHero(origin, destination, {lead: `Транспортная компания «Берг» отправляет грузы и документы из Благовещенска во Владивосток ${route.schedule}. Передайте груз на терминале или закажите забор со склада. Получить можно на терминале или по адресу.`})
+      dl.route-landing__facts
+        .route-landing__fact
+          dt Отправления
+          dd Рейсы #{route.schedule}
+        .route-landing__fact
+          dt Обычно
+          dd За #{route.usualDays} суток
+        .route-landing__fact
+          dt Гарантированный срок
+          dd До #{route.days} календарных суток
+          dd.route-landing__fact-note От приёма груза, для любого принятого груза.
+
+    +routeNavigation()
+
+    +routePricing(origin, destination, pricing)
+
+    +routeDispatch("Как отправить груз")
+      ol.route-landing__steps
+        li
+          h3 Подготовьте груз
+          p Упакуйте груз до передачи. Подготовьте #[a.link(href="docs.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") документы для перевозки].
+        li
+          h3 Согласуйте рейс
+          p Позвоните Наталье в Благовещенске. Согласуйте сдачу к рейсу #{route.schedule} и выберите способ передачи груза.
+        li
+          h3 Оформите и передайте
+          p Заполните заявку. Привезите груз на терминал или передайте водителю при согласованном заборе со склада.
+        li
+          h3 Получите во Владивостоке
+          p Согласуйте время выдачи на терминале или доставку до склада получателя.
+
+    +routeOperations("Когда подать заявку и сдать груз", {applicationTitle: "Заявка на завтра", applicationNote: "Время местное. Заявка не заменяет согласование рейса; время приёма не является расписанием отправлений."})
+
+    +routeServices("Что согласовать дополнительно")
+      p
+        strong Забор и доставка по адресу.
+        |  Можно заказать машину на склад отправителя в Благовещенске и доставку до склада получателя во Владивостоке. Условия и стоимость уточните при оформлении.
+      p.route-landing__preparation
+        strong Упакуйте груз до сдачи в Благовещенске.
+        |  Проверьте #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") требования к упаковке груза] до передачи на терминал или водителю.
+      p=business.temperature
+
+    +routeTerminals("Два терминала — один маршрут")
+      .route-landing__columns
+        +routeTerminal(origin, destination, {code: origin, phone: sendingPhone, title: "Приём в Благовещенске", showRole: true})
+
+        +routeTerminal(origin, destination, {code: destination, phone: receivingPhone, title: "Выдача во Владивостоке", receiving: true, showRole: true})
+
+      p.route-landing__hint=business.collection
+
+    +routeQuestions("Вопросы перед отправкой")
+      .route-landing__faq
+        details
+          summary Когда груз отправят и доставят?
+          p Рейсы из Благовещенска во Владивосток идут #{route.schedule}. Обычно доставка занимает #{route.usualDays} суток. Гарантированный срок — до #{route.days} календарных суток от приёма груза для любого принятого груза. Сдачу к рейсу согласуйте с Натальей в Благовещенске.
+        details
+          summary Можно ли отправить без поездки на терминал?
+          p Да, можно заказать забор со склада отправителя в Благовещенске. Во Владивостоке доступна доставка до склада получателя. Эти услуги оплачиваются отдельно от перевозки между терминалами.
+        details
+          summary Доставка за трое суток гарантирована?
+          p #{route.usualDays} суток — обычный срок. Гарантированный срок — до #{route.days} календарных суток от приёма груза. Дату передачи груза согласуйте до отправки.
+        details
+          summary Как подготовить груз к отправке?
+          p Упакуйте груз до передачи на терминал или водителю. Проверьте #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") требования к упаковке] и подготовьте документы для перевозки.
+        details
+          summary Что будет, если сдать груз после #{business.receptionCutoff}?
+          p Отправка возможна при наличии места на рейсе. Заранее позвоните Наталье в Благовещенске, чтобы согласовать передачу груза; отправка после #{business.receptionCutoff} не гарантирована.
+        +routeStorageQuestion("Когда начинается платное хранение?")
+      p #[a.link(href=landing.related[0].pagePath, target="_blank", rel="noopener", title="Откроется в новой вкладке") Владивосток — Благовещенск: тарифы, график и терминалы].
+      +routeRelatedLinks()
+
+    +routeClosing(origin, destination, sendingPhone, "Согласовать отправку из Благовещенска")
+
+    +routeMobileAction(origin, destination)

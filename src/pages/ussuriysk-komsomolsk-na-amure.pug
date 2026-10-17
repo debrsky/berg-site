@@ -1,0 +1,70 @@
+extends ../pug/landing-layout
+include ../pug/route-components.pug
+
+block variables
+  -
+    title = "Грузоперевозки Уссурийск — Комсомольск-на-Амуре"
+    landingId = "uss-kms"
+    description = "Грузоперевозки Уссурийск — Комсомольск-на-Амуре ТК Берг. Стоимость с НДС, забор и доставка по адресу, телефоны терминалов. Рейс и срок доставки — по согласованию."
+
+block content
+  -
+    const origin = landingOrigin;
+    const destination = landingDestination;
+    const sendingPhone = landingPhone;
+    const receivingPhone = landing.receivingPhone;
+    const content = {
+      "from": tariffs.places[origin],
+      "to": tariffs.places[destination],
+      "inFrom": "в Уссурийске",
+      "inTo": "в Комсомольске-на-Амуре",
+      "out": "из Уссурийска",
+      "lead": "Транспортная компания «Берг» перевозит грузы из Уссурийска в Комсомольск-на-Амуре. Выберите сдачу на терминале или забор со склада отправителя; получение возможно на терминале или с доставкой по адресу.",
+      "intro": "Документы, небольшое отправление, тяжёлый и объёмный груз — четыре ориентира для перевозки из Уссурийска в Комсомольск-на-Амуре.",
+      "step": "Позвоните на терминал в Уссурийске. Уточните дату рейса, срок доставки и способ передачи: самостоятельно на терминале или водителю при заборе.",
+      "faq": "Кому позвонить перед поездкой на терминал?",
+      "answer": "Отправку согласуйте по телефону терминала в Уссурийске. После прибытия время получения в Комсомольске-на-Амуре уточните у Натальи: контакт выдачи указан в разделе терминалов.",
+      "schedule": landing.schedule?.schedule,
+      "related": landing.related[0].slug,
+      "relatedLabel": routeName(landing.related[0])
+    };
+
+    const pricing = {
+      title: "Сколько стоит перевозка",
+      intro: content.intro,
+      notice: [
+        landingCopy.terminalVat,
+        landingCopy.ordinaryCargo,
+        landingCopy.extras
+      ],
+      calculation: landingCopy.calculation
+    };
+
+  article.route-landing
+    +routeHero(origin, destination, {lead: content.lead, actionsOutsideGrid: true})
+      +routeShipmentFacts(content)
+
+    +routeNavigation()
+
+    +routePricing(origin, destination, pricing)
+
+    +routeDispatch("Как отправить груз")
+      +routeShipmentSteps(content)
+
+    +routeOperations("Когда подать заявку и сдать груз", {applicationTitle: "Заявка на завтра", applicationNote: "Время местное. Заявка не заменяет согласование рейса; время приёма не является расписанием отправлений."})
+
+    +routeServices("Что согласовать дополнительно")
+      +routeShipmentServices(origin, content)
+
+    +routeTerminals("Где отправить и получить")
+      .route-landing__columns
+        +routeTerminal(origin, destination, {code: origin, phone: sendingPhone, title: "Приём " + content.inFrom, showRole: true, searchMap: true})
+        +routeTerminal(origin, destination, {code: destination, phone: receivingPhone, title: "Выдача " + content.inTo, receiving: true, showRole: true, searchMap: true})
+      p.route-landing__hint=business.collection
+
+    +routeQuestions("Вопросы перед отправкой")
+      +routeShipmentQuestions(content)
+
+    +routeClosing(origin, destination, sendingPhone, "Согласовать отправку " + content.out)
+
+    +routeMobileAction(origin, destination)

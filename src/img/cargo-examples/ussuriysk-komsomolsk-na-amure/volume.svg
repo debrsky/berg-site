@@ -1,0 +1,5 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Light ventilation elbow on protective feet. Original artwork. -->
+<path class="route-landing__cargo-body" d="M11 47V25q0-16 18-16h16v13H30q-5 0-5 5v20z"/><path class="route-landing__cargo-top" d="M40 6h8v19h-8z"/><path class="route-landing__cargo-side" d="M8 43h20v7H8z"/><path d="M15 27h10M17 17l10 8"/><path class="route-landing__cargo-label" d="M29 11h8v9h-8z"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>

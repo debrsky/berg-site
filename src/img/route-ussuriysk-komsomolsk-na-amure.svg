@@ -1,0 +1,10 @@
+<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+<!-- Terminal handoff: two ends of one shipment, not a road map. -->
+<text x="20" y="29" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="17">Уссурийск</text><text x="194" y="29" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="16">Комсомольск-</text><text x="194" y="48" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="16">на-Амуре</text>
+<g stroke="var(--text-primary)" stroke-width="1.5" fill="var(--surface-raised)">
+<path d="M18 191V94l65-32 65 32v97zM210 191V94l65-32 65 32v97z"/>
+<path d="M54 191v-70h58v70M246 191v-70h58v70M54 139h58m-58 18h58m134-18h58m-58 18h58"/>
+</g>
+<path data-route-line pathLength="1" d="M39 218h282" stroke="var(--brand-color-secondary)" stroke-width="2.5" stroke-linecap="round"/><circle cx="39" cy="218" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/><circle cx="321" cy="218" r="5" fill="var(--brand-color-secondary)"/>
+<g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M142 156h75v40h-75z" fill="var(--brand-color)"/><path d="m142 156 16-15h75l-16 15v40l16-15v-40" fill="var(--surface-raised)"/><path d="M167 156v40m-30 5h96m-88 0v6m77-6v6"/><rect x="178" y="165" width="28" height="14" fill="white"/></g>
+<text x="52" y="249" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="14">Передача и получение груза</text></svg>

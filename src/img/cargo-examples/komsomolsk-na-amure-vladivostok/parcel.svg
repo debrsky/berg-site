@@ -1,0 +1,5 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Hexagonal protective shipping tube. Original artwork. -->
+<path class="route-landing__cargo-body" d="m7 21 9-13h23l10 13v17l-10 10H16L7 38z"/><path class="route-landing__cargo-top" d="M16 8h23l10 13H7z"/><path class="route-landing__cargo-side" d="M39 8v30l-8 10h8l10-10V21z"/><path class="route-landing__cargo-label" d="M16 26h16v12H16z"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>

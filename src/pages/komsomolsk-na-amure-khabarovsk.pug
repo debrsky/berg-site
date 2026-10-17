@@ -4,10 +4,7 @@ include ../pug/route-components.pug
 block variables
   -
     title = "Грузоперевозки Комсомольск-на-Амуре — Хабаровск"
-    pagePath = "komsomolsk-na-amure-khabarovsk.html"
-    landingOrigin = "kms"
-    landingDestination = "khb"
-    landingPhone = business.terminals.kms.phones.find((item) => item.role === "Наталья")
+    landingId = "kms-khb"
     description = "Перевозка грузов и документов из Комсомольска-на-Амуре в Хабаровск компанией «Берг». Тарифы с НДС, терминалы, забор и доставка по адресу. Дату рейса и срок согласуем перед отправкой."
 
 block content
@@ -15,62 +12,31 @@ block content
     const origin = landingOrigin;
     const destination = landingDestination;
     const sendingPhone = landingPhone;
-    const receivingPhone = business.terminals[destination].phones.find((item) => item.role?.startsWith("Выдача"));
-    const receptionCutoff = business.reception.match(/[0-9]{2}:[0-9]{2}/)?.[0];
-    const applicationCutoff = business.applicationDeadline.match(/[0-9]{2}:[0-9]{2}/)?.[0];
+    const receivingPhone = landing.receivingPhone;
+
+    const pricing = {
+      title: "Сколько стоит доставка в Хабаровск",
+      intro: "Четыре примера для маршрута Комсомольск-на-Амуре — Хабаровск. Сравните массу и объём со своим грузом, затем рассчитайте его в калькуляторе.",
+      notice: [landingCopy.terminalVat, landingCopy.ordinaryCargo, landingCopy.extras],
+      calculation: landingCopy.calculation
+    };
 
   article.route-landing
-    header.route-landing__hero
-      .route-landing__hero-grid
-        .route-landing__hero-content
-          h1
-            span.route-landing__title-kicker Грузоперевозки
-            | #{" "}
-            span.route-landing__title-route
-              span.route-landing__title-city Комсомольск-на-Амуре
-              span.visually-hidden=" — "
-              span.route-landing__title-city Хабаровск
-          p.route-landing__lead Транспортная компания «Берг» доставляет грузы и документы из Комсомольска-на-Амуре в Хабаровск. Передайте груз на терминале или закажите забор со склада. Получить можно на терминале или по адресу.
-        .route-landing__hero-aside
-          include ../img/route-komsomolsk-na-amure-khabarovsk.svg
-          dl.route-landing__facts
-            .route-landing__fact
-              dt Дата рейса и срок
-              dd Согласуем перед отправкой
-              dd.route-landing__fact-note Позвоните Наталье в Комсомольске-на-Амуре: уточним отправку и срок доставки вашего груза.
-            .route-landing__fact
-              dt Передача и получение
-              dd На терминале или по адресу
-        +routeActions(origin, destination, "hero")
-        p.route-landing__hint Для расчёта понадобятся вес и объём груза.
+    +routeHero(origin, destination, {lead: "Транспортная компания «Берг» доставляет грузы и документы из Комсомольска-на-Амуре в Хабаровск. Передайте груз на терминале или закажите забор со склада. Получить можно на терминале или по адресу."})
+      dl.route-landing__facts
+        .route-landing__fact
+          dt Дата рейса и срок
+          dd Согласуем перед отправкой
+          dd.route-landing__fact-note Позвоните Наталье в Комсомольске-на-Амуре: уточним отправку и срок доставки вашего груза.
+        .route-landing__fact
+          dt Передача и получение
+          dd На терминале или по адресу
 
-    nav.route-landing__navigation(aria-label="Разделы направления")
-      a.link(href="#tariffs") Стоимость
-      a.link(href="#dispatch") Как отправить
-      a.link(href="#terminals") Терминалы
-      a.link(href="#questions") Вопросы
+    +routeNavigation()
 
-    section#tariffs.route-landing__section
-      h2 Сколько стоит доставка в Хабаровск
-      p.route-landing__intro Четыре примера для маршрута Комсомольск-на-Амуре — Хабаровск. Сравните массу и объём со своим грузом, затем рассчитайте его в калькуляторе.
-      +routeExamples(origin, destination, "komsomolsk-na-amure-khabarovsk")
-      .route-landing__notice
-        p Между терминалами, включая НДС.
-        p Примеры для обычного груза: каждое место не больше 1 м³ и 1 м по каждой стороне. Без надбавок за негабарит, ДВС и температурный режим.
-        p Забор со склада, доставка по адресу, погрузочно-разгрузочные работы и платное хранение оплачиваются отдельно.
-      +routeActions(origin, destination, "tariff")
-      details.route-landing__disclosure
-        summary Подробные тарифы и правила расчёта
-        .route-landing__disclosure-content
-          p Цены включают НДС. Прайс действует с #[time(datetime=tariffs.startdate)=new Date(tariffs.startdate).toLocaleDateString("ru-RU", {timeZone: "UTC"})].
-          p Сначала проверяются минимальные категории по массе и объёму одновременно. В остальных случаях груз объёмом более 5 м³ на тонну рассчитывается по объёму, иначе — по весу.
-          +routeTariffs(origin, destination)
-          p Для перевозки негабарита действует надбавка #{Math.round((tariffs.oversizedRaisingFactor - 1) * 100)}% по условиям прайса.
-          p #[a.link(href="pricing.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полный прайс] и #[a.link(href="pricing.html#extra-services", target="_blank", rel="noopener", title="Откроется в новой вкладке") дополнительные расходы].
-          button.route-landing__collapse(type="button", data-collapse-tariffs, hidden) Свернуть подробные тарифы
+    +routePricing(origin, destination, pricing)
 
-    section#dispatch.route-landing__section.route-landing__section--dispatch
-      h2 Как отправить груз
+    +routeDispatch("Как отправить груз")
       ol.route-landing__steps
         li
           h3 Подготовьте груз
@@ -85,63 +51,30 @@ block content
           h3 Получите в Хабаровске
           p Согласуйте время выдачи на терминале или доставку до склада получателя.
 
-    section.route-landing__section.route-landing__section--operations(aria-labelledby="cutoffs-title")
-      h2#cutoffs-title Когда подать заявку и сдать груз
-      .route-landing__cutoffs
-        .route-landing__cutoff
-          h3 Сдача груза на терминал
-          if receptionCutoff
-            p.route-landing__cutoff-time До #{receptionCutoff}
-          .route-landing__cutoff-detail
-            p=business.reception
-        .route-landing__cutoff
-          h3 Заявка на завтра
-          if applicationCutoff
-            p.route-landing__cutoff-time До #{applicationCutoff}
-          .route-landing__cutoff-detail
-            p=business.applicationDeadline
-            p Время местное. Заявка не заменяет согласование рейса; время приёма не является расписанием отправлений.
+    +routeOperations("Когда подать заявку и сдать груз", {applicationTitle: "Заявка на завтра", applicationNote: "Время местное. Заявка не заменяет согласование рейса; время приёма не является расписанием отправлений."})
 
-    section.route-landing__section.route-landing__section--services(aria-labelledby="services-title")
-      h2#services-title Что согласовать дополнительно
-      .route-landing__service-notes
-        p
-          strong Забор и доставка по адресу.
-          |  Можно заказать машину на склад отправителя в Комсомольске-на-Амуре и доставку до склада получателя в Хабаровске. Условия и стоимость уточните при оформлении.
-        p.route-landing__preparation
-          strong Упакуйте груз до передачи.
-          |  Проверьте #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") требования к упаковке груза] до передачи на терминал или водителю.
-        p=business.temperature
+    +routeServices("Что согласовать дополнительно")
+      p
+        strong Забор и доставка по адресу.
+        |  Можно заказать машину на склад отправителя в Комсомольске-на-Амуре и доставку до склада получателя в Хабаровске. Условия и стоимость уточните при оформлении.
+      p.route-landing__preparation
+        strong Упакуйте груз до передачи.
+        |  Проверьте #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") требования к упаковке груза] до передачи на терминал или водителю.
+      p=business.temperature
 
-    section#terminals.route-landing__section.route-landing__section--terminals
-      h2 Два терминала — один маршрут
+    +routeTerminals("Два терминала — один маршрут")
       .route-landing__columns
-        .route-landing__terminal
-          p.route-landing__terminal-label Отправление
-          h3 Приём в Комсомольске-на-Амуре
-          p.route-landing__address=tariffs.terminals[origin]
-          +routePhone(sendingPhone, origin, destination, "terminal")
-          p.route-landing__hint=sendingPhone.role
-          .route-landing__terminal-links
-            a.link(href="https://yandex.ru/maps/?pt=137.001911,50.575140&z=17&l=map", target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
-            a.link(href="contacts.html#kms", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
-        .route-landing__terminal
-          p.route-landing__terminal-label.route-landing__terminal-label--destination Получение
-          h3 Выдача в Хабаровске
-          p.route-landing__address=tariffs.terminals[destination]
-          +routePhone(receivingPhone, origin, destination, "terminal")
-          p.route-landing__hint=receivingPhone.role
-          .route-landing__terminal-links
-            a.link(href="https://yandex.ru/maps/?pt=135.145785,48.482212&z=17&l=map", target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
-            a.link(href="contacts.html#khb", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
+        +routeTerminal(origin, destination, {code: origin, phone: sendingPhone, title: "Приём в Комсомольске-на-Амуре", showRole: true})
+
+        +routeTerminal(origin, destination, {code: destination, phone: receivingPhone, title: "Выдача в Хабаровске", receiving: true, showRole: true})
+
       p.route-landing__hint=business.collection
 
-    section#questions.route-landing__section.route-landing__section--questions
-      h2 Вопросы перед отправкой
+    +routeQuestions("Вопросы перед отправкой")
       .route-landing__faq
         details
           summary Когда груз отправят и доставят?
-          p Дату рейса и срок доставки из Комсомольска-на-Амуре в Хабаровск согласуйте с Натальей до передачи груза. Срок заявки до 16:00 и время сдачи до 11:00 не означают, что рейс отправляется каждый день.
+          p Дату рейса и срок доставки из Комсомольска-на-Амуре в Хабаровск согласуйте с Натальей до передачи груза. Срок заявки до #{business.applicationCutoff} и время сдачи до #{business.receptionCutoff} не означают, что рейс отправляется каждый день.
         details
           summary Можно ли отправить без поездки на терминал?
           p Да, можно заказать забор со склада отправителя в Комсомольске-на-Амуре. В Хабаровске доступна доставка до склада получателя. Эти услуги оплачиваются отдельно от перевозки между терминалами.
@@ -149,23 +82,11 @@ block content
           summary Как подготовить груз к отправке?
           p Упакуйте груз до передачи на терминал или водителю. Проверьте #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") требования к упаковке] и подготовьте документы для перевозки.
         details
-          summary Что будет, если сдать груз после 11:00?
-          p Отправка возможна при наличии места на рейсе. Заранее позвоните Наталье, чтобы согласовать передачу груза; отправка после 11:00 не гарантирована.
-        details
-          summary Когда начинается платное хранение?
-          +storageTerms()
-      .route-landing__related
-        a.link(href="terms.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полные условия перевозки
-        a.link(href="payment.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Способы оплаты
+          summary Что будет, если сдать груз после #{business.receptionCutoff}?
+          p Отправка возможна при наличии места на рейсе. Заранее позвоните Наталье, чтобы согласовать передачу груза; отправка после #{business.receptionCutoff} не гарантирована.
+        +routeStorageQuestion("Когда начинается платное хранение?")
+      +routeRelatedLinks()
 
-    section.route-landing__closing
-      div
-        h2 Рассчитайте свой груз
-        p Комсомольск-на-Амуре — Хабаровск. Укажите вес и объём, чтобы узнать стоимость перевозки.
-        +routeActions(origin, destination, "bottom")
-      .route-landing__closing-contact
-        p Согласовать отправку из Комсомольска-на-Амуре
-        +routePhone(sendingPhone, origin, destination, "bottom")
+    +routeClosing(origin, destination, sendingPhone, "Согласовать отправку из Комсомольска-на-Амуре")
 
-    aside.route-landing__mobile-action(aria-label="Расчёт перевозки", hidden)
-      a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="calculator", data-cta-position="mobile") Рассчитать стоимость
+    +routeMobileAction(origin, destination)

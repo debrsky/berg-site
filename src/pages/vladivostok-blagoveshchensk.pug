@@ -4,82 +4,51 @@ include ../pug/route-components.pug
 block variables
   -
     title = "Грузоперевозки Владивосток — Благовещенск"
-    pagePath = "vladivostok-blagoveshchensk.html"
-    landingOrigin = "vvo"
-    landingDestination = "blg"
-    landingPhone = business.terminals.vvo.phones.find((item) => item.role?.startsWith("Отправка"))
+    landingId = "vvo-blg"
     description = "Доставка грузов из Владивостока в Благовещенск: отправления по вторникам и пятницам, обычно 3 суток. Тарифы, подготовка груза и варианты получения."
 
 block content
   -
     const origin = landingOrigin;
     const destination = landingDestination;
-    const route = business.routes.find((item) => item.origin === origin && item.destination === destination);
+    const route = landing.schedule;
     const sendingPhone = landingPhone;
-    const receivingPhone = business.terminals[destination].phones.find((item) => item.header);
-    const receptionCutoff = business.reception.match(/[0-9]{2}:[0-9]{2}/)?.[0];
-    const applicationCutoff = business.applicationDeadline.match(/[0-9]{2}:[0-9]{2}/)?.[0];
+    const receivingPhone = landing.receivingPhone;
+
+    const pricing = {
+      title: "Тарифы Владивосток — Благовещенск",
+      intro: "Сравните массу и объём своего груза с четырьмя примерами, затем рассчитайте его стоимость в калькуляторе.",
+      notice: [landingCopy.terminalVat, landingCopy.ordinaryCargo, landingCopy.extrasWithPackaging],
+      calculation: landingCopy.calculation
+    };
 
   article.route-landing
-    header.route-landing__hero
-      .route-landing__hero-grid
-        .route-landing__hero-content
-          h1
-            span.route-landing__title-kicker Грузоперевозки
-            | #{" "}
-            span.route-landing__title-route
-              span.route-landing__title-city Владивосток
-              span.visually-hidden=" — "
-              span.route-landing__title-city Благовещенск
-          p.route-landing__lead Транспортная компания «Берг» отправляет грузы и документы из Владивостока в Благовещенск #{route.schedule}. Передайте груз на терминале или закажите забор со склада отправителя.
-        .route-landing__hero-aside
-          include ../img/route-vladivostok-blagoveshchensk.svg
-          dl.route-landing__facts
-            .route-landing__fact
-              dt Отправления
-              dd Рейсы #{route.schedule}
-            .route-landing__fact
-              dt Обычно
-              dd За #{route.usualDays} суток
-            .route-landing__fact
-              dt Гарантированный срок
-              dd До #{route.days} календарных суток
-              dd.route-landing__fact-note От приёма груза, для любого принятого груза.
-        .route-landing__actions
-          a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id="vvo-blg", data-route-goal="calculator", data-cta-position="hero") Рассчитать стоимость
-          a.button(href="#sending-terminal") Согласовать отправку
-        p.route-landing__hint Для расчёта понадобятся вес и объём груза.
+    +routeHero(origin, destination, {lead: `Транспортная компания «Берг» отправляет грузы и документы из Владивостока в Благовещенск ${route.schedule}. Передайте груз на терминале или закажите забор со склада отправителя.`, secondaryAnchor: "#sending-terminal"})
+      dl.route-landing__facts
+        .route-landing__fact
+          dt Отправления
+          dd Рейсы #{route.schedule}
+        .route-landing__fact
+          dt Обычно
+          dd За #{route.usualDays} суток
+        .route-landing__fact
+          dt Гарантированный срок
+          dd До #{route.days} календарных суток
+          dd.route-landing__fact-note От приёма груза, для любого принятого груза.
 
-    nav.route-landing__navigation(aria-label="Разделы направления")
-      a.link(href="#planning") График
-      a.link(href="#dispatch") Подготовка
-      a.link(href="#tariffs") Стоимость
-      a.link(href="#terminals") Терминалы
-      a.link(href="#questions") Вопросы
+    +routeNavigation([["planning","График"],["dispatch","Подготовка"],["tariffs","Стоимость"],["terminals","Терминалы"],["questions","Вопросы"]])
 
     section#planning.route-landing__section
       h2 Спланируйте сдачу груза к рейсу
       p.route-landing__intro Рейсы идут #{route.schedule}. Согласуйте сдачу и место на рейсе с диспетчером.
-      .route-landing__cutoffs
-        .route-landing__cutoff
-          h3 Сдача груза на терминал
-          p.route-landing__cutoff-time До #{receptionCutoff}
-          .route-landing__cutoff-detail
-            p=business.reception
-            p После 11:00 согласуйте отправку с диспетчером — место на рейсе не гарантировано.
-        .route-landing__cutoff
-          h3 Заявка на завтра
-          p.route-landing__cutoff-time До #{applicationCutoff}
-          .route-landing__cutoff-detail
-            p=business.applicationDeadline
-            p Время местное. Забор со склада и отправление междугороднего рейса — разные этапы. Заявка на машину не означает отправку груза в тот же день.
+      +routeCutoffs({applicationTitle: "Заявка на завтра", receptionNote: `После ${business.receptionCutoff} согласуйте отправку с диспетчером — место на рейсе не гарантировано.`, applicationNote: "Время местное. Забор со склада и отправление междугороднего рейса — разные этапы. Заявка на машину не означает отправку груза в тот же день."})
+
       p Обычно доставка занимает #{route.usualDays} суток. Гарантированный срок — до #{route.days} календарных суток от приёма груза для любого принятого груза по этому направлению.
       .route-landing__related
         a.link(href="order.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id="vvo-blg", data-route-goal="order", data-cta-position="hero") Оформить заявку
       p.route-landing__hint Перед отправкой заявки проверьте города: Владивосток — Благовещенск.
 
-    section#dispatch.route-landing__section.route-landing__section--dispatch
-      h2 Подготовьте груз во Владивостоке
+    +routeDispatch("Подготовьте груз во Владивостоке")
       ol.route-landing__steps
         li
           h3 Проверьте документы
@@ -97,54 +66,21 @@ block content
         p=business.packagingNotice
         p=business.temperature
 
-    section#tariffs.route-landing__section
-      h2 Тарифы Владивосток — Благовещенск
-      p.route-landing__intro Сравните массу и объём своего груза с четырьмя примерами, затем рассчитайте его стоимость в калькуляторе.
-      +routeExamples(origin, destination, "vladivostok-blagoveshchensk")
-      .route-landing__notice
-        p Между терминалами, включая НДС.
-        p Примеры для обычного груза: каждое место не больше 1 м³ и 1 м по каждой стороне. Без надбавок за негабарит, ДВС и температурный режим.
-        p Забор и доставка по адресу, упаковка, погрузочно-разгрузочные работы и платное хранение оплачиваются отдельно.
-      +routeActions(origin, destination, "tariff")
-      details.route-landing__disclosure
-        summary Подробные тарифы и правила расчёта
-        .route-landing__disclosure-content
-          p Цены включают НДС. Прайс действует с #[time(datetime=tariffs.startdate)=new Date(tariffs.startdate).toLocaleDateString("ru-RU", {timeZone: "UTC"})].
-          p Сначала проверяются минимальные категории по массе и объёму одновременно. В остальных случаях груз объёмом более 5 м³ на тонну рассчитывается по объёму, иначе — по весу.
-          +routeTariffs(origin, destination)
-          p Для перевозки негабарита действует надбавка #{Math.round((tariffs.oversizedRaisingFactor - 1) * 100)}% по условиям прайса.
-          p #[a.link(href="pricing.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полный прайс] и #[a.link(href="pricing.html#extra-services", target="_blank", rel="noopener", title="Откроется в новой вкладке") дополнительные расходы].
-          button.route-landing__collapse(type="button", data-collapse-tariffs, hidden) Свернуть подробные тарифы
+    +routePricing(origin, destination, pricing)
 
-    section#terminals.route-landing__section.route-landing__section--terminals
-      h2 Куда привезти и где получить груз
+    +routeTerminals("Куда привезти и где получить груз")
       .route-landing__columns
-        .route-landing__terminal
-          p.route-landing__terminal-label Отправление
-          h3#sending-terminal.route-landing__contact-anchor(tabindex="-1") Отправить во Владивостоке
-          p.route-landing__address=tariffs.terminals[origin]
-          +routePhone(sendingPhone, origin, destination, "terminal")
-          p.route-landing__hint=sendingPhone.role
-          .route-landing__terminal-links
-            a.link(href="https://yandex.ru/maps/?pt=131.915753,43.189470&z=17&l=map", target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
-            a.link(href="contacts.html#vvo", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
-        .route-landing__terminal
-          p.route-landing__terminal-label.route-landing__terminal-label--destination Получение
-          h3 Получить в Благовещенске
-          p.route-landing__address=tariffs.terminals[destination]
-          +routePhone(receivingPhone, origin, destination, "terminal")
-          p.route-landing__hint=receivingPhone.role
-          .route-landing__terminal-links
-            a.link(href="https://yandex.ru/maps/?text=Благовещенск%2C%20Чехова%2C%203", target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
-            a.link(href="contacts.html#blg", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
+        +routeTerminal(origin, destination, {code: origin, phone: sendingPhone, title: "Отправить во Владивостоке", showRole: true, anchor: "sending-terminal"})
+
+        +routeTerminal(origin, destination, {code: destination, phone: receivingPhone, title: "Получить в Благовещенске", receiving: true, showRole: true})
+
       p Груз можно получить на терминале или заказать доставку до склада получателя. #{business.collection}
       details.route-landing__disclosure
         summary Хранение после прибытия
         .route-landing__disclosure-content
           +storageTerms()
 
-    section#questions.route-landing__section.route-landing__section--questions
-      h2 Вопросы перед отправкой
+    +routeQuestions("Вопросы перед отправкой")
       .route-landing__faq
         details
           summary Можно отправить груз в любой рабочий день?
@@ -154,27 +90,16 @@ block content
           p #{route.usualDays} суток — обычный срок. Гарантированный срок составляет до #{route.days} календарных суток от приёма груза.
         details
           summary Если заказать машину на завтра, груз завтра же отправят?
-          p Заявку на завтра подают до 16:00 сегодня. Подача машины и отправление междугороднего рейса — разные этапы. Рейсы идут #{route.schedule}; согласуйте забор и место на рейсе отдельно.
+          p Заявку на завтра подают до #{business.applicationCutoff} сегодня. Подача машины и отправление междугороднего рейса — разные этапы. Рейсы идут #{route.schedule}; согласуйте забор и место на рейсе отдельно.
         details
           summary Где можно заказать обрешётку?
           p Только во Владивостоке, до отправки. Требования, тарифы и контакт для заказа — на странице #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") «Упаковка»].
         details
           summary Можно получить груз на складе получателя в Благовещенске?
           p Да, можно заказать доставку до склада получателя вместо выдачи на терминале. Стоимость и условия согласуются отдельно и не входят в примеры перевозки между терминалами.
-      p Тарифы Благовещенск — Владивосток смотрите в #[a.link(href="pricing.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") общем прайсе].
-      .route-landing__related
-        a.link(href="terms.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полные условия перевозки
-        a.link(href="payment.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Способы оплаты
+      p #[a.link(href=landing.related[0].pagePath, target="_blank", rel="noopener", title="Откроется в новой вкладке") Благовещенск — Владивосток: тарифы, график и терминалы].
+      +routeRelatedLinks()
 
-    section.route-landing__closing
-      div
-        h2 Рассчитайте свой груз
-        p Владивосток — Благовещенск. Укажите вес и объём, чтобы узнать стоимость перевозки.
-        +routeActions(origin, destination, "bottom")
-        p.route-landing__hint Перед отправкой заявки проверьте города отправления и получения.
-      .route-landing__closing-contact
-        p Согласовать отправку из Владивостока
-        +routePhone(sendingPhone, origin, destination, "bottom")
+    +routeClosing(origin, destination, sendingPhone, "Согласовать отправку из Владивостока", "Перед отправкой заявки проверьте города отправления и получения.")
 
-    aside.route-landing__mobile-action(aria-label="Расчёт перевозки", hidden)
-      a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id="vvo-blg", data-route-goal="calculator", data-cta-position="mobile") Рассчитать стоимость
+    +routeMobileAction(origin, destination)

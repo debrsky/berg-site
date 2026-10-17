@@ -1,12 +1,16 @@
 //- Подтверждено владельцем в SEO-02, 2026-10-16. Цены/адреса — только tariffs.
 -
+  const receptionCutoff = '11:00';
+  const applicationCutoff = '16:00';
   const business = {
     name: 'Транспортная компания «Берг»',
     origin: 'https://bergvl.ru',
     email: 'berg2004@list.ru',
-    reception: 'По регламенту сдайте груз до 11:00 по местному времени. После 11:00 отправка возможна при наличии места на рейсе.',
+    receptionCutoff,
+    applicationCutoff,
+    reception: `По регламенту сдайте груз до ${receptionCutoff} по местному времени. После ${receptionCutoff} отправка возможна при наличии места на рейсе.`,
     collection: 'Время выдачи груза обычно согласовывается по телефону.',
-    applicationDeadline: 'Заявку на завтра (на подачу машины и на сдачу груза на терминал) необходимо подать сегодня до 16:00.',
+    applicationDeadline: `Заявку на завтра (на подачу машины и на сдачу груза на терминал) необходимо подать сегодня до ${applicationCutoff}.`,
     dispatchOptions: 'Груз можно отправить с терминала или заказать машину для забора груза со склада отправителя.',
     deliveryOptions: 'Груз можно получить на терминале или заказать доставку до склада получателя.',
     temperature: 'Температурный режим — по согласованию.',
@@ -25,30 +29,30 @@
       {origin: 'kms', destination: 'vvo', schedule: 'еженедельно'}
     ],
     terminals: {
-      vvo: {owned: true, phones: [
-        {number: '+74232318052', text: '+7 (423) 231-80-52', role: 'Общий телефон', header: true},
-        {number: '+79243304405', text: '+7 (924) 330-44-05', role: 'Отправка груза, диспетчер Евгений', header: true},
-        {number: '+79243304409', text: '+7 (924) 330-44-09', role: 'Выдача груза, диспетчер Яна'},
-        {number: '+79243304407', text: '+7 (924) 330-44-07', role: 'Телефон выходного дня'},
-        {number: '+79243304401', text: '+7 (924) 330-44-01', role: 'Договоры, претензии, Пётр'},
-        {number: '+74232340015', text: '+7 (423) 234-00-15', role: 'Бухгалтерия', footer: true},
-        {number: '+79243203283', text: '+7 (924) 320-32-83', role: 'Бухгалтерия'},
-        {number: '+79243301101', text: '+7 (924) 330-11-01', role: 'Обрешётка, Кирилл', packaging: true}
+      vvo: {owned: true, mapUrl: 'https://yandex.ru/maps/?pt=131.915753,43.189470&z=17&l=map', contacts: {sending: 'sending', receiving: 'receiving', general: 'general'}, phones: [
+        {id: 'general', number: '+74232318052', text: '+7 (423) 231-80-52', role: 'Общий телефон', header: true},
+        {id: 'sending', number: '+79243304405', text: '+7 (924) 330-44-05', role: 'Отправка груза, диспетчер Евгений', header: true},
+        {id: 'receiving', number: '+79243304409', text: '+7 (924) 330-44-09', role: 'Выдача груза, диспетчер Яна'},
+        {id: 'weekend', number: '+79243304407', text: '+7 (924) 330-44-07', role: 'Телефон выходного дня'},
+        {id: 'claims', number: '+79243304401', text: '+7 (924) 330-44-01', role: 'Договоры, претензии, Пётр'},
+        {id: 'accounting', number: '+74232340015', text: '+7 (423) 234-00-15', role: 'Бухгалтерия', footer: true},
+        {id: 'accounting-mobile', number: '+79243203283', text: '+7 (924) 320-32-83', role: 'Бухгалтерия'},
+        {id: 'packaging', number: '+79243301101', text: '+7 (924) 330-11-01', role: 'Обрешётка, Кирилл', packaging: true}
       ]},
-      uss: {owned: true, phones: [
-        {number: '+79243307799', text: '+7 (924) 330-77-99', header: true}
+      uss: {owned: true, mapUrl: 'https://yandex.ru/maps/?pt=131.915237,43.800389&z=17&l=map', contacts: {sending: 'general', receiving: 'general', general: 'general'}, phones: [
+        {id: 'general', number: '+79243307799', text: '+7 (924) 330-77-99', header: true}
       ]},
-      khb: {owned: true, phones: [
-        {number: '+74212377339', text: '+7 (4212) 37-73-39', header: true},
-        {number: '+79243302076', text: '+7 (924) 330-20-76', role: 'Приём грузов, Татьяна', header: true},
-        {number: '+79842953632', text: '+7 (984) 295-36-32', role: 'Выдача грузов, Елена'}
+      khb: {owned: true, mapUrl: 'https://yandex.ru/maps/?pt=135.145785,48.482212&z=17&l=map', contacts: {sending: 'sending', receiving: 'receiving', general: 'general'}, phones: [
+        {id: 'general', number: '+74212377339', text: '+7 (4212) 37-73-39', header: true},
+        {id: 'sending', number: '+79243302076', text: '+7 (924) 330-20-76', role: 'Приём грузов, Татьяна', header: true},
+        {id: 'receiving', number: '+79842953632', text: '+7 (984) 295-36-32', role: 'Выдача грузов, Елена'}
       ]},
-      blg: {owned: true, phones: [
-        {number: '+79248411208', text: '+7 (924) 841-12-08', role: 'Наталья', header: true},
-        {number: '+79248430022', text: '+7 (924) 843-00-22', role: 'Руководитель площадки Шульгин Сергей'}
+      blg: {owned: true, mapUrl: 'https://yandex.ru/maps/?text=Благовещенск%2C%20Чехова%2C%203', contacts: {sending: 'general', receiving: 'general', general: 'general'}, phones: [
+        {id: 'general', number: '+79248411208', text: '+7 (924) 841-12-08', role: 'Наталья', header: true},
+        {id: 'manager', number: '+79248430022', text: '+7 (924) 843-00-22', role: 'Руководитель площадки Шульгин Сергей'}
       ]},
-      kms: {owned: false, phones: [
-        {number: '+79244114161', text: '+7 (924) 411-41-61', role: 'Наталья'}
+      kms: {owned: false, mapUrl: 'https://yandex.ru/maps/?pt=137.001911,50.575140&z=17&l=map', contacts: {sending: 'general', receiving: 'general', general: 'general'}, phones: [
+        {id: 'general', number: '+79244114161', text: '+7 (924) 411-41-61', role: 'Наталья'}
       ]}
     }
   };

@@ -1,0 +1,5 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+<!-- Lightweight stool in protective wrapping. Original artwork. -->
+<path class="route-landing__cargo-body" d="M9 19h38v10H9z"/><path class="route-landing__cargo-top" d="m9 19 7-9h25l6 9z"/><path class="route-landing__cargo-side" d="M13 29h6l-3 21h-6zm24 0h6l3 21h-6z"/><path d="M18 38h20"/><path class="route-landing__cargo-label" d="M23 19h12v8H23z"/>
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+</svg>
