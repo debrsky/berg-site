@@ -19,14 +19,15 @@ html(lang="ru")
     header.landing-shell__header
       .landing-shell__container.landing-shell__header-content
         .landing-shell__identity
-          a.landing-shell__brand(href=pagePath, aria-label="Берг — начало страницы направления")
+          a.landing-shell__brand(href=pagePath, aria-label="Берг Транспортная компания — начало страницы направления")
             img.landing-shell__logo(src="img/logo.svg", alt="Берг", width="147", height="62")
             span.landing-shell__brand-caption Транспортная#[br]компания
-          a.landing-shell__site-link(href="home.html", target="_blank", rel="noopener", title="Откроется в новой вкладке", aria-label="Основной сайт Берг: все направления и услуги, откроется в новой вкладке")
+          a.landing-shell__site-link(href="home.html", target="_blank", rel="noopener", title="Откроется в новой вкладке")
             span.landing-shell__site-title
               | Основной сайт
               svg.landing-shell__site-icon(width="14", height="14", viewBox="0 0 16 16", fill="none", stroke="currentColor", stroke-width="1.4", aria-hidden="true", focusable="false")
                 path(d="M9 2h5v5M14 2 7 9M6 3H2v11h11v-4")
+            | #{" "}
             span.landing-shell__site-note Все направления и услуги
         if landingPhone
           .landing-shell__contact

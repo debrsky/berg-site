@@ -166,9 +166,26 @@ test("khb-vvo: native links, route attribution, disclosures and no-JS fallback",
   }
   assert.equal((html.match(/data-route-goal="calculator"/g) || []).length, 4);
   assert.equal((html.match(/data-route-goal="order"/g) || []).length, 3);
-  assert.equal((html.match(/<details\b/g) || []).length, 6);
+  assert.equal((html.match(/<details\b/g) || []).length, 5);
+  assert.match(section("questions"), /<h2>Вопросы по перевозке<\/h2>/);
+  assert.doesNotMatch(html, /обратн|Можно использовать тариф Владивосток/);
+
   assert.match(html, /<noscript>/);
   assert.match(html, /data-collapse-tariffs hidden/);
   assert.match(html, /route-landing__mobile-action"[^>]*hidden/);
   assert.doesNotMatch(html, /<form|FAQPage/);
+});
+
+test("khb-vvo: general phone supports copying and related route stays inline", () => {
+  assert.match(html, /Общий телефон<\/p><div class="route-landing__phone-row"/);
+  assert.match(html, /data-copy-phone="\+74212377339"/);
+  assert.equal((html.match(/class="route-landing__copy"/g) || []).length, 4);
+  assert.match(
+    section("questions"),
+    /<p>Нужна отправка в другую сторону\? <a class="link"/
+  );
+  assert.doesNotMatch(
+    section("questions"),
+    /<p class="route-landing__related"/
+  );
 });

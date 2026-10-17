@@ -8,7 +8,7 @@ block variables
     landingOrigin = "khb"
     landingDestination = "vvo"
     landingPhone = business.terminals.khb.phones.find((item) => item.role?.startsWith("Приём"))
-    description = "Отправка грузов из Хабаровска во Владивосток по рабочим дням. Обычно за сутки. Тарифы обратного направления, терминалы, забор и доставка до склада."
+    description = "Отправка грузов из Хабаровска во Владивосток по рабочим дням. Обычно за сутки. Тарифы, терминалы, забор и доставка до склада."
 
 block content
   -
@@ -69,7 +69,8 @@ block content
             p.route-landing__hint Собственная площадка
           +routePhone(sendingPhone, origin, destination, "terminal")
           p.route-landing__hint=sendingPhone.role
-          p Общий телефон: #[a.link(href="tel:" + generalPhone.number)=generalPhone.text]
+          p.route-landing__hint Общий телефон
+          +routePhone(generalPhone, origin, destination, "terminal")
           .route-landing__terminal-links
             a.link(href="contacts.html#khb", target="_blank", rel="noopener", title="Откроется в новой вкладке") Контакты и проезд
         div
@@ -152,11 +153,8 @@ block content
         a.link(href="terms.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полные условия перевозки
 
     section#questions.route-landing__section.route-landing__section--questions
-      h2 Вопросы по обратной перевозке
+      h2 Вопросы по перевозке
       .route-landing__faq
-        details
-          summary Можно использовать тариф Владивосток — Хабаровск?
-          p Нет, для каждого направления используется собственная тарифная пара. Для отправки из Хабаровска выбирайте Хабаровск → Владивосток в калькуляторе.
         details
           summary Можно заказать обрешётку при сдаче в Хабаровске?
           p Нет. #{business.packagingNotice} Для отправки из Хабаровска подготовьте груз по #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") опубликованным требованиям].
@@ -169,7 +167,7 @@ block content
         details
           summary Сутки — гарантированный срок?
           p Обычно доставка занимает #{route.usualDays === 1 ? "сутки" : route.usualDays + " сут."}. Гарантированный срок — до #{route.days} календарных суток от приёма груза для любого принятого груза. Это разные показатели.
-      p.route-landing__related Нужна отправка в другую сторону? #[a.link(href="vladivostok-khabarovsk.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Владивосток — Хабаровск].
+      p Нужна отправка в другую сторону? #[a.link(href="vladivostok-khabarovsk.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Владивосток — Хабаровск].
 
     section.route-landing__closing
       div

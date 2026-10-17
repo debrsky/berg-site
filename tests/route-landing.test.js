@@ -342,17 +342,18 @@ test("route landing: logo stays on the landing and main site has a separate expl
   const brand = html.match(/<a class="landing-shell__brand"([^>]+)>/)[1];
   assert.ok(brand.includes('href="' + page + '"'));
   assert.doesNotMatch(brand, /target=|главная страница сайта|новой вкладке/);
-  assert.match(brand, /aria-label="Берг — начало страницы направления"/);
+  assert.match(
+    brand,
+    /aria-label="Берг Транспортная компания — начало страницы направления"/
+  );
   const site = html.match(
     /<a class="landing-shell__site-link"([^>]+)>([\s\S]*?)<\/a>/
   );
   assert.ok(site);
   assert.match(site[1], /href="home.html"/);
   assert.match(site[1], /target="_blank" rel="noopener"/);
-  assert.match(
-    site[1],
-    /aria-label="Основной сайт Берг: все направления и услуги, откроется в новой вкладке"/
-  );
+  assert.doesNotMatch(site[1], /aria-label=/);
+  assert.match(site[1], /title="Откроется в новой вкладке"/);
   assert.match(site[2], /Основной сайт/);
   assert.match(site[2], /Все направления и услуги/);
   assert.match(site[2], /aria-hidden="true" focusable="false"/);
