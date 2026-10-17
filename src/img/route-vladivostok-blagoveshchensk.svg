@@ -1,0 +1,39 @@
+<svg class="route-landing__illustration" width="360" height="250" viewBox="0 0 360 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+  <!-- Two independent calendar leaves and trucks: one departure on each day. -->
+  <g stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
+    <rect x="18" y="44" width="152" height="178" rx="8" fill="var(--surface-raised)"/>
+    <rect x="190" y="44" width="152" height="178" rx="8" fill="var(--surface-raised)"/>
+    <path d="M18 91h152m20 0h152M54 33v24m80-24v24m92-24v24m80-24v24" stroke-linecap="round"/>
+  </g>
+  <g fill="var(--text-primary)" font-family="PT Sans, sans-serif" text-anchor="middle">
+    <text x="180" y="20" font-size="16">Дни отправления</text>
+    <g font-size="22" font-weight="700">
+      <text x="94" y="80">Вторник</text>
+      <text x="266" y="80">Пятница</text>
+    </g>
+  </g>
+  <!-- The short arrows stay inside their own day; no line joins the days. -->
+  <path data-route-line pathLength="1" d="M53 195h82m-8-7 8 7-8 7M225 195h82m-8-7 8 7-8 7" stroke="var(--brand-color-secondary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
+    <g data-departure-day="tuesday">
+      <path d="M38 116h67v42H38z" fill="var(--brand-color)"/>
+      <path d="M105 130h22l18 20v18h-40z" fill="var(--brand-color-dark)"/>
+      <path d="M112 136h12l12 14h-24z" fill="var(--surface-page)"/>
+      <path d="M38 158h67v10H38z" fill="var(--brand-color-dark)"/>
+      <path d="M48 126h27v15H48z" fill="white" stroke="none"/>
+      <circle cx="56" cy="168" r="9" fill="var(--surface-page)"/>
+      <circle cx="126" cy="168" r="9" fill="var(--surface-page)"/>
+      <path d="M54 168h4m66 0h4" stroke-linecap="round"/>
+    </g>
+    <g data-departure-day="friday" transform="translate(172 0)">
+      <path d="M38 116h67v42H38z" fill="var(--brand-color)"/>
+      <path d="M105 130h22l18 20v18h-40z" fill="var(--brand-color-dark)"/>
+      <path d="M112 136h12l12 14h-24z" fill="var(--surface-page)"/>
+      <path d="M38 158h67v10H38z" fill="var(--brand-color-dark)"/>
+      <path d="M48 126h27v15H48z" fill="white" stroke="none"/>
+      <circle cx="56" cy="168" r="9" fill="var(--surface-page)"/>
+      <circle cx="126" cy="168" r="9" fill="var(--surface-page)"/>
+      <path d="M54 168h4m66 0h4" stroke-linecap="round"/>
+    </g>
+  </g>
+</svg>

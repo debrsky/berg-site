@@ -26,8 +26,8 @@ const strip = (html) =>
     .replace(/\s+/g, " ");
 
 // These checks target the generated, quoted-attribute HTML produced by Pug.
-test("SEO: 20 indexable pages have unique metadata, visible H1 and self-canonical", () => {
-  assert.equal(indexed.length, 20);
+test("SEO: 21 indexable pages have unique metadata, visible H1 and self-canonical", () => {
+  assert.equal(indexed.length, 21);
   const titles = new Set();
   const descriptions = new Set();
   for (const file of indexed) {
@@ -58,6 +58,16 @@ test("SEO: 20 indexable pages have unique metadata, visible H1 and self-canonica
       );
       previous = Number(level);
     }
+  }
+});
+
+test("SEO: delivery terms never tie cargo acceptance to a warehouse", () => {
+  for (const file of files) {
+    assert.doesNotMatch(
+      strip(read(file)),
+      /при[её]ма(?: груза)? на склад/i,
+      file
+    );
   }
 });
 
@@ -178,7 +188,7 @@ test("SEO: agreed schedule, reception, storage and editorial exclusions", () => 
       text,
       /Благовещенск — Владивосток — обычно 3 суток; гарантированный срок — до 5 календарных суток/
     );
-    assert.match(text, /от приёма груза на склад/);
+    assert.match(text, /от приёма груза/);
     assert.match(text, /Температурный режим — по согласованию/);
   }
   for (const file of [termsPage, "pricing.html"]) {

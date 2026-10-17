@@ -146,6 +146,8 @@
   &__terminal-label::before { content: ""; position: absolute; top: 0; left: 0; width: 10px; height: 10px; box-sizing: border-box; border: 2px solid var(--brand-color-secondary); border-radius: 50%; background: var(--surface-page); }
   &__terminal-label--destination::before { background: var(--brand-color-secondary); }
   &__terminal h3 { margin: 0 0 1.2rem; font-size: 1.3rem; }
+  &__contact-anchor { scroll-margin-top: calc(var(--landing-nav-height, 4rem) + 1rem); }
+  &__contact-anchor:focus-visible { outline: 3px solid var(--route-accent); outline-offset: 5px; }
   &__terminal-links, &__related { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: 1.2rem; }
   &__terminal-links a, &__related a { padding-block: 0.5rem; }
   &__address { display: flex; align-items: flex-start; gap: 0.5rem; }

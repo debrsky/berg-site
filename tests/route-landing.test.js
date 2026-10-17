@@ -14,7 +14,7 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   )[1];
   assert.match(main, /<dt>Обычно<\/dt><dd>За сутки<\/dd>/);
   assert.match(main, /До 3 календарных суток/);
-  assert.match(main, /от приёма груза на склад/);
+  assert.match(main, /от приёма груза/);
   assert.match(main, /каждый рабочий день/);
   const text = main.replace(/<[^>]*>/g, "");
   assert.match(text, /менее 0,0025 м³/);

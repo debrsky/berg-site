@@ -32,7 +32,7 @@ test("khb-vvo: own shell, metadata, schedule and prepared-cargo accent", () => {
   )[0];
   assert.doesNotMatch(shipment, /cargo-ground|<circle/);
   assert.match(html, /До 3 календарных суток/);
-  assert.match(html, /От приёма груза на склад, для любого принятого груза/);
+  assert.match(html, /От приёма груза, для любого принятого груза/);
   assert.match(
     html,
     /<svg[^>]*class="route-landing__shipment-art"[^>]*aria-hidden="true"/

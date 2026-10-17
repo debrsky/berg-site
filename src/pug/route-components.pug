@@ -181,6 +181,17 @@ mixin routeKomsomolskKhabarovskCargoIcon(kind)
   else
     include ../img/cargo-examples/komsomolsk-na-amure-khabarovsk/volume.svg
 
+//- Folded papers, round shipping canister, steel flanges and protected screen.
+mixin routeVladivostokBlagoveshchenskCargoIcon(kind)
+  if kind === "documents"
+    include ../img/cargo-examples/vladivostok-blagoveshchensk/documents.svg
+  else if kind === "parcel"
+    include ../img/cargo-examples/vladivostok-blagoveshchensk/parcel.svg
+  else if kind === "pallet"
+    include ../img/cargo-examples/vladivostok-blagoveshchensk/pallet.svg
+  else
+    include ../img/cargo-examples/vladivostok-blagoveshchensk/volume.svg
+
 mixin routeExamples(origin, destination, artwork = "standard")
   -
     const samples = [
@@ -195,7 +206,9 @@ mixin routeExamples(origin, destination, artwork = "standard")
       -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
       .route-landing__example
         .route-landing__example-heading
-          if artwork === "komsomolsk-na-amure-khabarovsk"
+          if artwork === "vladivostok-blagoveshchensk"
+            +routeVladivostokBlagoveshchenskCargoIcon(sample.icon)
+          else if artwork === "komsomolsk-na-amure-khabarovsk"
             +routeKomsomolskKhabarovskCargoIcon(sample.icon)
           else if artwork === "khabarovsk-komsomolsk-na-amure"
             +routeKhabarovskKomsomolskCargoIcon(sample.icon)
