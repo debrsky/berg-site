@@ -3,6 +3,7 @@ import {readStorage, writeStorage} from "./storage.js";
 export const routePages = {
   "vvo-khb": "vladivostok-khabarovsk",
   "khb-vvo": "khabarovsk-vladivostok",
+  "uss-khb": "ussuriysk-khabarovsk",
   "vvo-blg": "vladivostok-blagoveshchensk"
 };
 export const contextKey = "route-source";

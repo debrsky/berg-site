@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path class="route-landing__cargo-side" d="M21 10v30c0 7 22 7 22 0V10Z"/>
+  <ellipse class="route-landing__cargo-paper" cx="32" cy="10" rx="11" ry="6"/>
+  <ellipse cx="32" cy="10" rx="5" ry="2.5"/>
+  <path class="route-landing__cargo-body" d="M5 16v30c0 8 21 8 21 0V16Z"/>
+  <ellipse class="route-landing__cargo-paper" cx="15.5" cy="16" rx="10.5" ry="6"/>
+  <ellipse cx="15.5" cy="16" rx="4.5" ry="2.5"/>
+  <path class="route-landing__cargo-body" d="M28 26v21c0 6 22 6 22 0V26Z"/>
+  <ellipse class="route-landing__cargo-paper" cx="39" cy="26" rx="11" ry="6"/>
+  <ellipse cx="39" cy="26" rx="5" ry="2.5"/>
+  <path d="M5 33c5 4 16 4 21 0m2 6c6 3 16 3 22 0" stroke-width="2.5"/>
+  <path class="route-landing__cargo-label" d="M11 25h8v8h-8z"/>
+</svg>

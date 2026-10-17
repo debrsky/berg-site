@@ -1,0 +1,166 @@
+extends ../pug/landing-layout
+include ../pug/route-components.pug
+
+block variables
+  -
+    title = "Грузоперевозки Уссурийск — Хабаровск"
+    pagePath = "ussuriysk-khabarovsk.html"
+    landingOrigin = "uss"
+    landingDestination = "khb"
+    landingPhone = business.terminals.uss.phones.find((item) => item.header)
+    description = "Грузоперевозки Уссурийск — Хабаровск транспортной компанией «Берг». Расчёт стоимости, адреса терминалов и контакты. Дату отправки и срок доставки согласуйте по телефону."
+
+block content
+  -
+    const origin = landingOrigin;
+    const destination = landingDestination;
+    const sendingPhone = landingPhone;
+    const receivingPhone = business.terminals.khb.phones.find((item) => item.role?.startsWith("Выдача"));
+    const receptionCutoff = business.reception.match(/[0-9]{2}:[0-9]{2}/)?.[0];
+    const applicationCutoff = business.applicationDeadline.match(/[0-9]{2}:[0-9]{2}/)?.[0];
+
+  article.route-landing
+    header.route-landing__hero
+      .route-landing__hero-grid
+        .route-landing__hero-content
+          h1
+            span.route-landing__title-kicker Грузоперевозки
+            | #{" "}
+            span.route-landing__title-route
+              span.route-landing__title-city Уссурийск
+              span.visually-hidden=" — "
+              span.route-landing__title-city Хабаровск
+          p.route-landing__lead Транспортная компания «Берг» перевозит груз и документы из Уссурийска в Хабаровск. От терминала до терминала или с забором со склада отправителя и доставкой по адресу.
+        .route-landing__hero-aside
+          include ../img/route-ussuriysk-khabarovsk.svg
+          dl.route-landing__facts
+            .route-landing__fact
+              dt Отправление и срок
+              dd Согласуем перед отправкой
+              dd.route-landing__fact-note Позвоните на терминал в Уссурийске: уточним дату рейса и срок доставки вашего груза.
+            .route-landing__fact
+              dt Передача и получение
+              dd На терминале или по адресу
+        +routeActions(origin, destination, "hero")
+        p.route-landing__hint Для расчёта понадобятся вес и объём груза.
+    nav.route-landing__navigation(aria-label="Разделы направления")
+      a.link(href="#tariffs") Стоимость
+      a.link(href="#dispatch") Как отправить
+      a.link(href="#terminals") Терминалы
+      a.link(href="#questions") Вопросы
+
+    section#tariffs.route-landing__section
+      h2 Сколько стоит перевозка
+      p.route-landing__intro Сравните свой груз с примерами для маршрута Уссурийск — Хабаровск.
+      +routeExamples(origin, destination, "ussuriysk")
+      .route-landing__notice
+        p Между терминалами, включая НДС.
+        p Забор и доставка по адресу, погрузочно-разгрузочные работы и платное хранение оплачиваются отдельно.
+      +routeActions(origin, destination, "tariff")
+      details.route-landing__disclosure
+        summary Подробные тарифы и правила расчёта
+        .route-landing__disclosure-content
+          p Примеры для обычного груза: каждое место не больше 1 м³ и 1 м по каждой стороне. Без надбавок за негабарит, ДВС и температурный режим.
+          p Цены включают НДС. Прайс действует с #[time(datetime=tariffs.startdate)=new Date(tariffs.startdate).toLocaleDateString("ru-RU", {timeZone: "UTC"})].
+          p Стоимость зависит от массы и объёма. Сначала проверяются минимальные категории. В остальных случаях груз объёмом более 5 м³ на тонну рассчитывается по объёму, иначе — по весу.
+          +routeTariffs(origin, destination)
+          p Для перевозки негабарита действует надбавка #{Math.round((tariffs.oversizedRaisingFactor - 1) * 100)}% по условиям прайса.
+          p #[a.link(href="pricing.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полный прайс] и #[a.link(href="pricing.html#extra-services", target="_blank", rel="noopener", title="Откроется в новой вкладке") дополнительные расходы].
+          button.route-landing__collapse(type="button", data-collapse-tariffs, hidden) Свернуть подробные тарифы
+
+    section#dispatch.route-landing__section.route-landing__section--dispatch
+      h2 Как отправить груз
+      ol.route-landing__steps(role="list")
+        li
+          h3 Подготовьте груз
+          p Проверьте #[a.link(href="docs.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") документы] и #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") упаковку].
+        li
+          h3 Согласуйте отправку
+          p Выберите терминал или забор со склада. Согласуйте условия и заполните заявку.
+        li
+          h3 Передайте груз
+          p Привезите груз на терминал или передайте водителю при согласованном заборе.
+        li
+          h3 Получите в Хабаровске
+          p На терминале или с доставкой до склада получателя по согласованию.
+
+    section.route-landing__section.route-landing__section--operations(aria-labelledby="cutoffs-title")
+      h2#cutoffs-title Когда передать груз
+      .route-landing__cutoffs
+        .route-landing__cutoff
+          h3 Сдача груза на терминал
+          if receptionCutoff
+            p.route-landing__cutoff-time До #{receptionCutoff}
+          .route-landing__cutoff-detail
+            p=business.reception
+        .route-landing__cutoff
+          h3 Заявка на грузоперевозку
+          if applicationCutoff
+            p.route-landing__cutoff-time До #{applicationCutoff}
+          .route-landing__cutoff-detail
+            p=business.applicationDeadline
+            p Время местное. Подача заявки не заменяет согласование даты рейса и срока доставки.
+
+    section.route-landing__section.route-landing__section--services(aria-labelledby="services-title")
+      h2#services-title Дополнительные услуги
+      .route-landing__service-notes
+        p
+          strong Забор и доставка по адресу.
+          |  По согласованию. Условия и стоимость уточните у сотрудников компании.
+        p=business.temperature
+
+    section#terminals.route-landing__section.route-landing__section--terminals
+      h2 Где отправить и получить
+      .route-landing__columns
+        .route-landing__terminal
+          p.route-landing__terminal-label Отправление
+          h3 Отправить в Уссурийске
+          p.route-landing__address=tariffs.terminals.uss
+          +routePhone(sendingPhone, origin, destination, "terminal")
+          .route-landing__terminal-links
+            a.link(href="https://yandex.ru/maps/?pt=131.915237,43.800389&z=17&l=map", target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
+            a.link(href="contacts.html#uss", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
+        .route-landing__terminal
+          p.route-landing__terminal-label.route-landing__terminal-label--destination Получение
+          h3 Получить в Хабаровске
+          p.route-landing__address=tariffs.terminals.khb
+          +routePhone(receivingPhone, origin, destination, "terminal")
+          p.route-landing__hint=receivingPhone.role
+          .route-landing__terminal-links
+            a.link(href="https://yandex.ru/maps/?pt=135.145785,48.482212&z=17&l=map", target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
+            a.link(href="contacts.html#khb", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
+      p.route-landing__hint=business.collection
+
+    section#questions.route-landing__section.route-landing__section--questions(aria-labelledby="questions-title")
+      h2#questions-title Вопросы по условиям
+      .route-landing__faq
+        details
+          summary Можно ли заказать забор и доставку по адресу?
+          p Да. В Уссурийске можно заказать забор со склада отправителя, в Хабаровске — доставку до склада получателя. Условия и стоимость согласуйте при оформлении: в тарифы межгорода эти услуги не включены.
+        details
+          summary Нужно ли заранее упаковать груз?
+          p Да, подготовьте груз до передачи на терминал. Проверьте #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") требования к упаковке].
+        details
+          summary Если привезти груз после 11:00, его отправят?
+          p Отправка после 11:00 возможна при наличии места на рейсе. Не считайте её гарантированной; согласуйте отправку с диспетчером.
+        details
+          summary Когда отправят и доставят груз?
+          p Дату рейса и срок доставки по направлению Уссурийск — Хабаровск согласуйте с сотрудником терминала в Уссурийске до передачи груза. Время приёма на терминал не является расписанием рейсов.
+        details
+          summary Сколько стоит хранение после прибытия?
+          +storageTerms()
+      .route-landing__related
+        a.link(href="terms.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полные условия перевозки
+        a.link(href="payment.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Способы оплаты
+
+    section.route-landing__closing
+      div
+        h2 Рассчитайте свой груз
+        p Уссурийск — Хабаровск. Укажите вес и объём, чтобы узнать стоимость перевозки.
+        +routeActions(origin, destination, "bottom")
+      .route-landing__closing-contact
+        p Согласовать отправку с диспетчером
+        +routePhone(sendingPhone, origin, destination, "bottom")
+
+    aside.route-landing__mobile-action(aria-label="Расчёт перевозки", hidden)
+      a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="calculator", data-cta-position="mobile") Рассчитать стоимость
