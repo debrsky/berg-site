@@ -148,6 +148,17 @@ mixin routeKhabarovskBlagoveshchenskCargoIcon(kind)
   else
     include ../img/cargo-examples/khabarovsk-blagoveshchensk/volume.svg
 
+//- Distinct objects for Blagoveshchensk — Khabarovsk.
+mixin routeBlagoveshchenskKhabarovskCargoIcon(kind)
+  if kind === "documents"
+    include ../img/cargo-examples/blagoveshchensk-khabarovsk/documents.svg
+  else if kind === "parcel"
+    include ../img/cargo-examples/blagoveshchensk-khabarovsk/parcel.svg
+  else if kind === "pallet"
+    include ../img/cargo-examples/blagoveshchensk-khabarovsk/pallet.svg
+  else
+    include ../img/cargo-examples/blagoveshchensk-khabarovsk/volume.svg
+
 mixin routeExamples(origin, destination, artwork = "standard")
   -
     const samples = [
@@ -162,7 +173,9 @@ mixin routeExamples(origin, destination, artwork = "standard")
       -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
       .route-landing__example
         .route-landing__example-heading
-          if artwork === "khabarovsk-blagoveshchensk"
+          if artwork === "blagoveshchensk-khabarovsk"
+            +routeBlagoveshchenskKhabarovskCargoIcon(sample.icon)
+          else if artwork === "khabarovsk-blagoveshchensk"
             +routeKhabarovskBlagoveshchenskCargoIcon(sample.icon)
           else if artwork === "khabarovsk-ussuriysk"
             +routeKhabarovskUssuriyskCargoIcon(sample.icon)
