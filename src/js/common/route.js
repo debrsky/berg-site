@@ -7,7 +7,13 @@ export const routePages = {
 };
 export const contextKey = "route-source";
 export const contextTTL = 30 * 60 * 1000;
-export const routePositions = ["hero", "tariff", "terminal", "bottom"];
+export const routePositions = [
+  "hero",
+  "tariff",
+  "terminal",
+  "bottom",
+  "mobile"
+];
 
 export function supportedPair(origin, destination, tariffs) {
   return Boolean(

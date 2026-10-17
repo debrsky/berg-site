@@ -1,6 +1,6 @@
-mixin routeActions(origin, destination, position)
+mixin routeActions(origin, destination, position, calculatorLabel = "Рассчитать стоимость")
   .route-landing__actions
-    a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="calculator", data-cta-position=position) Рассчитать стоимость
+    a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="calculator", data-cta-position=position)=calculatorLabel
     a.button(href="order.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="order", data-cta-position=position) Оформить заявку
 
 mixin routePhone(phone, origin, destination, position)
@@ -75,7 +75,5 @@ mixin routeExamples(origin, destination)
       -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
       .route-landing__example
         h3.route-landing__example-title=sample.title
-        p.route-landing__sample #{sample.weight} кг · #{sample.volume.toLocaleString("ru-RU")} м³
+        p.route-landing__sample #{sample.weight} кг / #{sample.volume.toLocaleString("ru-RU")} м³
         p.route-landing__amount #{result.amount.toLocaleString("ru-RU")} руб.
-        p.route-landing__example-category=result.title.replace(/<br>/g, " ")
-        p.route-landing__example-note Только межгород, включая НДС

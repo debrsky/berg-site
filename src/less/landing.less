@@ -1,6 +1,10 @@
 // Separate bundle: shared primitives without the main site's page shell.
 @import "consts.less";
 @import "scaffolding.less";
+
+// This standalone page keeps readable rem sizes on mobile as well.
+html { font-size: 16px; }
+
 @import "fonts.less";
 @import "visually-hidden.less";
 @import "link.less";

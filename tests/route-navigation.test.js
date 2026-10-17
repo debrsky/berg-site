@@ -63,6 +63,13 @@ test("route navigation: decorate only new-tab calculator/order links without cop
     assert.equal(url.searchParams.get("route_time"), String(now));
     assert.equal(url.searchParams.has("utm_source"), false);
     assert.equal(url.searchParams.has("yclid"), false);
+    const mobile = makeLink();
+    mobile.dataset.ctaPosition = "mobile";
+    prepareRouteNavigation(mobile, now);
+    assert.equal(
+      new URL(mobile.href).searchParams.get("route_source"),
+      routeId
+    );
     for (const href of [
       "https://example.com/calculator.html",
       "privacy-policy.html",

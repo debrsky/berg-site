@@ -12,7 +12,7 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   const main = html.match(
     /<article class="route-landing">([\s\S]*?)<\/article>/
   )[1];
-  assert.match(main, /Обычный срок доставки — 1 сутки/);
+  assert.match(main, /<dt>Обычный срок доставки<\/dt><dd>1 сутки<\/dd>/);
   assert.match(main, /До 3 календарных суток/);
   assert.match(main, /от приёма груза на склад/);
   assert.match(main, /каждый рабочий день/);
@@ -29,7 +29,30 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   assert.match(main, /200 руб.\/сутки за весь груз/);
   assert.match(main, /500 руб.\/м³ в сутки/);
   assert.equal((main.match(/<details\b/g) || []).length, 6);
-  assert.doesNotMatch(main, /<form|<img|FAQPage|khabarovsk-vladivostok\.html/);
+  assert.doesNotMatch(main, /<form|FAQPage|khabarovsk-vladivostok\.html/);
+  assert.match(
+    main,
+    /<svg[^>]*class="route-landing__illustration"[^>]*width="575" height="365" role="img" aria-labelledby="route-forklift-title" data-forklift/
+  );
+  assert.match(
+    main,
+    /<title id="route-forklift-title">Погрузчик с паллетированным грузом — иллюстрация<\/title>/
+  );
+  assert.equal((main.match(/data-forklift-vehicle/g) || []).length, 1);
+  assert.equal((main.match(/data-forklift-wheel=/g) || []).length, 2);
+  assert.equal((main.match(/data-forklift-lift=/g) || []).length, 3);
+  assert.doesNotMatch(
+    main,
+    /<animate|<script[^>]*src="https?:\/\/.*animation/i
+  );
+  assert.ok(existsSync(new URL("img/route-forklift.svg", publicDir)));
+  assert.match(html, /landing-shell__credit/);
+  assert.match(
+    html,
+    /href="https:\/\/storyset.com\/illustration\/logistics\/pana"/
+  );
+  const illustration = read("img/route-forklift.svg");
+  assert.doesNotMatch(illustration, /<script|<foreignObject|\bhref=/i);
 });
 
 test("route landing: CTA and internal links exist; only implemented landing is linked", () => {
@@ -108,21 +131,32 @@ test("route landing: redesigned hierarchy preserves conditions and accessible st
   assert.match(hero, /route-landing__title-kicker">Грузоперевозки/);
   assert.match(hero, /route-landing__title-city">Владивосток/);
   assert.match(hero, /route-landing__title-city">Хабаровск/);
-  assert.match(hero, /route-landing__journey/);
+  assert.match(hero, /route-landing__facts/);
+  assert.doesNotMatch(
+    hero,
+    /route-landing__journey|route-landing__duration|route-landing__road/
+  );
   assert.match(hero, /route-landing__schedule">Рейсы каждый рабочий день/);
   assert.match(
     html,
     /После 11:00 отправка возможна при наличии места на рейсе/
   );
-  assert.match(hero, /гарантированный срок от приёма груза на склад/);
+  assert.match(
+    hero,
+    /<dt>Гарантированный срок<\/dt><dd>До 3 календарных суток<\/dd>/
+  );
+  assert.match(hero, /От приёма груза на склад, для любого принятого груза/);
   assert.ok(html.indexOf('id="tariffs"') < html.indexOf('id="dispatch"'));
   assert.ok(html.indexOf('id="dispatch"') < html.indexOf('id="terminals"'));
   assert.ok(
     html.indexOf('class="route-landing__examples"') <
       html.indexOf('class="route-landing__tariffs"')
   );
-  assert.match(hero, /route-landing__duration"><strong>1<\/strong><span>сутки/);
-  assert.match(hero, /<svg[^>]*viewbox="0 0 360 110"/);
+  assert.match(hero, /route-landing__illustration/);
+  assert.doesNotMatch(
+    html,
+    /route-landing__eyebrow|route-landing__example-category/
+  );
   assert.doesNotMatch(hero, /route-landing__hero-contact/);
   assert.match(
     html,
@@ -132,8 +166,24 @@ test("route landing: redesigned hierarchy preserves conditions and accessible st
     html,
     /<aside class="route-landing__mobile-action"[^>]*>[\s\S]*?data-cta-position="mobile"/
   );
-  assert.match(html, /Предложим этот маршрут в заявке. Проверьте города/);
-  assert.equal((html.match(/Только межгород, включая НДС/g) || []).length, 3);
+  assert.match(html, /Проверьте выбранные города перед отправкой заявки/);
+  assert.equal((html.match(/Между терминалами, включая НДС/g) || []).length, 1);
+  assert.match(html, /Рассчитать мой груз/);
+  assert.match(html, /route-landing__mobile-action"[^>]*hidden/);
+  assert.equal((html.match(/>Схема проезда<\/a>/g) || []).length, 2);
+  assert.match(html, /pt=131\.915753,43\.189470/);
+  assert.match(html, /pt=135\.145785,48\.482212/);
+  assert.match(html, /Отправить во Владивостоке/);
+  assert.match(html, /Получить в Хабаровске/);
+  const dispatch = html.match(
+    /<section\b[^>]*id="dispatch"[^>]*>([\s\S]*?)<\/section>/
+  )[1];
+  assert.doesNotMatch(
+    dispatch,
+    /route-landing__cutoffs|route-landing__service-notes/
+  );
+  assert.match(html, /Когда передать груз/);
+  assert.match(html, /Дополнительные услуги/);
   const steps = html.match(
     /<ol class="route-landing__steps" role="list">([\s\S]*?)<\/ol>/
   )[1];

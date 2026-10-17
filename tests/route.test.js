@@ -99,12 +99,12 @@ test("route analytics: sanitized click, last-click, TTL, success consumed once a
     ym: (...args) => calls.push(args)
   };
   try {
-    const click = (routeId, routeGoal = "calculator") =>
+    const click = (routeId, routeGoal = "calculator", ctaPosition = "hero") =>
       trackRouteClick({
         dataset: {
           routeId,
           routeGoal,
-          ctaPosition: "hero",
+          ctaPosition,
           email: "not-to-send"
         }
       });
@@ -139,6 +139,13 @@ test("route analytics: sanitized click, last-click, TTL, success consumed once a
     rememberRoute("vvo-khb", now - contextTTL);
     trackRouteSuccess();
     assert.equal(calls.length, 3);
+    click("vvo-khb", "calculator", "mobile");
+    assert.deepEqual(calls[3], [
+      87156585,
+      "reachGoal",
+      "route_calculator_click",
+      {route_id: "vvo-khb", cta_position: "mobile"}
+    ]);
     window.ym = () => {
       throw Error("blocked");
     };
