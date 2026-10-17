@@ -1,0 +1,45 @@
+<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+  <!-- Original schematic: two cities on the Amur, not a road or navigation map. -->
+  <path d="M99 248C65 206 145 200 148 163S106 121 175 92S224 53 258 12" stroke="var(--surface-raised)" stroke-width="32"/>
+  <path d="M99 248C65 206 145 200 148 163S106 121 175 92S224 53 258 12" stroke="var(--brand-color)" stroke-opacity=".5" stroke-width="1.5"/>
+  <g fill="var(--text-primary)" font-family="PT Sans, sans-serif">
+    <text x="14" y="24" font-size="13">Схема направления</text>
+    <text x="91" y="112" font-size="13" fill="var(--text-link)">Амур</text>
+    <text x="187" y="44" font-size="16">Комсомольск-</text>
+    <text x="187" y="63" font-size="16">на-Амуре</text>
+    <text x="15" y="211" font-size="17">Хабаровск</text>
+    <text x="15" y="253" font-size="13">Автомобильная перевозка</text>
+  </g>
+  <!-- Both endpoints and the entire route stay on the same side of the river. -->
+  <path data-route-line pathLength="1" d="M153 205C187 192 194 180 184 153S178 121 205 105S233 94 252 82" stroke="var(--brand-color-secondary)" stroke-width="2.5"/>
+  <circle cx="153" cy="205" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/>
+  <circle cx="252" cy="82" r="5" fill="var(--brand-color-secondary)"/>
+  <!-- Consistent side elevation: a box body and a cab-over chassis. -->
+  <g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Chassis and the space between the body and cab. -->
+    <path d="M199 204H335V214H199Z" fill="var(--brand-color-dark)"/>
+    <path d="M275 207H295V218H275Z" fill="var(--surface-raised)"/>
+    <!-- The body has a single, level baseline; no conflicting perspective. -->
+    <rect x="196" y="151" width="94" height="54" rx="2" fill="var(--brand-color)"/>
+    <path d="M199 154H287V159H199Z" fill="var(--surface-raised)" stroke="none"/>
+    <path d="M196 199H290M201 163V194M285 163V194" stroke="var(--brand-color-dark)"/>
+    <rect x="209" y="171" width="37" height="15" rx="1" fill="white" stroke="none"/>
+    <path d="M215 177H240M215 181H231" stroke="var(--brand-color-dark)"/>
+    <!-- A tall windscreen, door and wheel arch define the cab silhouette. -->
+    <path d="M299 164H319Q323 164 325 170L334 188V209H330C328 195 309 195 307 209H297V168Q297 164 299 164Z" fill="var(--brand-color)"/>
+    <path d="M302 170H318L325 185H302Z" fill="var(--surface-raised)"/>
+    <path d="M318 170L325 185H320L313 170Z" fill="var(--brand-color-dark)" stroke="none"/>
+    <path d="M301 189V202M303 192H309M331 178H335V188H331M330 183H326"/>
+    <path d="M330 196H334V201H330Z" fill="white" stroke="none"/>
+    <path d="M330 210H338V215H330Z" fill="var(--surface-raised)"/>
+    <path d="M193 206H199V214H193Z" fill="var(--surface-raised)"/>
+    <!-- Equal-sized wheels sit on the same ground line. -->
+    <path d="M207 213a13 13 0 0 1 26 0" fill="var(--surface-page)"/>
+    <circle cx="220" cy="215" r="10" fill="var(--text-primary)"/>
+    <circle cx="319" cy="215" r="10" fill="var(--text-primary)"/>
+    <circle cx="220" cy="215" r="4" fill="var(--surface-raised)" stroke="none"/>
+    <circle cx="319" cy="215" r="4" fill="var(--surface-raised)" stroke="none"/>
+    <path d="M238 215H269"/>
+  </g>
+  <path d="M194 229H343" stroke="var(--border-subtle)" stroke-width="1.5"/>
+</svg>

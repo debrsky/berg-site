@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <!-- Interior door panel with protective corners and visible handle. -->
+  <path class="route-landing__cargo-side" d="m14 7 27-4 5 4v43l-27 3-5-4Z"/>
+  <path class="route-landing__cargo-body" d="m14 7 27-4v44l-27 3Z"/>
+  <path class="route-landing__cargo-top" d="m19 12 16-2v15l-16 2Z"/>
+  <path class="route-landing__cargo-top" d="m19 33 16-2v10l-16 2Z"/>
+  <path class="route-landing__cargo-paper" d="M12 6h10v5h-5v6h-5Zm20-4h10v11h-4V7h-6ZM12 41h5v5h6v5H12Zm25-3h5v11H31v-5h6Z"/>
+  <path class="route-landing__cargo-label" d="m21 17 10-1v5l-10 1Z"/>
+  <path d="M34 28h5v4" stroke-width="2"/>
+</svg>

@@ -32,7 +32,8 @@
   &__title-kicker { display: block; margin-bottom: 1.1rem; color: var(--route-accent); font-size: 1.15rem; line-height: 1.4; font-weight: normal; letter-spacing: normal; }
   // The same open / filled endpoints identify the terminals below.
   &__title-route { display: block; position: relative; padding-left: 1.5rem; }
-  &__title-route::before { content: ""; position: absolute; left: 3px; top: 0.5em; bottom: 0.5em; width: 2px; background: var(--brand-color-secondary); }
+  // Connect the endpoint markers, not the full height of a wrapped destination.
+  &__title-city:first-child::after { content: ""; position: absolute; left: calc(-1.5rem + 3px); top: calc(0.5em + 5px); bottom: calc(-0.5em + 5px); width: 2px; background: var(--brand-color-secondary); }
   &__title-city { display: block; position: relative; }
   &__title-city::before { content: ""; position: absolute; left: calc(-1.5rem - 1px); top: calc(0.5em - 5px); width: 10px; height: 10px; box-sizing: border-box; border: 2px solid var(--brand-color-secondary); border-radius: 50%; background: var(--surface-page); }
   &__title-city:last-child::before { background: var(--brand-color-secondary); }
@@ -185,6 +186,7 @@
     &__hero-grid > &__actions { margin: 0; }
     &__title-route { padding-left: 1rem; }
     &__title-city::before { left: calc(-1rem - 1px); }
+    &__title-city:first-child::after { left: calc(-1rem + 3px); }
     &__lead { font-size: 1rem; margin-top: 1.25rem; }
     &__illustration, &__shipment { display: none; }
     &__reception { grid-template-columns: 1fr; gap: 1.5rem; }
