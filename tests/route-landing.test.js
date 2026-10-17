@@ -325,7 +325,7 @@ test("route landing: cohesive artwork and grouped deadlines preserve route infor
   assert.match(html, /route-landing__section--terminals/);
   assert.match(html, /route-landing__section--questions/);
   assert.match(html, /Сдача груза на терминал/);
-  assert.match(html, /Заявка на забор со склада/);
+  assert.match(html, /Заявка на грузоперевозку/);
   assert.match(
     html,
     /После 11:00 отправка возможна при наличии места на рейсе/
@@ -336,14 +336,39 @@ test("route landing: cohesive artwork and grouped deadlines preserve route infor
   );
 });
 
-test("route landing: all document links open a safe new tab; anchors and phones stay native", () => {
+test("route landing: logo stays on the landing and main site has a separate explicit link", () => {
+  const html = read(page);
+  const brand = html.match(/<a class="landing-shell__brand"([^>]+)>/)[1];
+  assert.ok(brand.includes('href="' + page + '"'));
+  assert.doesNotMatch(brand, /target=|главная страница сайта|новой вкладке/);
+  assert.match(brand, /aria-label="Берг — начало страницы направления"/);
+  const site = html.match(
+    /<a class="landing-shell__site-link"([^>]+)>([\s\S]*?)<\/a>/
+  );
+  assert.ok(site);
+  assert.match(site[1], /href="home.html"/);
+  assert.match(site[1], /target="_blank" rel="noopener"/);
+  assert.match(
+    site[1],
+    /aria-label="Основной сайт Берг: все направления и услуги, откроется в новой вкладке"/
+  );
+  assert.match(site[2], /Основной сайт/);
+  assert.match(site[2], /Все направления и услуги/);
+  assert.match(site[2], /aria-hidden="true" focusable="false"/);
+  assert.equal(
+    (html.match(/class="landing-shell__site-link"/g) || []).length,
+    1
+  );
+});
+
+test("route landing: other document links open a safe new tab; logo, anchors and phones stay native", () => {
   const html = read(page);
   const links = [...html.matchAll(/<a\b([^>]+)>/g)];
   let outgoing = 0;
   for (const [, attributes] of links) {
     const href = attributes.match(/href="([^"]+)"/)?.[1];
     assert.ok(href);
-    if (/^(#|tel:|mailto:)/.test(href)) {
+    if (href === page || /^(#|tel:|mailto:)/.test(href)) {
       assert.doesNotMatch(attributes, /target="_blank"/);
     } else {
       outgoing++;
@@ -354,6 +379,6 @@ test("route landing: all document links open a safe new tab; anchors and phones 
   assert.ok(outgoing > 10);
   assert.match(
     html,
-    /class="landing-shell__brand" href="home.html" target="_blank"/
+    /class="landing-shell__brand" href="vladivostok-khabarovsk.html" aria-label=/
   );
 });

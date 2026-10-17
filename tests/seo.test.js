@@ -208,7 +208,7 @@ test("SEO: terminal and warehouse options and next-day deadline are visible", ()
     const text = strip(read(file));
     assert.match(
       text,
-      /Заявку на подачу машины на завтра необходимо подать сегодня до 16:00/
+      /Заявку на завтра \(на подачу машины и на сдачу груза на терминал\) необходимо подать сегодня до 16:00/
     );
     assert.match(
       text,
@@ -221,7 +221,7 @@ test("SEO: terminal and warehouse options and next-day deadline are visible", ()
   }
   assert.match(
     strip(read(orderPage)),
-    /Заявку на подачу машины на завтра необходимо подать сегодня до 16:00/
+    /Заявку на завтра \(на подачу машины и на сдачу груза на терминал\) необходимо подать сегодня до 16:00/
   );
 });
 

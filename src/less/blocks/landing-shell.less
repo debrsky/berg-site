@@ -36,6 +36,20 @@
     padding-block: 1.15rem;
   }
 
+  &__identity {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    min-width: 0;
+  }
+
+  &__site-link { display: flex; flex-direction: column; justify-content: center; gap: 0.2rem; min-height: 44px; min-width: 0; line-height: 1.35; }
+  &__site-title { display: inline-flex; align-items: center; gap: 0.45em; text-decoration: underline; text-underline-offset: 0.2em; }
+  &__site-link:hover &__site-title { text-decoration-thickness: 2px; }
+  &__site-icon { flex: none; width: 0.85em; height: 0.85em; }
+  &__site-note { color: var(--text-primary); font-size: 0.875rem; }
+
   &__brand {
     display: inline-flex;
     align-items: center;
@@ -117,7 +131,11 @@
 
   @media (max-width: @width-tablet) {
     &__container { width: calc(100% - 24px); }
-    &__header-content { gap: 0.75rem; padding-block: 1rem; }
+    &__header-content { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.75rem 1rem; padding-block: 1rem; }
+    &__identity { display: contents; }
+    &__brand { grid-column: 1; grid-row: 1; }
+    &__contact { grid-column: 2; grid-row: 1; }
+    &__site-link { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; justify-content: flex-start; align-items: baseline; gap: 0.25rem 0.75rem; font-size: 0.875rem; }
     &__brand-caption { display: none; }
     a.landing-shell__phone { font-size: 1rem; }
     &__contact-label { font-size: 0.875rem; }
@@ -127,7 +145,7 @@
   }
 
   @media print {
-    &__skip, &__footer .theme-control { display: none; }
+    &__skip, &__site-link, &__footer .theme-control { display: none; }
     &__main { padding-top: 0; }
   }
 }
