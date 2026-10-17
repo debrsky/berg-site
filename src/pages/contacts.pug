@@ -29,8 +29,6 @@ block content
             -const ll = coordinates[code];
             -const dataBounds = JSON.stringify([[ll[0] - 0.001, ll[1] - 0.001], [ll[0] + 0.001, ll[1] + 0.001]]);
             span.ymaps-geolink(data-type="geo", data-bounds=dataBounds)=tariffs.terminals[code]
-          if !terminal.owned
-            p Площадка не является собственной площадкой ТК Берг.
           ul.contacts-page__phone-list
             each phone in terminal.phones
               li.contacts-page__phone-list-item
