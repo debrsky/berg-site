@@ -29,7 +29,8 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   assert.match(main, /200 руб.\/сутки за весь груз/);
   assert.match(main, /500 руб.\/м³ в сутки/);
   assert.equal((main.match(/<details\b/g) || []).length, 6);
-  assert.doesNotMatch(main, /<form|FAQPage|khabarovsk-vladivostok\.html/);
+  assert.doesNotMatch(main, /<form|FAQPage/);
+  assert.match(main, /href="khabarovsk-vladivostok\.html"/);
   assert.match(
     main,
     /<svg[^>]*class="route-landing__illustration"[^>]*width="575" height="365" role="img" aria-labelledby="route-forklift-title" data-forklift/

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <path class="route-landing__cargo-ground" d="M5 51h46"/>
+  <path class="route-landing__cargo-paper" d="M14 8h23v31H14z"/><path d="M19 15h13m-13 5h13m-13 5h8"/><path class="route-landing__cargo-body" d="M7 22h42v26H7z"/><path class="route-landing__cargo-top" d="m7 22 21 17 21-17"/><path d="m7 48 15-14m27 14L34 34"/><path class="route-landing__cargo-label" d="M34 39h9v5h-9z"/>
+</svg>

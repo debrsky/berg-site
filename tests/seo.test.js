@@ -26,8 +26,8 @@ const strip = (html) =>
     .replace(/\s+/g, " ");
 
 // These checks target the generated, quoted-attribute HTML produced by Pug.
-test("SEO: 13 indexable pages have unique metadata, visible H1 and self-canonical", () => {
-  assert.equal(indexed.length, 13);
+test("SEO: 14 indexable pages have unique metadata, visible H1 and self-canonical", () => {
+  assert.equal(indexed.length, 14);
   const titles = new Set();
   const descriptions = new Set();
   for (const file of indexed) {

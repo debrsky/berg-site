@@ -104,7 +104,18 @@ mixin routeCargoIcon(kind)
       path(d="m19 13 18 9v10")
       path.route-landing__cargo-label(d="m31 30 11-4v9l-11 4z")
 
-mixin routeExamples(origin, destination)
+//- Prepared shipments: a separate series for departure from Khabarovsk.
+mixin routePreparedCargoIcon(kind)
+  if kind === "documents"
+    include ../img/cargo-examples/documents.svg
+  else if kind === "parcel"
+    include ../img/cargo-examples/parcel.svg
+  else if kind === "pallet"
+    include ../img/cargo-examples/pallet.svg
+  else
+    include ../img/cargo-examples/volume.svg
+
+mixin routeExamples(origin, destination, artwork = "standard")
   -
     const samples = [
       {title: "Документы", icon: "documents", note: "Небольшой пакет бумаг", weight: 0.3, volume: 0.001},
@@ -118,7 +129,10 @@ mixin routeExamples(origin, destination)
       -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
       .route-landing__example
         .route-landing__example-heading
-          +routeCargoIcon(sample.icon)
+          if artwork === "prepared"
+            +routePreparedCargoIcon(sample.icon)
+          else
+            +routeCargoIcon(sample.icon)
           .route-landing__example-caption
             h3.route-landing__example-title=sample.title
             p.route-landing__example-note=sample.note

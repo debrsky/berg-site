@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__shipment-art" width="360" height="260" viewBox="0 0 360 260" fill="none" aria-hidden="true" focusable="false" data-shipment>
+  <defs>
+    <linearGradient id="shipment-cardboard-front" x1="72" y1="100" x2="196" y2="214" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#d9b681"/><stop offset="1" stop-color="#b88b52"/>
+    </linearGradient>
+    <linearGradient id="shipment-cardboard-side" x1="194" y1="124" x2="304" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b68b55"/><stop offset="1" stop-color="#967044"/>
+    </linearGradient>
+    <linearGradient id="shipment-cardboard-top" x1="183" y1="37" x2="191" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ead0a4"/><stop offset="1" stop-color="#d4ae77"/>
+    </linearGradient>
+    <linearGradient id="shipment-tape" x1="128" y1="64" x2="237" y2="97" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0098cc"/><stop offset="0.48" stop-color="#37b0d5"/><stop offset="1" stop-color="#007ca7"/>
+    </linearGradient>
+    <radialGradient id="shipment-shadow">
+      <stop stop-color="#243746" stop-opacity="0.24"/><stop offset="1" stop-color="#243746" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Contact shadow and a three-runner timber pallet. -->
+  <ellipse cx="181" cy="231" rx="159" ry="24" fill="url(#shipment-shadow)"/>
+  <g stroke="#80623f" stroke-width="0.9" stroke-linejoin="round">
+    <path d="m47 211 145 33 126-44-144-31z" fill="#bb965f"/>
+    <path d="m47 211 145 33v9L47 220z" fill="#9f784a"/>
+    <path d="m192 244 126-44v9l-126 44z" fill="#88613a"/>
+    <path d="m61 207 22 5v12l-22-5zM119 220l22 5v12l-22-5zM176 233l16 4v12l-16-4z" fill="#c49c65"/>
+    <path d="m203 234 19-7v12l-19 7zM250 218l19-7v12l-19 7zM295 202l16-6v12l-16 6z" fill="#9b7446"/>
+    <path d="m44 198 147 33 130-45-147-31z" fill="#d7b27b"/>
+    <path d="m44 198 147 33v8L44 206z" fill="#bb9058"/>
+    <path d="m191 231 130-45v8l-130 45z" fill="#a77d49"/>
+    <path d="m78 186 146 33m-110-45 146 33m-110-45 146 33" stroke="#997044" stroke-width="2"/>
+    <path d="m53 201 41 9m9 2 39 9m58 10 37-13m9-3 40-14" stroke="#e8c997"/>
+  </g>
+  <g fill="#74583a">
+    <ellipse cx="57" cy="201" rx="1.2" ry="0.8"/><ellipse cx="178" cy="229" rx="1.2" ry="0.8"/>
+    <ellipse cx="205" cy="229" rx="1.1" ry="0.8"/><ellipse cx="309" cy="192" rx="1.1" ry="0.8"/>
+  </g>
+
+  <!-- Separate planes, lid seams and small creases keep the carton tangible. -->
+  <path d="m64 91 130 32 109-39-130-29z" fill="#59452f" opacity="0.18" transform="translate(0 94)"/>
+  <path d="m65 82 129 33v105L65 188z" fill="url(#shipment-cardboard-front)" stroke="#987347" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="m194 115 109-39v105l-109 39z" fill="url(#shipment-cardboard-side)" stroke="#80603c" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="m65 82 109-39 129 33-109 39z" fill="url(#shipment-cardboard-top)" stroke="#af8955" stroke-width="1.2" stroke-linejoin="round"/>
+  <path d="m67 84 125 32v101M196 117l105-38" stroke="#f4dfba" stroke-opacity="0.58" stroke-width="1.3"/>
+  <path d="m119 63 130 33" stroke="#856443" stroke-width="1.4"/>
+  <path d="m71 87 7 9v85l-8 4m224-103-6 9v83l7 4" stroke="#795a36" stroke-opacity="0.22"/>
+  <path d="m80 183 103 26m20-1 85-30" stroke="#f4dfba" stroke-opacity="0.28"/>
+
+  <!-- The rear wrap is occluded. Visible tape shares the exact top/side edge. -->
+  <g data-shipment-tape="top">
+    <path d="M111 65.54 127 59.82 256 92.82 240 98.54Z" fill="url(#shipment-tape)"/>
+    <path d="m115 65.8 128 32.75" stroke="#78cee4" stroke-opacity="0.5" stroke-width="1.2"/>
+    <path d="m138 69.5 32 8.2m5 1.3 21 5.4m6 1.5 26 6.7" stroke="#c1ecf5" stroke-opacity="0.34" stroke-width="1.3"/>
+  </g>
+  <g data-shipment-tape="side">
+    <path d="M240 98.54 256 92.82V196L240 201.72Z" fill="#007da7"/>
+    <path d="M243 98.55V198.5" stroke="#78cee4" stroke-opacity="0.5" stroke-width="1.2"/>
+    <path d="m241 98.2 14-5" stroke="#00658c" stroke-opacity="0.45" stroke-width="0.8"/>
+  </g>
+
+  <!-- A paper shipping label follows the front plane, including a folded corner. -->
+  <g transform="matrix(1 .25 0 1 85 112)">
+    <path d="M1 2h83v62H1z" fill="#705333" opacity="0.18"/>
+    <path d="M0 0h83v54l-8 8H0z" fill="#fafbfa" stroke="#d5d9d6" stroke-width="0.7"/>
+    <path d="M75 54h8l-8 8z" fill="#dfe5e6"/>
+    <path d="M8 9h26" stroke="#00658c" stroke-width="3"/>
+    <path d="M8 17h55m-55 5h44m-44 5h30" stroke="#687681" stroke-width="1.3"/>
+    <path d="M8 36v16m3-16v16m4-16v16m2-16v16m4-16v16m4-16v16m2-16v16m4-16v16m3-16v16m4-16v16m2-16v16m4-16v16m4-16v16m2-16v16m4-16v16m3-16v16" stroke="#344957" stroke-width="1.2"/>
+    <path d="M67 10h8v8h-8z" stroke="#85929a"/>
+  </g>
+
+  <!-- Upright handling marks are printed directly on the cardboard. -->
+  <g stroke="#574a38" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.7">
+    <path d="m265 148 0-17m-4 6 4-6 4 3m7 10v-17m-4 6 4-6 4 3m-19 21 19-7"/>
+  </g>
+  <g stroke="#795b37" stroke-opacity="0.24" stroke-width="0.8" stroke-linecap="round">
+    <path d="m76 103 4 5m-6 48 3 8m104 24 5 2m17-52 3 4m78-29 7-3m-10 61 6-2m-106 43-7-6m-57-107 10 2m106-14 8-3"/>
+  </g>
+</svg>

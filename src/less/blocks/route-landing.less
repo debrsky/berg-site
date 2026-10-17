@@ -11,6 +11,7 @@
   a:focus-visible, summary:focus-visible, button:focus-visible { outline: 3px solid var(--route-accent); outline-offset: 5px; }
   .link { text-decoration: underline; text-underline-offset: 0.2em; }
   .link:hover { text-decoration-thickness: 2px; }
+  a[href^="tel:"] { white-space: normal; }
 
   &__hero { padding: 2.5rem 0 0; }
   &__hero-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); align-items: start; gap: 0 3rem; }
@@ -19,6 +20,14 @@
   &__hero-grid > &__hint { margin-block: 0; }
   &__hero-content, &__hero-aside { min-width: 0; }
   &__illustration { display: block; width: 100%; height: auto; margin-bottom: 1.5rem; }
+  // Prepared cargo replaces the forklift on the Khabarovsk departure page.
+  &__shipment { margin: 0 0 2rem; color: var(--text-primary); }
+  &__shipment-art { display: block; width: 100%; max-width: 20rem; height: auto; margin-inline: auto; }
+  &__reception { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 3rem; margin-bottom: 2rem; }
+  &__reception > * { min-width: 0; }
+  &__reception > :last-child > p:first-child { margin-top: 0; }
+  &__preparation { padding-left: 1rem; border-left: 2px solid var(--border-subtle); }
+  &__preparation strong { display: block; margin-bottom: 0.5rem; }
   &__illustration [data-forklift-wheel][data-forklift-moving] { transform-box: fill-box; transform-origin: center; }
   &__title-kicker { display: block; margin-bottom: 1.1rem; color: var(--route-accent); font-size: 1.15rem; line-height: 1.4; font-weight: normal; letter-spacing: normal; }
   // The same open / filled endpoints identify the terminals below.
@@ -95,7 +104,7 @@
   &__tariff-unit { display: block; margin-top: 0.35rem; font-size: 0.875rem; font-weight: normal; }
   &__table { width: 100%; border-collapse: collapse; font-size: 0.9375rem; table-layout: fixed; }
   &__table caption { text-align: left; font-weight: bold; padding-bottom: 0.8rem; min-height: 4em; }
-  &__table th, &__table td { text-align: left; padding: 0.7rem 0.5rem; border-bottom: 1px solid var(--border-subtle); overflow-wrap: normal; vertical-align: top; }
+  &__table th, &__table td { text-align: left; padding: 0.7rem 0.5rem; border-bottom: 1px solid var(--border-subtle); overflow-wrap: anywhere; vertical-align: top; }
   &__table td, &__table thead th:last-child { text-align: right; }
   &__table td { font-variant-numeric: tabular-nums; }
   &__table th:first-child { width: 62%; }
@@ -177,7 +186,8 @@
     &__title-route { padding-left: 1rem; }
     &__title-city::before { left: calc(-1rem - 1px); }
     &__lead { font-size: 1rem; margin-top: 1.25rem; }
-    &__illustration { display: none; }
+    &__illustration, &__shipment { display: none; }
+    &__reception { grid-template-columns: 1fr; gap: 1.5rem; }
     &__facts { padding: 0; border-left: 0; }
     &__fact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 0.2rem 1rem; }
     &__fact + &__fact { margin-top: 1rem; }

@@ -1,0 +1,184 @@
+extends ../pug/landing-layout
+include ../pug/route-components.pug
+
+block variables
+  -
+    title = "Грузоперевозки Хабаровск — Владивосток"
+    pagePath = "khabarovsk-vladivostok.html"
+    landingOrigin = "khb"
+    landingDestination = "vvo"
+    landingPhone = business.terminals.khb.phones.find((item) => item.role?.startsWith("Приём"))
+    description = "Отправка грузов из Хабаровска во Владивосток по рабочим дням. Обычно за сутки. Тарифы обратного направления, терминалы, забор и доставка до склада."
+
+block content
+  -
+    const origin = landingOrigin;
+    const destination = landingDestination;
+    const route = business.routes.find((item) => item.origin === origin && item.destination === destination);
+    const sendingPhone = landingPhone;
+    const generalPhone = business.terminals[origin].phones.find((item) => !item.role);
+    const receivingPhone = business.terminals[destination].phones.find((item) => item.role?.startsWith("Выдача"));
+    const usualDuration = route.usualDays === 1 ? "За сутки" : `За ${route.usualDays} сут.`;
+    const receptionCutoff = business.reception.match(/[0-9]{2}:[0-9]{2}/)?.[0];
+    const applicationCutoff = business.applicationDeadline.match(/[0-9]{2}:[0-9]{2}/)?.[0];
+
+  article.route-landing
+    header.route-landing__hero
+      .route-landing__hero-grid
+        .route-landing__hero-content
+          h1
+            span.route-landing__title-kicker Доставка грузов
+            | #{" "}
+            span.route-landing__title-route
+              span.route-landing__title-city из Хабаровска
+              | #{" "}
+              span.route-landing__title-city во Владивосток
+          p.route-landing__lead Отправляйте грузы и документы с терминала или закажите забор со склада. Во Владивостоке — получение на терминале или доставка по адресу.
+        .route-landing__hero-aside
+          .route-landing__shipment
+            include ../img/route-prepared-cargo.svg
+          dl.route-landing__facts
+            .route-landing__fact
+              dt Отправления
+              dd.route-landing__schedule=route.schedule
+            .route-landing__fact
+              dt Обычно
+              dd=usualDuration
+            .route-landing__fact
+              dt Гарантированный срок
+              dd До #{route.days} календарных суток
+              dd.route-landing__fact-note От приёма груза на склад, для любого принятого груза.
+        +routeActions(origin, destination, "hero")
+        p.route-landing__hint Для расчёта понадобятся вес и объём груза. Проверьте предложенный маршрут в заявке.
+
+    nav.route-landing__navigation(aria-label="Разделы направления")
+      a.link(href="#reception") Приём груза
+      a.link(href="#tariffs") Стоимость
+      a.link(href="#arrival") Получение
+      a.link(href="#dispatch") Как отправить
+      a.link(href="#questions") Вопросы
+
+    section#reception.route-landing__section
+      h2 Где и как передать груз
+      .route-landing__reception
+        .route-landing__terminal
+          p.route-landing__terminal-label Отправление
+          h3 Приём в Хабаровске
+          p.route-landing__address=tariffs.terminals[origin]
+          if business.terminals[origin].owned
+            p.route-landing__hint Собственная площадка
+          +routePhone(sendingPhone, origin, destination, "terminal")
+          p.route-landing__hint=sendingPhone.role
+          p Общий телефон: #[a.link(href="tel:" + generalPhone.number)=generalPhone.text]
+          .route-landing__terminal-links
+            a.link(href="contacts.html#khb", target="_blank", rel="noopener", title="Откроется в новой вкладке") Контакты и проезд
+        div
+          p=business.dispatchOptions
+          p.route-landing__preparation
+            strong Подготовьте упаковку до сдачи груза.
+            |  #{business.packagingNotice} На отправлении из Хабаровска эта услуга не предлагается.
+          .route-landing__related
+            a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Требования к упаковке
+            a.link(href="docs.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Документы для отправки
+      .route-landing__cutoffs
+        .route-landing__cutoff
+          h3 Сдача груза на терминал
+          if receptionCutoff
+            p.route-landing__cutoff-time До #{receptionCutoff}
+          .route-landing__cutoff-detail
+            p=business.reception
+        .route-landing__cutoff
+          h3 Заявка на завтра
+          if applicationCutoff
+            p.route-landing__cutoff-time До #{applicationCutoff}
+          .route-landing__cutoff-detail
+            p=business.applicationDeadline
+            p Заявка нужна и для подачи машины, и для сдачи груза на терминал. Время заявки не заменяет время фактической передачи груза.
+
+    section#tariffs.route-landing__section
+      h2 Стоимость отправки из Хабаровска
+      p.route-landing__intro Для этого направления действует отдельный тариф. Стоимость зависит от массы и объёма; минимальные категории проверяются по обоим параметрам.
+      +routeExamples(origin, destination, "prepared")
+      .route-landing__notice
+        p Между терминалами, включая НДС.
+        p Примеры для обычного груза: каждое место не больше 1 м³ и 1 м по каждой стороне. Без надбавок за негабарит, ДВС и температурный режим.
+        p Забор со склада, доставка по адресу, погрузочно-разгрузочные работы и платное хранение в суммы не включены.
+      +routeActions(origin, destination, "tariff")
+      details.route-landing__disclosure
+        summary Подробные тарифы и правила расчёта
+        .route-landing__disclosure-content
+          p Цены включают НДС. Прайс действует с #[time(datetime=tariffs.startdate)=new Date(tariffs.startdate).toLocaleDateString("ru-RU", {timeZone: "UTC"})].
+          p Сначала проверяются минимальные категории. В остальных случаях груз объёмом более 5 м³ на тонну рассчитывается по объёму, иначе — по весу.
+          +routeTariffs(origin, destination)
+          p Для перевозки негабарита действует надбавка #{Math.round((tariffs.oversizedRaisingFactor - 1) * 100)}% по условиям прайса.
+          p=business.temperature
+          p #[a.link(href="pricing.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полный прайс] и #[a.link(href="pricing.html#extra-services", target="_blank", rel="noopener", title="Откроется в новой вкладке") дополнительные расходы].
+          button.route-landing__collapse(type="button", data-collapse-tariffs, hidden) Свернуть подробные тарифы
+
+    section#arrival.route-landing__section.route-landing__section--terminals
+      h2 Получение во Владивостоке
+      .route-landing__reception
+        .route-landing__terminal
+          p.route-landing__terminal-label.route-landing__terminal-label--destination Получение
+          h3 Терминал во Владивостоке
+          p.route-landing__address=tariffs.terminals[destination]
+          +routePhone(receivingPhone, origin, destination, "terminal")
+          p.route-landing__hint=receivingPhone.role
+          .route-landing__terminal-links
+            a.link(href="contacts.html#vvo", target="_blank", rel="noopener", title="Откроется в новой вкладке") Контакты и проезд
+        div
+          p=business.deliveryOptions
+          p=business.collection
+          h3 Хранение после прибытия
+          +storageTerms()
+
+    section#dispatch.route-landing__section.route-landing__section--dispatch
+      h2 От расчёта к заявке
+      ol.route-landing__steps(role="list")
+        li
+          h3 Рассчитайте груз
+          p Укажите массу и объём в калькуляторе. Направление — Хабаровск → Владивосток.
+        li
+          h3 Подготовьте отправку
+          p Согласуйте отправку с терминала или забор со склада. Подготовьте документы и упаковку.
+        li
+          h3 Оформите заявку
+          p Проверьте города отправления и получения. Укажите нужные операции и форму оплаты.
+        li
+          h3 Получите груз
+          p Согласуйте выдачу на терминале во Владивостоке или доставку до склада получателя.
+      .route-landing__related
+        a.link(href="payment.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Способы оплаты
+        a.link(href="terms.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полные условия перевозки
+
+    section#questions.route-landing__section.route-landing__section--questions
+      h2 Вопросы по обратной перевозке
+      .route-landing__faq
+        details
+          summary Можно использовать тариф Владивосток — Хабаровск?
+          p Нет, для каждого направления используется собственная тарифная пара. Для отправки из Хабаровска выбирайте Хабаровск → Владивосток в калькуляторе.
+        details
+          summary Можно заказать обрешётку при сдаче в Хабаровске?
+          p Нет. #{business.packagingNotice} Для отправки из Хабаровска подготовьте груз по #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") опубликованным требованиям].
+        details
+          summary Можно ли забрать груз с нашего склада?
+          p Да, вместо самостоятельной сдачи на терминале можно заказать машину на склад отправителя. #{business.applicationDeadline} Условия и стоимость согласуйте при оформлении.
+        details
+          summary Как получить груз во Владивостоке?
+          p На терминале по согласованному времени выдачи либо с доставкой до склада получателя. Доставка по адресу не включена в приведённые примеры межгорода.
+        details
+          summary Сутки — гарантированный срок?
+          p Обычно доставка занимает #{route.usualDays === 1 ? "сутки" : route.usualDays + " сут."}. Гарантированный срок — до #{route.days} календарных суток от приёма груза для любого принятого груза. Это разные показатели.
+      p.route-landing__related Нужна отправка в другую сторону? #[a.link(href="vladivostok-khabarovsk.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Владивосток — Хабаровск].
+
+    section.route-landing__closing
+      div
+        h2 Рассчитайте свой груз
+        p Хабаровск — Владивосток. Укажите вес и объём, чтобы узнать стоимость перевозки.
+        +routeActions(origin, destination, "bottom")
+      .route-landing__closing-contact
+        p Согласовать отправку из Хабаровска
+        +routePhone(sendingPhone, origin, destination, "bottom")
+
+    aside.route-landing__mobile-action(aria-label="Расчёт перевозки", hidden)
+      a.button.button--primary(href="calculator.html?origin=" + origin + "&destination=" + destination, target="_blank", rel="noopener", title="Откроется в новой вкладке", data-route-id=origin + "-" + destination, data-route-goal="calculator", data-cta-position="mobile") Рассчитать стоимость
