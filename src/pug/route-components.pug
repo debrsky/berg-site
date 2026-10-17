@@ -73,10 +73,13 @@ mixin routeTariffs(origin, destination)
                   td=fmt(row.price[origin][destination])
   p Верхняя граница обычного диапазона не включается: на границе применяется следующая строка. Для минимальных категорий должны одновременно выполняться оба условия; выбирается первая подходящая.
 
-//- Original line drawings: a parcel, a pallet and a large lightweight carton.
+//- Original line drawings for the four shipment examples.
 mixin routeCargoIcon(kind)
   svg.route-landing__cargo-icon(width="52", height="52", viewBox="0 0 56 56", fill="none", stroke="currentColor", stroke-width="1.5", stroke-linecap="round", stroke-linejoin="round", aria-hidden="true", focusable="false")
-    if kind === "parcel"
+    if kind === "documents"
+      path(d="M15 7h19l9 9v29H15zM34 7v10h9M15 12H9v38h28v-5")
+      path.route-landing__cargo-accent(d="M22 25h14m-14 6h14m-14 6h8")
+    else if kind === "parcel"
       path(d="m10 18 18-8 18 8v22l-18 8-18-8V18Zm0 0 18 8 18-8M28 26v22M19 14l18 8v9")
       path.route-landing__cargo-accent(d="m15 32 6 3m-6 2 4 2")
     else if kind === "pallet"
@@ -88,19 +91,27 @@ mixin routeCargoIcon(kind)
 
 mixin routeExamples(origin, destination)
   -
-    const samples = [{title: "Мелкое отправление", icon: "parcel", weight: 10, volume: 0.1}, {title: "Тяжёлый груз", icon: "pallet", weight: 500, volume: 1}, {title: "Объёмный груз", icon: "volume", weight: 100, volume: 1}];
+    const samples = [
+      {title: "Документы", icon: "documents", note: "Небольшой пакет бумаг", weight: 0.3, volume: 0.001},
+      {title: "Мелкое отправление", icon: "parcel", note: "Компактный груз в коробке", weight: 10, volume: 0.1},
+      {title: "Тяжёлый груз", icon: "pallet", note: "Большой вес при небольшом объёме", weight: 500, volume: 1},
+      {title: "Объёмный груз", icon: "volume", note: "Лёгкий, но занимает много места", weight: 100, volume: 1}
+    ];
+    const fmtSample = (value) => value.toLocaleString("ru-RU", {maximumFractionDigits: 3});
   .route-landing__examples
     each sample in samples
       -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
       .route-landing__example
         .route-landing__example-heading
           +routeCargoIcon(sample.icon)
-          h3.route-landing__example-title=sample.title
+          .route-landing__example-caption
+            h3.route-landing__example-title=sample.title
+            p.route-landing__example-note=sample.note
         p.route-landing__sample
-          span.route-landing__nowrap #{sample.weight}#{"\u00a0"}кг
+          span.route-landing__nowrap #{fmtSample(sample.weight)}#{"\u00a0"}кг
           span.route-landing__sample-divider(aria-hidden="true")=" / "
           span.visually-hidden=", объём "
-          span.route-landing__nowrap #{sample.volume.toLocaleString("ru-RU")}#{"\u00a0"}м³
+          span.route-landing__nowrap #{fmtSample(sample.volume)}#{"\u00a0"}м³
         p.route-landing__amount
           | #{result.amount.toLocaleString("ru-RU")}#{"\u00a0"}
           span.route-landing__amount-unit руб.

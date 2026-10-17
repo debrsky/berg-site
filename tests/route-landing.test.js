@@ -19,7 +19,7 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   const text = main.replace(/<[^>]*>/g, "");
   assert.match(text, /менее 0,0025 м³/);
   assert.doesNotMatch(text, /менее 0,003 м³/);
-  for (const value of ["550 руб.", "5 500 руб.", "2 200 руб."])
+  for (const value of ["250 руб.", "550 руб.", "5 500 руб.", "2 200 руб."])
     assert.ok(text.replace(/\u00a0/g, " ").includes(value));
   for (const number of ["+79243304405", "+79842953632"])
     assert.ok(main.includes('href="tel:' + number + '"'));
@@ -145,7 +145,7 @@ test("route landing: redesigned hierarchy preserves conditions and accessible st
     hero,
     /<dt>Гарантированный срок<\/dt><dd>До 3 календарных суток<\/dd>/
   );
-  assert.match(hero, /От приёма груза на склад, для любого принятого груза/);
+  assert.match(hero, /От момента приёма груза, для любого принятого груза/);
   assert.ok(html.indexOf('id="tariffs"') < html.indexOf('id="dispatch"'));
   assert.ok(html.indexOf('id="dispatch"') < html.indexOf('id="terminals"'));
   assert.ok(
@@ -242,16 +242,30 @@ test("route landing: fine details are decorative and phone copying is progressiv
   const icons = [
     ...html.matchAll(/<svg class="route-landing__cargo-icon"[^>]*>/g)
   ];
-  assert.equal(icons.length, 3);
+  assert.equal(icons.length, 4);
   for (const [icon] of icons) {
     assert.match(icon, /aria-hidden="true"/);
     assert.match(icon, /focusable="false"/);
   }
   assert.equal(
     (html.match(/class="route-landing__amount-unit"/g) || []).length,
-    3
+    4
   );
   assert.match(html, /10\u00a0кг/);
+  assert.match(html, /0,3\u00a0кг/);
+  assert.match(html, /0,001\u00a0м³/);
+  for (const note of [
+    "Небольшой пакет бумаг",
+    "Компактный груз в коробке",
+    "Большой вес при небольшом объёме",
+    "Лёгкий, но занимает много места"
+  ]) {
+    assert.ok(html.includes(note));
+  }
+  assert.equal(
+    (html.match(/class="route-landing__example-note"/g) || []).length,
+    4
+  );
   assert.match(html, /0,1\u00a0м³/);
   const buttons = [
     ...html.matchAll(/<button class="route-landing__copy"[^>]*>/g)

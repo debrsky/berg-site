@@ -46,7 +46,9 @@
   &__phone::before { content: "" !important; width: 1em !important; height: 1em; background: currentColor; mask: url("../img/icons/route-phone.svg") center / contain no-repeat; }
   &__hint { font-size: 0.875rem; }
   &__navigation { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 2.5rem; padding: 1rem 0; border-block: 1px solid var(--border-subtle); }
-  &__navigation a { padding-block: 0.5rem; }
+  &__navigation a.link { padding-block: 0.5rem; border-bottom: 2px solid transparent; text-decoration: none; }
+  &__navigation a:hover { border-bottom-color: var(--border-subtle); }
+  &__navigation a[aria-current="location"] { border-bottom-color: var(--brand-color-secondary); }
 
   &__section { padding: 3.5rem 0; scroll-margin-top: 1rem; }
   &__section + &__section { border-top: 1px solid var(--border-subtle); }
@@ -58,6 +60,8 @@
   &__cargo-accent { stroke: var(--brand-color-secondary); }
   &__example + &__example { border-top: 1px solid var(--border-subtle); }
   &__example h3 { font-size: 1.125rem; margin: 0; }
+  &__example-caption { min-width: 0; }
+  &__example-note { margin: 0.3rem 0 0; font-size: 0.8125rem; line-height: 1.45; }
   &__sample { margin: 0; font-variant-numeric: tabular-nums; }
   &__sample-divider { padding-inline: 0.35em; }
   &__amount-unit { font-size: 0.6em; font-weight: normal; letter-spacing: normal; }
@@ -166,7 +170,8 @@
     &__section { padding: 2.5rem 0; }
     &__example { grid-template-columns: minmax(0, 1fr) auto; gap: 0.25rem 0.75rem; padding-block: 1.1rem; }
     &__example h3 { font-size: 1rem; }
-    &__example-heading { gap: 0.5rem; }
+    &__example-heading { gap: 0.5rem; align-items: flex-start; }
+    &__example-note { margin-top: 0.2rem; }
     &__cargo-icon { width: 36px; height: 36px; }
     &__sample { grid-column: 1; font-size: 0.875rem; padding-left: calc(36px + 0.5rem); }
     &__sample-divider { padding-inline: 0.1em; }
