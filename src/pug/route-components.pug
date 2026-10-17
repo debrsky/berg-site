@@ -73,21 +73,36 @@ mixin routeTariffs(origin, destination)
                   td=fmt(row.price[origin][destination])
   p Верхняя граница обычного диапазона не включается: на границе применяется следующая строка. Для минимальных категорий должны одновременно выполняться оба условия; выбирается первая подходящая.
 
-//- Original line drawings for the four shipment examples.
+//- Original flat illustrations: solid faces and shipping labels echo the hero cargo.
+//- Orange is reserved for route markers, not decorative details on the parcels.
 mixin routeCargoIcon(kind)
-  svg.route-landing__cargo-icon(width="52", height="52", viewBox="0 0 56 56", fill="none", stroke="currentColor", stroke-width="1.5", stroke-linecap="round", stroke-linejoin="round", aria-hidden="true", focusable="false")
+  svg.route-landing__cargo-icon(width="52", height="52", viewBox="0 0 56 56", fill="none", stroke="currentColor", stroke-width="1.4", stroke-linecap="round", stroke-linejoin="round", aria-hidden="true", focusable="false")
+    path.route-landing__cargo-ground(d="M5 51h46")
     if kind === "documents"
-      path(d="M15 7h19l9 9v29H15zM34 7v10h9M15 12H9v38h28v-5")
-      path.route-landing__cargo-accent(d="M22 25h14m-14 6h14m-14 6h8")
+      path.route-landing__cargo-side(d="M10 12h25v37H10z")
+      path.route-landing__cargo-paper(d="M16 6h19l10 10v29H16z")
+      path.route-landing__cargo-top(d="M35 6v10h10z")
+      path(d="M23 25h14m-14 6h14m-14 6h8")
     else if kind === "parcel"
-      path(d="m10 18 18-8 18 8v22l-18 8-18-8V18Zm0 0 18 8 18-8M28 26v22M19 14l18 8v9")
-      path.route-landing__cargo-accent(d="m15 32 6 3m-6 2 4 2")
+      path.route-landing__cargo-body(d="m10 19 18 8v22l-18-8z")
+      path.route-landing__cargo-side(d="m28 27 18-8v22l-18 8z")
+      path.route-landing__cargo-top(d="m10 19 18-8 18 8-18 8z")
+      path(d="m19 15 18 8v9")
+      path.route-landing__cargo-label(d="m15 30 8 3.5v7L15 37z")
     else if kind === "pallet"
-      path(d="M7 42h42v5H7zM12 47v4m16-4v4m16-4v4M11 42V17l17-8 17 8v25M11 17l17 8 17-8M28 25v17M20 13l17 8v9")
-      path.route-landing__cargo-accent(d="M16 34h7m-5-3-2 3 2 3m3-6 2 3-2 3")
+      path.route-landing__cargo-side(d="M7 43h42v5H7z")
+      path(d="M12 48v3m16-3v3m16-3v3")
+      path.route-landing__cargo-body(d="m11 17 17 8v18H11z")
+      path.route-landing__cargo-side(d="m28 25 17-8v26H28z")
+      path.route-landing__cargo-top(d="m11 17 17-8 17 8-17 8z")
+      path(d="m20 13 17 8v22")
+      path.route-landing__cargo-label(d="m16 28 7 3v7l-7-3z")
     else
-      path(d="m6 17 26-9 18 9v24l-26 9-18-9V17Zm0 0 18 9 26-9M24 26v24M19 13l18 9v8")
-      path.route-landing__cargo-accent(d="M32 37v-7m-3 3 3-3 3 3m5 1v-7m-3 3 3-3 3 3")
+      path.route-landing__cargo-body(d="m6 18 18 8v24L6 41z")
+      path.route-landing__cargo-side(d="m24 26 26-9v24l-26 9z")
+      path.route-landing__cargo-top(d="m6 18 26-9 18 8-26 9z")
+      path(d="m19 13 18 9v10")
+      path.route-landing__cargo-label(d="m31 30 11-4v9l-11 4z")
 
 mixin routeExamples(origin, destination)
   -

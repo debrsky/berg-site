@@ -71,7 +71,7 @@ block content
           p Для перевозки негабарита действует надбавка #{Math.round((tariffs.oversizedRaisingFactor - 1) * 100)}% по условиям прайса.
           p #[a.link(href="pricing.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полный прайс] и #[a.link(href="pricing.html#extra-services", target="_blank", rel="noopener", title="Откроется в новой вкладке") дополнительные расходы].
 
-    section#dispatch.route-landing__section
+    section#dispatch.route-landing__section.route-landing__section--dispatch
       h2 Как отправить груз
       ol.route-landing__steps(role="list")
         li
@@ -94,13 +94,15 @@ block content
           h3 Сдача груза на терминал
           if receptionCutoff
             p.route-landing__cutoff-time До #{receptionCutoff}
-          p=business.reception
+          .route-landing__cutoff-detail
+            p=business.reception
         .route-landing__cutoff
           h3 Заявка на забор со склада
           if applicationCutoff
             p.route-landing__cutoff-time До #{applicationCutoff}
-          p=business.applicationDeadline
-          p Это срок заявки на машину; он не заменяет регламент сдачи груза.
+          .route-landing__cutoff-detail
+            p=business.applicationDeadline
+            p Это срок заявки на машину; он не заменяет регламент сдачи груза.
 
     section.route-landing__section.route-landing__section--services(aria-labelledby="services-title")
       h2#services-title Дополнительные услуги
@@ -113,7 +115,7 @@ block content
           |  По согласованию. Условия и стоимость уточните у сотрудников компании.
         p=business.temperature
 
-    section#terminals.route-landing__section
+    section#terminals.route-landing__section.route-landing__section--terminals
       h2 Где отправить и получить
       .route-landing__columns
         .route-landing__terminal
@@ -136,7 +138,7 @@ block content
             a.link(href="contacts.html#khb", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
       p.route-landing__hint=business.collection
 
-    section#questions.route-landing__section(aria-labelledby="questions-title")
+    section#questions.route-landing__section.route-landing__section--questions(aria-labelledby="questions-title")
       h2#questions-title Вопросы по условиям
       .route-landing__faq
         details

@@ -291,6 +291,36 @@ test("route landing: fine details are decorative and phone copying is progressiv
   );
 });
 
+test("route landing: cohesive artwork and grouped deadlines preserve route information", () => {
+  const html = read(page);
+  assert.doesNotMatch(html, /route-landing__cargo-accent/);
+  assert.equal(
+    (html.match(/class="route-landing__cargo-ground"/g) || []).length,
+    4
+  );
+  assert.equal(
+    (html.match(/class="route-landing__cargo-label"/g) || []).length,
+    3
+  );
+  assert.equal(
+    (html.match(/class="route-landing__cutoff-detail"/g) || []).length,
+    2
+  );
+  assert.match(html, /route-landing__section--dispatch/);
+  assert.match(html, /route-landing__section--terminals/);
+  assert.match(html, /route-landing__section--questions/);
+  assert.match(html, /Сдача груза на терминал/);
+  assert.match(html, /Заявка на забор со склада/);
+  assert.match(
+    html,
+    /После 11:00 отправка возможна при наличии места на рейсе/
+  );
+  assert.match(
+    html,
+    /Это срок заявки на машину; он не заменяет регламент сдачи груза/
+  );
+});
+
 test("route landing: all document links open a safe new tab; anchors and phones stay native", () => {
   const html = read(page);
   const links = [...html.matchAll(/<a\b([^>]+)>/g)];

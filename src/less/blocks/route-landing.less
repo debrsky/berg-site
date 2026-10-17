@@ -51,13 +51,20 @@
   &__navigation a[aria-current="location"] { border-bottom-color: var(--brand-color-secondary); }
 
   &__section { padding: 3.5rem 0; scroll-margin-top: 1rem; }
-  &__section + &__section { border-top: 1px solid var(--border-subtle); }
+  // Rules mark major changes of topic; the dispatch instructions remain one group.
+  &__section--dispatch { padding-bottom: 2.25rem; }
+  &__section--terminals, &__section--questions { border-top: 1px solid var(--border-subtle); }
+  &__section--terminals { padding-top: 4rem; }
   &__intro { max-width: 60ch !important; }
   &__examples { margin: 2rem 0 1.25rem; border-block: 1px solid var(--border-subtle); }
   &__example { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(8rem, auto); align-items: center; gap: 1rem; padding: 1.25rem 0; }
   &__example-heading { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
-  &__cargo-icon { flex: none; color: var(--route-accent); }
-  &__cargo-accent { stroke: var(--brand-color-secondary); }
+  &__cargo-icon { flex: none; color: var(--text-primary); }
+  &__cargo-body { fill: var(--brand-color); }
+  &__cargo-side { fill: var(--brand-color-dark); }
+  &__cargo-top, &__cargo-paper { fill: var(--surface-raised); }
+  &__cargo-label { fill: white; stroke: none; }
+  &__cargo-ground { stroke: var(--border-subtle); }
   &__example + &__example { border-top: 1px solid var(--border-subtle); }
   &__example h3 { font-size: 1.125rem; margin: 0; }
   &__example-caption { min-width: 0; }
@@ -103,20 +110,26 @@
   &__steps li::before { content: counter(route-step); display: grid; place-items: center; position: relative; z-index: 1; width: 2rem; height: 2rem; box-sizing: border-box; border: 1px solid var(--route-accent); border-radius: 50%; background: var(--surface-page); font-weight: bold; font-size: 0.875rem; color: var(--route-accent); }
   &__steps h3 { margin: 0.5rem 0; }
   &__steps p { margin-bottom: 0; }
-  &__section--operations { padding: 2rem; background: var(--surface-raised); border-radius: 0.5rem; }
-  &__cutoffs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem; }
-  &__cutoff { min-width: 0; }
-  &__cutoff h3 { margin-top: 0; }
-  &__cutoff-time { margin: 0.3rem 0 0.7rem; font-size: 1.6rem; line-height: 1.2; font-weight: bold; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  &__cutoff p:not(.route-landing__cutoff-time) { font-size: 0.875rem; }
-  &__cutoff p:last-child { margin-bottom: 0; }
-  &__section--operations + &__section--services { border-top: 0; }
+  &__section--operations { padding: 0 0 2rem; }
+  // Shared rows keep the two deadlines aligned even when a label wraps.
+  &__cutoffs { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem 4rem; padding: 1.5rem 2rem; background: var(--surface-raised); border-radius: 0.5rem; }
+  &__cutoffs::before { content: ""; position: absolute; top: 1.5rem; bottom: 1.5rem; left: 50%; width: 1px; background: var(--border-subtle); }
+  &__cutoff { display: contents; }
+  &__cutoff > * { grid-column: 1; min-width: 0; }
+  &__cutoff + &__cutoff > * { grid-column: 2; }
+  &__cutoff h3 { grid-row: 1; margin: 0; font-size: 1rem; font-weight: normal; }
+  &__cutoff-time { grid-row: 2; margin: 0; font-size: clamp(1.8rem, 3vw, 2.3rem); line-height: 1.15; font-weight: bold; font-variant-numeric: tabular-nums; white-space: nowrap; letter-spacing: -0.025em; }
+  &__cutoff-detail { grid-row: 3; }
+  &__cutoff-detail p { margin: 0; font-size: 0.875rem; }
+  &__cutoff-detail p + p { margin-top: 0.75rem; }
+  &__section--services { padding-top: 0; }
   &__service-notes p { margin-block: 1rem; }
 
-  &__columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem; }
-  &__terminal { min-width: 0; }
+  &__columns { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem; }
+  &__columns::before { content: ""; position: absolute; top: 4px; left: 5px; width: calc(50% + 1.5rem); height: 1px; background: var(--brand-color-secondary); }
+  &__terminal { position: relative; min-width: 0; padding-top: 1.5rem; }
   &__terminal-label { display: flex; align-items: center; gap: 0.6rem; margin: 0 0 0.7rem; font-size: 0.875rem; color: var(--route-accent); }
-  &__terminal-label::before { content: ""; width: 10px; height: 10px; box-sizing: border-box; border: 2px solid var(--brand-color-secondary); border-radius: 50%; }
+  &__terminal-label::before { content: ""; position: absolute; top: 0; left: 0; width: 10px; height: 10px; box-sizing: border-box; border: 2px solid var(--brand-color-secondary); border-radius: 50%; background: var(--surface-page); }
   &__terminal-label--destination::before { background: var(--brand-color-secondary); }
   &__terminal h3 { margin: 0 0 1.2rem; font-size: 1.3rem; }
   &__terminal-links, &__related { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; margin-top: 1.2rem; }
@@ -168,6 +181,8 @@
     &__actions .button:not(.button--primary) { align-self: center; padding-inline: 0.75rem; }
     &__navigation { margin-top: 1.5rem; gap: 0.25rem 1.25rem; font-size: 0.875rem; }
     &__section { padding: 2.5rem 0; }
+    &__section--dispatch { padding-bottom: 1.75rem; }
+    &__section--terminals { padding-top: 3rem; }
     &__example { grid-template-columns: minmax(0, 1fr) auto; gap: 0.25rem 0.75rem; padding-block: 1.1rem; }
     &__example h3 { font-size: 1rem; }
     &__example-heading { gap: 0.5rem; align-items: flex-start; }
@@ -177,10 +192,17 @@
     &__sample-divider { padding-inline: 0.1em; }
     &__amount { grid-column: 2; grid-row: 1 / 3; align-self: center; font-size: 1.4rem; }
     &__steps { margin-top: 1.5rem; }
-    &__section--operations { padding: 1.5rem 1rem; }
-    &__cutoffs { gap: 1.5rem; }
+    &__section--operations { padding: 0 0 1.75rem; }
+    &__cutoffs { gap: 1.5rem; padding: 1.25rem 1rem; }
+    &__cutoffs::before { display: none; }
+    &__cutoff { display: block; }
     &__cutoff + &__cutoff { border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; }
-    &__terminal + &__terminal { border-top: 1px solid var(--border-subtle); padding-top: 2rem; }
+    &__cutoff-time { margin-block: 0.65rem; }
+    &__section--services { padding-top: 0; }
+    &__columns::before { display: none; }
+    &__terminal { padding-top: 0; }
+    &__terminal-label::before { position: static; flex: none; }
+    &__terminal + &__terminal { border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; }
     &__closing { gap: 1rem; padding: 1.5rem 1rem; }
     &__closing-contact { border-top: 1px solid var(--border-subtle); padding-top: 0.5rem; }
     &__mobile-action { display: block; position: fixed; bottom: 0; inset-inline: 0; z-index: 5; padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--border-subtle); background: var(--surface-page); }
