@@ -1,0 +1,10 @@
+<svg class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<path class="route-landing__cargo-ground" d="M4 53h48"/>
+<!-- A strapped metal drum on a transport skid. -->
+<path class="route-landing__cargo-side" d="M6 44h44v5H6z"/>
+<path d="M11 49v3m17-3v3m17-3v3"/>
+<path class="route-landing__cargo-body" d="M14 12c0-7 28-7 28 0v29c0 7-28 7-28 0z"/>
+<ellipse class="route-landing__cargo-top" cx="28" cy="12" rx="14" ry="5"/>
+<path d="M14 22q14 7 28 0M14 35q14 7 28 0M28 17v29"/>
+<path class="route-landing__cargo-label" d="M18 25h7v7h-7z"/>
+</svg>

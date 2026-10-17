@@ -7,6 +7,7 @@ export const routePages = {
   "khb-uss": "khabarovsk-ussuriysk",
   "khb-blg": "khabarovsk-blagoveshchensk",
   "khb-kms": "khabarovsk-komsomolsk-na-amure",
+  "kms-khb": "komsomolsk-na-amure-khabarovsk",
   "blg-khb": "blagoveshchensk-khabarovsk",
   "vvo-blg": "vladivostok-blagoveshchensk"
 };

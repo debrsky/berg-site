@@ -201,7 +201,7 @@ test("route landing: redesigned hierarchy preserves conditions and accessible st
   assert.match(html, /Когда передать груз/);
   assert.match(html, /Дополнительные услуги/);
   const steps = html.match(
-    /<ol class="route-landing__steps" role="list">([\s\S]*?)<\/ol>/
+    /<ol class="route-landing__steps">([\s\S]*?)<\/ol>/
   )[1];
   assert.equal((steps.match(/<li>/g) || []).length, 4);
   assert.match(html, /route-landing__cutoff-time">До 11:00/);

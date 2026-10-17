@@ -170,6 +170,17 @@ mixin routeKhabarovskKomsomolskCargoIcon(kind)
   else
     include ../img/cargo-examples/khabarovsk-komsomolsk-na-amure/volume.svg
 
+//- Individual cargo series for Komsomolsk-on-Amur — Khabarovsk.
+mixin routeKomsomolskKhabarovskCargoIcon(kind)
+  if kind === "documents"
+    include ../img/cargo-examples/komsomolsk-na-amure-khabarovsk/documents.svg
+  else if kind === "parcel"
+    include ../img/cargo-examples/komsomolsk-na-amure-khabarovsk/parcel.svg
+  else if kind === "pallet"
+    include ../img/cargo-examples/komsomolsk-na-amure-khabarovsk/pallet.svg
+  else
+    include ../img/cargo-examples/komsomolsk-na-amure-khabarovsk/volume.svg
+
 mixin routeExamples(origin, destination, artwork = "standard")
   -
     const samples = [
@@ -184,7 +195,9 @@ mixin routeExamples(origin, destination, artwork = "standard")
       -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
       .route-landing__example
         .route-landing__example-heading
-          if artwork === "khabarovsk-komsomolsk-na-amure"
+          if artwork === "komsomolsk-na-amure-khabarovsk"
+            +routeKomsomolskKhabarovskCargoIcon(sample.icon)
+          else if artwork === "khabarovsk-komsomolsk-na-amure"
             +routeKhabarovskKomsomolskCargoIcon(sample.icon)
           else if artwork === "blagoveshchensk-khabarovsk"
             +routeBlagoveshchenskKhabarovskCargoIcon(sample.icon)
