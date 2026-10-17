@@ -9,6 +9,7 @@ header.header.container
   #contacts.contacts
     address.contacts__address
       .contacts__place-selector.suggest-helper
+        label.visually-hidden(for="contacts__place-selector") Город терминала
         select#contacts__place-selector.suggest-helper__label
           each code, idx in ['vvo', 'uss', 'khb', 'blg']
             option(selected=idx === 0)=tariffs.places[code]

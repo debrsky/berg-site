@@ -23,21 +23,49 @@
 
 .swiper-pagination {
   position: static;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
   margin-top: 5px;
 }
 
-.swiper-pagination-bullet {
+/* Keep the dots small while making the entire touch target accessible. */
+.swiper-pagination .swiper-pagination-bullet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  opacity: 1;
+}
+
+.swiper-pagination.swiper-pagination-bullets .swiper-pagination-bullet {
+  margin: 0;
+}
+
+.swiper-pagination-bullet::before {
+  content: "";
   width: 16px;
   height: 16px;
   border-radius: 50%;
   border: 1px solid white;
+  background: var(--swiper-theme-color);
+  opacity: 0.2;
 }
 
-.swiper-pagination-bullet:not(:last-child) {
-  margin-right: 5px;
+.swiper-pagination-bullet-active::before {
+  opacity: 1;
 }
 
-.swiper-pagination-bullet-active {
-  width: 16px;
-  height: 16px;
+.swiper-pagination-bullet:focus-visible {
+  outline: none;
+}
+
+.swiper-pagination-bullet:focus-visible::before {
+  outline: 2px solid var(--text-link);
+  outline-offset: 2px;
+  opacity: 1;
 }
