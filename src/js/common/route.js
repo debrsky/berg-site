@@ -4,6 +4,7 @@ export const routePages = {
   "vvo-khb": "vladivostok-khabarovsk",
   "khb-vvo": "khabarovsk-vladivostok",
   "uss-khb": "ussuriysk-khabarovsk",
+  "khb-uss": "khabarovsk-ussuriysk",
   "vvo-blg": "vladivostok-blagoveshchensk"
 };
 export const contextKey = "route-source";

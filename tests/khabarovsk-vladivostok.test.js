@@ -47,15 +47,15 @@ test("khb-vvo: local reception, packaging restriction and correct receiving phon
   const reception = section("reception");
   const arrival = section("arrival");
   assert.match(reception, /1-я Благодатная, 11/);
-  assert.match(reception, /Собственная площадка/);
+  assert.doesNotMatch(html, /[Сс]обственн|[Сс]вои площадки/);
   assert.match(reception, /href="tel:\+79243302076"/);
   assert.match(reception, /href="tel:\+74212377339"/);
   assert.match(reception, /Приём грузов, Татьяна/);
-  assert.match(
-    reception,
-    /На отправлении из Хабаровска эта услуга не предлагается/
+  assert.match(reception, /Подготовьте упаковку до сдачи груза/);
+  assert.doesNotMatch(
+    html,
+    /только во Владивостоке|услуга не предлагается|Можно заказать обрешётку/
   );
-  assert.match(reception, /только во Владивостоке/);
   assert.match(reception, /До 11:00/);
   assert.match(reception, /До 16:00/);
   assert.match(reception, /на подачу машины и на сдачу груза на терминал/);

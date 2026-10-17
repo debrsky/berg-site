@@ -65,8 +65,6 @@ block content
           p.route-landing__terminal-label Отправление
           h3 Приём в Хабаровске
           p.route-landing__address=tariffs.terminals[origin]
-          if business.terminals[origin].owned
-            p.route-landing__hint Собственная площадка
           +routePhone(sendingPhone, origin, destination, "terminal")
           p.route-landing__hint=sendingPhone.role
           p.route-landing__hint Общий телефон
@@ -77,7 +75,7 @@ block content
           p=business.dispatchOptions
           p.route-landing__preparation
             strong Подготовьте упаковку до сдачи груза.
-            |  #{business.packagingNotice} На отправлении из Хабаровска эта услуга не предлагается.
+            |  Проверьте требования к упаковке до передачи груза на терминал или водителю.
           .route-landing__related
             a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Требования к упаковке
             a.link(href="docs.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Документы для отправки
@@ -156,8 +154,8 @@ block content
       h2 Вопросы по перевозке
       .route-landing__faq
         details
-          summary Можно заказать обрешётку при сдаче в Хабаровске?
-          p Нет. #{business.packagingNotice} Для отправки из Хабаровска подготовьте груз по #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") опубликованным требованиям].
+          summary Как подготовить груз к отправке?
+          p До передачи груза на терминал или водителю подготовьте упаковку по #[a.link(href="package.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") опубликованным требованиям].
         details
           summary Можно ли забрать груз с нашего склада?
           p Да, вместо самостоятельной сдачи на терминале можно заказать машину на склад отправителя. #{business.applicationDeadline} Условия и стоимость согласуйте при оформлении.

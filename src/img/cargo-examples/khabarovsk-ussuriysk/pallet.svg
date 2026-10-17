@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__cargo-icon" width="52" height="52" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  <!-- Original cargo series for Khabarovsk — Ussuriysk. -->
+  <path class="route-landing__cargo-top" d="m6 41 11-6 33 6-11 7z"/>
+  <path class="route-landing__cargo-side" d="M6 42h44v7H6z"/>
+  <path d="M12 49v3m16-3v3m16-3v3" stroke-width="3"/>
+  <path class="route-landing__cargo-body" d="m10 16 27 6v21l-27-6z"/>
+  <path class="route-landing__cargo-side" d="m37 22 9-8v21l-9 8z"/>
+  <path class="route-landing__cargo-top" d="m10 16 9-8 27 6-9 8z"/>
+  <path d="m17 10 27 6v21m-26-19v20m12-17v20" stroke-width="2.5"/>
+  <path class="route-landing__cargo-label" d="m21 25 7 1.5v8L21 33z"/>
+</svg>

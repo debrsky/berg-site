@@ -126,6 +126,17 @@ mixin routeUssuriyskCargoIcon(kind)
   else
     include ../img/cargo-examples/ussuriysk/volume.svg
 
+//- Individual cargo series for Khabarovsk — Ussuriysk.
+mixin routeKhabarovskUssuriyskCargoIcon(kind)
+  if kind === "documents"
+    include ../img/cargo-examples/khabarovsk-ussuriysk/documents.svg
+  else if kind === "parcel"
+    include ../img/cargo-examples/khabarovsk-ussuriysk/parcel.svg
+  else if kind === "pallet"
+    include ../img/cargo-examples/khabarovsk-ussuriysk/pallet.svg
+  else
+    include ../img/cargo-examples/khabarovsk-ussuriysk/volume.svg
+
 mixin routeExamples(origin, destination, artwork = "standard")
   -
     const samples = [
@@ -140,7 +151,9 @@ mixin routeExamples(origin, destination, artwork = "standard")
       -const result = calculateCargo(tariffs, {...sample, origin, destination, params: []});
       .route-landing__example
         .route-landing__example-heading
-          if artwork === "ussuriysk"
+          if artwork === "khabarovsk-ussuriysk"
+            +routeKhabarovskUssuriyskCargoIcon(sample.icon)
+          else if artwork === "ussuriysk"
             +routeUssuriyskCargoIcon(sample.icon)
           else if artwork === "prepared"
             +routePreparedCargoIcon(sample.icon)

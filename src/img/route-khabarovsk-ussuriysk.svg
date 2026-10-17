@@ -1,0 +1,23 @@
+<svg class="route-landing__illustration" width="360" height="220" viewBox="0 0 360 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+  <!-- Original process diagram, not a geographical map or a terminal elevation. -->
+  <g stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M18 83V37L79 13L140 37V83" fill="var(--surface-raised)"/>
+    <path d="M35 83V42H123V83" fill="var(--brand-color-dark)"/>
+    <path d="M35 51H123M35 60H123M35 69H123"/>
+    <path d="M229 172V126L282 105L335 126V172" fill="var(--surface-raised)"/>
+    <path d="M243 172V131H321V172" fill="var(--brand-color-dark)"/>
+    <path d="M243 140H321M243 149H321M243 158H321"/>
+    <g data-route-parcel>
+    <path d="M147 92L179 78L211 92V129L179 143L147 129Z" fill="var(--brand-color)"/>
+    <path d="M179 106L211 92V129L179 143Z" fill="var(--brand-color-dark)"/>
+    <path d="M147 92L179 106V143M163 85L195 99V111"/>
+    <path d="M153 106L168 112V123L153 117Z" fill="white" stroke="none"/>
+    </g>
+    <path d="M142 145H217V153H142Z" fill="var(--surface-raised)"/>
+    <path d="M149 153V158M179 153V158M209 153V158"/>
+  </g>
+  <path data-route-line pathLength="1" d="M79 98V177Q79 188 90 188H282" stroke="var(--brand-color-secondary)" stroke-width="2"/>
+  <circle cx="79" cy="98" r="6" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/>
+  <circle cx="282" cy="188" r="6" fill="var(--brand-color-secondary)"/>
+  <path d="M222 188L214 183M222 188L214 193" stroke="var(--brand-color-secondary)" stroke-width="2" stroke-linecap="round"/>
+</svg>
