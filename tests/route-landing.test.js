@@ -12,7 +12,7 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   const main = html.match(
     /<article class="route-landing">([\s\S]*?)<\/article>/
   )[1];
-  assert.match(main, /<dt>Обычный срок доставки<\/dt><dd>1 сутки<\/dd>/);
+  assert.match(main, /<dt>Обычно<\/dt><dd>За сутки<\/dd>/);
   assert.match(main, /До 3 календарных суток/);
   assert.match(main, /от приёма груза на склад/);
   assert.match(main, /каждый рабочий день/);
@@ -166,9 +166,24 @@ test("route landing: redesigned hierarchy preserves conditions and accessible st
     html,
     /<aside class="route-landing__mobile-action"[^>]*>[\s\S]*?data-cta-position="mobile"/
   );
-  assert.match(html, /Проверьте выбранные города перед отправкой заявки/);
+  assert.match(html, /Для расчёта понадобятся вес и объём груза/);
   assert.equal((html.match(/Между терминалами, включая НДС/g) || []).length, 1);
-  assert.match(html, /Рассчитать мой груз/);
+  assert.doesNotMatch(html, /Рассчитать мой груз|не выбраны ДВС|1 сутки/);
+  const calculatorLinks = [
+    ...html.matchAll(/<a\b[^>]*data-route-goal="calculator"[^>]*>([^<]+)<\/a>/g)
+  ];
+  assert.equal(calculatorLinks.length, 4);
+  for (const [, label] of calculatorLinks)
+    assert.equal(label, "Рассчитать стоимость");
+  assert.match(html, /Без надбавок за негабарит, ДВС и температурный режим/);
+  assert.ok(
+    html.indexOf('class="route-landing__navigation"') >
+      html.indexOf("</header>", html.indexOf('class="route-landing__hero"'))
+  );
+  assert.match(
+    html,
+    /<button class="route-landing__collapse" type="button" data-collapse-tariffs hidden>Свернуть подробные тарифы<\/button>/
+  );
   assert.match(html, /route-landing__mobile-action"[^>]*hidden/);
   assert.equal((html.match(/>Схема проезда<\/a>/g) || []).length, 2);
   assert.match(html, /pt=131\.915753,43\.189470/);

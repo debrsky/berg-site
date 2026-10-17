@@ -139,6 +139,68 @@ test("landing navigation: reduced motion cancels emphasis but retains active nav
   assert.equal(f.animations[0].cancelled, true);
 });
 
+test("landing navigation: measures sticky height and reveals the active link without page scrolling", () => {
+  const f = fixture();
+  const properties = {};
+  const heightProperty = "--landing-nav-height";
+  let height = 60;
+  let position = "sticky";
+  let notify;
+  const navigation = {
+    getBoundingClientRect: () => ({height}),
+    scrollLeft: 0,
+    clientWidth: 200
+  };
+  f.root.querySelector = () => navigation;
+  f.root.documentElement = {
+    style: {
+      setProperty: (key, value) => {
+        properties[key] = value;
+      }
+    }
+  };
+  f.win.getComputedStyle = () => ({position});
+  f.win.ResizeObserver = class {
+    constructor(callback) {
+      notify = callback;
+    }
+
+    observe(element) {
+      assert.equal(element, navigation);
+    }
+  };
+  f.items.forEach(({link}, index) => {
+    link.offsetLeft = index * 140;
+    link.offsetWidth = 140;
+  });
+  f.items[0].section.top = 0;
+  initLandingNavigation(f.root, f.win);
+  assert.equal(properties[heightProperty], "60px");
+  f.items[1].section.top = 150;
+  f.events.scroll();
+  f.flush();
+  assert.equal(navigation.scrollLeft, 80);
+  height = 220;
+  f.items[2].section.top = 230;
+  notify();
+  f.flush();
+  assert.deepEqual(f.current(), ["terminals"]);
+  assert.equal(properties[heightProperty], "220px");
+  position = "static";
+  f.events.resize();
+  f.flush();
+  assert.equal(properties[heightProperty], "0px");
+  assert.deepEqual(f.current(), ["dispatch"]);
+  f.items[1].section.top = 500;
+  f.events.scroll();
+  f.flush();
+  assert.equal(
+    navigation.scrollLeft,
+    0,
+    "scrolling back reveals the first link"
+  );
+});
+
 test("landing navigation: absent navigation, missing sections and unsupported animation are harmless", () => {
   assert.doesNotThrow(() =>
     initLandingNavigation({querySelectorAll: () => []}, {})

@@ -2,6 +2,7 @@
   --route-accent: var(--text-link);
   line-height: 1.55;
   padding-bottom: 3rem;
+  overflow-wrap: anywhere;
 
   h1 { margin: 0; font-size: clamp(2.3rem, 5.7vw, 4.8rem); line-height: 1.05; letter-spacing: -0.035em; }
   h2 { max-width: 30ch; margin: 0 0 1.5rem; font-size: clamp(1.6rem, 3vw, 2.3rem); line-height: 1.2; letter-spacing: -0.02em; }
@@ -42,15 +43,16 @@
   &__copy { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 44px; height: 44px; padding: 0; border: 1px solid transparent; border-radius: 0.3rem; color: var(--route-accent); background: transparent; cursor: pointer; }
   &__copy:hover { background: var(--surface-raised); border-color: var(--border-subtle); }
   &__copy-status { flex-basis: 100%; min-height: 1.5em; font-size: 0.8125rem; line-height: 1.5; }
-  &__phone { display: inline-flex; align-items: center; gap: 0.45rem; color: var(--route-accent); font-size: 1.125rem; font-weight: bold; white-space: nowrap; }
-  &__phone::before { content: "" !important; width: 1em !important; height: 1em; background: currentColor; mask: url("../img/icons/route-phone.svg") center / contain no-repeat; }
+  a.route-landing__phone { display: inline-flex; align-items: center; gap: 0.45rem; min-width: 0; max-width: 100%; color: var(--route-accent); font-size: 1.125rem; font-weight: bold; white-space: normal; }
+  &__phone::before { content: "" !important; width: 1em !important; height: 1em; flex: none; background: currentColor; mask: url("../img/icons/route-phone.svg") center / contain no-repeat; }
   &__hint { font-size: 0.875rem; }
-  &__navigation { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin-top: 2.5rem; padding: 1rem 0; border-block: 1px solid var(--border-subtle); }
-  &__navigation a.link { padding-block: 0.5rem; border-bottom: 2px solid transparent; text-decoration: none; }
+  &__navigation { position: sticky; top: 0; z-index: 4; display: flex; gap: 2rem; overflow-x: auto; margin-top: 2.5rem; padding: 0.3rem 0; border-block: 1px solid var(--border-subtle); background: var(--surface-page); }
+  &__navigation a.link { display: inline-flex; align-items: center; flex: none; min-height: 44px; white-space: nowrap; padding: 0.35rem 0; border-bottom: 2px solid transparent; text-decoration: none; }
+  &__navigation a:focus-visible { outline-offset: -3px; }
   &__navigation a:hover { border-bottom-color: var(--border-subtle); }
   &__navigation a[aria-current="location"] { border-bottom-color: var(--brand-color-secondary); }
 
-  &__section { padding: 3.5rem 0; scroll-margin-top: 1rem; }
+  &__section { padding: 3.5rem 0; scroll-margin-top: calc(var(--landing-nav-height, 4rem) + 1rem); }
   // Rules mark major changes of topic; the dispatch instructions remain one group.
   &__section--dispatch { padding-bottom: 2.25rem; }
   &__section--terminals, &__section--questions { border-top: 1px solid var(--border-subtle); }
@@ -68,7 +70,7 @@
   &__example + &__example { border-top: 1px solid var(--border-subtle); }
   &__example h3 { font-size: 1.125rem; margin: 0; }
   &__example-caption { min-width: 0; }
-  &__example-note { margin: 0.3rem 0 0; font-size: 0.8125rem; line-height: 1.45; }
+  &__example-note { margin: 0.3rem 0 0; font-size: 0.875rem; line-height: 1.45; }
   &__sample { margin: 0; font-variant-numeric: tabular-nums; }
   &__sample-divider { padding-inline: 0.35em; }
   &__amount-unit { font-size: 0.6em; font-weight: normal; letter-spacing: normal; }
@@ -86,6 +88,7 @@
   summary:hover, details[open] > summary { color: var(--route-accent); }
   &__disclosure > summary { padding: 1.2rem 0; font-weight: bold; color: var(--route-accent); }
   &__disclosure-content { padding-bottom: 1rem; }
+  &__collapse { display: block; min-height: 44px; padding: 0.6rem 0; border: 0; background: transparent; color: var(--route-accent); font: inherit; font-weight: bold; text-align: left; text-decoration: underline; text-underline-offset: 0.2em; cursor: pointer; }
   &__tariffs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 1.5rem 0; }
   &__tariff-card { min-width: 0; padding: 1rem; border: 1px solid var(--border-subtle); border-radius: 0.3rem; }
   &__tariff-title { display: block; font-size: 1.05rem; line-height: 1.25; color: var(--route-accent); }
@@ -99,7 +102,8 @@
   &__table th.route-landing__machine-trip { width: auto; padding-block: 1rem; text-align: left; }
   &__machine-trip .route-landing__limit { color: var(--route-accent); font-weight: bold; margin-bottom: 0.3rem; }
   &__limit { display: block; }
-  &__nowrap { white-space: nowrap; }
+  &__nowrap { display: inline-block; max-width: 100%; white-space: normal; }
+  &__table .route-landing__nowrap { overflow-wrap: anywhere; }
   &__table tbody th { font-weight: normal; }
   &__table thead { font-size: 0.875rem; }
   &__table tbody tr:last-child th, &__table tbody tr:last-child td { border-bottom: 0; }
@@ -141,6 +145,7 @@
   &__faq details p, &__faq details ul { max-width: 65ch; }
 
   &__closing { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: center; gap: 2rem; padding: 2.5rem; border-radius: 0.5rem; background: var(--surface-raised); }
+  &__closing > * { min-width: 0; }
   &__closing-contact p { font-size: 0.875rem; }
   &__mobile-action { display: none; }
 
@@ -149,6 +154,8 @@
     h1 { font-size: clamp(2.3rem, 5.8vw, 3.8rem); }
     &__facts { padding-left: 1.5rem; }
     &__tariffs { grid-template-columns: 1fr; }
+    &__tariff-card { padding: 0.75rem; }
+    &__table th, &__table td { padding-inline: 0.25rem; }
     &__table caption { min-height: auto; }
     &__steps { grid-template-columns: 1fr; gap: 0; }
     &__steps li { display: grid; grid-template-columns: 2rem 1fr; column-gap: 1rem; padding: 0 0 1.5rem; }
@@ -179,7 +186,7 @@
     &__fact dd.route-landing__fact-note { grid-column: 2; margin-top: 0; }
     &__actions { flex-direction: column; align-items: stretch; gap: 0.3rem; }
     &__actions .button:not(.button--primary) { align-self: center; padding-inline: 0.75rem; }
-    &__navigation { margin-top: 1.5rem; gap: 0.25rem 1.25rem; font-size: 0.875rem; }
+    &__navigation { margin-top: 1.5rem; gap: 1.25rem; font-size: 0.875rem; }
     &__section { padding: 2.5rem 0; }
     &__section--dispatch { padding-bottom: 1.75rem; }
     &__section--terminals { padding-top: 3rem; }
@@ -206,7 +213,7 @@
     &__closing { gap: 1rem; padding: 1.5rem 1rem; }
     &__closing-contact { border-top: 1px solid var(--border-subtle); padding-top: 0.5rem; }
     &__mobile-action { display: block; position: fixed; bottom: 0; inset-inline: 0; z-index: 5; padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--border-subtle); background: var(--surface-page); }
-    &__mobile-action .button { width: 100%; }
+    &__mobile-action .button { width: 100%; padding: 0.6em 0.8em; line-height: 1.25; }
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -218,14 +225,24 @@
   }
 
   @media print {
-    &__mobile-action, &__copy, &__copy-status { display: none; }
+    &__mobile-action, &__copy, &__copy-status, &__navigation, &__collapse { display: none; }
     &__closing, &__example, &__terminal, &__cutoff { break-inside: avoid; }
   }
 }
 
 @media (max-width: @width-tablet) {
-  .landing-shell { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
-  .landing-shell :is(a, summary, button) { scroll-margin-block: 1rem 100px; }
+  .landing-shell { padding-bottom: calc(5rem + env(safe-area-inset-bottom)); }
+}
+
+.landing-shell :is(a, summary, button) {
+  scroll-margin-block: calc(var(--landing-nav-height, 4rem) + 1rem) calc(6rem + env(safe-area-inset-bottom));
+}
+
+// On short screens give the space back to content instead of stacking two bars.
+@media (max-height: 600px) {
+  .route-landing__navigation { position: static; }
+  .route-landing__mobile-action { display: none !important; }
+  .landing-shell { padding-bottom: 0; }
 }
 
 @media print {

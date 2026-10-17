@@ -59,6 +59,33 @@ test("landing action: avoids duplicating other CTAs and covering footer controls
   assert.equal(f.action.hidden, true, "footer is still visible");
 });
 
+test("landing action: anchor jumps past an initially invisible hero still reveal the action", () => {
+  const f = fixture();
+  let scroll;
+  let bottom = 1200;
+  f.hero.getBoundingClientRect = () => ({bottom});
+  f.root.defaultView = {
+    addEventListener: (_, callback) => {
+      scroll = callback;
+    }
+  };
+  initLandingAction(f.root, f.Observer);
+  f.send(f.hero, false, bottom);
+  bottom = -100;
+  scroll();
+  assert.equal(f.action.hidden, false);
+  f.send(f.footer, true, 400);
+  scroll();
+  assert.equal(
+    f.action.hidden,
+    true,
+    "visible footer still suppresses the action"
+  );
+  bottom = 1200;
+  scroll();
+  assert.equal(f.action.hidden, true);
+});
+
 test("landing action: degrades to native links without observer or required markup", () => {
   const f = fixture();
   assert.equal(initLandingAction(f.root, undefined), null);

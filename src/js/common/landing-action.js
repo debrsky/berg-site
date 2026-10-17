@@ -8,6 +8,19 @@ export function initLandingAction(root, Observer) {
   if (!action || !hero || !Observer) return null;
   const visible = new Set();
   let heroPassed = false;
+  const render = () => {
+    action.hidden = !heroPassed || visible.size > 0;
+  };
+  // An anchor can jump from below to above the hero while its intersection
+  // ratio stays zero, so IntersectionObserver alone cannot detect that jump.
+  root.defaultView?.addEventListener(
+    "scroll",
+    () => {
+      heroPassed = hero.getBoundingClientRect().bottom <= 0;
+      render();
+    },
+    {passive: true}
+  );
   const observer = new Observer((entries) => {
     for (const entry of entries) {
       if (entry.target === hero)
@@ -15,7 +28,7 @@ export function initLandingAction(root, Observer) {
       if (entry.isIntersecting) visible.add(entry.target);
       else visible.delete(entry.target);
     }
-    action.hidden = !heroPassed || visible.size > 0;
+    render();
   });
   root
     .querySelectorAll(

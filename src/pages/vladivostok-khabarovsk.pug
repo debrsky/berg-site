@@ -8,13 +8,14 @@ block variables
     landingOrigin = "vvo"
     landingDestination = "khb"
     landingPhone = business.terminals.vvo.phones.find((item) => item.role?.startsWith("Отправка"))
-    description = "Перевозка грузов из Владивостока в Хабаровск: обычно 1 сутки, отправления каждый рабочий день. Тарифы, забор со склада и получение на терминале или с доставкой."
+    description = "Перевозка грузов из Владивостока в Хабаровск: обычно за сутки, отправления каждый рабочий день. Тарифы, забор со склада и получение на терминале или с доставкой."
 
 block content
   -
     const origin = landingOrigin;
     const destination = landingDestination;
     const route = business.routes.find((item) => item.origin === origin && item.destination === destination);
+    const usualDuration = route.usualDays === 1 ? "сутки" : `${route.usualDays} сут.`;
     const sendingPhone = landingPhone;
     const receivingPhone = business.terminals.khb.phones.find((item) => item.role?.startsWith("Выдача"));
     const receptionCutoff = business.reception.match(/[0-9]{2}:[0-9]{2}/)?.[0];
@@ -39,19 +40,19 @@ block content
               dt Отправления
               dd.route-landing__schedule Рейсы #{route.schedule}
             .route-landing__fact
-              dt Обычный срок доставки
-              dd #{route.usualDays} сутки
+              dt Обычно
+              dd За #{usualDuration}
             .route-landing__fact
               dt Гарантированный срок
               dd До #{route.days} календарных суток
               dd.route-landing__fact-note От момента приёма груза, для любого принятого груза.
         +routeActions(origin, destination, "hero")
-        p.route-landing__hint Укажите параметры груза в калькуляторе. Проверьте выбранные города перед отправкой заявки.
-      nav.route-landing__navigation(aria-label="Разделы направления")
-        a.link(href="#tariffs") Стоимость
-        a.link(href="#dispatch") Как отправить
-        a.link(href="#terminals") Терминалы
-        a.link(href="#questions") Вопросы
+        p.route-landing__hint Для расчёта понадобятся вес и объём груза.
+    nav.route-landing__navigation(aria-label="Разделы направления")
+      a.link(href="#tariffs") Стоимость
+      a.link(href="#dispatch") Как отправить
+      a.link(href="#terminals") Терминалы
+      a.link(href="#questions") Вопросы
 
     section#tariffs.route-landing__section
       h2 Сколько стоит перевозка
@@ -60,16 +61,17 @@ block content
       .route-landing__notice
         p Между терминалами, включая НДС.
         p Забор и доставка по адресу, упаковка, погрузочно-разгрузочные работы и платное хранение оплачиваются отдельно.
-      +routeActions(origin, destination, "tariff", "Рассчитать мой груз")
+      +routeActions(origin, destination, "tariff")
       details.route-landing__disclosure
         summary Подробные тарифы и правила расчёта
         .route-landing__disclosure-content
-          p Примеры для обычного груза: отдельные места не превышают 1 м³ и 1 м по каждой стороне; не выбраны ДВС, негабарит и температурный режим.
+          p Примеры для обычного груза: каждое место не больше 1 м³ и 1 м по каждой стороне. Без надбавок за негабарит, ДВС и температурный режим.
           p Цены включают НДС. Прайс действует с #[time(datetime=tariffs.startdate)=new Date(tariffs.startdate).toLocaleDateString("ru-RU", {timeZone: "UTC"})].
           p Стоимость зависит от массы и объёма. Сначала проверяются минимальные категории. В остальных случаях груз объёмом более 5 м³ на тонну рассчитывается по объёму, иначе — по весу.
           +routeTariffs(origin, destination)
           p Для перевозки негабарита действует надбавка #{Math.round((tariffs.oversizedRaisingFactor - 1) * 100)}% по условиям прайса.
           p #[a.link(href="pricing.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Полный прайс] и #[a.link(href="pricing.html#extra-services", target="_blank", rel="noopener", title="Откроется в новой вкладке") дополнительные расходы].
+          button.route-landing__collapse(type="button", data-collapse-tariffs, hidden) Свернуть подробные тарифы
 
     section#dispatch.route-landing__section.route-landing__section--dispatch
       h2 Как отправить груз
@@ -97,7 +99,7 @@ block content
           .route-landing__cutoff-detail
             p=business.reception
         .route-landing__cutoff
-          h3 Заявка на забор со склада
+          h3 Заявка на грузоперевозку
           if applicationCutoff
             p.route-landing__cutoff-time До #{applicationCutoff}
           .route-landing__cutoff-detail
@@ -152,7 +154,7 @@ block content
           p Отправка после 11:00 возможна при наличии места на рейсе. Не считайте её гарантированной; согласуйте отправку с диспетчером.
         details
           summary Сутки — гарантированный срок?
-          p Обычно доставка занимает #{route.usualDays} сутки. Гарантированный срок по этому направлению — до #{route.days} календарных суток от приёма груза на склад для любого принятого груза.
+          p Обычно доставка занимает #{usualDuration}. Гарантированный срок по этому направлению — до #{route.days} календарных суток от приёма груза на склад для любого принятого груза.
         details
           summary Сколько стоит хранение после прибытия?
           +storageTerms()
