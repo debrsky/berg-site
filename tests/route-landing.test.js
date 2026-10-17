@@ -19,8 +19,8 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   const text = main.replace(/<[^>]*>/g, "");
   assert.match(text, /менее 0,0025 м³/);
   assert.doesNotMatch(text, /менее 0,003 м³/);
-  for (const value of ["550 руб.", "5 500 руб.", "2 200 руб."])
-    assert.ok(main.includes(value));
+  for (const value of ["550 руб.", "5 500 руб.", "2 200 руб."])
+    assert.ok(text.replace(/\u00a0/g, " ").includes(value));
   for (const number of ["+79243304405", "+79842953632"])
     assert.ok(main.includes('href="tel:' + number + '"'));
   assert.match(main, /11:00/);
@@ -234,6 +234,46 @@ test("route landing: tariff typography keeps quantities together and machine tri
       []
     ).length,
     2
+  );
+});
+
+test("route landing: fine details are decorative and phone copying is progressive", () => {
+  const html = read(page);
+  const icons = [
+    ...html.matchAll(/<svg class="route-landing__cargo-icon"[^>]*>/g)
+  ];
+  assert.equal(icons.length, 3);
+  for (const [icon] of icons) {
+    assert.match(icon, /aria-hidden="true"/);
+    assert.match(icon, /focusable="false"/);
+  }
+  assert.equal(
+    (html.match(/class="route-landing__amount-unit"/g) || []).length,
+    3
+  );
+  assert.match(html, /10\u00a0кг/);
+  assert.match(html, /0,1\u00a0м³/);
+  const buttons = [
+    ...html.matchAll(/<button class="route-landing__copy"[^>]*>/g)
+  ];
+  assert.equal(buttons.length, 3);
+  for (const [button] of buttons) {
+    assert.match(button, /type="button"/);
+    assert.match(button, /aria-label="Скопировать номер/);
+    assert.match(button, /hidden/);
+  }
+  assert.equal(
+    (
+      html.match(
+        /role="status" aria-live="polite" aria-atomic="true" hidden/g
+      ) || []
+    ).length,
+    3
+  );
+  assert.match(html, /route-landing__terminal-label--destination/);
+  assert.match(
+    read("css/landing.css"),
+    /prefers-reduced-motion:\s*no-preference/
   );
 });
 

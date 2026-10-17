@@ -117,6 +117,7 @@ block content
       h2 Где отправить и получить
       .route-landing__columns
         .route-landing__terminal
+          p.route-landing__terminal-label Отправление
           h3 Отправить во Владивостоке
           p.route-landing__address=tariffs.terminals.vvo
           +routePhone(sendingPhone, origin, destination, "terminal")
@@ -125,6 +126,7 @@ block content
             a.link(href="https://yandex.ru/maps/?pt=131.915753,43.189470&z=17&l=map", target="_blank", rel="noopener", title="Откроется в новой вкладке") Схема проезда
             a.link(href="contacts.html#vvo", target="_blank", rel="noopener", title="Откроется в новой вкладке") Все контакты
         .route-landing__terminal
+          p.route-landing__terminal-label.route-landing__terminal-label--destination Получение
           h3 Получить в Хабаровске
           p.route-landing__address=tariffs.terminals.khb
           +routePhone(receivingPhone, origin, destination, "terminal")
