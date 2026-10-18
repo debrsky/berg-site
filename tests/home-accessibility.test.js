@@ -37,6 +37,20 @@ test("Home: terminal city selector has an associated label", () => {
   assert.match(html, /<select[^>]*id="contacts__place-selector"/);
 });
 
+test("Footer: privacy link has a separate 44px touch target", () => {
+  assert.match(
+    html,
+    /<div class="footer__policy"><a class="link footer__policy-link" href="privacy-policy.html">/
+  );
+  const policy = declarations(styles, ".footer__policy");
+  assert.equal(policy["margin-top"], "16px");
+  assert.equal(policy["text-align"], "center");
+  const link = declarations(styles, ".footer__policy-link");
+  assert.equal(link.display, "inline-flex");
+  assert.equal(link["min-height"], "44px");
+  assert.equal(link.padding, "8px 4px");
+});
+
 test("Primary button: normal, hover and focus backgrounds meet white text AA contrast", () => {
   const variables = declarations(styles, "html");
   for (const selector of [

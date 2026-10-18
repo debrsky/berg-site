@@ -208,8 +208,13 @@ test("route landing: redesigned hierarchy preserves conditions and accessible st
   assert.match(html, /route-landing__cutoff-time">До 16:00/);
   assert.match(
     html,
-    /Это срок заявки на машину; он не заменяет регламент сдачи груза/
+    /Это срок подачи заявки; он не заменяет регламент сдачи груза/
   );
+  assert.match(
+    html,
+    /Заявку на завтра \(на подачу машины и на сдачу груза на терминал\) необходимо подать сегодня до 16:00/
+  );
+  assert.doesNotMatch(html, /Это срок заявки на машину/);
 });
 
 test("route landing: three tariff categories have separate cards with accessible tables", () => {
@@ -333,7 +338,7 @@ test("route landing: cohesive artwork and grouped deadlines preserve route infor
   );
   assert.match(
     html,
-    /Это срок заявки на машину; он не заменяет регламент сдачи груза/
+    /Это срок подачи заявки; он не заменяет регламент сдачи груза/
   );
 });
 

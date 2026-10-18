@@ -42,7 +42,20 @@ block content
   article
     h1.h2 Пункты автоматического весогабаритного контроля в Приморском крае
     div(style="font-size: small; text-align: end;") источник #[a(href="https://гибдд.рф/r/25/milestones") гибдд.рф]
+    p #[a.link(href="#checkpoints") Список пунктов] доступен без загрузки карты.
     #map(style="height: 480px; margin-top: 1em;")
+
+    section#checkpoints
+      h2.h3 Список пунктов весогабаритного контроля
+      ol
+        each point in checkPoints
+          li
+            p
+              strong=point.camera_place
+              br
+              | Регистрационный номер: #{point.serial_no}
+              br
+              | Модель оборудования: #{point.camera_model}
 
     script(src="https://api-maps.yandex.ru/2.1/?apikey=aa281979-9e28-442a-9b8f-43fab62b25e4&lang=ru_RU")
     script.
