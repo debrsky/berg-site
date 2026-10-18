@@ -1,22 +1,22 @@
-<svg class="route-landing__illustration" width="340" height="210" viewBox="0 0 340 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+<svg class="route-landing__illustration" width="340" height="210" viewBox="0 0 340 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene="">
   <!-- Original schematic: relative south/north positions, not a road map. -->
-  <path data-route-line pathLength="1" d="M65 160H120C145 160 140 120 165 120H185C210 120 205 50 235 50H275" stroke="var(--brand-color-secondary)" stroke-width="3" stroke-linecap="round"/>
-  <g stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
-    <path d="M30 133V108L65 88L100 108V133" fill="var(--surface-raised)"/>
-    <path d="M44 133V111H86V133" fill="var(--brand-color-dark)"/>
+  <path data-route-line="" pathLength="1" d="M65 160H120C145 160 140 120 165 120H185C210 120 205 50 235 50H275" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="3" stroke-linecap="round"/>
+  <g stroke="var(--text-primary, #243746)" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M30 133V108L65 88L100 108V133" fill="var(--surface-raised, #f2f7fa)"/>
+    <path d="M44 133V111H86V133" fill="var(--brand-color-dark, #00658c)"/>
     <path d="M44 117H86M44 123H86M44 129H86"/>
-    <path d="M240 24V3H310V24" fill="var(--surface-raised)"/>
-    <path d="M250 24V9H300V24" fill="var(--brand-color)"/>
+    <path d="M240 24V3H310V24" fill="var(--surface-raised, #f2f7fa)"/>
+    <path d="M250 24V9H300V24" fill="var(--brand-color, #0098cc)"/>
     <path d="M250 14H300M250 19H300"/>
-    <g data-route-parcel>
-    <path d="M151 94L165 88L179 94V110L165 116L151 110Z" fill="var(--brand-color)"/>
+    <g data-route-parcel="">
+    <path d="M151 94L165 88L179 94V110L165 116L151 110Z" fill="var(--brand-color, #0098cc)"/>
     <path d="M151 94L165 100L179 94M165 100V116"/>
-    <path d="M158 91L172 97V103" stroke="var(--surface-page)"/>
+    <path d="M158 91L172 97V103" stroke="var(--surface-page, #fff)"/>
     </g>
   </g>
-  <circle cx="65" cy="160" r="6" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="3"/>
-  <circle cx="275" cy="50" r="6" fill="var(--brand-color-secondary)"/>
-  <g fill="var(--text-primary)" font-family="'PT Sans', sans-serif" font-size="16">
+  <circle cx="65" cy="160" r="6" fill="var(--surface-page, #fff)" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="3"/>
+  <circle cx="275" cy="50" r="6" fill="var(--brand-color-secondary, #ff8800)"/>
+  <g fill="var(--text-primary, #243746)" font-family="'PT Sans', sans-serif" font-size="16">
     <text x="27" y="193">Уссурийск</text>
     <text x="233" y="82">Хабаровск</text>
   </g>

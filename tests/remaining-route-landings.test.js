@@ -103,7 +103,7 @@ for (const route of routes) {
       /<svg class="route-landing__illustration"[\s\S]*?<\/svg>/
     )[0];
     assert.match(scene, /data-route-scene/);
-    assert.match(scene, /data-route-line pathLength="1"/);
+    assert.match(scene, /data-route-line="" pathLength="1"/);
     assert.match(scene, /<g data-route-parcel/);
     assert.match(scene, /aria-hidden="true" focusable="false"/);
     assert.doesNotMatch(scene, /<script|<image|<animate|\bhref=/i);

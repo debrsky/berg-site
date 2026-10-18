@@ -42,8 +42,8 @@ test("khb-uss: independent metadata, shared shell and original illustration", ()
   )[0];
   assert.match(illustration, /aria-hidden="true" focusable="false"/);
   assert.match(illustration, /data-route-scene/);
-  assert.match(illustration, /data-route-line pathLength="1"/);
-  assert.match(illustration, /<g data-route-parcel>/);
+  assert.match(illustration, /data-route-line="" pathLength="1"/);
+  assert.match(illustration, /<g data-route-parcel="">/);
   assert.doesNotMatch(illustration, /<script|<image|<animate|\bhref=/i);
   assert.match(text(html), /Согласуем перед отправкой/);
   assert.doesNotMatch(text(html), /[Сс]обственн|[Сс]вои площадки/);

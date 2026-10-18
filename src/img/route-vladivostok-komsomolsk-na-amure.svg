@@ -1,9 +1,9 @@
-<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene="">
 <!-- A weekly dispatch sheet, without invented weekdays or transit times. -->
-<rect x="49" y="30" width="260" height="183" rx="4" fill="var(--surface-raised)" stroke="var(--border-subtle)"/>
-<path d="M49 73h260M91 24v18m46-18v18m46-18v18m46-18v18m46-18v18" stroke="var(--text-primary)" stroke-width="2"/>
-<text x="72" y="60" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="18">Еженедельная отправка</text>
-<text x="71" y="103" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="15">Владивосток</text><text x="71" y="166" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="15">Комсомольск-на-Амуре</text>
-<path data-route-line pathLength="1" d="M73 120h211v29H73" stroke="var(--brand-color-secondary)" stroke-width="2.5" stroke-linecap="round"/><circle cx="73" cy="120" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/><circle cx="73" cy="149" r="5" fill="var(--brand-color-secondary)"/>
-<g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M217 185h95v49h-95z" fill="var(--brand-color)"/><path d="M217 185l22-18h74v18M245 168v66" fill="var(--surface-raised)"/><path d="M260 201h35v17h-35z" fill="white"/><path d="M266 207h21m-21 5h15"/></g>
-<text x="49" y="255" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="13">День рейса уточните перед сдачей</text></svg>
+<rect x="49" y="30" width="260" height="183" rx="4" fill="var(--surface-raised, #f2f7fa)" stroke="var(--border-subtle, #d7e2e8)"/>
+<path d="M49 73h260M91 24v18m46-18v18m46-18v18m46-18v18m46-18v18" stroke="var(--text-primary, #243746)" stroke-width="2"/>
+<text x="72" y="60" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="18">Еженедельная отправка</text>
+<text x="71" y="103" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="15">Владивосток</text><text x="71" y="166" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="15">Комсомольск-на-Амуре</text>
+<path data-route-line="" pathLength="1" d="M73 120h211v29H73" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2.5" stroke-linecap="round"/><circle cx="73" cy="120" r="5" fill="var(--surface-page, #fff)" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2"/><circle cx="73" cy="149" r="5" fill="var(--brand-color-secondary, #ff8800)"/>
+<g data-route-parcel="" stroke="var(--text-primary, #243746)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M217 185h95v49h-95z" fill="var(--brand-color, #0098cc)"/><path d="M217 185l22-18h74v18M245 168v66" fill="var(--surface-raised, #f2f7fa)"/><path d="M260 201h35v17h-35z" fill="white"/><path d="M266 207h21m-21 5h15"/></g>
+<text x="49" y="255" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="13">День рейса уточните перед сдачей</text></svg>

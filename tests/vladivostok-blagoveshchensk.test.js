@@ -45,7 +45,7 @@ test("vvo-blg: independent metadata, shared shell and weekly dispatch illustrati
     illustration,
     /aria-hidden="true" focusable="false" data-route-scene/
   );
-  assert.match(illustration, /data-route-line pathLength="1"/);
+  assert.match(illustration, /data-route-line="" pathLength="1"/);
   assert.match(illustration, /<g data-route-parcel/);
   assert.match(illustration, /Вторник/);
   assert.match(illustration, /Пятница/);

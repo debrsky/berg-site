@@ -1,10 +1,10 @@
-<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene="">
 <!-- Receipt at destination: a shipment and the receiving dock in Vladivostok. -->
-<text x="16" y="25" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="16">Комсомольск-на-Амуре</text><text x="215" y="59" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="17">Владивосток</text>
-<path data-route-line pathLength="1" d="M23 47h130v31h178" stroke="var(--brand-color-secondary)" stroke-width="2.5" stroke-linecap="round"/><circle cx="23" cy="47" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/><circle cx="331" cy="78" r="5" fill="var(--brand-color-secondary)"/>
-<g stroke="var(--text-primary)" stroke-width="1.5" fill="var(--surface-raised)">
+<text x="16" y="25" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="16">Комсомольск-на-Амуре</text><text x="215" y="59" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="17">Владивосток</text>
+<path data-route-line="" pathLength="1" d="M23 47h130v31h178" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2.5" stroke-linecap="round"/><circle cx="23" cy="47" r="5" fill="var(--surface-page, #fff)" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2"/><circle cx="331" cy="78" r="5" fill="var(--brand-color-secondary, #ff8800)"/>
+<g stroke="var(--text-primary, #243746)" stroke-width="1.5" fill="var(--surface-raised, #f2f7fa)">
 <path d="M186 226V126l78-35 78 35v100z"/><path d="M211 226v-81h106v81M211 160h106m-106 16h106"/>
-<path d="M198 226h141v7H198z" fill="var(--brand-color)"/>
+<path d="M198 226h141v7H198z" fill="var(--brand-color, #0098cc)"/>
 </g>
-<g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M36 166h115v51H36z" fill="var(--brand-color)"/><path d="m36 166 20-18h115l-20 18v51l20-18v-51" fill="var(--surface-raised)"/><path d="M73 166v51m-44 6h143m-133 0v9m119-9v9"/><rect x="105" y="179" width="34" height="20" fill="white"/><path d="m112 188 6 5 13-9"/></g>
-<text x="30" y="255" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="13">Получение на терминале или по адресу</text></svg>
+<g data-route-parcel="" stroke="var(--text-primary, #243746)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M36 166h115v51H36z" fill="var(--brand-color, #0098cc)"/><path d="m36 166 20-18h115l-20 18v51l20-18v-51" fill="var(--surface-raised, #f2f7fa)"/><path d="M73 166v51m-44 6h143m-133 0v9m119-9v9"/><rect x="105" y="179" width="34" height="20" fill="white"/><path d="m112 188 6 5 13-9"/></g>
+<text x="30" y="255" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="13">Получение на терминале или по адресу</text></svg>

@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__illustration" viewBox="105 95 575 365" width="575" height="365" role="img" aria-labelledby="route-forklift-title" data-forklift>
+<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__illustration" viewBox="105 95 575 365" width="575" height="365" role="img" aria-labelledby="route-forklift-title" data-forklift="">
 <title id="route-forklift-title">Погрузчик с паллетированным грузом — иллюстрация</title>
-<g data-forklift-vehicle>
+<g data-forklift-vehicle="">
 <g data-forklift-lift="cargo-rear">
 <rect x="140.13" y="232.5" width="104.18" height="80.36" style="fill:#ff8800"></rect>
 <rect x="140.13" y="232.5" width="104.18" height="80.36" style="opacity:0.30000000000000004"></rect>

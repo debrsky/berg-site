@@ -1,25 +1,25 @@
-<svg class="route-landing__illustration" width="360" height="240" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+<svg class="route-landing__illustration" width="360" height="240" viewBox="0 0 360 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene="">
   <!-- Original dispatch diagram between two cities on the Amur; not a road map. -->
-  <path d="M17 184C72 133 92 205 151 168S239 125 343 173M17 196C72 145 92 217 151 180S239 137 343 185" stroke="var(--border-subtle)" stroke-width="2"/>
-  <g fill="var(--surface-raised)" stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
+  <path d="M17 184C72 133 92 205 151 168S239 125 343 173M17 196C72 145 92 217 151 180S239 137 343 185" stroke="var(--border-subtle, #d7e2e8)" stroke-width="2"/>
+  <g fill="var(--surface-raised, #f2f7fa)" stroke="var(--text-primary, #243746)" stroke-width="1.5" stroke-linejoin="round">
     <path d="M24 111V74L66 54L108 74V111Z"/>
     <path d="M39 111V83H92V111M52 83V111M78 83V111"/>
     <path d="M242 212V175L284 155L326 175V212Z"/>
     <path d="M257 212V184H311V212M270 184V212M297 184V212"/>
   </g>
-  <path data-route-line pathLength="1" d="M66 124H146Q163 124 163 141V193H229" stroke="var(--brand-color-secondary)" stroke-width="2"/>
-  <circle cx="66" cy="124" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/>
-  <circle cx="229" cy="193" r="5" fill="var(--brand-color-secondary)"/>
-  <g fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="17">
+  <path data-route-line="" pathLength="1" d="M66 124H146Q163 124 163 141V193H229" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2"/>
+  <circle cx="66" cy="124" r="5" fill="var(--surface-page, #fff)" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2"/>
+  <circle cx="229" cy="193" r="5" fill="var(--brand-color-secondary, #ff8800)"/>
+  <g fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="17">
     <text x="24" y="35">Благовещенск</text>
     <text x="231" y="236">Хабаровск</text>
   </g>
-  <g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
-    <path d="M188 67L242 45L296 68V116L242 139L188 116Z" fill="var(--brand-color)"/>
-    <path d="M242 91L296 68V116L242 139Z" fill="var(--brand-color-dark)"/>
-    <path d="M188 67L242 91L296 68L242 45Z" fill="var(--surface-raised)"/>
+  <g data-route-parcel="" stroke="var(--text-primary, #243746)" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M188 67L242 45L296 68V116L242 139L188 116Z" fill="var(--brand-color, #0098cc)"/>
+    <path d="M242 91L296 68V116L242 139Z" fill="var(--brand-color-dark, #00658c)"/>
+    <path d="M188 67L242 91L296 68L242 45Z" fill="var(--surface-raised, #f2f7fa)"/>
     <path d="M215 56L270 79V127M215 79V128"/>
     <path d="M250 99L283 85V106L250 120Z" fill="white" stroke="none"/>
-    <path d="M257 100L275 92M257 106L269 101" stroke="var(--brand-color-dark)"/>
+    <path d="M257 100L275 92M257 106L269 101" stroke="var(--brand-color-dark, #00658c)"/>
   </g>
 </svg>

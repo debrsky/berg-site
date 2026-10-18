@@ -1,29 +1,29 @@
-<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene="">
   <!-- Original terminal-to-terminal diagram, not a road map or a terminal portrait. -->
-  <g fill="var(--text-primary)" font-family="PT Sans, sans-serif">
+  <g fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif">
     <text x="16" y="53" font-size="17">Комсомольск-на-Амуре</text>
     <text x="228" y="241" font-size="17">Хабаровск</text>
   </g>
-  <g stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
-    <path d="M20 119V82l49-18 49 18v37" fill="var(--surface-raised)"/>
+  <g stroke="var(--text-primary, #243746)" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M20 119V82l49-18 49 18v37" fill="var(--surface-raised, #f2f7fa)"/>
     <path d="M14 83 69 62l55 21M33 119V91h72v28"/>
-    <path d="M38 95h62m-62 7h62m-62 7h62" stroke="var(--border-subtle)"/>
-    <path d="M230 214v-49l51-21 51 21v49" fill="var(--surface-raised)"/>
+    <path d="M38 95h62m-62 7h62m-62 7h62" stroke="var(--border-subtle, #d7e2e8)"/>
+    <path d="M230 214v-49l51-21 51 21v49" fill="var(--surface-raised, #f2f7fa)"/>
     <path d="m224 167 57-25 57 25M246 214v-40h70v40"/>
-    <path d="M251 180h60m-60 8h60m-60 8h60" stroke="var(--border-subtle)"/>
+    <path d="M251 180h60m-60 8h60m-60 8h60" stroke="var(--border-subtle, #d7e2e8)"/>
   </g>
-  <path d="M14 122h112m98 95h116" stroke="var(--border-subtle)" stroke-width="1.5"/>
-  <path data-route-line pathLength="1" d="M69 136v37q0 18 18 18h90q19 0 19 18v24h14" stroke="var(--brand-color-secondary)" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="69" cy="136" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/>
-  <circle cx="210" cy="233" r="5" fill="var(--brand-color-secondary)"/>
-  <g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round">
-    <path d="m132 98 43 18v50l-43-18z" fill="var(--brand-color)"/>
-    <path d="m175 116 44-18v50l-44 18z" fill="var(--brand-color-dark)"/>
-    <path d="m132 98 44-18 43 18-44 18z" fill="var(--surface-raised)"/>
-    <path d="m154 89 43 18v21l-10 4v-21l-43-18" fill="var(--brand-color)"/>
+  <path d="M14 122h112m98 95h116" stroke="var(--border-subtle, #d7e2e8)" stroke-width="1.5"/>
+  <path data-route-line="" pathLength="1" d="M69 136v37q0 18 18 18h90q19 0 19 18v24h14" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="69" cy="136" r="5" fill="var(--surface-page, #fff)" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2"/>
+  <circle cx="210" cy="233" r="5" fill="var(--brand-color-secondary, #ff8800)"/>
+  <g data-route-parcel="" stroke="var(--text-primary, #243746)" stroke-width="1.5" stroke-linejoin="round">
+    <path d="m132 98 43 18v50l-43-18z" fill="var(--brand-color, #0098cc)"/>
+    <path d="m175 116 44-18v50l-44 18z" fill="var(--brand-color-dark, #00658c)"/>
+    <path d="m132 98 44-18 43 18-44 18z" fill="var(--surface-raised, #f2f7fa)"/>
+    <path d="m154 89 43 18v21l-10 4v-21l-43-18" fill="var(--brand-color, #0098cc)"/>
     <path d="m141 120 23 10v17l-23-10z" fill="white" stroke="none"/>
-    <path d="m146 127 13 6m-13 0 9 4" stroke="var(--brand-color-dark)"/>
-    <path d="m126 151 49 21 50-21v8l-50 21-49-21z" fill="var(--surface-raised)"/>
+    <path d="m146 127 13 6m-13 0 9 4" stroke="var(--brand-color-dark, #00658c)"/>
+    <path d="m126 151 49 21 50-21v8l-50 21-49-21z" fill="var(--surface-raised, #f2f7fa)"/>
     <path d="M135 163v7m40 10v7m41-24v7"/>
   </g>
 </svg>

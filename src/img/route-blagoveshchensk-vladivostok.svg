@@ -1,18 +1,18 @@
-<svg class="route-landing__illustration" width="360" height="250" viewBox="0 0 360 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+<svg class="route-landing__illustration" width="360" height="250" viewBox="0 0 360 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene="">
   <!-- Original side elevation: a tractor and semitrailer, with no perspective tricks. -->
-  <g fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="16">
+  <g fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="16">
     <text x="24" y="38">Благовещенск</text>
     <text x="332" y="38" text-anchor="end">Владивосток</text>
   </g>
-  <path data-route-line pathLength="1" d="M29 60h298" stroke="var(--brand-color-secondary)" stroke-width="2" stroke-linecap="round"/>
-  <circle cx="24" cy="60" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/>
-  <circle cx="332" cy="60" r="5" fill="var(--brand-color-secondary)"/>
-  <path d="M16 211h328" stroke="var(--border-subtle)" stroke-width="1.5" stroke-linecap="round"/>
-  <g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+  <path data-route-line="" pathLength="1" d="M29 60h298" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="24" cy="60" r="5" fill="var(--surface-page, #fff)" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2"/>
+  <circle cx="332" cy="60" r="5" fill="var(--brand-color-secondary, #ff8800)"/>
+  <path d="M16 211h328" stroke="var(--border-subtle, #d7e2e8)" stroke-width="1.5" stroke-linecap="round"/>
+  <g data-route-parcel="" stroke="var(--text-primary, #243746)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
     <!-- The long trailer sits on its chassis; the tractor has a separate cab. -->
-    <path d="M26 174h211v12H26z" fill="var(--brand-color-dark)"/>
-    <rect x="24" y="94" width="213" height="80" rx="3" fill="var(--brand-color)"/>
-    <path d="M31 101v65m199-65v65" stroke="var(--brand-color-dark)"/>
+    <path d="M26 174h211v12H26z" fill="var(--brand-color-dark, #00658c)"/>
+    <rect x="24" y="94" width="213" height="80" rx="3" fill="var(--brand-color, #0098cc)"/>
+    <path d="M31 101v65m199-65v65" stroke="var(--brand-color-dark, #00658c)"/>
     <!-- Site logo geometry, reproduced as a white livery mark. -->
     <g transform="translate(76 111) scale(0.74) translate(-10 -108)" fill="white" stroke="none">
       <path d="M152.818,133.082c0-3.651-0.498-6.401-1.165-9.37c-0.669-2.969-2.191-5.267-3.419-6.895
@@ -42,21 +42,21 @@
 	c-1.917-0.901-3.496-2.254-4.788-4.058v29.886l5.272-0.066c1.636-0.043,2.843-0.691,3.618-1.944
 	c0.775-1.254,1.108-2.936,1.108-5.047C30.019,157.064,30.019,139.645,30.019,139.645z"/>
     </g>
-    <path d="M202 181h120v13H202z" fill="var(--brand-color-dark)"/>
-    <path d="M248 118h42l28 31h8v39h-78z" fill="var(--brand-color)"/>
-    <path d="M270 127h16l20 23h-36z" fill="var(--surface-raised)"/>
+    <path d="M202 181h120v13H202z" fill="var(--brand-color-dark, #00658c)"/>
+    <path d="M248 118h42l28 31h8v39h-78z" fill="var(--brand-color, #0098cc)"/>
+    <path d="M270 127h16l20 23h-36z" fill="var(--surface-raised, #f2f7fa)"/>
     <path d="M263 119v58h40m-32-18h8m-26 21h22v8h-22"/>
-    <path d="M310 145h8v16h-8m8 12h8v8h-8" fill="var(--surface-raised)"/>
-    <path d="M317 188h13v7h-13" fill="var(--surface-raised)"/>
+    <path d="M310 145h8v16h-8m8 12h8v8h-8" fill="var(--surface-raised, #f2f7fa)"/>
+    <path d="M317 188h13v7h-13" fill="var(--surface-raised, #f2f7fa)"/>
     <path d="M27 176v9m6-9v9"/>
-    <g fill="var(--brand-color-dark)">
+    <g fill="var(--brand-color-dark, #00658c)">
       <circle cx="49" cy="195" r="13"/>
       <circle cx="79" cy="195" r="13"/>
       <circle cx="109" cy="195" r="13"/>
       <circle cx="225" cy="195" r="13"/>
       <circle cx="303" cy="195" r="13"/>
     </g>
-    <g fill="var(--surface-raised)">
+    <g fill="var(--surface-raised, #f2f7fa)">
       <circle cx="49" cy="195" r="5"/>
       <circle cx="79" cy="195" r="5"/>
       <circle cx="109" cy="195" r="5"/>

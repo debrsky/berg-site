@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__shipment-art" width="360" height="260" viewBox="0 0 360 260" fill="none" aria-hidden="true" focusable="false" data-shipment>
+<svg xmlns="http://www.w3.org/2000/svg" class="route-landing__shipment-art" width="360" height="260" viewBox="0 0 360 260" fill="none" aria-hidden="true" focusable="false" data-shipment="">
   <defs>
     <linearGradient id="shipment-cardboard-front" x1="72" y1="100" x2="196" y2="214" gradientUnits="userSpaceOnUse">
       <stop stop-color="#d9b681"/><stop offset="1" stop-color="#b88b52"/>

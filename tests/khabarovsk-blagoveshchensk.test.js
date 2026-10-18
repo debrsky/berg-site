@@ -42,7 +42,7 @@ test("khb-blg: independent metadata, shared shell and original illustration", ()
   )[0];
   assert.match(illustration, /aria-hidden="true" focusable="false"/);
   assert.match(illustration, /data-route-scene/);
-  assert.match(illustration, /data-route-line pathLength="1"/);
+  assert.match(illustration, /data-route-line="" pathLength="1"/);
   assert.match(illustration, /<g data-route-parcel\b[^>]*>/);
   assert.doesNotMatch(illustration, /<script|<image|<animate|\bhref=/i);
   assert.match(text(html), /Согласуем перед отправкой/);

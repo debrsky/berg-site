@@ -1,13 +1,13 @@
-<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene>
+<svg class="route-landing__illustration" width="360" height="260" viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-route-scene="">
 <!-- Weight and volume: the two actual inputs used to quote this route. -->
-<text x="20" y="29" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="17">Уссурийск</text><text x="196" y="29" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="17">Благовещенск</text>
-<path data-route-line pathLength="1" d="M28 52h302" stroke="var(--brand-color-secondary)" stroke-width="2.5" stroke-linecap="round"/><circle cx="28" cy="52" r="5" fill="var(--surface-page)" stroke="var(--brand-color-secondary)" stroke-width="2"/><circle cx="330" cy="52" r="5" fill="var(--brand-color-secondary)"/>
-<path d="M24 216h312" stroke="var(--border-subtle)" stroke-width="1.5"/>
-<g stroke="var(--text-primary)" stroke-width="1.5" fill="var(--surface-raised)">
+<text x="20" y="29" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="17">Уссурийск</text><text x="196" y="29" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="17">Благовещенск</text>
+<path data-route-line="" pathLength="1" d="M28 52h302" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2.5" stroke-linecap="round"/><circle cx="28" cy="52" r="5" fill="var(--surface-page, #fff)" stroke="var(--brand-color-secondary, #ff8800)" stroke-width="2"/><circle cx="330" cy="52" r="5" fill="var(--brand-color-secondary, #ff8800)"/>
+<path d="M24 216h312" stroke="var(--border-subtle, #d7e2e8)" stroke-width="1.5"/>
+<g stroke="var(--text-primary, #243746)" stroke-width="1.5" fill="var(--surface-raised, #f2f7fa)">
 <path d="M35 183h108v32H35zM47 183l8-38h67l9 38z"/>
-<path d="M71 191h36v15H71z" fill="var(--brand-color)"/>
+<path d="M71 191h36v15H71z" fill="var(--brand-color, #0098cc)"/>
 <path d="M175 100h150v115H175zM175 100l-16 17v98h16M175 100l-16 17h150l16-17" />
 <path d="M186 108v10m16-10v6m16-6v10m16-10v6m16-6v10m16-10v6m16-6v10m16-10v6"/>
 </g>
-<g data-route-parcel stroke="var(--text-primary)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M57 100h66v45H57z" fill="var(--brand-color)"/><path d="m57 100 14-13h66l-14 13v45l14-13V87" fill="var(--surface-raised)"/><path d="M77 100v45"/><rect x="87" y="112" width="26" height="15" fill="white"/></g>
-<text x="46" y="243" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="16">Вес</text><text x="204" y="243" fill="var(--text-primary)" font-family="PT Sans, sans-serif" font-size="16">Объём</text></svg>
+<g data-route-parcel="" stroke="var(--text-primary, #243746)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="M57 100h66v45H57z" fill="var(--brand-color, #0098cc)"/><path d="m57 100 14-13h66l-14 13v45l14-13V87" fill="var(--surface-raised, #f2f7fa)"/><path d="M77 100v45"/><rect x="87" y="112" width="26" height="15" fill="white"/></g>
+<text x="46" y="243" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="16">Вес</text><text x="204" y="243" fill="var(--text-primary, #243746)" font-family="PT Sans, sans-serif" font-size="16">Объём</text></svg>
