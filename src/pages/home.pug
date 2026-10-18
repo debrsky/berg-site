@@ -15,58 +15,89 @@ block content
 
   article.home-content
     h1.h2 Грузоперевозки по Дальнему Востоку
-    p ТК Берг перевозит грузы и документы автомобильным транспортом. Собственные площадки работают во Владивостоке, Уссурийске, Хабаровске и Благовещенске.
+    p.home-content__lead ТК Берг перевозит грузы и документы автомобильным транспортом между городами Дальнего Востока. #{business.dispatchOptions}
     p.home-content__actions
       a.button.button--primary(href="calculator.html") Рассчитать стоимость
       a.button(href="order.html") Оформить заявку
+    p.home-content__hint Для расчёта понадобятся вес и объём груза.
     section
       h2.h3 Направления и расписание
       +homeRoutes()
-    section
-      h2.h3 Как отправить груз
-      ol
-        li Проверьте #[a.link(href="docs.html") документы] и #[a.link(href="package.html") требования к упаковке].
-        li Согласуйте перевозку с сотрудниками компании или заполните #[a.link(href="order.html") заявку].
-        li=business.reception
-      p=business.applicationDeadline
-      p=business.dispatchOptions
-      p=business.deliveryOptions
-      p=business.collection
-      p Адреса площадок и телефоны — в разделе #[a.link(href="contacts.html") «Контакты»].
-    section
-      h2.h3 Сроки и услуги
-      +deliveryTerms()
-      p=business.packagingNotice
-      p=business.temperature
-      p Подробнее о #[a.link(href="terms.html") сроках, приёме и хранении].
-    h2.h3 Транспорт и работа с грузом
+      p.home-content__note По другим направлениям дату рейса и срок доставки согласуйте с #[a.link(href="contacts.html") терминалом отправления].
+    section.home-dispatch(aria-labelledby="home-dispatch-title")
+      h2#home-dispatch-title.h3 Как отправить груз
+      ol.home-dispatch__steps
+        li.home-dispatch__step
+          span.home-dispatch__number(aria-hidden="true") 1
+          .home-dispatch__body
+            h3.home-dispatch__title Подготовьте груз
+            p Проверьте #[a.link(href="docs.html") необходимые документы] и #[a.link(href="package.html") требования к упаковке].
+        li.home-dispatch__step
+          span.home-dispatch__number(aria-hidden="true") 2
+          .home-dispatch__body
+            h3.home-dispatch__title Согласуйте перевозку
+            p Согласуйте дату отправки и способ передачи груза с сотрудниками компании, затем заполните заявку.
+        li.home-dispatch__step
+          span.home-dispatch__number(aria-hidden="true") 3
+          .home-dispatch__body
+            h3.home-dispatch__title Передайте груз
+            p Привезите груз на терминал или передайте водителю при согласованном заборе со склада.
+      .home-dispatch__actions
+        a.button.button--primary(href="order.html") Оформить заявку
+        a.link(href="contacts.html") Адреса и телефоны терминалов
+      p.home-dispatch__collection
+        strong Получение груза:
+        |  #{business.deliveryOptions} #{business.collection}
+    section.home-cutoffs(aria-labelledby="home-cutoffs-title")
+      h2#home-cutoffs-title.h3 Когда подать заявку и передать груз
+      .home-cutoffs__grid
+        .home-cutoffs__item
+          h3.home-cutoffs__title Сдача груза на терминал
+          p.home-cutoffs__time До #{business.receptionCutoff}
+          p=business.reception
+        .home-cutoffs__item
+          h3.home-cutoffs__title Заявка на завтра
+          p.home-cutoffs__time До #{business.applicationCutoff} сегодня
+          p=business.applicationDeadline
+      p.home-content__note Время приёма не является расписанием рейсов. Дату отправки согласуйте заранее.
+    section.home-reference(aria-labelledby="home-reference-title")
+      h2#home-reference-title.h3 Перед отправкой
+      ul.home-reference__links
+        li: a.link(href="terms.html") Сроки доставки, приём и хранение
+        li: a.link(href="package.html") Требования к упаковке и тарифы
+        li: a.link(href="docs.html") Документы и бланки
+        li: a.link(href="contacts.html") Адреса и телефоны терминалов
+      p.home-content__note=business.packagingNotice
+      p.home-content__note=business.temperature
+    section.home-gallery(aria-labelledby="home-gallery-title")
+      h2#home-gallery-title.h3 Транспорт и работа с грузом
+      p.home-content__note Фотографии транспорта и погрузочных работ ТК Берг.
+      .swiper-container.mySwiper
+        .swiper-wrapper
+          -
+            const slides = [
+              {file: "01@x400", width: 714, alt: "Три тягача Вольво"},
+              {file: "02@x400", width: 711, alt: "Автопоезд"},
+              {file: "04@x400", width: 600, alt: "Вилочный автопогрузчик"},
+              {file: "05@x400", width: 600, alt: "Три прицепа с установленными БДФ"},
+              {file: "06@x400", width: 600, alt: "Ряд из пяти контейнеров на прицепах, двери открыты, виден груз -- картонные коробки"},
+              {file: "08@x400", width: 533, alt: "Пять тягачей Вольво"},
+              {file: "11@x400", width: 711, alt: "Два прицепа с белыми и синим контейнерами"},
+              {file: "12@x400", width: 533, alt: "Вилочный погрузчик устанавливает груз на прицеп"},
+              {file: "13@x400", width: 533, alt: "Вилочный погрузчик заехал внутрь контейнера"},
+              {file: "14@x400", width: 533, alt: "Вилочный погрузчик с грузом заезжает внутрь контейнера"},
+              {file: "15@x400", width: 533, alt: "Вилочный погрузчик с грузом -- бухтой кабеля большого диаметра"},
+            ]
+          each slide, idx in slides
+            .swiper-slide(data-hash="slide" + (idx+1))
+              picture
+                source(srcset="img/slides/presentation/"+slide.file+".avif", type="image/avif")
+                source(srcset="img/slides/presentation/"+slide.file+".webp", type="image/webp")
+                img.swiper-slide-img(src="img/slides/presentation/"+slide.file+".jpg", alt=slide.alt, width=slide.width, height="400", loading=idx === 0 ? "eager" : "lazy", decoding="async")
 
-    .swiper-container.mySwiper
-      .swiper-wrapper
-        -
-          const slides = [
-            {file: "01@x400", width: 714, alt: "Три тягача Вольво"},
-            {file: "02@x400", width: 711, alt: "Автопоезд"},
-            {file: "04@x400", width: 600, alt: "Вилочный автопогрузчик"},
-            {file: "05@x400", width: 600, alt: "Три прицепа с установленными БДФ"},
-            {file: "06@x400", width: 600, alt: "Ряд из пяти контейнеров на прицепах, двери открыты, виден груз -- картонные коробки"},
-            {file: "08@x400", width: 533, alt: "Пять тягачей Вольво"},
-            {file: "11@x400", width: 711, alt: "Два прицепа с белыми и синим контейнерами"},
-            {file: "12@x400", width: 533, alt: "Вилочный погрузчик устанавливает груз на прицеп"},
-            {file: "13@x400", width: 533, alt: "Вилочный погрузчик заехал внутрь контейнера"},
-            {file: "14@x400", width: 533, alt: "Вилочный погрузчик с грузом заезжает внутрь контейнера"},
-            {file: "15@x400", width: 533, alt: "Вилочный погрузчик с грузом -- бухтой кабеля большого диаметра"},
-          ]
-        each slide, idx in slides
-          .swiper-slide(data-hash="slide" + (idx+1))
-            picture
-              source(srcset="img/slides/presentation/"+slide.file+".avif", type="image/avif")
-              source(srcset="img/slides/presentation/"+slide.file+".webp", type="image/webp")
-              img.swiper-slide-img(src="img/slides/presentation/"+slide.file+".jpg", alt=slide.alt, width=slide.width, height="400", loading=idx === 0 ? "eager" : "lazy", decoding="async")
-
-      .swiper-button-prev
-      .swiper-button-next
-    .swiper-pagination
+        .swiper-button-prev
+        .swiper-button-next
+      .swiper-pagination
 
   script.
     (()=>{

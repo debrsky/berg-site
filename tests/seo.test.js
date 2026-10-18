@@ -172,6 +172,15 @@ test("SEO: agreed schedule, reception, storage and editorial exclusions", () => 
   for (const file of ["home.html", termsPage]) {
     const text = strip(read(file));
     assert.match(text, /11:00 по местному времени/);
+    assert.match(text, /Температурный режим — по согласованию/);
+  }
+  // Home links to the full terms instead of duplicating route durations.
+  assert.match(
+    read("home.html"),
+    /href="terms.html">Сроки доставки, приём и хранение/
+  );
+  {
+    const text = strip(read(termsPage));
     assert.match(
       text,
       /Владивосток — Хабаровск — обычно 1 сутки; гарантированный срок — до 3 календарных суток/
@@ -189,7 +198,6 @@ test("SEO: agreed schedule, reception, storage and editorial exclusions", () => 
       /Благовещенск — Владивосток — обычно 3 суток; гарантированный срок — до 5 календарных суток/
     );
     assert.match(text, /от приёма груза/);
-    assert.match(text, /Температурный режим — по согласованию/);
   }
   for (const file of [termsPage, "pricing.html"]) {
     const text = strip(read(file));
