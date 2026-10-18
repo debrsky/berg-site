@@ -22,6 +22,11 @@ test("calculator: order CTA belongs to the result panel and remains a native lin
   assert.match(result, /выбранный маршрут и введённые вес и объём/);
   assert.match(result, /Сохранённые данные не заменяются автоматически/);
   assert.equal((html.match(/data-calculator-order/g) || []).length, 1);
-  assert.doesNotMatch(result, /<button/);
+  assert.match(
+    result,
+    /<button[^>]*type="button"[^>]*data-calculator-share[^>]*hidden/
+  );
+  assert.match(result, /data-calculator-share-status[^>]*role="status"/);
+  assert.match(result, /data-calculator-share-link/);
   assert.match(result, /cargo-category calculator-result__category[^>]*hidden/);
 });

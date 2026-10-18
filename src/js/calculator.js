@@ -1,12 +1,23 @@
 import {calculateCargo} from "./common/calculate.js";
 import {supportedPair} from "./common/route.js";
 import {buildOrderLink} from "./common/calculator-transfer.js";
+import {
+  buildCalculatorShareUrl,
+  parseCalculatorShare,
+  applyCalculatorShare,
+  initCalculatorShare
+} from "./common/calculator-share.js";
 
 const form = document.forms.calculator;
 const tariffs = JSON.parse(
   document.getElementById("calculator-tariffs").textContent,
   (key, value) => (value === "Infinity" ? Infinity : value)
 );
+applyCalculatorShare(
+  form,
+  parseCalculatorShare(window.location.search, tariffs)
+);
+
 const maskOptions = {
   mask: Number,
   signed: false,
@@ -102,6 +113,17 @@ function updateCalculator() {
   showAssumption(input, price);
   showPrice(input, price);
 }
+
+initCalculatorShare(form, window, () => {
+  const data = new FormData(form);
+  return buildCalculatorShareUrl(window.location.href, tariffs, {
+    origin: data.get("origin"),
+    destination: data.get("destination"),
+    weight: data.get("weight"),
+    volume: data.get("volume"),
+    params: data.getAll("params[]")
+  });
+});
 
 form.addEventListener("input", updateCalculator);
 form.addEventListener("submit", (event) => event.preventDefault());

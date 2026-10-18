@@ -74,7 +74,11 @@ block content
             .calculator-result__copy
               p.calculator-result__title Перейти к оформлению перевозки
               p.calculator-result__hint Предложим в заявке выбранный маршрут и введённые вес и объём. Сохранённые данные не заменяются автоматически.
-            a.button.button--primary.calculator-result__order(href="order.html", data-calculator-order) Оформить заявку
+            .calculator-result__actions
+              a.button.button--primary.calculator-result__order(href="order.html", data-calculator-order) Оформить заявку
+              button.button.calculator-result__share(type="button", data-calculator-share, hidden) Поделиться расчётом
+          p.calculator-result__hint(data-calculator-share-status, role="status")
+          input.calculator-result__share-link(type="text", readonly, hidden, data-calculator-share-link, aria-label="Ссылка на расчёт")
     script#calculator-tariffs(type="application/json")!=JSON.stringify(tariffs, (key, value) => value === Infinity ? "Infinity" : value).replace(/</g, "\\u003c")
 
 block scripts
