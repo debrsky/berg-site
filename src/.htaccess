@@ -1,5 +1,9 @@
 RewriteEngine On
 
+# Редирект с new на основной домен с сохранением пути и параметров.
+RewriteCond %{HTTP_HOST} ^new\.bergvl\.ru$ [NC]
+RewriteRule ^ https://bergvl.ru%{REQUEST_URI} [R=301,L]
+
 # SEO: точные архивные URL сразу направляем на конечный адрес.
 # QSD (Apache 2.4+) отбрасывает параметры старых ссылок.
 RewriteRule ^pricing20220201\.html$ https://bergvl.ru/pricing.html [R=301,L,QSD]
