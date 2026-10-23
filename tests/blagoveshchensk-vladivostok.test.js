@@ -191,16 +191,16 @@ test("blg-vvo: links, no-JS disclosures, route prefill and analytics registratio
 });
 
 test("blg-vvo: incoming links and sitemap include the new landing", () => {
-  for (const file of [
-    "home.html",
-    "pricing.html",
-    "vladivostok-blagoveshchensk.html"
-  ]) {
+  for (const file of ["home.html", "vladivostok-blagoveshchensk.html"]) {
     assert.match(
       readFileSync(new URL(file, directory), "utf8"),
       /href="blagoveshchensk-vladivostok.html"/
     );
   }
+  assert.doesNotMatch(
+    readFileSync(new URL("pricing.html", directory), "utf8"),
+    /href="blagoveshchensk-vladivostok.html"/
+  );
   assert.match(
     readFileSync(new URL("sitemap.xml", directory), "utf8"),
     /<loc>https:\/\/bergvl.ru\/blagoveshchensk-vladivostok.html<\/loc>/

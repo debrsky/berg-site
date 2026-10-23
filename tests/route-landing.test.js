@@ -56,7 +56,7 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   assert.doesNotMatch(illustration, /<script|<foreignObject|\bhref=/i);
 });
 
-test("route landing: CTA and internal links exist; only implemented landing is linked", () => {
+test("route landing: CTA and internal links exist; home links to landing but pricing does not", () => {
   for (const file of [page, home, pricing]) {
     for (const [, href] of read(file).matchAll(/href="([^"]+)"/g)) {
       if (/^(https?:|tel:|mailto:|#)/.test(href)) continue;
@@ -70,7 +70,7 @@ test("route landing: CTA and internal links exist; only implemented landing is l
   assert.match(html, /calculator\.html\?origin=vvo&amp;destination=khb/);
   assert.match(html, /order\.html\?origin=vvo&amp;destination=khb/);
   assert.ok(read(home).includes(page));
-  assert.ok(read(pricing).includes(page));
+  assert.ok(!read(pricing).includes(`href="${page}"`));
   for (const file of ["calculator.html", "order.html"]) {
     assert.match(read(file), /data-route-notice/);
     assert.match(read(file), /id="route-tariffs"/);

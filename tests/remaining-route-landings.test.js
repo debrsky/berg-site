@@ -206,8 +206,8 @@ for (const route of routes) {
     assert.match(html, /<noscript>/);
     assert.match(html, /data-collapse-tariffs hidden/);
     assert.match(html, /route-landing__mobile-action"[^>]*hidden/);
-    for (const entry of ["home.html", "pricing.html"])
-      assert.ok(read(entry).includes(`href="${file}"`));
+    assert.ok(read("home.html").includes(`href="${file}"`));
+    assert.ok(!read("pricing.html").includes(`href="${file}"`));
     assert.ok(
       read("sitemap.xml").includes(`<loc>https://bergvl.ru/${file}</loc>`)
     );
