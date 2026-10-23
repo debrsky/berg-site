@@ -79,11 +79,17 @@ export function generateInvoice(data, options = {}) {
       '<tr><td colspan="6" class="doc-text-center">Нет позиций в счёте.</td></tr>';
   } else {
     details.forEach((item, index) => {
+      const isTrip = /(?:^|[^\p{L}\p{N}_])рейс(?=$|[^\p{L}\p{N}_])/iu.test(
+        item?.name ?? ""
+      );
+      const unit = [item?.mU ?? "", isTrip ? "(рейс)" : ""]
+        .filter(Boolean)
+        .join(" ");
       detailsRows += `
   <tr>
     <td class="doc-text-center">${index + 1}</td>
     <td>${item?.name ?? ""}</td>
-    <td class="doc-text-center">${item?.mU ?? ""}</td>
+    <td class="doc-text-center">${unit}</td>
     <td class="doc-text-center">${fmtNumber(item?.qty ?? "")}</td>
     <td class="doc-money">${fmtMoney(item?.price ?? "")}</td>
     <td class="doc-money">${fmtMoney(item?.amount ?? 0)}</td>
