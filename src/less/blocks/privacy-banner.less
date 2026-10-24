@@ -1,0 +1,132 @@
+.privacy-banner {
+  position: fixed;
+  z-index: 2000;
+  right: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  max-width: 1120px;
+  max-height: calc(100dvh - 40px);
+  margin: 0 auto;
+  padding: 24px;
+  overflow-y: auto;
+  border: 1px solid var(--border-subtle);
+  border-top: 3px solid var(--brand-color-secondary);
+  border-radius: 8px;
+  background: var(--surface-page);
+  color: var(--text-primary);
+  box-shadow: 0 8px 36px rgb(0 0 0 / 20%);
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.privacy-banner[hidden] {
+  display: none;
+}
+
+.privacy-banner__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.privacy-banner__title {
+  margin: 0 0 8px;
+  color: inherit;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.privacy-banner__description,
+.privacy-banner__details {
+  margin: 0;
+  max-width: 76ch;
+}
+
+.privacy-banner__details {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.privacy-banner__actions {
+  display: flex;
+  flex: 0 0 280px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.privacy-banner__button {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--brand-color-dark);
+  border-radius: 4px;
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.privacy-banner__button--accept {
+  background: var(--brand-color-dark);
+  color: var(--brand-color-white);
+}
+
+.privacy-banner__button:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.privacy-banner__button--accept:hover {
+  background: var(--brand-color-darker);
+  color: var(--brand-color-white);
+}
+
+.privacy-banner__button:focus-visible,
+.privacy-settings:focus-visible {
+  outline: 2px solid var(--text-link);
+  outline-offset: 4px;
+}
+
+.privacy-settings {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text-link);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
+@media (max-width: 767.98px) {
+  .privacy-banner {
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 12px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    max-height: calc(100dvh - 24px);
+    padding: 18px;
+    font-size: 14px;
+  }
+
+  .privacy-banner__actions {
+    flex-basis: auto;
+  }
+
+  .privacy-banner__title {
+    font-size: 18px;
+  }
+}
+
+@media print {
+  .privacy-banner,
+  .privacy-settings {
+    display: none;
+  }
+}

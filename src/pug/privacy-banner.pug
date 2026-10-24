@@ -1,0 +1,16 @@
+section.privacy-banner(data-privacy-banner, hidden, role="region", aria-labelledby="privacy-banner-title", aria-describedby="privacy-banner-description")
+  .privacy-banner__content
+    h2#privacy-banner-title.privacy-banner__title Дополнительные сервисы
+    p#privacy-banner-description.privacy-banner__description
+      | С вашего разрешения Яндекс Метрика, включая Вебвизор, анализирует посещения и действия на сайте и использует cookie. DaData определяет город по IP и получает вводимые данные для подсказок в заявке.
+    p.privacy-banner__details
+      | Без этих сервисов сайт и заявка продолжат работать.
+      |
+      a.link(href="service-consent.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Условия согласия
+      |
+      | ·
+      |
+      a.link(href="privacy-policy.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Политика обработки данных
+  .privacy-banner__actions
+    button.privacy-banner__button.privacy-banner__button--accept(type="button", data-privacy-accept) Разрешить дополнительные сервисы
+    button.privacy-banner__button(type="button", data-privacy-reject) Продолжить без них

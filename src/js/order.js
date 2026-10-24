@@ -1,5 +1,6 @@
 import {cleanForm, saveForm, restoreSavedForm} from "./form/utils";
 import setSuggestions from "./order/suggestion";
+import {consentEvent, hasAdditionalConsent} from "./common/privacy-consent.js";
 import makeOrderJSON from "./order/make-json";
 import setRequiredAttributes from "./order/required";
 import setCustomValidity from "./order/custom-validity";
@@ -15,7 +16,14 @@ import {enablePersistance} from "./form/persistance.js";
 
 const form = document.forms.order;
 enablePersistance(form);
-setSuggestions(form);
+let suggestionsReady = false;
+const enableSuggestions = () => {
+  if (!hasAdditionalConsent() || suggestionsReady) return;
+  suggestionsReady = true;
+  setSuggestions(form);
+};
+enableSuggestions();
+window.addEventListener(consentEvent, enableSuggestions);
 
 const consignerIsPayerElement = form.elements["consigner-is-payer"];
 const consigneeIsPayerElement = form.elements["consignee-is-payer"];

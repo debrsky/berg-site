@@ -48,11 +48,12 @@ html(lang="ru")
       .landing-shell__container.landing-shell__footer-content
         p © #{business.name}
         a.link(href="privacy-policy.html", target="_blank", rel="noopener", title="Откроется в новой вкладке") Политика обработки персональных данных
+        button.privacy-settings(type="button", data-privacy-open, hidden) Настройки конфиденциальности
         include theme-control.pug
         a.link(href="#top") Наверх ↑
         p(hidden).landing-shell__credit Иллюстрация: #[a.link(href="https://storyset.com/illustration/logistics/pana", target="_blank", rel="noopener", title="Откроется в новой вкладке") Storyset]
 
+    include analytics.pug
     block scripts
     script(src="js/landing.js")
     script(src="js/route.js")
-    include analytics.pug

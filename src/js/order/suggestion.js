@@ -1,5 +1,6 @@
 import {createSuggestions} from "@dadata/suggestions";
 import {suggestionToken} from "../config";
+import {hasAdditionalConsent} from "../common/privacy-consent.js";
 
 export default function setSuggestions(form) {
   const suggestionElements = form.querySelectorAll("[data-suggestion-type]");
@@ -15,6 +16,7 @@ export default function setSuggestions(form) {
     createSuggestions(el, {
       token: suggestionToken,
       type,
+      onSearchStart: () => hasAdditionalConsent(),
       onSelect() {
         el.dispatchEvent(new Event("change", {bubbles: true}));
       }
@@ -27,6 +29,7 @@ export default function setSuggestions(form) {
     createSuggestions(counterpartyElement, {
       token: suggestionToken,
       type: "party",
+      onSearchStart: () => hasAdditionalConsent(),
       onSelect(suggestion) {
         const OGRNElement = form.elements[`${counterpartyRole}-OGRN`];
         const INNElement = form.elements[`${counterpartyRole}-INN`];

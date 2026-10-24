@@ -1,4 +1,5 @@
 import {suggestionToken} from "../config";
+import {hasAdditionalConsent} from "./privacy-consent.js";
 
 const url =
   "https://suggestions.dadata.ru/suggestions/api/4_1/rs/iplocate/address";
@@ -17,8 +18,13 @@ export const setPlace = async () => {
   const fallbackCity = "Владивосток"; // eslint-disable-line sonarjs/no-duplicate-string
   const placeCities = ["Владивосток", "Уссурийск", "Хабаровск", "Благовещенск"];
 
-  const userPlace = localStorage.getItem("userPlace");
-  if (placeCities.includes(userPlace)) return userPlace;
+  try {
+    const userPlace = localStorage.getItem("userPlace");
+    if (placeCities.includes(userPlace)) return userPlace;
+  } catch (_) {
+    // Manual city selection remains available without browser storage.
+  }
+  if (!hasAdditionalConsent()) return fallbackCity;
 
   const placeRegions = {
     Приморский: "Владивосток", // eslint-disable-line sonarjs/no-duplicate-string
@@ -35,6 +41,7 @@ export const setPlace = async () => {
       return userPlaceDetected;
     }
     const place = await response.json();
+    if (!hasAdditionalConsent()) return fallbackCity;
     const {city, region} = place?.location?.data ?? {};
 
     if (placeCities.includes(city)) {
@@ -49,7 +56,14 @@ export const setPlace = async () => {
     userPlaceDetected = fallbackCity;
   }
 
-  localStorage.setItem("userPlace", userPlaceDetected);
+  try {
+    // A manual selection made while the request was pending takes precedence.
+    const currentPlace = localStorage.getItem("userPlace");
+    if (placeCities.includes(currentPlace)) return currentPlace;
+    localStorage.setItem("userPlace", userPlaceDetected);
+  } catch (_) {
+    // The detected city can still be used on this page.
+  }
 
   return userPlaceDetected;
 };

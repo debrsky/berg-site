@@ -97,7 +97,7 @@ test("route landing: independent shell and assets without the site navigation or
   assert.match(header, /href="tel:\+79243304405"/);
   assert.match(header, /data-route-goal="phone"/);
   assert.doesNotMatch(header, /<select|order.html|calculator.html/);
-  assert.equal((html.match(/87156585, "init"/g) || []).length, 1);
+  assert.equal(html.split('src="js/privacy.js"').length - 1, 1);
   const landingScript = read("js/landing.js");
   assert.doesNotMatch(
     landingScript,
@@ -120,7 +120,7 @@ test("route landing: site pages retain their standard shell and one shared count
     assert.match(html, /href="css\/style.css"/);
     assert.match(html, /src="js\/index.js"/);
     assert.doesNotMatch(html, /landing-shell|css\/landing.css|js\/landing.js/);
-    assert.equal((html.match(/87156585, "init"/g) || []).length, 1);
+    assert.equal(html.split('src="js/privacy.js"').length - 1, 1);
   }
 });
 

@@ -1,21 +1,13 @@
 import {setPlace} from "./common/set-place.js";
 
 import "./common/theme.js";
-
-(async () => {
-  const userPlace = (await setPlace()) ?? "Владивосток";
-  select.value = userPlace;
-  select.dispatchEvent(new Event("change", {bubbles: true}));
-})();
+import {consentEvent, hasAdditionalConsent} from "./common/privacy-consent.js";
 
 const select = document.getElementById("contacts__place-selector");
 
-select.addEventListener("change", (event) => {
-  const target = event.target;
-  const place = target.value;
-  localStorage.setItem("userPlace", place);
-
-  target.style.width = `${place.length}ch`;
+function renderCity(place) {
+  select.value = place;
+  select.style.width = `${place.length}ch`;
 
   const contactsElement = document.getElementById("contacts");
   const placeDependentElements =
@@ -23,6 +15,33 @@ select.addEventListener("change", (event) => {
   placeDependentElements.forEach((element) => {
     element.hidden = element.dataset.place !== place;
   });
+}
+
+async function detectCity() {
+  const place = (await setPlace()) ?? "Владивосток";
+  // Do not replace a city manually chosen while geolocation was loading.
+  let manualCity;
+  try {
+    manualCity = localStorage.getItem("userPlace");
+  } catch (_) {
+    // Storage is optional.
+  }
+  renderCity(manualCity || place);
+}
+
+select.addEventListener("change", (event) => {
+  const place = event.target.value;
+  try {
+    localStorage.setItem("userPlace", place);
+  } catch (_) {
+    // The choice still works for the current page.
+  }
+  renderCity(place);
+});
+
+detectCity();
+window.addEventListener(consentEvent, () => {
+  if (hasAdditionalConsent()) detectCity();
 });
 
 function addDevNotification() {
