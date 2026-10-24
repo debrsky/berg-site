@@ -110,6 +110,10 @@ test("privacy: all standard and landing pages share the banner without eager bea
     if (!/js\/(?:index|landing)\.js/.test(html)) continue;
     assert.equal(html.split('src="js/privacy.js"').length - 1, 1, name);
     assert.match(html, /data-privacy-banner/);
+    const bannerTag = html.match(/<section class="privacy-banner"[^>]*>/)?.[0];
+    assert.ok(bannerTag, name);
+    assert.doesNotMatch(bannerTag, /role="region"/);
+    assert.match(bannerTag, /aria-labelledby="privacy-banner-title"/);
     assert.match(html, /data-privacy-open/);
     assert.match(html, /href="service-consent.html"/);
     assert.doesNotMatch(

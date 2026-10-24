@@ -51,9 +51,9 @@ mixin counterpartyRole(role)
         p.control__hint Введите название, ИНН, ОГРН или адрес.
         input(id=`${role}`, type="text", name=`${role}`, placeholder="название, адрес, ИНН или ОГРН")
 
-      .control.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--4
-        label(for=`${role}-INN`) ИНН
-        input(id=`${role}-INN`, type="text", name=`${role}-INN`)
+      .control.control--required.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--4
+        label.control__label(for=`${role}-INN`) ИНН
+        input(id=`${role}-INN`, type="text", name=`${role}-INN`, inputmode="numeric")
       .control.grid12__col.grid12__col--6.grid12__desktop-col.grid12__desktop-col--4
         label(for=`${role}-KPP`) КПП
         input(id=`${role}-KPP`, type="text", name=`${role}-KPP`)
