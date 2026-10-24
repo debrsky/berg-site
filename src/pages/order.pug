@@ -270,7 +270,7 @@ block content
             label.control__label(for="accept") Подтверждаю, что с условиями перевозки грузов, требованиями к упаковке груза, тарифами на грузоперевозку и политикой обработки персональных данных #[em ознакомлен]
 
         .control-group.order-submit
-          .control
+          .control.order-submit__actions
             button.button.button--primary.button--borderless.form__button.order-submit__button(type="submit", aria-disabled="false", aria-busy="false")
               span.order-submit__labels
                 span.order-submit__reserve(aria-hidden="true") Отправляем заявку…
@@ -278,6 +278,11 @@ block content
               span.order-submit__road(aria-hidden="true")
                 span.order-submit__vehicle
                   +orderTruck()
+            p.order-submit__notice
+              | Персональные данные из заявки обрабатываются для оформления и исполнения перевозки, взаимодействия с её участниками и выполнения требований законодательства на основаниях, предусмотренных пунктами 2, 5 и 7 части 1 статьи 6 Федерального закона № 152-ФЗ. Подробнее — в
+              |
+              a.link(href="privacy-policy.html") Политике обработки персональных данных
+              |.
           p.order-submit__status(role="status", aria-live="polite", aria-atomic="true")
           .control-group__error-message.order-submit__error(role="alert", aria-atomic="true")
 
