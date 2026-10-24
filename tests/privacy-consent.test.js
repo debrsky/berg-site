@@ -141,6 +141,12 @@ function controller(initial) {
       handlers.reject = fn;
     }
   };
+  const close = {
+    hidden: true,
+    addEventListener: (_, fn) => {
+      handlers.close = fn;
+    }
+  };
   const opener = {
     hidden: true,
     addEventListener: (_, fn) => {
@@ -152,7 +158,10 @@ function controller(initial) {
   };
   const banner = {
     hidden: true,
-    querySelector: (selector) => (selector.includes("accept") ? accept : reject)
+    querySelector: (selector) => {
+      if (selector.includes("close")) return close;
+      return selector.includes("accept") ? accept : reject;
+    }
   };
   const scope = browser(initial ? {[consentKey]: JSON.stringify(initial)} : {});
   scope.location.reload = () => {
@@ -186,6 +195,7 @@ function controller(initial) {
     requests,
     events,
     opener,
+    close,
     reloads: () => reloads,
     focused: () => focused
   };
@@ -230,6 +240,53 @@ test("privacy controller: remembered refusal and expired permission never load s
     const ui = controller(choice);
     assert.deepEqual(ui.requests, []);
     assert.equal(ui.banner.hidden, !choice.allowed);
+  }
+});
+
+test("privacy controller: first-time or expired choices cannot be dismissed", () => {
+  for (const choice of [
+    undefined,
+    {
+      version: consentVersion,
+      allowed: true,
+      timestamp: Date.now() - consentLifetime
+    }
+  ]) {
+    const ui = controller(choice);
+    ui.handlers.open({currentTarget: ui.opener});
+    assert.equal(ui.close.hidden, true);
+    ui.handlers.close();
+    ui.events.keydown({key: "Escape"});
+    assert.equal(ui.banner.hidden, false);
+    assert.equal(ui.reloads(), 0);
+    assert.equal(getConsent(ui.scope), null);
+  }
+});
+
+test("privacy controller: close and Escape preserve an existing decision", () => {
+  for (const allowed of [true, false]) {
+    const choice = {version: consentVersion, allowed, timestamp: Date.now()};
+    const ui = controller(choice);
+    const stored = ui.scope.localStorage.getItem(consentKey);
+    const requestCount = ui.requests.length;
+    ui.handlers.open({currentTarget: ui.opener});
+    assert.equal(ui.close.hidden, false);
+    ui.handlers.close();
+    assert.equal(ui.banner.hidden, true);
+    assert.equal(ui.focused(), true);
+    ui.handlers.open({currentTarget: ui.opener});
+    let prevented = false;
+    ui.events.keydown({
+      key: "Escape",
+      preventDefault: () => {
+        prevented = true;
+      }
+    });
+    assert.equal(prevented, true);
+    assert.equal(ui.banner.hidden, true);
+    assert.equal(ui.scope.localStorage.getItem(consentKey), stored);
+    assert.equal(ui.requests.length, requestCount);
+    assert.equal(ui.reloads(), 0);
   }
 });
 

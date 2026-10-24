@@ -8,6 +8,7 @@ import {
 } from "./common/privacy-consent.js";
 
 const banner = document.querySelector("[data-privacy-banner]");
+const closeButton = banner?.querySelector("[data-privacy-close]");
 let servicesStarted = false;
 let opener;
 
@@ -76,15 +77,25 @@ window.orderSuccessfullySent = () => {
 
 function showBanner(event) {
   opener = event?.currentTarget;
+  closeButton.hidden = !opener || !getConsent();
   banner.hidden = false;
   if (opener) banner.querySelector("[data-privacy-accept]").focus();
+}
+
+function hideBanner() {
+  banner.hidden = true;
+  opener?.focus();
+}
+
+function dismissBanner() {
+  if (closeButton.hidden || !getConsent()) return;
+  hideBanner();
 }
 
 function choose(allowed) {
   const wasAllowed = hasAdditionalConsent();
   const choice = saveConsent(allowed);
-  banner.hidden = true;
-  opener?.focus();
+  hideBanner();
   window.dispatchEvent(new CustomEvent(consentEvent, {detail: choice}));
   if (allowed) {
     startServices();
@@ -97,6 +108,13 @@ function choose(allowed) {
 }
 
 if (banner) {
+  closeButton.addEventListener("click", dismissBanner);
+  window.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape" || banner.hidden || closeButton.hidden) return;
+    if (!getConsent()) return;
+    event.preventDefault();
+    dismissBanner();
+  });
   document.querySelectorAll("[data-privacy-open]").forEach((button) => {
     button.hidden = false;
     button.addEventListener("click", showBanner);

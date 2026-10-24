@@ -23,8 +23,32 @@
   line-height: 1.5;
 }
 
-.privacy-banner[hidden] {
+.privacy-banner[hidden],
+.privacy-banner__close[hidden] {
   display: none;
+}
+
+.privacy-banner__close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.privacy-banner__close:hover {
+  background: var(--surface-hover);
 }
 
 .privacy-banner__content {
@@ -34,6 +58,7 @@
 
 .privacy-banner__title {
   margin: 0 0 8px;
+  padding-right: 36px;
   color: inherit;
   font-size: 20px;
   line-height: 1.25;
@@ -85,6 +110,7 @@
   color: var(--brand-color-white);
 }
 
+.privacy-banner__close:focus-visible,
 .privacy-banner__button:focus-visible,
 .privacy-settings:focus-visible {
   outline: 2px solid var(--text-link);
