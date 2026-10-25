@@ -12,7 +12,7 @@ header.header.container
         label.visually-hidden(for="contacts__place-selector") Город терминала
         select#contacts__place-selector.suggest-helper__label
           each code, idx in ['vvo', 'uss', 'khb', 'blg']
-            option(selected=idx === 0)=tariffs.places[code]
+            option(data-city=code, selected=idx === 0)=tariffs.places[code]
       each code, idx in ['vvo', 'uss', 'khb', 'blg']
         span.contacts__address-text(data-place=tariffs.places[code], hidden=idx !== 0)=tariffs.terminals[code]
     each code, idx in ['vvo', 'uss', 'khb', 'blg']

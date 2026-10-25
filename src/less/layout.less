@@ -2,6 +2,8 @@
 
 .page {
   --page-gutter: 12px;
+  position: relative;
+  isolation: isolate;
   min-width: @width-mobile;
 
   height: 100%;
@@ -29,6 +31,117 @@
     "main"
     "nav-footer"
     "footer";
+}
+
+// Vladivostok is also the no-JS and unknown-city default.
+.page {
+  --beam-angle-1: 174deg;
+  --beam-angle-2: 170deg;
+  --beam-angle-3: 178deg;
+  --beam-period-1: 331px;
+  --beam-period-2: 491px;
+  --beam-period-3: 719px;
+  --beam-start-1: 150px;
+  --beam-start-2: 239px;
+  --beam-start-3: 455px;
+}
+
+// A junction: layers converge and diverge instead of remaining parallel.
+.page[data-city="uss"] {
+  --beam-angle-1: 153deg;
+  --beam-angle-2: 207deg;
+  --beam-angle-3: 171deg;
+  --beam-period-1: 277px;
+  --beam-period-2: 419px;
+  --beam-period-3: 617px;
+  --beam-start-1: 120px;
+  --beam-start-2: 200px;
+  --beam-start-3: 380px;
+}
+
+// Two crossing directions, with a quieter third layer.
+.page[data-city="khb"] {
+  --beam-angle-1: 150deg;
+  --beam-angle-2: 30deg;
+  --beam-angle-3: 151deg;
+  --beam-period-1: 307px;
+  --beam-period-2: 457px;
+  --beam-period-3: 683px;
+  --beam-start-1: 130px;
+  --beam-start-2: 219px;
+  --beam-start-3: 420px;
+}
+
+// Almost horizontal layers evoke the river and embankment.
+.page[data-city="blg"] {
+  --beam-angle-1: 178deg;
+  --beam-angle-2: 176deg;
+  --beam-angle-3: 179deg;
+  --beam-period-1: 347px;
+  --beam-period-2: 523px;
+  --beam-period-3: 773px;
+  --beam-start-1: 150px;
+  --beam-start-2: 260px;
+  --beam-start-3: 475px;
+}
+
+// CSS-generated beams have fixed physical intervals, independent of page height.
+// Different angles and periods avoid a short, obvious repeating pattern.
+.page::before {
+  --beam-haze: rgb(12 152 217 / 3%);
+  --beam-light: rgb(12 152 217 / 16%);
+  --beam-edge: rgb(12 152 217 / 22%);
+  --beam-accent: rgb(255 137 2 / 12%);
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      var(--beam-angle-1),
+      transparent 0 calc(var(--beam-start-1) - 17px),
+      var(--beam-haze) calc(var(--beam-start-1) - 6px),
+      var(--beam-light) var(--beam-start-1),
+      var(--beam-haze) calc(var(--beam-start-1) + 7px),
+      transparent calc(var(--beam-start-1) + 21px) var(--beam-period-1)
+    ),
+    repeating-linear-gradient(
+      var(--beam-angle-2),
+      transparent 0 calc(var(--beam-start-2) - 9px),
+      var(--beam-haze) calc(var(--beam-start-2) - 1px),
+      var(--beam-edge) var(--beam-start-2),
+      var(--beam-haze) calc(var(--beam-start-2) + 2px),
+      transparent calc(var(--beam-start-2) + 12px) var(--beam-period-2)
+    ),
+    repeating-linear-gradient(
+      var(--beam-angle-3),
+      transparent 0 calc(var(--beam-start-3) - 32px),
+      var(--beam-haze) calc(var(--beam-start-3) - 15px),
+      var(--beam-light) var(--beam-start-3),
+      var(--beam-haze) calc(var(--beam-start-3) + 9px),
+      transparent calc(var(--beam-start-3) + 31px) var(--beam-period-3)
+    ),
+    repeating-linear-gradient(
+      var(--beam-angle-1),
+      transparent 0 117px,
+      var(--beam-accent) 127px,
+      transparent 139px 1999px
+    );
+  mask-image: linear-gradient(
+    to right,
+    #000,
+    transparent max(32px, calc(50% - 440px)),
+    transparent min(calc(100% - 32px), calc(50% + 440px)),
+    #000
+  );
+}
+
+html[data-theme="dark"] .page::before {
+  --beam-haze: rgb(69 181 236 / 4%);
+  --beam-light: rgb(69 181 236 / 20%);
+  --beam-edge: rgb(113 196 236 / 28%);
+  --beam-accent: rgb(255 137 2 / 15%);
 }
 
 .theme-bar {
@@ -71,6 +184,10 @@
 }
 
 @media print {
+  .page::before {
+    display: none;
+  }
+
   .page {
     background-image: none;
   }
@@ -84,6 +201,10 @@
 }
 
 @media (max-width: @width-tablet) {
+  .page::before {
+    display: none;
+  }
+
   .page__body {
     grid-template-rows:
       min-content

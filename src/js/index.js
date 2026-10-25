@@ -7,6 +7,7 @@ const select = document.getElementById("contacts__place-selector");
 
 function renderCity(place) {
   select.value = place;
+  document.body.dataset.city = select.selectedOptions[0]?.dataset.city || "vvo";
   select.style.width = `${place.length}ch`;
 
   const contactsElement = document.getElementById("contacts");
