@@ -72,8 +72,8 @@ for (const blockedStorage of [false, true]) {
       sandbox
     );
     await setImmediate();
-    assert.equal(page.dataset.city, blockedStorage ? "uss" : "khb");
-    assert.equal(select.value, blockedStorage ? "Уссурийск" : "Хабаровск");
+    assert.equal(page.dataset.city, "uss");
+    assert.equal(select.value, "Уссурийск");
     for (const option of options) {
       select.value = option.value;
       listeners.change({target: select});

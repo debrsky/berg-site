@@ -18,22 +18,20 @@ function renderCity(place) {
   });
 }
 
-async function detectCity() {
-  const place = (await setPlace()) ?? "Владивосток";
-  // Do not replace a city manually chosen while geolocation was loading.
-  let manualCity;
-  try {
-    manualCity = localStorage.getItem("userPlace");
-  } catch (_) {
-    // Storage is optional.
-  }
+let manualCity;
+
+async function detectCity(options) {
+  const place = (await setPlace(options)) ?? "Владивосток";
+  // Also preserve manual choices when browser storage is unavailable.
   renderCity(manualCity || place);
 }
 
 select.addEventListener("change", (event) => {
   const place = event.target.value;
+  manualCity = place;
   try {
     localStorage.setItem("userPlace", place);
+    localStorage.setItem("userPlaceSource", "manual");
   } catch (_) {
     // The choice still works for the current page.
   }
@@ -42,7 +40,7 @@ select.addEventListener("change", (event) => {
 
 detectCity();
 window.addEventListener(consentEvent, () => {
-  if (hasAdditionalConsent()) detectCity();
+  if (hasAdditionalConsent()) detectCity({forceDetection: true});
 });
 
 function addDevNotification() {

@@ -28,6 +28,14 @@
   display: none;
 }
 
+@media (min-width: 768px) {
+  .privacy-banner:has(> .privacy-banner__close:not([hidden])) .privacy-banner__actions {
+    align-self: stretch;
+    justify-content: center;
+    padding-top: 24px;
+  }
+}
+
 .privacy-banner__close {
   position: absolute;
   top: 2px;
@@ -67,7 +75,6 @@
 .privacy-banner__description,
 .privacy-banner__details {
   margin: 0;
-  max-width: 76ch;
 }
 
 .privacy-banner__details {

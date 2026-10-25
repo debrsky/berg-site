@@ -14,20 +14,34 @@ const options = {
   }
 };
 
-export const setPlace = async () => {
-  const fallbackCity = "Владивосток"; // eslint-disable-line sonarjs/no-duplicate-string
-  const placeCities = ["Владивосток", "Уссурийск", "Хабаровск", "Благовещенск"];
+const fallbackCity = "Владивосток";
+const placeCities = [fallbackCity, "Уссурийск", "Хабаровск", "Благовещенск"];
 
+function savedPlace(forceDetection) {
   try {
     const userPlace = localStorage.getItem("userPlace");
-    if (placeCities.includes(userPlace)) return userPlace;
+    const source = localStorage.getItem("userPlaceSource");
+    if (placeCities.includes(userPlace) && source === "manual")
+      return userPlace;
+    if (
+      !forceDetection &&
+      hasAdditionalConsent() &&
+      source === "detected" &&
+      placeCities.includes(userPlace)
+    )
+      return userPlace;
   } catch (_) {
     // Manual city selection remains available without browser storage.
   }
+}
+
+export const setPlace = async ({forceDetection = false} = {}) => {
+  const saved = savedPlace(forceDetection);
+  if (saved) return saved;
   if (!hasAdditionalConsent()) return fallbackCity;
 
   const placeRegions = {
-    Приморский: "Владивосток", // eslint-disable-line sonarjs/no-duplicate-string
+    Приморский: fallbackCity,
     Хабаровский: "Хабаровск",
     Амурская: "Благовещенск"
   };
@@ -56,11 +70,18 @@ export const setPlace = async () => {
     userPlaceDetected = fallbackCity;
   }
 
+  if (!hasAdditionalConsent()) return fallbackCity;
+
   try {
     // A manual selection made while the request was pending takes precedence.
     const currentPlace = localStorage.getItem("userPlace");
-    if (placeCities.includes(currentPlace)) return currentPlace;
+    if (
+      localStorage.getItem("userPlaceSource") === "manual" &&
+      placeCities.includes(currentPlace)
+    )
+      return currentPlace;
     localStorage.setItem("userPlace", userPlaceDetected);
+    localStorage.setItem("userPlaceSource", "detected");
   } catch (_) {
     // The detected city can still be used on this page.
   }
