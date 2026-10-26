@@ -100,7 +100,6 @@ export function generateUPD(data, options = {}) {
   const payer = data?.payer ?? {};
   const consigner = data?.consigner ?? {};
   const consignee = data?.consignee ?? {};
-  const app = data?.app ?? {};
   const isIp = seller.inn?.length === 12;
   const consignerStr = [consigner.name, consigner.address]
     .filter(Boolean)
@@ -668,13 +667,7 @@ ${totalRow}
     <tbody>
       <tr>
         <td style="width: 47mm;">Данные о транспортировке и грузе</td>
-        <td class="upd-border-bottom">Заявка № ${blank(app.nomer)}${
-    app.base_code
-  } от ${blank(app.date_reg)}, груз: ${blank(
-    app.cargo
-  )}, масса брутто ${fmtNumber(blank(app.weight))} кг, авто объем ${fmtNumber(
-    blank(app.volume)
-  )} м³, кол-во мест ${fmtNumber(blank(app.count_pcs))}.</td>
+        <td class="upd-border-bottom"></td>
         <td style="width: 6mm;">[11]</td>
       </tr>
       <tr>

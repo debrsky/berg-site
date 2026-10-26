@@ -2,6 +2,21 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {generateInvoice} from "../src/js/client-doc/invoice.js";
 
+test("invoice omits the basis even when application data is provided", () => {
+  const {html} = generateInvoice({
+    app: {
+      nomer: "APPLICATION-123",
+      base_code: "VL",
+      date_reg: "01.01.2026",
+      cargo: "TEST-CARGO",
+      weight: 100,
+      volume: 2,
+      count_pcs: 3
+    }
+  });
+  assert.doesNotMatch(html, /Основание|APPLICATION-123|TEST-CARGO/);
+});
+
 function getUnit(item) {
   const {html} = generateInvoice({details: [item]});
   const row = html.match(

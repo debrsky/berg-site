@@ -4,12 +4,12 @@ import {strict as assert} from "node:assert";
 import {generateUPD} from "../src/js/client-doc/upd.js";
 import {cases} from "./upd-fixtures.js";
 
-// SHA-256 of the original HTML, including whitespace and inline CSS.
+// SHA-256 of the expected HTML, including whitespace and inline CSS.
 const expected = [
-  "0b52eb793e5db44cb7e934fb9e61d9776109bd4c00351001b0939e37d5854ec7",
-  "d08bb4b96d3ed82f1e31c80e7a7bf03c49c6f3838763f1cf821b93f765c403e4",
-  "9ba0c4e949d368940f3133c963a4b075d07613f067b41f836014d3594492374d",
-  "c07256c91d67c15ccdccdc0e5b911eb091c67babf0452c2bd7a0c07bfb50cd58"
+  "04321b8a3c60ea12fbee7bbbf9a30a2bded165701de27a365360ded4732a1fc4",
+  "5f430b15af46a5620b7e6b82d379f7d5b093886737ab7e86d1fe74e63629ad88",
+  "9a7dbf9051b392d27f94cf82a572f58a809f1127919de0b917a93b3ec1c021ee",
+  "c310825281e23b8c1ec75941280eb5fe9a81d805f1c2b3503e91251f0c2948e1"
 ];
 
 cases.forEach(({name, data, options}, index) => {
@@ -17,6 +17,10 @@ cases.forEach(({name, data, options}, index) => {
     const result = generateUPD(data, options);
     assert.equal(result.title, "УПД");
     assert.equal(result.orientation, "landscape");
+    assert.match(
+      result.html,
+      /Данные о транспортировке и грузе<\/td>\s*<td class="upd-border-bottom"><\/td>\s*<td style="width: 6mm;">\[11\]<\/td>/
+    );
     assert.equal(
       createHash("sha256").update(result.html).digest("hex"),
       expected[index]

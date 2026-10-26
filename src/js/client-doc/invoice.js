@@ -9,7 +9,6 @@ export function generateInvoice(data, options = {}) {
   const payer = data?.payer ?? {};
   const consigner = data?.consigner ?? {};
   const consignee = data?.consignee ?? {};
-  const app = data?.app ?? {};
   const details = data?.details ?? [];
   const isIp = seller.inn?.length === 12;
   // eslint-disable-next-line no-unused-vars
@@ -392,14 +391,6 @@ img.doc-image:not([src]) {
     // eslint-disable-next-line sonarjs/no-nested-template-literals
     (consignee.inn ?? "").length === 12 ? "" : `, КПП ${consignee.kpp ?? ""}`
   }, адрес ${consignee.address}.</p>
-  <p class="doc-p">Основание: Заявка № ${app.nomer ?? ""}${app.base_code} от ${
-    app.date_reg ?? ""
-  }, груз: ${app.cargo ?? ""} (${fmtNumber(
-    app.weight ?? ""
-  )}&nbsp;кг|${fmtNumber(app.volume ?? "")}&nbsp;м³${
-    // eslint-disable-next-line sonarjs/no-nested-template-literals
-    app.count_pcs ? `|${fmtNumber(app.count_pcs)}` : ""
-  }).</p>
 
   <table style="margin-top: 0.5em;" class="doc-layout-table doc-layout-table--real doc-text-smaller">
     <thead>
