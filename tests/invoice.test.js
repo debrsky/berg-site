@@ -26,13 +26,13 @@ function getUnit(item) {
   return row[1];
 }
 
-test("invoice adds trip explanation for the standalone word regardless of case", () => {
+test("invoice adds trip explanation to pieces for the standalone word regardless of case", () => {
   for (const name of [
     "Перевозка: рейс",
     "РЕЙС Владивосток — Хабаровск",
     "Перевозка (рейс)"
   ]) {
-    assert.equal(getUnit({name, mU: "усл."}), "усл. (рейс)");
+    assert.equal(getUnit({name, mU: "шт"}), "шт (рейс)");
   }
 });
 
@@ -46,13 +46,19 @@ test("invoice leaves units unchanged for other services and partial matches", ()
     "рейс1",
     undefined
   ]) {
-    assert.equal(getUnit({name, mU: "кг"}), "кг");
+    assert.equal(getUnit({name, mU: "шт"}), "шт");
+  }
+});
+
+test("invoice leaves non-piece units unchanged even for trips", () => {
+  for (const mU of ["усл.", "кг", "т", "", null, undefined]) {
+    assert.equal(getUnit({name: "Рейс", mU}), mU ?? "");
   }
 });
 
 test("invoice handles missing units and does not mutate source data", () => {
   const item = {name: "Рейс"};
-  assert.equal(getUnit(item), "(рейс)");
+  assert.equal(getUnit(item), "");
   assert.deepEqual(item, {name: "Рейс"});
   assert.equal(getUnit({name: "Перевозка"}), "");
 });

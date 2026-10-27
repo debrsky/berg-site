@@ -81,7 +81,7 @@ export function generateInvoice(data, options = {}) {
       const isTrip = /(?:^|[^\p{L}\p{N}_])рейс(?=$|[^\p{L}\p{N}_])/iu.test(
         item?.name ?? ""
       );
-      const unit = [item?.mU ?? "", isTrip ? "(рейс)" : ""]
+      const unit = [item?.mU ?? "", isTrip && item?.mU === "шт" ? "(рейс)" : ""]
         .filter(Boolean)
         .join(" ");
       detailsRows += `
