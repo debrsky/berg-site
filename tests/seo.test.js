@@ -167,6 +167,10 @@ test("SEO: agreed schedule, reception, storage and editorial exclusions", () => 
     assert.match(text, /Владивосток — Хабаровск — по рабочим дням/);
     assert.match(text, /Хабаровск — Владивосток — по рабочим дням/);
     assert.match(text, /Владивосток — Благовещенск — по вторникам и пятницам/);
+    assert.match(
+      text,
+      /Благовещенск — Владивосток — по понедельникам и четвергам/
+    );
     assert.doesNotMatch(text, /Комсомольск/);
   }
   for (const file of ["home.html", termsPage]) {

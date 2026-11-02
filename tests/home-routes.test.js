@@ -29,7 +29,7 @@ test("Home: schedule keeps four confirmed routes with their own frequency", () =
     "по рабочим дням",
     "по рабочим дням",
     "по вторникам и пятницам",
-    "по вторникам и пятницам"
+    "по понедельникам и четвергам"
   ]);
   assert.equal((schedule.match(/<a\b/g) || []).length, 4);
   assert.doesNotMatch(schedule, /\shidden(?:[\s=>])|<button|<select/);

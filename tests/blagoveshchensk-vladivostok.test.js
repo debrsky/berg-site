@@ -52,7 +52,8 @@ test("blg-vvo: independent metadata, shared shell and original illustration", ()
   const logoPath = logo.match(/<path\b[^>]*\bd="([^"]+)"/)[1];
   assert.ok(illustration.includes('d="' + logoPath + '"'));
   assert.doesNotMatch(illustration, /<text[^>]*>Берг<\/text>/);
-  assert.match(text(html), /Рейсы по вторникам и пятницам/);
+  assert.match(text(html), /Рейсы по понедельникам и четвергам/);
+  assert.doesNotMatch(text(html), /по вторникам и пятницам/);
   assert.match(text(html), /За 3 суток/);
   assert.match(text(html), /До 5 календарных суток/);
   assert.match(text(html), /От приёма груза, для любого принятого груза/);
