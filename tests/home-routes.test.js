@@ -8,7 +8,7 @@ const html = readFileSync(
 );
 const plain = (value) => value.replace(/<[^>]*>/g, "").trim();
 
-test("Home: schedule keeps six confirmed routes with their own frequency", () => {
+test("Home: schedule keeps four confirmed routes with their own frequency", () => {
   const schedule = html.match(
     /<dl class="home-routes__schedule">([\s\S]*?)<\/dl>/
   )?.[1];
@@ -23,19 +23,15 @@ test("Home: schedule keeps six confirmed routes with their own frequency", () =>
     "Владивосток — Хабаровск",
     "Хабаровск — Владивосток",
     "Владивосток — Благовещенск",
-    "Благовещенск — Владивосток",
-    "Владивосток — Комсомольск-на-Амуре",
-    "Комсомольск-на-Амуре — Владивосток"
+    "Благовещенск — Владивосток"
   ]);
   assert.deepEqual(frequencies, [
     "по рабочим дням",
     "по рабочим дням",
     "по вторникам и пятницам",
-    "по вторникам и пятницам",
-    "еженедельно",
-    "еженедельно"
+    "по вторникам и пятницам"
   ]);
-  assert.equal((schedule.match(/<a\b/g) || []).length, 6);
+  assert.equal((schedule.match(/<a\b/g) || []).length, 4);
   assert.doesNotMatch(schedule, /\shidden(?:[\s=>])|<button|<select/);
 });
 
@@ -49,8 +45,8 @@ test("Home: route links lead to existing pages and unscheduled routes stay separ
       /<a class="home-routes__link" href="([^"]+)">([^<]+)<\/a>/g
     )
   ];
-  assert.equal(links.length, 16);
-  assert.equal(new Set(links.map((item) => item[1])).size, 16);
+  assert.equal(links.length, 10);
+  assert.equal(new Set(links.map((item) => item[1])).size, 10);
   for (const [, href] of links) {
     assert.ok(existsSync(new URL(`../public/${href}`, import.meta.url)), href);
   }
@@ -58,8 +54,8 @@ test("Home: route links lead to existing pages and unscheduled routes stay separ
     block.indexOf('<div class="home-routes__other">'),
     block.indexOf('<p class="home-routes__pricing">')
   );
-  assert.equal((other.match(/<h4\b/g) || []).length, 4);
-  assert.equal((other.match(/<a\b/g) || []).length, 9);
+  assert.equal((other.match(/<h4\b/g) || []).length, 3);
+  assert.equal((other.match(/<a\b/g) || []).length, 5);
   assert.doesNotMatch(
     other,
     /home-routes__frequency|еженедельно|по рабочим дням/

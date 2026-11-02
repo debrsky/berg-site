@@ -32,23 +32,9 @@ export const routeLandings = [
   defineLanding("uss", "khb", "ussuriysk-khabarovsk", {cargo: "ussuriysk"}),
   defineLanding("khb", "uss", "khabarovsk-ussuriysk", {related: ["uss-khb"]}),
   defineLanding("khb", "blg", "khabarovsk-blagoveshchensk"),
-  defineLanding("khb", "kms", "khabarovsk-komsomolsk-na-amure"),
   defineLanding("blg", "khb", "blagoveshchensk-khabarovsk"),
-  defineLanding("kms", "khb", "komsomolsk-na-amure-khabarovsk"),
-  defineLanding("vvo", "kms", "vladivostok-komsomolsk-na-amure", {
-    related: ["kms-vvo"]
-  }),
-  defineLanding("uss", "kms", "ussuriysk-komsomolsk-na-amure", {
-    related: ["uss-blg"]
-  }),
   defineLanding("uss", "blg", "ussuriysk-blagoveshchensk", {
     related: ["blg-vvo"]
-  }),
-  defineLanding("blg", "kms", "blagoveshchensk-komsomolsk-na-amure", {
-    related: ["blg-khb"]
-  }),
-  defineLanding("kms", "vvo", "komsomolsk-na-amure-vladivostok", {
-    related: ["vvo-kms"]
   })
 ];
 

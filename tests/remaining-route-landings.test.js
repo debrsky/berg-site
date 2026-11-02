@@ -13,25 +13,7 @@ const plain = (value) =>
     .replace(/\s+/g, " ")
     .trim();
 
-const komsomolskPhone = "+79244114161";
 const routes = [
-  {
-    slug: "vladivostok-komsomolsk-na-amure",
-    origin: "vvo",
-    destination: "kms",
-    sending: "+79243304405",
-    receiving: komsomolskPhone,
-    amounts: [350, 850, 8500, 3400],
-    weekly: true
-  },
-  {
-    slug: "ussuriysk-komsomolsk-na-amure",
-    origin: "uss",
-    destination: "kms",
-    sending: "+79243307799",
-    receiving: komsomolskPhone,
-    amounts: [350, 800, 7750, 3100]
-  },
   {
     slug: "ussuriysk-blagoveshchensk",
     origin: "uss",
@@ -39,23 +21,6 @@ const routes = [
     sending: "+79243307799",
     receiving: "+79248411208",
     amounts: [350, 850, 8250, 3300]
-  },
-  {
-    slug: "blagoveshchensk-komsomolsk-na-amure",
-    origin: "blg",
-    destination: "kms",
-    sending: "+79248411208",
-    receiving: komsomolskPhone,
-    amounts: [250, 700, 7000, 2800]
-  },
-  {
-    slug: "komsomolsk-na-amure-vladivostok",
-    origin: "kms",
-    destination: "vvo",
-    sending: komsomolskPhone,
-    receiving: "+79243304409",
-    amounts: [200, 400, 4000, 1600],
-    weekly: true
   }
 ];
 const section = (html, id) =>
@@ -199,7 +164,7 @@ for (const route of routes) {
     assert.equal(routePages[id], slug);
     const time = Date.now();
     assert.ok(validContext({route_id: id, source_page: slug, time}, time));
-    // Shared links/prefill assertions run for all fifteen routes in landing-contract.test.js.
+    // Shared links/prefill assertions run for all active routes in landing-contract.test.js.
     assert.equal((html.match(/data-route-goal="calculator"/g) || []).length, 4);
     assert.equal((html.match(/data-route-goal="order"/g) || []).length, 3);
     assert.equal((html.match(/<details\b/g) || []).length, 6);
@@ -214,7 +179,7 @@ for (const route of routes) {
   });
 }
 
-test("Remaining routes: twenty individual cargo silhouettes and five different hero scenes", () => {
+test("Remaining routes: four individual cargo silhouettes and an original hero scene", () => {
   const all = readdirSync(directory).filter(
     (file) =>
       file.endsWith(".html") && read(file).includes('class="route-landing"')
@@ -224,8 +189,8 @@ test("Remaining routes: twenty individual cargo silhouettes and five different h
     .flatMap((file) => icons(read(file)))
     .map(geometry);
   const added = routes.flatMap((route) => icons(read(route.slug + ".html")));
-  assert.equal(added.length, 20);
-  assert.equal(new Set(added.map(geometry)).size, 20);
+  assert.equal(added.length, 4);
+  assert.equal(new Set(added.map(geometry)).size, 4);
   for (const icon of added) {
     assert.ok(!existing.includes(geometry(icon)));
     assert.match(icon, /aria-hidden="true" focusable="false"/);
@@ -238,7 +203,7 @@ test("Remaining routes: twenty individual cargo silhouettes and five different h
         /<svg class="route-landing__illustration"[\s\S]*?<\/svg>/
       )[0]
   );
-  assert.equal(new Set(scenes.map(geometry)).size, 5);
+  assert.equal(new Set(scenes.map(geometry)).size, 1);
   // Every priced pair now has an actual landing, not just an analytics entry.
   for (const [origin, destinations] of Object.entries(
     tariffs.heavyCargoPrices[0].price

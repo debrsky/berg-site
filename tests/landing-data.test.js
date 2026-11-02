@@ -17,11 +17,10 @@ const expected = {
   vvo: {sending: "+79243304405", receiving: "+79243304409"},
   uss: {sending: "+79243307799", receiving: "+79243307799"},
   khb: {sending: "+79243302076", receiving: "+79842953632"},
-  blg: {sending: "+79248411208", receiving: "+79248411208"},
-  kms: {sending: "+79244114161", receiving: "+79244114161"}
+  blg: {sending: "+79248411208", receiving: "+79248411208"}
 };
 
-test("Landing data: registry covers exactly the fifteen priced directed pairs", () => {
+test("Landing data: registry covers exactly the nine priced directed pairs", () => {
   validateLandingRegistry(routeLandings);
   const pairs = Object.entries(tariffs.heavyCargoPrices[0].price).flatMap(
     ([origin, destinations]) =>
@@ -106,15 +105,7 @@ test("Landing data: unknown/unpriced pairs and missing contacts fail without fal
 });
 
 test("Landing data: optional schedule never inherits dates or durations from another pair", () => {
-  assert.equal(
-    getLanding("vvo-kms", business, tariffs).schedule.schedule,
-    "еженедельно"
-  );
-  assert.equal(
-    getLanding("vvo-kms", business, tariffs).schedule.days,
-    undefined
-  );
-  assert.equal(getLanding("uss-kms", business, tariffs).schedule, undefined);
+  assert.equal(getLanding("uss-blg", business, tariffs).schedule, undefined);
   assert.equal(getLanding("vvo-khb", business, tariffs).schedule.days, 3);
 });
 
@@ -128,7 +119,7 @@ test("Landing data: operational time labels and full rules use the same values",
 test("Landing data: all SVG assets are validated and included inline, traversal fails", async () => {
   const assets = loadLandingAssets();
   const locals = await landingLocals();
-  assert.equal(Object.keys(assets).length, 15);
+  assert.equal(Object.keys(assets).length, 9);
   for (const entry of routeLandings) {
     assert.match(assets[entry.id].hero, /^<svg/);
     assert.equal(Object.keys(assets[entry.id].cargo).length, 4);

@@ -80,8 +80,6 @@ test("blg-vvo: individual cargo icons differ from every other landing series", (
     "khabarovsk-ussuriysk.html",
     "khabarovsk-blagoveshchensk.html",
     "blagoveshchensk-khabarovsk.html",
-    "khabarovsk-komsomolsk-na-amure.html",
-    "komsomolsk-na-amure-khabarovsk.html",
     "vladivostok-blagoveshchensk.html"
   ].flatMap((file) => icons(readFileSync(new URL(file, directory), "utf8")));
   // Ignore comments and whitespace: uniqueness must come from the actual drawing.

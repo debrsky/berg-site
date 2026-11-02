@@ -18,7 +18,13 @@ const gone = [
   "truck-service.html",
   "containers.html",
   "schedule-2025-dec.html",
-  "gradient-demo.html"
+  "gradient-demo.html",
+  "vladivostok-komsomolsk-na-amure.html",
+  "ussuriysk-komsomolsk-na-amure.html",
+  "khabarovsk-komsomolsk-na-amure.html",
+  "blagoveshchensk-komsomolsk-na-amure.html",
+  "komsomolsk-na-amure-vladivostok.html",
+  "komsomolsk-na-amure-khabarovsk.html"
 ];
 
 // Structural regression checks, not an Apache configuration interpreter.

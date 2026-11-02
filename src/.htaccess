@@ -14,6 +14,14 @@ RewriteRule ^containers\.html$ - [G,L]
 RewriteRule ^schedule-2025-dec\.html$ - [G,L]
 RewriteRule ^gradient-demo\.html$ - [G,L]
 
+# Полностью закрытое направление: точные URL возвращают 410 даже при наличии старого HTML.
+RewriteRule ^vladivostok-komsomolsk-na-amure\.html$ - [G,L]
+RewriteRule ^ussuriysk-komsomolsk-na-amure\.html$ - [G,L]
+RewriteRule ^khabarovsk-komsomolsk-na-amure\.html$ - [G,L]
+RewriteRule ^blagoveshchensk-komsomolsk-na-amure\.html$ - [G,L]
+RewriteRule ^komsomolsk-na-amure-vladivostok\.html$ - [G,L]
+RewriteRule ^komsomolsk-na-amure-khabarovsk\.html$ - [G,L]
+
 # Редирект с new на основной домен с сохранением пути и параметров.
 RewriteCond %{HTTP_HOST} ^new\.bergvl\.ru$ [NC]
 RewriteRule ^ https://bergvl.ru%{REQUEST_URI} [R=301,L]

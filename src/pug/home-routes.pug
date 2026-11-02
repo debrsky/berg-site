@@ -1,7 +1,7 @@
 mixin homeRoutes()
   -
     const pages = routeLandings.map((entry) => ({...entry, href: entry.slug + ".html"}));
-    const originLabels = {uss: 'Из Уссурийска', khb: 'Из Хабаровска', blg: 'Из Благовещенска', kms: 'Из Комсомольска-на-Амуре'};
+    const originLabels = {uss: 'Из Уссурийска', khb: 'Из Хабаровска', blg: 'Из Благовещенска'};
     const sameRoute = (a, b) => a.origin === b.origin && a.destination === b.destination;
     const otherPages = pages.filter((page) => !business.routes.some((route) => sameRoute(page, route)));
 
