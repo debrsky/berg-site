@@ -8,6 +8,7 @@ import html from "./html.js";
 import pug2html from "./pug2html.js";
 import pages from "./pages.js";
 import script from "./script.js";
+import pricePdf from "./price-pdf.js";
 
 const server = browserSync.create();
 
@@ -37,6 +38,15 @@ export default function serve() {
   gulp.watch(`src/**/*.html`, gulp.series(html, readyFullReload));
   gulp.watch(`src/pug/**/*.pug`, gulp.series(pug2html, readyFullReload));
   gulp.watch(`src/pages/**/*.pug`, gulp.series(pages, readyFullReload));
+  gulp.watch(
+    [
+      "src/pdf/**/*.{pug,css}",
+      "src/pug/{tariffs,business-data,pricing-notes}.pug",
+      "src/fonts/{PTS55F_W,PTS75F_W}.woff",
+      "src/img/logo.svg"
+    ],
+    gulp.series(pricePdf, readyFullReload)
+  );
 
   gulp.watch(`src/js/**/*.js`, gulp.series(script, readyFullReload));
   gulp.watch(

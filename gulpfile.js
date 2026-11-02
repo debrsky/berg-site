@@ -15,6 +15,7 @@ import style from "./gulp/style.js";
 import script from "./gulp/script.js";
 import validateHTML from "./gulp/validate-html.js";
 import sitemap from "./gulp/sitemap.js";
+import pricePdf from "./gulp/price-pdf.js";
 
 import ghPages from "./gulp/deploy-to-gh-pages.js";
 import ftpProd from "./gulp/deploy-to-ftp-prod.js";
@@ -33,10 +34,19 @@ const build = gulp.series(
   pug2html,
   sitemap,
   style,
-  script
+  script,
+  pricePdf
 );
 const dev = gulp.series(build, validateHTML, serve);
-const validate = gulp.series(clean, copy, svg, html, pug2html, validateHTML);
+const validate = gulp.series(
+  clean,
+  copy,
+  svg,
+  html,
+  pug2html,
+  pricePdf,
+  validateHTML
+);
 
 const deployToGh = gulp.series(build, ghPages);
 const deployToFtpProd = gulp.series(build, ftpProd);
@@ -56,6 +66,7 @@ export {
   sitemap,
   style,
   script,
+  pricePdf,
   serve,
   deployToGh,
   deployToFtpProd,

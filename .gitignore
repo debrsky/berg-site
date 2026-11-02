@@ -1,4 +1,5 @@
 public
+/artifacts/price/
 src/php/mailer/config.php
 src/php/deploy/config.php
 

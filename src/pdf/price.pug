@@ -1,0 +1,100 @@
+include ../pug/tariffs.pug
+include ../pug/business-data.pug
+include ../pug/pricing-notes.pug
+
+-
+  const groups = [
+    {id: 'heavy', title: 'Тяжёлый груз', unit: 'руб./кг', rows: tariffs.heavyCargoPrices.filter(row => row.price)},
+    {id: 'light', title: 'Лёгкий груз', unit: 'руб./м³', rows: tariffs.lightCargoPrices.filter(row => row.price)},
+    {id: 'minimum', title: 'Минимальная стоимость', unit: 'руб.', rows: tariffs.minPrices}
+  ];
+  const routes = Object.entries(tariffs.heavyCargoPrices[0].price).flatMap(([origin, destinations]) =>
+    Object.keys(destinations).map(destination => ({origin, destination}))
+  );
+  const number = value => {
+    if (!Number.isFinite(value)) throw new Error('Missing or invalid PDF tariff: ' + value);
+    return new Intl.NumberFormat('ru-RU', {maximumFractionDigits: 2}).format(value);
+  };
+  const date = new Intl.DateTimeFormat('ru-RU', {day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC'}).format(new Date(tariffs.startdate));
+  const generalPhone = code => {
+    const terminal = business.terminals[code];
+    return terminal.phones.find(phone => phone.id === terminal.contacts.general);
+  };
+
+doctype html
+html(lang="ru")
+  head
+    meta(charset="utf-8")
+    title Прайс-лист — ТК Берг
+    style!=styles
+  body
+    main.sheet
+      header.header
+        .brand
+          img.logo(src=logo, width="105", height="44", alt="Берг")
+          .brand__text
+            strong Транспортная компания
+            span Автоперевозки по Дальнему Востоку
+        .heading
+          h1 Прайс-лист по направлениям
+          p Действует с #{date} · Все цены включают НДС
+        .online
+          a(href=business.origin) bergvl.ru
+          a(href="mailto:" + business.email)=business.email
+
+      table.rates
+        colgroup
+          col.city
+          col.city
+          each group in groups
+            each row in group.rows
+              col
+        thead
+          tr
+            th(rowspan="2", scope="col") Отправление
+            th(rowspan="2", scope="col") Получение
+            each group in groups
+              th.group(colspan=group.rows.length, scope="colgroup") #{group.title}, #{group.unit}
+          tr
+            each group in groups
+              each row in group.rows
+                th.range(scope="col")!=row.title.replace(/^от (.*) кг до (.*) кг$/, '$1–$2 кг').replace(/^от (.*) м³ до (.*) м³$/, '$1–$2 м³').replace(/ (кг|м³)/g, '&nbsp;$1')
+        tbody
+          each route, index in routes
+            - const newOrigin = index === 0 || routes[index - 1].origin !== route.origin;
+            tr(data-route=route.origin + '-' + route.destination, class=newOrigin ? 'origin-start' : null)
+              if newOrigin
+                th.origin(rowspan=routes.filter(item => item.origin === route.origin).length, scope="rowgroup")=tariffs.places[route.origin]
+              th.destination(scope="row")=tariffs.places[route.destination]
+              each group in groups
+                each row, column in group.rows
+                  td(class=column === 0 ? 'group-start' : null, data-tariff=group.id + '-' + column)=number(row.price[route.origin] && row.price[route.origin][route.destination])
+
+      p.table-note При массе более 15 000 кг или объёме более 75 м³ — машинорейс по договорённости.
+
+      .conditions
+        section
+          h2 Подача машины на погрузку / выгрузку
+          +pricingTruckDelivery('services')
+          h2 Дополнительные услуги
+          +pricingExtraServices('services')
+
+        section
+          h2 Примечания
+          +pricingCargoClassification()
+          +pricingOversizedNote()
+          +pricingLoadingNorm()
+          p=business.storage.start
+          p #{business.storage.small} #{business.storage.large}
+          p=business.temperature
+
+      footer.footer
+        .terminals
+          each city, code in tariffs.places
+            .terminal
+              strong=city
+              span=tariffs.terminals[code]
+              a(href='tel:' + generalPhone(code).number)=generalPhone(code).text
+        .footer__line
+          span=business.name
+          span Полный прайс и калькулятор: bergvl.ru

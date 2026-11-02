@@ -1,0 +1,205 @@
+@font-face {
+  font-family: "PT Sans";
+  src: url("__FONT_REGULAR__") format("woff");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "PT Sans";
+  src: url("__FONT_BOLD__") format("woff");
+  font-weight: 700;
+}
+
+@page {
+  size: A4 landscape;
+  margin: 9mm;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  background: #fff;
+}
+body {
+  width: 279mm;
+  margin: 0;
+  color: #202c34;
+  font: 8.5pt / 1.18 "PT Sans", sans-serif;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.sheet {
+  width: 279mm;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 7mm;
+  padding-bottom: 3mm;
+  border-bottom: 1.1mm solid #008ec9;
+  margin-bottom: 2mm;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+}
+.logo {
+  display: block;
+  object-fit: contain;
+}
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  width: 49mm;
+  font-size: 8pt;
+}
+.brand__text strong {
+  font-size: 9pt;
+}
+.heading {
+  flex: 1;
+}
+h1 {
+  margin: 0 0 1mm;
+  font-size: 22pt;
+  line-height: 1.05;
+}
+.heading p {
+  margin: 0;
+  font-size: 10pt;
+}
+.online {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-size: 9pt;
+}
+.online a:first-child {
+  color: #0079ad;
+  font-size: 15pt;
+  font-weight: 700;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.rates {
+  table-layout: fixed;
+  font-variant-numeric: tabular-nums;
+}
+.city {
+  width: 31mm;
+}
+.rates th,
+.rates td {
+  border: 0.2mm solid #c6d1d7;
+  padding: 0.9mm 0.7mm;
+  text-align: center;
+}
+.rates thead {
+  background: #eaf5fa;
+}
+.rates thead tr:first-child th {
+  padding: 2mm 1mm;
+}
+.rates .group {
+  color: #006d9b;
+  font-size: 10pt;
+}
+.rates .range {
+  font-size: 8pt;
+  line-height: 1.08;
+  font-weight: 400;
+}
+.rates tbody td {
+  font-size: 10.5pt;
+}
+.rates .origin {
+  background: #eaf5fa;
+  text-align: left;
+  padding-left: 2mm;
+  font-size: 10pt;
+}
+.rates .destination {
+  text-align: left;
+  padding-left: 2mm;
+  font-size: 9pt;
+  font-weight: 400;
+}
+.rates .group-start {
+  border-left: 0.5mm solid #8da7b4;
+}
+.rates .origin-start > * {
+  border-top: 0.5mm solid #8da7b4;
+}
+.table-note {
+  margin: 2mm 0 2mm;
+  font-size: 8.5pt;
+}
+.conditions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7mm;
+}
+.conditions strong {
+  white-space: nowrap;
+}
+h2 {
+  margin: 0 0 1.3mm;
+  color: #006d9b;
+  font-size: 11pt;
+  line-height: 1.1;
+}
+p {
+  margin: 0 0 1.3mm;
+}
+p + h2 {
+  margin-top: 2mm;
+}
+.services {
+  margin-bottom: 1.5mm;
+  font-size: 8.5pt;
+}
+.services td {
+  padding: 0.7mm 0;
+  border-bottom: 0.2mm solid #dce4e8;
+}
+.services td:first-child {
+  padding-right: 3mm;
+}
+.services td:last-child {
+  white-space: nowrap;
+  font-weight: 700;
+}
+.footer {
+  margin-top: 2mm;
+  border-top: 0.5mm solid #008ec9;
+  padding-top: 2mm;
+}
+.terminals {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4mm;
+}
+.terminal {
+  display: flex;
+  flex-direction: column;
+  font-size: 8.5pt;
+}
+.terminal strong {
+  font-size: 10pt;
+}
+.footer__line {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1mm;
+  padding-top: 1mm;
+  border-top: 0.2mm solid #c6d1d7;
+  font-size: 8pt;
+  color: #52636e;
+}
