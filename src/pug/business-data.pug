@@ -16,9 +16,9 @@
     temperature: 'Температурный режим — по согласованию.',
     packagingNotice: 'Упаковку и обрешётку груза можно заказать только во Владивостоке.',
     storage: {
-      small: 'До 1 м³ включительно — 200 руб./сутки за весь груз.',
-      large: 'Свыше 1 м³ — 500 руб./м³ в сутки.',
-      start: 'Платное хранение начинается со вторых суток после прибытия груза. Правила одинаковы во всех городах.'
+      rate: 'Со вторых суток — 200 руб. за 1 м³ в сутки.',
+      minimum: 'Минимальная стоимость платного хранения — 200 руб. в сутки.',
+      start: 'Первые сутки после прибытия груза — бесплатно. Платное хранение начинается со вторых суток после прибытия груза. Правила одинаковы во всех городах.'
     },
     routes: [
       {origin: 'vvo', destination: 'khb', schedule: 'по рабочим дням', usualDays: 1, days: 3},
@@ -85,6 +85,6 @@ mixin deliveryTerms()
 mixin storageTerms()
   p=business.storage.start
   ul
-    li=business.storage.small
-    li=business.storage.large
+    li=business.storage.rate
+    li=business.storage.minimum
   p Цены включают НДС.

@@ -163,8 +163,14 @@ test("blg-vvo: correct terminals, phone roles and confirmed operational rules", 
     /только во Владивостоке|Можно ли заказать упаковку в Благовещенске/
   );
   assert.match(section("questions"), /со вторых суток после прибытия/);
-  assert.match(section("questions"), /200 руб.\/сутки за весь груз/);
-  assert.match(section("questions"), /500 руб.\/м³ в сутки/);
+  assert.match(
+    section("questions"),
+    /Минимальная стоимость платного хранения — 200 руб. в сутки/
+  );
+  assert.match(
+    section("questions"),
+    /Со вторых суток — 200 руб. за 1 м³ в сутки/
+  );
 });
 
 test("blg-vvo: links, no-JS disclosures, route prefill and analytics registration", () => {

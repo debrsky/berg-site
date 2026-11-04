@@ -64,8 +64,11 @@ test("khb-vvo: local reception, packaging restriction and correct receiving phon
   assert.match(arrival, /href="tel:\+79243304409"/);
   assert.match(arrival, /Выдача груза, диспетчер Яна/);
   assert.match(arrival, /со вторых суток после прибытия/);
-  assert.match(arrival, /200 руб.\/сутки за весь груз/);
-  assert.match(arrival, /500 руб.\/м³ в сутки/);
+  assert.match(
+    arrival,
+    /Минимальная стоимость платного хранения — 200 руб. в сутки/
+  );
+  assert.match(arrival, /Со вторых суток — 200 руб. за 1 м³ в сутки/);
   assert.doesNotMatch(
     html,
     /200 кг|каждый рабочий день|Это срок заявки на машину/

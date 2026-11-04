@@ -1,11 +1,11 @@
 {
-  "vladivostok-khabarovsk": "ecdb8d2d16ddfcdb318afe73685f1dac1f7234439eb1baad51691ce444cb025c",
-  "khabarovsk-vladivostok": "a5c544c8884b868e4d6709ce27729f2ceb19d8b51861a0b4525b33708a5d33a9",
-  "vladivostok-blagoveshchensk": "c53ba475e9f8c41a5507731a92d62a98518d64ea3fb4cc10305e252c21596d21",
-  "blagoveshchensk-vladivostok": "b1c9fa24c307d712cba6aee2d89186e1dca191727be5b0b3191db2ee325435d2",
-  "ussuriysk-khabarovsk": "072c6595f053a6ad4297995b3b89a9c0baf30d2af8a0e8815fd63f34d21b8a4f",
-  "khabarovsk-ussuriysk": "5440841b6fdca538c6b812cce37a4b2ca973624183835585e883aaf189564e3b",
-  "khabarovsk-blagoveshchensk": "289742f1a10ee25cbe876ccacf3e21520d09681d4b7d55043eec835c05712150",
-  "blagoveshchensk-khabarovsk": "f0ceae171de5688c756321a744c188f4fa5c2bb61e2e4c2358701e57a26a2c6a",
-  "ussuriysk-blagoveshchensk": "2be9e95cc7808da77dfe018848ecdea10eda80c118c9489e41db1357b279e005"
+  "vladivostok-khabarovsk": "64b5c8de941ef9445ed952d922d678b89a52d6360b0c24e2529737488fe4bdaa",
+  "khabarovsk-vladivostok": "16db85060564335b0ddb2632b0faf303f3b7aac23c4d4f123a039696c574b295",
+  "vladivostok-blagoveshchensk": "391a68bde5b25f1e7c4b84485e586b95015bc1f994a5bf7e604ee08cd9232c1b",
+  "blagoveshchensk-vladivostok": "c625a4c2d15b3006165c883eb99c3c2e86296137bcea9f47faf3106858a79ac5",
+  "ussuriysk-khabarovsk": "9501761c8780599f5b3b784ee7fa5d4b584e94c94b18b4025631e8c477c78105",
+  "khabarovsk-ussuriysk": "39874dde485ee41d367248e1402280474e8b2abd0774032bc0b0c366dfe77279",
+  "khabarovsk-blagoveshchensk": "470b166f46211cf3d6a102c62cb2e7f03caa4b6e2f0ad44f8ecde6291204fb52",
+  "blagoveshchensk-khabarovsk": "f35685a289d572d838f9ad77b58b9b965351aad7502b67322543ce1318bd7383",
+  "ussuriysk-blagoveshchensk": "3ddb077226f3b5bead7e15bef1eeb0d01d74884875aec4add9804c49692287a1"
 }

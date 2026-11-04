@@ -151,8 +151,14 @@ for (const route of routes) {
     assert.match(plain(html), /на подачу машины и на сдачу груза на терминал/);
     assert.match(plain(html), /Время местное/);
     assert.match(section(html, "questions"), /со вторых суток после прибытия/);
-    assert.match(section(html, "questions"), /200 руб.\/сутки за весь груз/);
-    assert.match(section(html, "questions"), /500 руб.\/м³ в сутки/);
+    assert.match(
+      section(html, "questions"),
+      /Минимальная стоимость платного хранения — 200 руб. в сутки/
+    );
+    assert.match(
+      section(html, "questions"),
+      /Со вторых суток — 200 руб. за 1 м³ в сутки/
+    );
     if (origin === "vvo") assert.match(plain(html), /Упаковка и обрешётка/);
     else {
       assert.match(plain(html), /Подготовьте упаковку до сдачи груза/);

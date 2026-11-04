@@ -26,8 +26,11 @@ test("route landing: HTML contains exact tariff limits, examples, schedule and r
   assert.match(main, /11:00/);
   assert.match(main, /16:00/);
   assert.match(main, /только во Владивостоке/);
-  assert.match(main, /200 руб.\/сутки за весь груз/);
-  assert.match(main, /500 руб.\/м³ в сутки/);
+  assert.match(
+    main,
+    /Минимальная стоимость платного хранения — 200 руб. в сутки/
+  );
+  assert.match(main, /Со вторых суток — 200 руб. за 1 м³ в сутки/);
   assert.equal((main.match(/<details\b/g) || []).length, 6);
   assert.doesNotMatch(main, /<form|FAQPage/);
   assert.match(main, /href="khabarovsk-vladivostok\.html"/);

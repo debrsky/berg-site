@@ -175,8 +175,11 @@ test("vvo-blg: individual cargo drawings and correct terminal contacts", () => {
   assert.match(receiving, /Наталья/);
   assert.match(receiving, /contacts.html#blg/);
   assert.match(receiving, /со вторых суток после прибытия/);
-  assert.match(receiving, /200 руб.\/сутки за весь груз/);
-  assert.match(receiving, /500 руб.\/м³ в сутки/);
+  assert.match(
+    receiving,
+    /Минимальная стоимость платного хранения — 200 руб. в сутки/
+  );
+  assert.match(receiving, /Со вторых суток — 200 руб. за 1 м³ в сутки/);
   assert.doesNotMatch(html, /tel:\+79243304409|tel:\+79243302076/);
 });
 

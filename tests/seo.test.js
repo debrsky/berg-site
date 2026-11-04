@@ -205,10 +205,17 @@ test("SEO: agreed schedule, reception, storage and editorial exclusions", () => 
   }
   for (const file of [termsPage, "pricing.html"]) {
     const text = strip(read(file));
-    assert.match(text, /До 1 м³ включительно — 200 руб.\/сутки за весь груз/);
-    assert.match(text, /Свыше 1 м³ — 500 руб.\/м³ в сутки/);
+    assert.match(
+      text,
+      /Минимальная стоимость платного хранения — 200 руб. в сутки/
+    );
+    assert.match(text, /Со вторых суток — 200 руб. за 1 м³ в сутки/);
+    assert.match(text, /Первые сутки после прибытия груза — бесплатно/);
     assert.match(text, /со вторых суток после прибытия/);
-    assert.doesNotMatch(text, /200 кг|пяти дней|до даты отправки/);
+    assert.doesNotMatch(
+      text,
+      /500 руб\.\/м³|200 кг|пяти дней|до даты отправки/
+    );
   }
   for (const file of indexed.filter((name) => name !== orderPage)) {
     assert.doesNotMatch(
